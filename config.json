@@ -1,0 +1,45 @@
+{
+    "sourcemap": true,
+    "browsers": [
+        "ie >= 10",
+        "ie_mob >= 10",
+        "ff >= 30",
+        "chrome >= 34",
+        "safari >= 7",
+        "opera >= 23",
+        "ios >= 7",
+        "android >= 4.4",
+        "bb >= 10"
+    ],
+    "clean": [".tmp", "dist"],
+    "copy": ["src/*", "!src/*.html", "!src/styles", "!src/scripts"],
+    "sw": "node_modules/sw-toolbox/sw-toolbox.js",
+    "tmp": {
+        "root": ".tmp",
+        "htmls": ".tmp",
+        "styles": ".tmp/css",
+        "scripts": ".tmp/js",
+        "images": ".tmp/images",
+        "sw": ".tmp/js/sw"
+    },
+    "src": {
+        "root": "src",
+        "htmls": ["src/**/*.html"],
+        "styles": ["src/styles/*.scss", "src/styles/**/*.css"],
+        "scripts": ["!src/scripts/sw", "src/scripts/*.js"],
+        "fonts": ["src/styles/fonts/**/*"],
+        "vendors": ["src/scripts/vendor/**/*.js"],
+        "images": ["src/images/**/*.{jpeg,jpg,png,gif,svg}"],
+        "sw": "src/scripts/sw/runtime-caching.js"
+    },
+    "dist": {
+        "root": "dist",
+        "htmls": "",
+        "styles": "css",
+        "scripts": "js",
+        "fonts": "fonts",
+        "vendors": "js/vendor",
+        "images": "images",
+        "sw": "js/sw"
+    }
+}
