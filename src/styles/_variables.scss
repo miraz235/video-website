@@ -1,1 +1,8 @@
-$color: #F00;
+@import "bootstrap-variables-override";
+@import "../vendors/bootstrap/stylesheets/bootstrap/variables";
+@import "../vendors/bootstrap/stylesheets/bootstrap/mixins";
+// Colors
+$color-white: #fff;
+$brand-primary-light: lighten($brand-primary, 15.5%);
+// Height and Width
+$header-height: 150px;

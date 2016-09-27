@@ -32,33 +32,46 @@
     <!-- Color the status bar on mobile devices -->
     <meta name="theme-color" content="#2F3BA2">
 
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet">
     <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
     <link href="css/styles.min.css" type="text/css" rel="stylesheet" />
 
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <h1>Video Page</h1>
+    <header role="banner">
+        <div class="container text-center">
+            <a href="/" rel="home">
+                <h1>Video Page</h1>
+            </a>
         </div>
     </header>
-    <main class="main-container">
-        <section class="video-container">
-            <div class="container">
-
-            </div>
-        </section>
-        <section>
-            <div class="container"></div>
-        </section>
-    </main>
-    <footer>
+    <main id="content" class="main-container" role="main">
         <div class="container">
+            <section class="video-container">
+
+
+            </section>
+            <section>
+                <div class="container">
+                    <h1>Headline</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nec pharetra metus, eget sagittis nibh. Sed sagittis arcu sit amet sapien pellentesque, id elementum enim cursus. Donec vitae posuere metus, at placerat mauris.
+                        Integer et erat a ante rhoncus convallis vel sed est. Donec vitae egestas elit, in tincidunt mauris. Maecenas ultricies quis justo varius blandit. Aliquam erat volutpat. Vivamus urna ipsum, rhoncus eu tristique ac, scelerisque
+                        vel elit. Ut quam eros, hendrerit eu felis eget, tristique fermentum tellus. Nam mollis lorem tortor, nec volutpat ligula commodo nec. Morbi pellentesque ut lectus blandit mollis. Phasellus felis lorem, euismod sit amet mauris
+                        nec, suscipit congue quam. Mauris ullamcorper enim a feugiat malesuada. Aenean scelerisque massa eget arcu venenatis, mollis interdum tellus ultricies.</p>
+                    <p>Sed aliquam erat tempor, vehicula eros non, malesuada diam. Vestibulum convallis magna eu lobortis sagittis. Cras ultricies rutrum felis lobortis feugiat. Fusce tempus, lectus vitae volutpat aliquet, neque dolor egestas nisi, ut lobortis
+                        nunc est id velit. Nunc ac imperdiet elit. Maecenas laoreet orci eu nisl fermentum, ac maximus tellus varius. Sed venenatis lorem quis turpis suscipit, non maximus sem tristique.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer role="contentinfo">
+        <div class="container text-center">
             <span>&copy; 2016</span>
         </div>
     </footer>
     <script src="js/vendor/jquery.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/web-starter.min.js"></script>
     <script src="js/scripts.min.js"></script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->

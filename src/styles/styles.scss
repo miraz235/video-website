@@ -1,2 +1,17 @@
-// variables 
 @import "variables";
+@import "layouts";
+.video-container {
+    background-color: $gray;
+    color: $color-white;
+    padding: 80px 0;
+    a {
+        color: $gray-lighter;
+        &:hover {
+            color: $color-white;
+            text-decoration: none;
+        }
+    }
+    video {
+        width: 100%;
+    }
+}

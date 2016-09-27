@@ -12,7 +12,7 @@
         "bb >= 10"
     ],
     "clean": [".tmp", "dist"],
-    "copy": ["src/*", "!src/*.html", "!src/styles", "!src/scripts"],
+    "copy": ["src/*", "!src/*.html", "!src/styles", "!src/scripts", "!src/vendors"],
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",
     "tmp": {
         "root": ".tmp",
@@ -27,8 +27,18 @@
         "htmls": ["src/**/*.html"],
         "styles": ["src/styles/*.scss", "src/styles/**/*.css"],
         "scripts": ["!src/scripts/sw", "src/scripts/*.js"],
-        "fonts": ["src/styles/fonts/**/*"],
-        "vendors": ["src/scripts/vendor/**/*.js"],
+        "fonts": {
+            "bootstrap": ["src/vendors/bootstrap/fonts/bootstrap/**"]
+        },
+        "vendors": {
+            "bootstrap": ["src/vendors/bootstrap/**",
+                "!src/vendors/bootstrap/fonts{,/**}",
+                "!src/vendors/bootstrap/stylesheets{,/**}",
+                "!src/vendors/bootstrap/images{,/**}"
+            ],
+            "jquery": ["src/vendors/jquery/**"],
+            "mediaelement": ["src/vendors/mediaelement/**"]
+        },
         "images": ["src/images/**/*.{jpeg,jpg,png,gif,svg}"],
         "sw": "src/scripts/sw/runtime-caching.js"
     },
@@ -38,7 +48,7 @@
         "styles": "css",
         "scripts": "js",
         "fonts": "fonts",
-        "vendors": "js/vendor",
+        "vendors": "vendors",
         "images": "images",
         "sw": "js/sw"
     }

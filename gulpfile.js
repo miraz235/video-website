@@ -5,6 +5,7 @@ var browserSync = require("browser-sync");
 var runSequence = require("run-sequence");
 var swPrecache = require("sw-precache");
 var gulpLoadPlugins = require("gulp-load-plugins");
+var merge = require('merge-stream');
 
 var $ = gulpLoadPlugins();
 var $config = require("./config.json");
@@ -134,13 +135,29 @@ gulp.task("clean", function() {
 });
 
 gulp.task("copy:fonts", function() {
-    gulp.src($config.src.fonts)
-        .pipe(gulp.dest($distName + $config.dist.fonts));
+    var jsBundleStreams = [];
+    for (var key in $config.src.fonts) {
+        jsBundleStreams.push(gulp.src($config.src.fonts[key])
+            .pipe(gulp.dest($distName + $config.dist.fonts + '/' + key))
+        );
+    }
+    // Merge and return streams
+    return merge(jsBundleStreams);
 });
 
-gulp.task("copy:vendors", function() {
-    gulp.src($config.src.vendors)
-        .pipe(gulp.dest($distName + $config.dist.vendors));
+gulp.task("copy:vendors", function(callback) {
+    var jsBundleStreams = [];
+
+    // Create array of individual bundle streams
+    for (var key in $config.src.vendors) {
+        jsBundleStreams.push(gulp.src($config.src.vendors[key])
+            .pipe(gulp.dest($distName + $config.dist.vendors + '/' + key))
+        );
+    }
+
+    // Merge and return streams
+    return merge(jsBundleStreams);
+
 });
 
 // Copy all files at the root level (src)
