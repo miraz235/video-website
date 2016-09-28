@@ -25,7 +25,7 @@
         "!src/templates{,/**}",
         "!src/content{,/**}"
     ],
-    "vendors-active": ["bootstrap", "jquery", "video.js"],
+    "vendors-active": ["bootstrap", "jquery", "video.js", "videojs-playlist"],
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",
     "tmp": {
         "root": ".tmp",
@@ -56,7 +56,8 @@
             "video.js": ["src/vendors/video.js/*.{css,js,swf}",
                 "src/vendors/video.js/font{,/**}",
                 "!src/vendors/video.js/example{,/**}"
-            ]
+            ],
+            "videojs-playlist": ["src/vendors/videojs-playlist/**"]
         },
         "images": ["src/images/**/*.{jpeg,jpg,png,gif,svg}"],
         "sw": "src/scripts/sw/runtime-caching.js"
