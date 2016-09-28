@@ -11,19 +11,33 @@
         "android >= 4.4",
         "bb >= 10"
     ],
+    "assemble": {
+        "data": "src/templates/data/*.{json,yml}",
+        "partials": "src/templates/partials/*.hbs",
+        "layoutdir": "src/templates/layouts/*.hbs"
+    },
     "clean": [".tmp", "dist"],
-    "copy": ["src/*", "!src/*.html", "!src/styles", "!src/scripts", "!src/vendors"],
+    "copy": ["src/**",
+        "!src/*.html",
+        "!src/styles{,/**}",
+        "!src/scripts{,/**}",
+        "!src/vendors{,/**}",
+        "!src/templates{,/**}",
+        "!src/content{,/**}"
+    ],
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",
     "tmp": {
         "root": ".tmp",
-        "htmls": ".tmp",
+        "htmls": ".tmp/static/*.html",
         "styles": ".tmp/css",
         "scripts": ".tmp/js",
         "images": ".tmp/images",
-        "sw": ".tmp/js/sw"
+        "sw": ".tmp/js/sw",
+        "static": ".tmp/static"
     },
     "src": {
         "root": "src",
+        "templates": "src/templates/pages/*.hbs",
         "htmls": ["src/**/*.html"],
         "styles": ["src/styles/*.scss", "src/styles/**/*.css"],
         "scripts": ["!src/scripts/sw", "src/scripts/*.js"],

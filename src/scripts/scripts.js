@@ -1,6 +1,5 @@
-(function() {
-    function hello(compiler) {
-        console.log('Hello from' + compiler);
-    }
-    hello("TypeScript");
-})();
+(function($) {
+    $(document).ready(function() {
+        $('video, audio').mediaelementplayer();
+    });
+})(jQuery);

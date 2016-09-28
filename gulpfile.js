@@ -6,11 +6,21 @@ var runSequence = require("run-sequence");
 var swPrecache = require("sw-precache");
 var gulpLoadPlugins = require("gulp-load-plugins");
 var merge = require('merge-stream');
+var assemble = require('assemble');
 
 var $ = gulpLoadPlugins();
 var $config = require("./config.json");
 var $reload = browserSync.reload;
 var $distName = $config.dist.root + "/";
+var $app = assemble();
+
+
+
+gulp.task('assemble', function() {
+    gulp.src($config.src.templates)
+        .pipe($.assemble($config.assemble))
+        .pipe(gulp.dest($config.tmp.static));
+});
 
 gulp.task("images", function() {
     gulp.src($config.src.images)
@@ -29,7 +39,6 @@ gulp.task("images", function() {
 
 gulp.task("html", function() {
     return gulp.src($config.src.htmls)
-        .pipe(gulp.dest($config.tmp.htmls))
         // Minify any HTML
         .pipe($.if("*.html", $.htmlmin({
             removeComments: true,
