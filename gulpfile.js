@@ -145,7 +145,11 @@ gulp.task("clean", function() {
 
 gulp.task("copy:fonts", function() {
     var jsBundleStreams = [];
+
+    // Create array of individual bundle streams
     for (var key in $config.src.fonts) {
+        if ($config["vendors-active"].indexOf(key) === -1)
+            continue;
         jsBundleStreams.push(gulp.src($config.src.fonts[key])
             .pipe(gulp.dest($distName + $config.dist.fonts + '/' + key))
         );
@@ -159,6 +163,8 @@ gulp.task("copy:vendors", function(callback) {
 
     // Create array of individual bundle streams
     for (var key in $config.src.vendors) {
+        if ($config["vendors-active"].indexOf(key) === -1)
+            continue;
         jsBundleStreams.push(gulp.src($config.src.vendors[key])
             .pipe(gulp.dest($distName + $config.dist.vendors + '/' + key))
         );

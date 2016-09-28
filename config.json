@@ -25,6 +25,7 @@
         "!src/templates{,/**}",
         "!src/content{,/**}"
     ],
+    "vendors-active": ["bootstrap", "jquery", "video.js"],
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",
     "tmp": {
         "root": ".tmp",
@@ -51,7 +52,11 @@
                 "!src/vendors/bootstrap/images{,/**}"
             ],
             "jquery": ["src/vendors/jquery/**"],
-            "mediaelement": ["src/vendors/mediaelement/**"]
+            "mediaelement": ["src/vendors/mediaelement/**"],
+            "video.js": ["src/vendors/video.js/*.{css,js,swf}",
+                "src/vendors/video.js/font{,/**}",
+                "!src/vendors/video.js/example{,/**}"
+            ]
         },
         "images": ["src/images/**/*.{jpeg,jpg,png,gif,svg}"],
         "sw": "src/scripts/sw/runtime-caching.js"
