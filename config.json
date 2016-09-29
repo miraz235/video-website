@@ -1,5 +1,6 @@
 {
     "sourcemap": true,
+    "compress": false,
     "browsers": [
         "ie >= 10",
         "ie_mob >= 10",

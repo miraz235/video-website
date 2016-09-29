@@ -40,7 +40,7 @@ gulp.task("images", function() {
 gulp.task("html", function() {
     return gulp.src($config.src.htmls)
         // Minify any HTML
-        .pipe($.if("*.html", $.htmlmin({
+        .pipe($.if($config.compress, $.if("*.html", $.htmlmin({
             removeComments: true,
             collapseWhitespace: true,
             collapseBooleanAttributes: true,
@@ -50,7 +50,7 @@ gulp.task("html", function() {
             removeScriptTypeAttributes: true,
             removeStyleLinkTypeAttributes: true,
             removeOptionalTags: true
-        })))
+        }))))
         // Output files
         .pipe($.if('*.html', $.size({
             title: 'html',
@@ -71,9 +71,9 @@ gulp.task("scripts", function(callback) {
         .pipe($.rename({
             extname: ".min.js"
         }))
-        .pipe($.uglify({
+        .pipe($.if($config.compress, $.uglify({
             preserveComments: 'some'
-        }))
+        })))
         .pipe(gulp.dest($config.tmp.scripts))
 
     .pipe($.if($config.sourcemap, $.sourcemaps.write('.')))

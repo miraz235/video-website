@@ -1,9 +1,45 @@
 videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
-
+var naTpl = (function($) {
+    var jsTemplates = {};
+    var getJsTemplates = function() {
+        var templates = {};
+        $('script[type="text/js-template"]').each(function(key, value) {
+            var id = $(value).attr('id');
+            if (id)
+                templates[id] = $(value).html();
+        });
+        return templates;
+    };
+    var replaceDataInPlaceholder = function(data, id) {
+        var str = '';
+        if (jsTemplates[id]) {
+            str = jsTemplates[id].replace(/\{\{(.*?)\}\}/g, function(match, token) {
+                var value = eval('data.' + token.trim());
+                return value ? value : '';
+            });
+        }
+        //console.log(str);
+        return str;
+    };
+    var getTemplate = function(data, tplId) {
+        var htmlStr = replaceDataInPlaceholder(data, tplId);
+        return htmlStr === '' ? null : $(htmlStr);
+    };
+    var initialize = function() {
+        jsTemplates = getJsTemplates();
+    };
+    return {
+        getTemplate: getTemplate,
+        initialize: initialize
+    }
+})(jQuery);
 /* Custom */
 (function($) {
     'use strict';
+
     $(document).ready(function() {
+        naTpl.initialize();
+
         // Video list
         var playList = [{
             sources: [{
@@ -41,6 +77,7 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
             poster: 'http://media.w3.org/2010/05/video/poster.png',
             title: 'Video 5'
         }];
+
         var player = videojs($('#videoList')[0], {
             inactivityTimeout: 0
         });
@@ -48,53 +85,33 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
             player.volume(0.5);
         } catch (e) {};
         player.playlist(playList);
-        player.playlist.autoadvance(JSON.parse(2));
-        var findData = function(obj, keystr) {
-            var keys = keystr.split('.');
+        player.playlist.autoadvance(JSON.parse(0));
 
-        };
-        var replaceDataInPlaceholder = function(data, str) {
-            str = str.replace(/\{\{(.*?)\}\}/g, function(all) {
-                //console.log(all);
-                all = all.replace(/[\{\}]/g, '');
-                var value = eval('data.' + all);
-                return value ? value : '';
-            });
-            //console.log(str);
-            return str;
-        }
-        var playlistItemTpl = $('#playlistItemTpl').html();
         var $playlistTracks = $("#slider-thumbs");
+        var currenItemId = 0;
+
+        player.on('beforeplaylistitem', function() {
+            var beforeItemId = player.playlist.currentItem();
+            if (currenItemId == beforeItemId) {
+                currenItemId++;
+            }
+            var $item = $playlistTracks.find('[data-id="' + currenItemId + '"]');
+            $item.parent().children().removeClass('media-playlist-playing');
+            $item.addClass('media-playlist-playing');
+        });
 
         for (var i = 0; i < playList.length; i++) {
-            var $playItem = $(replaceDataInPlaceholder(playList[i], playlistItemTpl));
+            playList[i].index = i.toString();
+            var $playItem = naTpl.getTemplate(playList[i], "playlistItemTpl");
             if (i == 0)
                 $playItem.addClass('media-playlist-playing');
             $playItem.on('click', function(e) {
-                $(this).parent().children().removeClass('media-playlist-playing');
-                $(this).addClass('media-playlist-playing');
-                player.playlist.currentItem(3);
-                console.log(i);
+                currenItemId = $(this).attr('data-id')
+                player.playlist.currentItem(JSON.parse(currenItemId));
             });
             $playlistTracks.append($playItem);
         }
 
-    });
-
-
-
-
-    $('.previous').on('click', function() {
-        player.playlist.previous();
-    });
-    $('.next').on('click', function() {
-        player.playlist.next();
-    });
-    $('[name=autoadvance]').each(function(e) {
-        $(this).click(function() {
-            var value = $(this).val();
-            player.playlist.autoadvance(JSON.parse(value));
-        });
     });
 
 })(jQuery);

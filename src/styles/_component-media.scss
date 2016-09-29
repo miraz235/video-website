@@ -29,6 +29,12 @@
         float: left;
         margin-left: $video-width * (-1);
         padding-left: $video-width;
+        .videoList-dimensions {
+            height: 100%;
+        }
+    }
+    .videoList-dimensions {
+        width: 100%;
     }
 }
 

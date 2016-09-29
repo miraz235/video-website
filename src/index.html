@@ -61,8 +61,8 @@
                             </div>
                             <div class="media-playlist-tracks" id="slider-thumbs">
                                 <!-- Bottom switcher of slider -->
-                                <script type="text/video-template" id="playlistItemTpl">
-                                    <a href="#" class="media-playlist-item">
+                                <script type="text/js-template" id="playlistItemTpl">
+                                    <a href="javascript:void(0)" class="media-playlist-item" data-id="{{index}}">
                                         <img width="175" height="100" src="http://i.blogg.no/175x100/{{poster}}" alt="{{title}}" class="media-playlist-thumbnail" />
                                         <div class="media-playlist-caption">
                                             <span class="media-playlist-item-title">{{title}}</span>
