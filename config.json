@@ -26,7 +26,7 @@
         "!src/templates{,/**}",
         "!src/content{,/**}"
     ],
-    "vendors-active": ["bootstrap", "jquery", "video.js", "videojs-playlist"],
+    "vendors-active": ["bootstrap", "jquery", "video.js"],
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",
     "tmp": {
         "root": ".tmp",

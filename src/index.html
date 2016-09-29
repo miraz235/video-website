@@ -52,27 +52,52 @@
             <section class="video-container">
                 <div class="container">
                     <div class="media-wrap">
-                        <!-- Slider -->
+                        <!-- Video Playlist -->
                         <div class="media-playlist">
-                            <!-- Top part of the slider -->
+                            <!-- Main Video -->
                             <div class="media-current-item" id="carousel-bounding-box">
                                 <video id="videoList" class="video-js vjs-default-skin vjs-big-play-centered" width="640" height="360" controls>
                                 </video>
                             </div>
+                            <!-- Playlist -->
                             <div class="media-playlist-tracks" id="slider-thumbs">
-                                <!-- Bottom switcher of slider -->
-                                <script type="text/js-template" id="playlistItemTpl">
-                                    <a href="javascript:void(0)" class="media-playlist-item" data-id="{{index}}">
-                                        <img width="175" height="100" src="http://i.blogg.no/175x100/{{poster}}" alt="{{title}}" class="media-playlist-thumbnail" />
-                                        <div class="media-playlist-caption">
-                                            <span class="media-playlist-item-title">{{title}}</span>
-                                            <span class="media-video-time">{{duration}}</span>
-                                        </div>
-                                    </a>
-                                </script>
+                                <a href="javascript:void(0)" class="media-playlist-item media-playlist-playing">
+                                    <img width="175" height="100" src="http://i.blogg.no/175x100/http://media.w3.org/2010/05/sintel/poster.png" alt="Video 1" class="media-playlist-thumbnail">
+                                    <div class="media-playlist-caption">
+                                        <span class="media-playlist-item-title">Video 1</span>
+                                        <span class="media-video-time">0:52</span>
+                                    </div>
+                                </a>
+                                <a href="javascript:void(0)" class="media-playlist-item">
+                                    <img width="175" height="100" src="http://i.blogg.no/175x100/http://media.w3.org/2010/05/bunny/poster.png" alt="Video 2" class="media-playlist-thumbnail">
+                                    <div class="media-playlist-caption">
+                                        <span class="media-playlist-item-title">Video 2</span>
+                                        <span class="media-video-time">0.32</span>
+                                    </div>
+                                </a>
+                                <a href="javascript:void(0)" class="media-playlist-item">
+                                    <img width="175" height="100" src="http://i.blogg.no/175x100/http://www.videojs.com/img/poster.jpg" alt="Video 3" class="media-playlist-thumbnail">
+                                    <div class="media-playlist-caption">
+                                        <span class="media-playlist-item-title">Video 3</span>
+                                        <span class="media-video-time">0.46</span>
+                                    </div>
+                                </a>
+                                <a href="javascript:void(0)" class="media-playlist-item">
+                                    <img width="175" height="100" src="http://i.blogg.no/175x100/http://media.w3.org/2010/05/bunny/poster.png" alt="Video 4" class="media-playlist-thumbnail">
+                                    <div class="media-playlist-caption">
+                                        <span class="media-playlist-item-title">Video 4</span>
+                                        <span class="media-video-time">0.32</span>
+                                    </div>
+                                </a>
+                                <a href="javascript:void(0)" class="media-playlist-item">
+                                    <img width="175" height="100" src="http://i.blogg.no/175x100/http://media.w3.org/2010/05/video/poster.png" alt="Video 5" class="media-playlist-thumbnail">
+                                    <div class="media-playlist-caption">
+                                        <span class="media-playlist-item-title">Video 5</span>
+                                        <span class="media-video-time">5:00</span>
+                                    </div>
+                                </a>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </section>
