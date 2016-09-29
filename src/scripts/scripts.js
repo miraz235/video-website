@@ -47,35 +47,48 @@ var naTpl = (function($) {
                 type: 'video/mp4'
             }],
             poster: 'http://media.w3.org/2010/05/sintel/poster.png',
-            title: 'Video 1'
+            title: 'Video 1',
+            duration: '0:52'
         }, {
             sources: [{
                 src: 'http://media.w3.org/2010/05/bunny/trailer.mp4',
                 type: 'video/mp4'
             }],
             poster: 'http://media.w3.org/2010/05/bunny/poster.png',
-            title: 'Video 2'
+            title: 'Video 2',
+            duration: '0.32'
         }, {
             sources: [{
                 src: 'http://vjs.zencdn.net/v/oceans.mp4',
                 type: 'video/mp4'
             }],
             poster: 'http://www.videojs.com/img/poster.jpg',
-            title: 'Video 3'
+            title: 'Video 3',
+            duration: '0.46'
         }, {
             sources: [{
                 src: 'http://media.w3.org/2010/05/bunny/movie.mp4',
                 type: 'video/mp4'
             }],
             poster: 'http://media.w3.org/2010/05/bunny/poster.png',
-            title: 'Video 4'
+            title: 'Video 4',
+            duration: '0.32'
+        }, {
+            sources: [{
+                src: 'http://media.w3.org/2010/05/bunny/movie.mp4',
+                type: 'video/mp4'
+            }],
+            poster: 'http://media.w3.org/2010/05/bunny/poster.png',
+            title: 'Video 4',
+            duration: '0.32'
         }, {
             sources: [{
                 src: 'http://media.w3.org/2010/05/video/movie_300.mp4',
-                type: 'video/mp4'
+                type: 'video/mp4',
             }],
             poster: 'http://media.w3.org/2010/05/video/poster.png',
-            title: 'Video 5'
+            title: 'Video 5',
+            duration: '5:00'
         }];
 
         var player = videojs($('#videoList')[0], {
@@ -98,6 +111,10 @@ var naTpl = (function($) {
             var $item = $playlistTracks.find('[data-id="' + currenItemId + '"]');
             $item.parent().children().removeClass('media-playlist-playing');
             $item.addClass('media-playlist-playing');
+
+            $playlistTracks.animate({
+                scrollTop: currenItemId * $item.outerHeight() + 1
+            }, 1000);
         });
 
         for (var i = 0; i < playList.length; i++) {
