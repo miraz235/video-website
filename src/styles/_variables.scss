@@ -3,12 +3,19 @@
 @import "../vendors/bootstrap/stylesheets/bootstrap/mixins";
 // Colors
 $color-white: #fff;
+$color-black: $gray-base;
 $brand-primary-light: lighten($brand-primary, 15.5%);
 // Height and Width
 $header-height: 150px;
-$video-width: 400px;
-$video-height: 425px;
-$video-playlist-item-height: 283px;
 $spacer: 20px;
 $spacer-x: 20px;
 $spacer-y: 20px;
+// video contaent
+$video-width: 400px;
+$video-height: 425px;
+$video-playlist-item-height: 51px;
+$video-playlist-color: $color-white;
+$video-playlist-bg: $navbar-inverse-bg;
+$video-playlist-item-bg: $navbar-inverse-toggle-hover-bg;
+$video-playlist-item-hover-bg: $navbar-inverse-link-active-bg;
+$video-playlist-item-active-bg: $navbar-default-link-active-color;

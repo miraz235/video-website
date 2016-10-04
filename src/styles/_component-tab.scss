@@ -1,0 +1,54 @@
+.nav-tabs {
+    border-bottom-width: 2px;
+    >li {
+        // Actual tabs (as links)
+        >a {
+            border: none;
+            color: $text-color;
+            padding: 15px;
+            &:hover {
+                border: none;
+                background-color: transparent;
+            }
+            &:after {
+                content: "";
+                background: $brand-primary-light;
+                height: 2px;
+                position: absolute;
+                width: 100%;
+                left: 0px;
+                bottom: -1px;
+                transition: all 250ms ease 0s;
+                transform: scale(0);
+            }
+        }
+        // Active state, and its :hover to override normal :hover
+        &.active>a {
+            &,
+            &:hover,
+            &:focus {
+                border-width: 0;
+                border-bottom-color: transparent;
+            }
+        }
+        &.active,
+        &:hover {
+            >a:after {
+                transform: scale(1);
+            }
+        }
+    }
+}
+
+.tab-nav>li>a::after {
+    background: $brand-primary none repeat scroll 0% 0%;
+    color: #fff;
+}
+
+.tab-pane {
+    padding: 15px 0;
+}
+
+.tab-content {
+    padding: 20px
+}

@@ -7,3 +7,7 @@ $font-family-sans-serif: "Roboto",
 Helvetica,
 Arial,
 sans-serif;
+// Nav Tab
+$nav-tabs-link-hover-border-color: transparent;
+$nav-tabs-active-link-hover-color: lighten($brand-primary, 15.5%);
+$nav-tabs-active-link-hover-bg: transparent;
