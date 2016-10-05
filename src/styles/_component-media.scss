@@ -114,7 +114,8 @@
     position: relative;
     text-decoration: none;
     color: $video-playlist-color;
-    &:hover {
+    &:hover,
+    &:focus {
         text-decoration: none;
     }
 }
