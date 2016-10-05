@@ -2,4 +2,3 @@
 .tmp
 *.log
 /bower_components
-/dist/

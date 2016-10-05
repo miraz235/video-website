@@ -50,13 +50,14 @@
             "bootstrap": ["src/vendors/bootstrap/**",
                 "!src/vendors/bootstrap/fonts{,/**}",
                 "!src/vendors/bootstrap/stylesheets{,/**}",
-                "!src/vendors/bootstrap/images{,/**}"
+                "!src/vendors/bootstrap/images{,/**}",
+                "!src/vendors/bootstrap/javascripts/bootstrap{,/**}"
             ],
             "jquery": ["src/vendors/jquery/**"],
             "mediaelement": ["src/vendors/mediaelement/**"],
             "video.js": ["src/vendors/video.js/*.{css,js,swf}",
                 "src/vendors/video.js/font{,/**}",
-                "!src/vendors/video.js/example{,/**}"
+                "!src/vendors/video.js/examples{,/**}"
             ],
             "videojs-playlist": ["src/vendors/videojs-playlist/**"]
         },
