@@ -45,13 +45,21 @@
         "root": "src",
         "templates": "src/templates/pages/*.hbs",
         "htmls": ["src/**/*.html"],
-        "styles": ["src/styles/*.scss", "src/styles/**/*.css"],
-        "scripts": ["!src/scripts/sw", "src/scripts/*.js"],
+        "styles": [
+            "src/styles/*.scss",
+            "src/styles/**/*.css"
+        ],
+        "scripts": [
+            "!src/scripts/sw",
+            "src/scripts/*.js",
+            "!src/scripts/videojs-playlists.js"
+        ],
         "fonts": {
             "bootstrap": ["src/vendors/bootstrap/fonts/bootstrap/**"]
         },
         "vendors": {
-            "bootstrap": ["src/vendors/bootstrap/**",
+            "bootstrap": [
+                "src/vendors/bootstrap/**",
                 "!src/vendors/bootstrap/fonts{,/**}",
                 "!src/vendors/bootstrap/stylesheets{,/**}",
                 "!src/vendors/bootstrap/images{,/**}",
@@ -59,13 +67,14 @@
             ],
             "jquery": ["src/vendors/jquery/**"],
             "mediaelement": ["src/vendors/mediaelement/**"],
-            "video.js": ["src/vendors/video.js/*.{css,js,swf}",
+            "video.js": [
+                "src/vendors/video.js/*.{css, js, swf}",
                 "src/vendors/video.js/font{,/**}",
                 "!src/vendors/video.js/examples{,/**}"
             ],
             "videojs-playlist": ["src/vendors/videojs-playlist/**"]
         },
-        "images": ["src/images/**/*.{jpeg,jpg,png,gif,svg}"],
+        "images": ["src/images/**/*.{jpeg, jpg, png, gif, svg}"],
         "sw": "src/scripts/sw/runtime-caching.js"
     },
     "dist": {
