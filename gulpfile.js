@@ -40,7 +40,7 @@ gulp.task("images", function() {
 gulp.task("html", function() {
     return gulp.src($config.src.htmls)
         // Minify any HTML
-        .pipe($.if($config.compress, $.if("*.html", $.htmlmin({
+        .pipe($.if($config.compress.html, $.if("*.html", $.htmlmin({
             removeComments: true,
             collapseWhitespace: true,
             collapseBooleanAttributes: true,
@@ -71,7 +71,7 @@ gulp.task("scripts", function(callback) {
         .pipe($.rename({
             extname: ".min.js"
         }))
-        .pipe($.if($config.compress, $.uglify({
+        .pipe($.if($config.compress.js, $.uglify({
             preserveComments: 'some'
         })))
         .pipe(gulp.dest($config.tmp.scripts))
