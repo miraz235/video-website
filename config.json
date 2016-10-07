@@ -2,7 +2,7 @@
     "sourcemap": true,
     "compress": {
         "html": false,
-        "js": false,
+        "js": true,
         "css": true
     },
     "browsers": [
