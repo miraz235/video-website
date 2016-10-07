@@ -2,7 +2,7 @@
     "sourcemap": true,
     "compress": {
         "html": false,
-        "js": true,
+        "js": false,
         "css": true
     },
     "browsers": [
@@ -30,7 +30,7 @@
         "!src/templates{,/**}",
         "!src/content{,/**}"
     ],
-    "vendors-active": ["bootstrap", "jquery", "video.js"],
+    "vendors-active": ["bootstrap", "jquery", "video.js", "wavesurfer.js", "videojs-wavesurfer"],
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",
     "tmp": {
         "root": ".tmp",
@@ -68,11 +68,13 @@
             "jquery": ["src/vendors/jquery/**"],
             "mediaelement": ["src/vendors/mediaelement/**"],
             "video.js": [
-                "src/vendors/video.js/*.{css, js, swf}",
+                "src/vendors/video.js/*.{css,js,swf}",
                 "src/vendors/video.js/font{,/**}",
                 "!src/vendors/video.js/examples{,/**}"
             ],
-            "videojs-playlist": ["src/vendors/videojs-playlist/**"]
+            "videojs-playlist": ["src/vendors/videojs-playlist/**"],
+            "wavesurfer.js": ["src/vendors/wavesurfer.js/*"],
+            "videojs-wavesurfer": ["src/vendors/videojs-wavesurfer/videojs.wavesurfer.js"]
         },
         "images": ["src/images/**/*.{jpeg, jpg, png, gif, svg}"],
         "sw": "src/scripts/sw/runtime-caching.js"

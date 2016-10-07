@@ -42,8 +42,8 @@
 <body>
     <header role="banner">
         <div class="container text-center">
-            <a href="/" rel="home">
-                <h1>Video Page</h1>
+            <a href="index.html" rel="home">
+                <h1>Audio Podcast</h1>
             </a>
         </div>
     </header>
@@ -58,20 +58,135 @@
                         nec, suscipit congue quam. Mauris ullamcorper enim a feugiat malesuada. Aenean scelerisque massa eget arcu venenatis, mollis interdum tellus ultricies.</p>
                     <p>Sed aliquam erat tempor, vehicula eros non, malesuada diam. Vestibulum convallis magna eu lobortis sagittis. Cras ultricies rutrum felis lobortis feugiat. Fusce tempus, lectus vitae volutpat aliquet, neque dolor egestas nisi, ut lobortis
                         nunc est id velit. Nunc ac imperdiet elit. Maecenas laoreet orci eu nisl fermentum, ac maximus tellus varius. Sed venenatis lorem quis turpis suscipit, non maximus sem tristique.</p>
+                    <div class="text-center m-t">
+                        <img class="img-responsive m-x-auto" src="resources/img/pexels-photo-61384-large.jpeg" alt="audio podcast" />
+                    </div>
                 </div>
             </article>
-            <section>
+            <hr>
+            <section class="section-podcast">
                 <div class="container">
-                    <ul class="media-wrap">
-                        <li class="media-audio">
-                            <audio id="audio_1" class="video-js vjs-default-skin" controls preload="auto" width="600" height="600" poster="resources/audios/posters/awesome-album-art.png" data-setup='{}'>
-                                <source src="resources/audios/awesome-music.mp3" type='audio/mp3'/>
-                            </audio>
-                            <div class="media-info clearfix">
-                                <div class="pull-right">
-                                    237 Downloads
+                    <ul>
+                        <li class="media-wrap">
+                            <div class="media-player clearfix">
+                                <div class="media-player__poster">
+                                    <img src="resources/audios/posters/cd-blank.jpg" width="100" alt="Audio 3" />
+                                    <div class="info-content">
+                                        <p class="m-t m-b-0">by - john Doe</p>
+                                    </div>
                                 </div>
-                                <h3>Audio 1</h3>
+                                <div class="media-player__content">
+                                    <h3 class="media-title text-truncate"><a href="#">Audio 3</a></h3>
+                                    <audio class="video-js vjs-default-skin js-media-audio" controls>
+                                        <source src="resources/audios/chrono.mp3" type='audio/mp3'/>
+                                        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                                    </audio>
+                                    <div class="media-info clearfix">
+                                        <div class="pull-left">
+                                            <ul class="list-inline">
+                                                <li>
+                                                    <button class="btn btn-default btn-xs">
+                                                        <i class="glyphicon glyphicon-cloud-download"></i>
+                                                        Download
+                                                    </button>
+                                                </li>
+                                                <li><small class="text-muted">237 Downloads</small></li>
+                                            </ul>
+                                        </div>
+                                        <div class="pull-right">
+                                            <ul class="list-inline">
+                                                <li>
+                                                    <button class="btn btn-default btn-xs">
+                                                        <i class="glyphicon glyphicon-share-alt"></i>
+                                                        Share
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="media-wrap">
+                            <div class="media-player clearfix">
+                                <div class="media-player__poster">
+                                    <img src="resources/audios/posters/cd-blank.jpg" width="100" alt="Audio 2" />
+                                    <div class="info-content">
+                                        <p class="m-t m-b-0">by - john Doe</p>
+                                    </div>
+                                </div>
+                                <div class="media-player__content">
+                                    <h3 class="media-title"><a href="#">Audio 2</a></h3>
+                                    <audio class="video-js vjs-default-skin js-media-audio" controls>
+                                        <source src="resources/audios/chrono.mp3" type='audio/mp3'/>
+                                        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                                    </audio>
+                                    <div class="media-info clearfix">
+                                        <div class="pull-left">
+                                            <ul class="list-inline">
+                                                <li>
+                                                    <button class="btn btn-default btn-xs">
+                                                        <i class="glyphicon glyphicon-cloud-download"></i>
+                                                        Download
+                                                    </button>
+                                                </li>
+                                                <li><small class="text-muted">237 Downloads</small></li>
+                                            </ul>
+                                        </div>
+                                        <div class="pull-right">
+                                            <ul class="list-inline">
+                                                <li>
+                                                    <button class="btn btn-default btn-xs">
+                                                        <i class="glyphicon glyphicon-share-alt"></i>
+                                                        Share
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="media-wrap">
+                            <div class="media-player clearfix">
+                                <div class="media-player__poster">
+                                    <img src="resources/audios/posters/cd-blank.jpg" width="100" alt="Audio 1" />
+                                    <div class="info-content">
+                                        <p class="m-t m-b-0">by - john Doe</p>
+                                    </div>
+                                </div>
+                                <div class="media-player__content">
+                                    <h3 class="media-title"><a href="#">Audio 1</a></h3>
+                                    <audio class="video-js vjs-default-skin js-media-audio" controls>
+                                        <source src="resources/audios/chrono.mp3" type='audio/mp3'/>
+                                        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                                    </audio>
+                                    <div class="media-info clearfix">
+                                        <div class="pull-left">
+                                            <ul class="list-inline">
+                                                <li>
+                                                    <button class="btn btn-default btn-xs">
+                                                        <i class="glyphicon glyphicon-cloud-download"></i>
+                                                        Download
+                                                    </button>
+                                                </li>
+                                                <li><small class="text-muted">237 Downloads</small></li>
+                                            </ul>
+                                        </div>
+                                        <div class="pull-right">
+                                            <ul class="list-inline">
+                                                <li>
+                                                    <button class="btn btn-default btn-xs">
+                                                        <i class="glyphicon glyphicon-share-alt"></i>
+                                                        Share
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -87,6 +202,8 @@
     <script src="vendors/jquery/jquery.min.js"></script>
     <script src="vendors/bootstrap/javascripts/bootstrap.min.js"></script>
     <script src="vendors/video.js/video.min.js"></script>
+    <script src="vendors/wavesurfer.js/wavesurfer.min.js"></script>
+    <script src="vendors/videojs-wavesurfer/videojs.wavesurfer.js"></script>
     <script src="js/web-starter.min.js"></script>
     <script src="js/scripts.min.js"></script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->

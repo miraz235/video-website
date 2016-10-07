@@ -5,7 +5,8 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
         var out = {};
         $.each(queryStr.split('&'), function(key, value) {
             var i = value.split('=');
-            out[i[0].toString()] = i[1].toString();
+            if (i.length == 2)
+                out[i[0].toString()] = i[1].toString();
         });
         return out;
     };
@@ -17,13 +18,16 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
             this.vPlayerId = vPlayerId;
             this.currentIndex = -1;
             this.videoList = [];
-            this.setMediaId();
             this.setVideoList();
+            this.setMediaId();
+
             this.setVideoPlayer();
         },
         setMediaId: function() {
             var queries = getUrlQueries(document.location.search.substr(1));
-            this.mediaId = queries.watch
+            this.mediaId = queries.watch;
+            if (!this.mediaId && this.videoList[0])
+                window.location.replace(this.videoList[0]);
         },
         setVideoList: function() {
             var self = this;
@@ -69,6 +73,38 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
 
     var audioPlayers = {
         init: function() {
+            var $audios = $("audio.js-media-audio");
+            var self = this;
+            var audioOption = {
+                controls: true,
+                autoplay: false,
+                loop: false,
+                height: 100,
+                plugins: {
+                    wavesurfer: {
+                        src: null,
+                        msDisplayMax: 10,
+                        debug: true,
+                        waveColor: 'grey',
+                        progressColor: '#0092f5',
+                        cursorColor: 'white',
+                        hideScrollbar: false
+                    }
+                }
+            };
+            self.audios = [];
+            $audios.each(function(index) {
+                this.pause();
+                var src = null;
+                var source = $(this).find("source");
+                if (source.length) {
+                    src = source.attr("src");
+                    source.remove();
+                }
+                this.load();
+                audioOption.plugins.wavesurfer.src = src;
+                self.audios[index] = videojs(this, audioOption);
+            });
 
         }
     };

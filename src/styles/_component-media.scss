@@ -7,9 +7,12 @@
     overflow: hidden;
     position: relative;
     padding: 0;
+    color: $color-white;
 }
 
 // Player with playlist
+.media-wrap {}
+
 .media-wrap.media-video {
     @media screen and (min-width: $screen-md-min) {
         .media-player {
@@ -36,6 +39,61 @@
     clear: both;
     .video-js {
         width: 100%;
+    }
+}
+
+.media-player__poster {
+    float: left;
+    padding: 15px;
+    display: none;
+    &:before {
+        display: inline-block;
+        vertical-align: middle
+    }
+    img {
+        width: $audio-height;
+        height: $audio-height;
+        vertical-align: middle;
+    }
+    +.media-player__content {
+        .video-js {
+            height: 100px;
+        }
+    }
+    @media screen and (min-width: $screen-md-min) {
+        display: block;
+        +.media-player__content {
+            margin-left: $audio-height + 30;
+            padding: 15px 15px 0 0;
+        }
+    }
+}
+
+.media-player__content {
+    /*background-color: $color-black;*/
+    padding: 15px;
+}
+
+.media-title {
+    font-size: 20px;
+    margin: 0 0 15px;
+    a {
+        color: inherit;
+    }
+}
+
+.media-info {
+    padding: 15px 0 0;
+}
+
+.info-content {
+    color: lighten($gray-base, 65%);
+    text-transform: uppercase;
+    text-align: center;
+    b {
+        font-size: 30px;
+        font-weight: normal;
+        display: block;
     }
 }
 
@@ -202,13 +260,10 @@
         text-align: center;
     }
     .info-content {
-        color: lighten($gray-base, 65%);
-        font-size: 10px;
         margin-top: -25px;
+        font-size: 10px;
         b {
             font-size: 20px;
-            font-weight: normal;
-            display: block;
         }
     }
     .overlay-content {
