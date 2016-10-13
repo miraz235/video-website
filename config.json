@@ -44,7 +44,7 @@
     "src": {
         "root": "src",
         "templates": "src/templates/pages/*.hbs",
-        "htmls": ["src/**/*.html"],
+        "htmls": ["src/htmls/**/*.html"],
         "styles": [
             "src/styles/*.scss",
             "src/styles/**/*.css"
