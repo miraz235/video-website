@@ -83,7 +83,10 @@
 }
 
 .media-info {
-    padding: 15px 0 0;
+    padding: 0 15px 15px;
+    @media screen and (min-width: $screen-md-min) {
+        padding: 15px;
+    }
 }
 
 .info-content {

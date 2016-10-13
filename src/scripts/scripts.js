@@ -131,6 +131,15 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
                 this.load();
                 audioOption.plugins.wavesurfer.src = src;
                 self.audios[index] = videojs(this, audioOption);
+                self.audios[index].on('play', function(event) {
+                    for (var i = 0; i < self.audios.length; i++) {
+                        console.log(i, self.audios[i].currentTime());
+                        if (self.audios[i].id() != event.target.id) {
+                            self.audios[i].pause();
+                            self.audios[i].currentTime(0);
+                        }
+                    }
+                })
             });
 
         }
