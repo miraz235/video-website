@@ -60,10 +60,23 @@
                         <aside class="media-playlist">
                             <!-- Header -->
                             <header class="media-playlist__header">
-                                <h3 class="media-playlist__header__title text-truncate"><a href="#">Video Playlist 1</a></h3>
-                                <span class="media-playlist__header__info">
+                                <div class="pull-right text-center text-muted">
+                                    <label for="mediaAutoplay">Autoplay</label>
+                                    <div class="input-switch">
+                                        <label>
+                                            <span class="sr-only">Off</span>
+                                            <input type="checkbox" id="mediaAutoplay" />
+                                            <span class="lever"></span>
+                                            <span class="sr-only">On</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="media-playlist__header__title text-truncate"><a href="#">Video Playlist 1</a></h3>
+                                    <span class="media-playlist__header__info">
                                     1/4 videos
                                 </span>
+                                </div>
                             </header>
                             <!-- Playlist -->
                             <ol class="media-playlist__tracks">

@@ -21,6 +21,7 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
             this.setVideoList();
             this.setMediaId();
 
+            this.setAutoChange();
             this.setVideoPlayer();
         },
         setMediaId: function() {
@@ -49,10 +50,35 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
                 }
             });
         },
+        setAutoChangePlayList: function(isAutoplay) {
+            if (typeof(localStorage) !== "undefined") {
+                localStorage.setItem("autoplayPlaylist", isAutoplay);
+            } else {
+                console.log("Sorry! No Web Storage support..");
+            }
+        },
+        getAutoChangePlayList: function() {
+            if (typeof(localStorage) !== "undefined" && localStorage.autoplayPlaylist !== "undefined") {
+                var out = JSON.parse(localStorage.autoplayPlaylist);
+                $("#mediaAutoplay").prop("checked", out);
+                return out;
+            } else {
+                console.log("Sorry! No Web Storage support..");
+                return $("#mediaAutoplay").is(":checked");
+            }
+        },
+        setAutoChange: function() {
+            var self = this;
+            var is_autoplay = self.getAutoChangePlayList();
+            self.setAutoChangePlayList(is_autoplay);
+            $("#mediaAutoplay").change(function(event) {
+                console.log(this);
+                self.setAutoChangePlayList($(this).is(":checked"));
+            });
+        },
         setVideoPlayer: function() {
             var self = this;
-            var if_autoplay = true;
-            var vplayer = videojs(self.vPlayerId, { controls: true, autoplay: if_autoplay, preload: "none" }, function() {
+            var vplayer = videojs(self.vPlayerId, { controls: true, autoplay: true, preload: "none" }, function() {
                 if (self.mediaId) {
                     this.src([{ type: "video/mp4", src: "resources/videos/" + self.mediaId + ".mp4" }]);
                     this.poster('resources/videos/posters/' + self.mediaId + '.jpg');
@@ -61,8 +87,9 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
             vplayer.on('ended', $.proxy(this.setVideoEndEvent, this));
         },
         setVideoEndEvent: function(e) {
+
             var nextVideo = this.videoList[this.currentIndex + 1];
-            if (nextVideo) {
+            if (nextVideo && this.getAutoChangePlayList()) {
                 setTimeout(function() {
                     window.location.href = nextVideo;
                 }, 1500)
