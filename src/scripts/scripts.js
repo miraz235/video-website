@@ -20,13 +20,13 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
             this.videoList = [];
             this.setVideoList();
             this.setMediaId();
-
+            this.setVideoNumber();
             this.setAutoChange();
             this.setVideoPlayer();
         },
         setMediaId: function() {
             var queries = getUrlQueries(document.location.search.substr(1));
-            this.mediaId = queries.watch;
+            this.mediaId = queries.v;
             if (!this.mediaId && this.videoList[0])
                 window.location.replace(this.videoList[0]);
         },
@@ -37,7 +37,7 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
                 var urldata = getUrlQueries(this.href.split('?')[1]);
                 var $li = $(this).parent();
                 if (urldata) {
-                    var trackId = urldata.watch;
+                    var trackId = urldata.v;
                     self.videoList[index] = this.href;
                     if (window.location.href.indexOf(this.href) > -1) {
                         $li.addClass("currently-playing");
@@ -45,10 +45,16 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
                         $li.parent().animate({
                             scrollTop: index * $li.outerHeight() + 1
                         }, 500);
-                    } else if (self.currentIndex > -1)
-                        return false;
+                    }
+                    /*else if (self.currentIndex > -1)
+                                           return false;*/
                 }
             });
+        },
+        setVideoNumber: function() {
+            var $videoNum = $(".media-playlist__header__info span");
+            console.log(this);
+            $videoNum.text((this.currentIndex + 1) + '/' + this.videoList.length);
         },
         setAutoChangePlayList: function(isAutoplay) {
             if (typeof(localStorage) !== undefined) {
