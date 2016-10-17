@@ -51,14 +51,14 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
             });
         },
         setAutoChangePlayList: function(isAutoplay) {
-            if (typeof(localStorage) !== "undefined") {
+            if (typeof(localStorage) !== undefined) {
                 localStorage.setItem("autoplayPlaylist", isAutoplay);
             } else {
                 console.log("Sorry! No Web Storage support..");
             }
         },
         getAutoChangePlayList: function() {
-            if (typeof(localStorage) !== "undefined" && localStorage.autoplayPlaylist !== "undefined") {
+            if (typeof(localStorage) !== undefined && localStorage.autoplayPlaylist !== undefined) {
                 var out = JSON.parse(localStorage.autoplayPlaylist);
                 $("#mediaAutoplay").prop("checked", out);
                 return out;
@@ -72,7 +72,6 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
             var is_autoplay = self.getAutoChangePlayList();
             self.setAutoChangePlayList(is_autoplay);
             $("#mediaAutoplay").change(function(event) {
-                console.log(this);
                 self.setAutoChangePlayList($(this).is(":checked"));
             });
         },
@@ -91,13 +90,13 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
             var nextVideo = this.videoList[this.currentIndex + 1];
             if (nextVideo && this.getAutoChangePlayList()) {
                 setTimeout(function() {
-                    window.location.href = nextVideo;
+                    window.location.href = nextVideo + "#content";
                 }, 1500)
 
             }
         }
     };
-
+    undefined
     var audioPlayers = {
         init: function() {
             var $audios = $("audio.js-media-audio");
