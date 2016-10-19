@@ -1,5 +1,5 @@
 videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
-(function($) {
+(function($, videojs) {
     'use strict';
     var getUrlQueries = function(queryStr) {
         var out = {};
@@ -10,6 +10,24 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
         });
         return out;
     };
+
+    var videoSingle = {
+        init: function(vPlayerId) {
+            if (!(vPlayerId && $("#" + vPlayerId).length))
+                return;
+            this.vPlayerId = vPlayerId;
+            this.setVideoPlayer();
+        },
+        setVideoPlayer: function() {
+            var self = this;
+            var vplayer = videojs(self.vPlayerId, { controls: true, autoplay: true, preload: "auto" });
+            vplayer.watermark({
+                url: 'http://blogg.no',
+                image: 'resources/img/NA_negativ_svart_hvit.png',
+                fadeTime: 1000
+            });
+        }
+    }
 
     var videoPlayList = {
         init: function(vPlayerId) {
@@ -84,10 +102,15 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
         setVideoPlayer: function() {
             var self = this;
             var vplayer = videojs(self.vPlayerId, { controls: true, autoplay: true, preload: "none" }, function() {
-                if (self.mediaId) {
+                /*if (self.mediaId) {
                     this.src([{ type: "video/mp4", src: "resources/videos/" + self.mediaId + ".mp4" }]);
                     this.poster('resources/videos/posters/' + self.mediaId + '.jpg');
-                }
+                }*/
+            });
+            vplayer.watermark({
+                url: 'http://blogg.no',
+                image: 'resources/img/NA_negativ_svart_hvit.png',
+                fadeTime: 1000
             });
             vplayer.on('ended', $.proxy(this.setVideoEndEvent, this));
         },
@@ -97,8 +120,7 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
             if (nextVideo && this.getAutoChangePlayList()) {
                 setTimeout(function() {
                     window.location.href = nextVideo + "#content";
-                }, 1500)
-
+                }, 1500);
             }
         }
     };
@@ -144,15 +166,21 @@ videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
                             self.audios[i].currentTime(0);
                         }
                     }
-                })
+                });
+                /*self.audios[index].watermark({
+                    url: 'http://blogg.no',
+                    image: 'resources/img/NA_negativ_svart_hvit.png',
+                    fadeTime: 1000
+                });*/
             });
 
         }
     };
 
     $(document).ready(function() {
+        videoSingle.init("videoSingle");
         videoPlayList.init("videoMediaPlayer");
         audioPlayers.init();
     });
 
-})(jQuery);
+})(jQuery, videojs);

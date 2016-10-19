@@ -30,7 +30,7 @@
         "!src/templates{,/**}",
         "!src/content{,/**}"
     ],
-    "vendors-active": ["bootstrap", "jquery", "video.js", "wavesurfer.js", "videojs-wavesurfer"],
+    "vendors-active": ["bootstrap", "jquery", "video.js", "wavesurfer.js", "videojs-wavesurfer", "videojs-watermark"],
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",
     "tmp": {
         "root": ".tmp",
@@ -73,8 +73,9 @@
                 "!src/vendors/video.js/examples{,/**}"
             ],
             "videojs-playlist": ["src/vendors/videojs-playlist/**"],
-            "wavesurfer.js": ["src/vendors/wavesurfer.js/*"],
-            "videojs-wavesurfer": ["src/vendors/videojs-wavesurfer/videojs.wavesurfer.js"]
+            "wavesurfer.js": ["src/vendors/wavesurfer.js/*.js"],
+            "videojs-wavesurfer": ["src/vendors/videojs-wavesurfer/videojs.wavesurfer.js"],
+            "videojs-watermark": ["src/vendors/videojs-watermark/*"]
         },
         "images": ["src/images/**/*.{jpeg, jpg, png, gif, svg}"],
         "sw": "src/scripts/sw/runtime-caching.js"

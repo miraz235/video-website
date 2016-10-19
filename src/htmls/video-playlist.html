@@ -34,6 +34,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet">
     <link rel="stylesheet" href="vendors/video.js/video-js.min.css" />
+    <link rel="stylesheet" href="vendors/videojs-watermark/videojs-watermark.css" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/styles.min.css" />
 
@@ -54,7 +55,13 @@
                     <div class="media-wrap media-video">
                         <!-- Main Video -->
                         <div class="media-player">
-                            <video id="videoMediaPlayer" class="video-js vjs-default-skin vjs-big-play-centered" width="640" height="360"></video>
+                            <video id="videoMediaPlayer" class="video-js vjs-default-skin vjs-big-play-centered" width="640" height="360" poster="resources/videos/posters/glacier.jpg">
+                                <source src="resources/videos/glacier.mp4" type="video/mp4">
+                                <p class="vjs-no-js">
+                                    To view this video please enable JavaScript, and consider upgrading to a web browser
+                                    that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                                </p>
+                            </video>
                         </div>
                         <!-- Playlist -->
                         <aside class="media-playlist">
@@ -292,6 +299,7 @@
     <script src="vendors/jquery/jquery.min.js"></script>
     <script src="vendors/bootstrap/javascripts/bootstrap.min.js"></script>
     <script src="vendors/video.js/video.min.js"></script>
+    <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script>
     <script src="js/web-starter.min.js"></script>
     <script src="js/scripts.min.js"></script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
