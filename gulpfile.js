@@ -16,11 +16,11 @@ var $app = assemble();
 var replaceObj = (function() {
     var r = { demo: {}, dev: {} };
 
-    for (var prop in $config.replace) {
-        if ($config.replace[prop].demo)
-            r.demo[prop] = $config.replace[prop].demo;
-        if ($config.replace[prop].dev)
-            r.dev[prop] = $config.replace[prop].dev;
+    for (var prop in $config.replace.keys) {
+        if ($config.replace.keys[prop].demo)
+            r.demo[prop] = $config.replace.keys[prop].demo;
+        if ($config.replace.keys[prop].dev)
+            r.dev[prop] = $config.replace.keys[prop].dev;
     }
 
     return r;
@@ -74,16 +74,16 @@ gulp.task("scripts:tmp", function(callback) {
         .pipe(gulp.dest($config.tmp.scripts))
         .pipe($.foreach(function(stream, file) {
             var name = path.basename(file.path);
-
+            var isTheFile = (!!~$config.replace["in-files"].indexOf(name));
             return stream
-                .pipe($.rename({
+                .pipe($.if(isTheFile, $.rename({
                     suffix: "-demo"
-                }))
-                .pipe($.replaceTask({
+                })))
+                .pipe($.if(isTheFile, $.replaceTask({
                     patterns: [{
                         json: replaceObj.demo
                     }]
-                }))
+                })))
                 .pipe(gulp.dest($config.tmp.scripts));
         }))
 });
@@ -101,8 +101,8 @@ gulp.task("scripts", ["scripts:tmp"], function(callback) {
             title: 'scripts',
             showFiles: true
         }))
-
-    .pipe($.rename({
+        .pipe(gulp.dest($distName + $config.dist.scripts))
+        .pipe($.rename({
             extname: ".min.js"
         }))
         .pipe($.if($config.compress.js, $.uglify({
