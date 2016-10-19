@@ -21,6 +21,16 @@
         "partials": "src/templates/partials/*.hbs",
         "layoutdir": "src/templates/layouts/*.hbs"
     },
+    "replace": {
+        "__video-swf-path__": {
+            "demo": "../vendors/video.js/video-js.swf",
+            "dev": "http://static.blogg.no/video/vendors/video.js/video-js.swf"
+        },
+        "__video-watermark-path__": {
+            "demo": "resources/img/NA_negativ_small.png",
+            "dev": "http://static.blogg.no/blogs/image/NA_negativ_small.png"
+        }
+    },
     "clean": [".tmp", "dist"],
     "copy": ["src/**",
         "!src/*.html",
@@ -37,6 +47,7 @@
         "htmls": ".tmp/static/*.html",
         "styles": ".tmp/css",
         "scripts": ".tmp/js",
+        "scripts-files": ".tmp/js/*.js",
         "images": ".tmp/images",
         "sw": ".tmp/js/sw",
         "static": ".tmp/static"

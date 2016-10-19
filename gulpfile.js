@@ -13,8 +13,18 @@ var $config = require("./config.json");
 var $reload = browserSync.reload;
 var $distName = $config.dist.root + "/";
 var $app = assemble();
+var replaceObj = (function() {
+    var r = { demo: {}, dev: {} };
 
+    for (var prop in $config.replace) {
+        if ($config.replace[prop].demo)
+            r.demo[prop] = $config.replace[prop].demo;
+        if ($config.replace[prop].dev)
+            r.dev[prop] = $config.replace[prop].dev;
+    }
 
+    return r;
+})();
 
 gulp.task('assemble', function() {
     gulp.src($config.src.templates)
@@ -59,24 +69,46 @@ gulp.task("html", function() {
         .pipe(gulp.dest($distName + $config.dist.htmls));
 
 });
-
-gulp.task("scripts", function(callback) {
+gulp.task("scripts:tmp", function(callback) {
     return gulp.src($config.src.scripts)
-        .pipe($.newer($config.tmp.scripts))
+        .pipe(gulp.dest($config.tmp.scripts))
+        .pipe($.foreach(function(stream, file) {
+            var name = path.basename(file.path);
+
+            return stream
+                .pipe($.rename({
+                    suffix: "-demo"
+                }))
+                .pipe($.replaceTask({
+                    patterns: [{
+                        json: replaceObj.demo
+                    }]
+                }))
+                .pipe(gulp.dest($config.tmp.scripts));
+        }))
+});
+gulp.task("scripts", ["scripts:tmp"], function(callback) {
+    return gulp.src($config.tmp["scripts-files"])
+        //.pipe($.newer($config.tmp.scripts))
+        .pipe($.replaceTask({
+            patterns: [{
+                json: replaceObj.dev
+            }]
+        }))
+        .pipe(gulp.dest($config.tmp.scripts))
         .pipe($.if($config.sourcemap, $.sourcemaps.init()))
         .pipe($.size({
             title: 'scripts',
             showFiles: true
         }))
-        .pipe($.rename({
+
+    .pipe($.rename({
             extname: ".min.js"
         }))
         .pipe($.if($config.compress.js, $.uglify({
             preserveComments: 'some'
         })))
-        .pipe(gulp.dest($config.tmp.scripts))
-
-    .pipe($.if($config.sourcemap, $.sourcemaps.write('.')))
+        .pipe($.if($config.sourcemap, $.sourcemaps.write('.')))
         .pipe($.size({
             title: 'scripts',
             showFiles: true

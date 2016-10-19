@@ -1,4 +1,4 @@
-videojs.options.flash.swf = "@@__video-swf-path__";
+videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
 (function($, videojs) {
     'use strict';
     var getUrlQueries = function(queryStr) {
@@ -14,7 +14,7 @@ videojs.options.flash.swf = "@@__video-swf-path__";
     var videoJsPluginOptions = {
         watermark: {
             url: 'http://blogg.no',
-            image: '@@__video-watermark-path__',
+            image: 'resources/img/NA_negativ_small.png',
             fadeTime: 1000
         },
         wavesurfer: {
