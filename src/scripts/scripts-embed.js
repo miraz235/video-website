@@ -58,17 +58,17 @@
             if (!this.mediaId && this.videoList[0])
                 window.location.replace(this.videoList[0]);
         },
-        toggleDrawer: function(event) {
-            event.stopPropagation();
-            $('.media-playlist').toggleClass("open");
-            return false;
-        },
+
         setPlaylistDrawer: function() {
             var togglebtn = $('<a>', {
                 title: "Open",
                 href: "#",
                 class: "media-playlist__icon",
-                click: this.toggleDrawer
+                click: function(event) {
+                    event.stopPropagation();
+                    $('.media-playlist').toggleClass("open");
+                    return false;
+                }
             });
             var closebtn = togglebtn.clone(true, true);
             togglebtn.addClass('playlist-drawyer')
