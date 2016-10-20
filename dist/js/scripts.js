@@ -136,7 +136,7 @@
             }
         }
     };
-    undefined
+
     var audioPlayers = {
         init: function() {
             var $audios = $("audio.js-media-audio");

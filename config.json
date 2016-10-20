@@ -1,5 +1,5 @@
 {
-    "sourcemap": true,
+    "sourcemap": false,
     "compress": {
         "html": false,
         "js": true,
@@ -22,7 +22,7 @@
         "layoutdir": "src/templates/layouts/*.hbs"
     },
     "replace": {
-        "in-files": ["scripts.js"],
+        "in-files": ["scripts.js", "scripts-embed.js"],
         "keys": {
             "__video-swf-path__": {
                 "demo": "../vendors/video.js/video-js.swf",
