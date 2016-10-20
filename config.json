@@ -31,6 +31,10 @@
             "__video-watermark-path__": {
                 "demo": "resources/img/NA_negativ_small.png",
                 "dev": "http://static.blogg.no/blogs/image/NA_negativ_small.png"
+            },
+            "__is-demo__": {
+                "demo": "true",
+                "dev": "false"
             }
         }
     },

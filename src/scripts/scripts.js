@@ -2,6 +2,8 @@
     'use strict';
     videojs.options.flash.swf = "@@__video-swf-path__";
 
+    var isDemo = JSON.parse("@@__is-demo__");
+
     var getUrlQueries = function(queryStr) {
         var out = {};
         $.each(queryStr.split('&'), function(key, value) {
@@ -116,10 +118,10 @@
         setVideoPlayer: function() {
             var self = this;
             var vplayer = videojs(self.vPlayerId, { controls: true, autoplay: true, preload: "none" }, function() {
-                /*if (self.mediaId) {
+                if (isDemo && self.mediaId) {
                     this.src([{ type: "video/mp4", src: "resources/videos/" + self.mediaId + ".mp4" }]);
                     this.poster('resources/videos/posters/' + self.mediaId + '.jpg');
-                }*/
+                }
             });
             vplayer.watermark(videoJsPluginOptions.watermark);
             vplayer.on('ended', $.proxy(this.setVideoEndEvent, this));
