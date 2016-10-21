@@ -36,8 +36,14 @@
                 controls: true,
                 preload: "auto"
             };
+            self.playsCounter = 0;
             var vplayer = videojs(self.vPlayerId, setup);
             vplayer.watermark(videoJsPluginOptions.watermark);
+            vplayer.on('play', $.proxy(self.setVideoPlayEvent, self));
+        },
+        setVideoPlayEvent: function(e) {
+            this.playsCounter++;
+            console.log('Plays ' + this.playsCounter);
         }
     };
 
@@ -128,14 +134,24 @@
 
         setVideoPlayer: function() {
             var self = this;
-            var vplayer = videojs(self.vPlayerId, { controls: true, autoplay: true, preload: "none" }, function() {
+            var isAutoPlay = false;
+            if (self.currentIndex > 0)
+                isAutoPlay = true;
+            var vplayer = videojs(self.vPlayerId, { controls: true, autoplay: isAutoPlay, preload: "none" }, function() {
                 if (isDemo && self.mediaId) {
                     this.src([{ type: "video/mp4", src: "resources/videos/" + self.mediaId + ".mp4" }]);
                     this.poster('resources/videos/posters/' + self.mediaId + '.jpg');
                 }
             });
             vplayer.watermark(videoJsPluginOptions.watermark);
-            vplayer.on('ended', $.proxy(this.setVideoEndEvent, this));
+            self.playsCounter = 0;
+            vplayer.on('ended', $.proxy(self.setVideoEndEvent, self));
+            vplayer.on('play', $.proxy(self.setVideoPlayEvent, self));
+        },
+
+        setVideoPlayEvent: function(e) {
+            this.playsCounter++;
+            console.log('Plays ' + this.playsCounter);
         },
 
         setVideoEndEvent: function(e) {
