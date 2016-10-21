@@ -53,10 +53,12 @@
             this.setVideoPlayer();
         },
         setMediaId: function() {
-            var queries = getUrlQueries(document.location.search.substr(1));
-            this.mediaId = queries.v;
-            if (!this.mediaId && this.videoList[0])
-                window.location.replace(this.videoList[0]);
+            if (isDemo) {
+                var queries = getUrlQueries(document.location.search.substr(1));
+                this.mediaId = queries.v;
+                if (!this.mediaId && this.videoList[0])
+                    window.location.replace(this.videoList[0]);
+            }
         },
 
         setPlaylistDrawer: function() {
