@@ -14,9 +14,11 @@
     color: $color-white;
     line-height: 1.5;
     a {
-        color: $gray-lighter;
-        &:hover {
-            color: $color-white;
+        &:not(.btn) {
+            color: $gray-lighter;
+            &:hover {
+                color: $color-white;
+            }
         }
     }
     &.media-video {

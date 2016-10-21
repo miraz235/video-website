@@ -28,7 +28,6 @@
                 return;
             this.vPlayerId = vPlayerId;
             this.setVideoPlayer();
-            $('.media-playlist').remove();
         },
         setVideoPlayer: function() {
             var self = this;

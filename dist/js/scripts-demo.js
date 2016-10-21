@@ -48,6 +48,15 @@
         setVideoPlayEvent: function(e) {
             this.playsCounter++;
             console.log('Plays ' + this.playsCounter);
+            if (this.playsCounter === 1) {
+                $.post("http://blogsoft.local/index.bd?fa=public.updateMediaInfo", {
+                    blogId: "",
+                    mediaId: "",
+                    mediaType: "video"
+                }).done(function(data) {
+                    console.log(data);
+                });
+            }
         }
     }
 
@@ -134,8 +143,18 @@
             vplayer.on('ended', $.proxy(self.setVideoEndEvent, self));
         },
         setVideoPlayEvent: function(e) {
-            this.playsCounter++;
-            console.log('Plays ' + this.playsCounter);
+            var self = this;
+            self.playsCounter++;
+            console.log('Plays ' + self.playsCounter);
+            if (self.playsCounter === 1) {
+                $.post("http://blogsoft.local/index.bd?fa=public.updateMediaInfo", {
+                    blogId: "",
+                    mediaId: self.mediaId,
+                    mediaType: "video"
+                }).done(function(data) {
+                    console.log(data);
+                });
+            }
         },
         setVideoEndEvent: function(e) {
 
@@ -166,6 +185,7 @@
                 this.pause();
                 var src = null;
                 var source = $(this).find("source");
+
                 if (source.length) {
                     src = source.attr("src");
                     source.remove();
@@ -186,7 +206,20 @@
                         }
                     }
                     self.playsCounter++;
-                    console.log('Plays ' + self.playsCounter);
+                    //console.log('Plays ' + self.playsCounter);
+                    if (self.playsCounter === 1) {
+                        var audioId = $(this.el()).attr("data-audio-id");
+                        if (audioId) {
+                            $.post("http://blogsoft.local/index.bd?fa=public.updateMediaInfo", {
+                                blogId: "",
+                                mediaId: audioId,
+                                mediaType: "audio"
+                            }).done(function(data) {
+                                console.log(data);
+                            });
+                            $(this.el()).attr("data-audio-id", '');
+                        }
+                    }
                 });
             });
 
