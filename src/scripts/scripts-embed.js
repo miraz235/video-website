@@ -28,6 +28,7 @@
                 return;
             this.vPlayerId = vPlayerId;
             this.setVideoPlayer();
+            $('.media-playlist').remove();
         },
         setVideoPlayer: function() {
             var self = this;
@@ -72,18 +73,24 @@
                     return false;
                 }
             });
+
             var closebtn = togglebtn.clone(true, true);
-            togglebtn.addClass('playlist-drawyer')
-                .html('<span class="vjs-icon-chapters"></span>')
+
+            togglebtn.html('<span class="vjs-icon-chapters"></span>')
+                .wrap('<div class="playlist-drawyer text-nowrap"></div>').parent()
+                .append('<span class="media-playlist__header__info"><span></span> videos</span>')
                 .prependTo('.media-playlist');
+
             closebtn.attr("title", "Close")
                 .html('&times;')
                 .wrap('<div class="pull-right text-center text-muted"></div>')
                 .parent()
                 .prependTo('.media-playlist__header');
+
             $('.media-playlist').on('click', function(event) {
                 event.stopPropagation();
             })
+
             togglebtn.on('click', function() {
                 $('body').on('click', function() {
                     $('.media-playlist').toggleClass("open");
@@ -116,7 +123,6 @@
         },
         setVideoNumber: function() {
             var $videoNum = $(".media-playlist__header__info span");
-            console.log(this);
             $videoNum.text((this.currentIndex + 1) + '/' + this.videoList.length);
         },
 

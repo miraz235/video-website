@@ -48,6 +48,7 @@
             position: absolute;
             left: 100%;
             margin: 16px 0 0 10px;
+            text-shadow: 1px 1px 0px rgba($color-black, 0.5);
         }
         .video-js {
             width: 100%;
@@ -165,6 +166,10 @@
 
 .media-playlist__header__info {
     color: $navbar-default-link-disabled-color;
+    font-size: 12px;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .media-playlist__icon {
@@ -173,7 +178,7 @@
     opacity: .6;
     line-height: 1.1;
     display: inline-block;
-    text-shadow: 1px 1px 1px rgba($color-black, 0.15);
+    vertical-align: middle;
     &:hover,
     &:focus {
         text-decoration: none;
