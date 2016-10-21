@@ -5,6 +5,7 @@
         "js": true,
         "css": true
     },
+    "service-worker": false,
     "browsers": [
         "ie >= 10",
         "ie_mob >= 10",
@@ -40,12 +41,11 @@
     },
     "clean": [".tmp", "dist"],
     "copy": ["src/**",
-        "!src/*.html",
+        "!src/htmls{,/**}",
         "!src/styles{,/**}",
         "!src/scripts{,/**}",
         "!src/vendors{,/**}",
-        "!src/templates{,/**}",
-        "!src/content{,/**}"
+        "!src/templates{,/**}"
     ],
     "vendors-active": ["bootstrap", "jquery", "video.js", "wavesurfer.js", "videojs-wavesurfer", "videojs-watermark"],
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",

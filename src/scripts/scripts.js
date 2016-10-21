@@ -87,7 +87,6 @@
         },
         setVideoNumber: function() {
             var $videoNum = $(".media-playlist__header__info span");
-            console.log(this);
             $videoNum.text((this.currentIndex + 1) + '/' + this.videoList.length);
         },
         setAutoChangePlayList: function(isAutoplay) {
@@ -164,7 +163,6 @@
                 self.audios[index] = videojs(this, audioOption);
                 self.audios[index].on('play', function(event) {
                     for (var i = 0; i < self.audios.length; i++) {
-                        console.log(i, self.audios[i].currentTime());
                         if (self.audios[i].id() != event.target.id) {
                             self.audios[i].pause();
                             self.audios[i].currentTime(0);

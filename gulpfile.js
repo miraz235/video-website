@@ -208,7 +208,9 @@ gulp.task("copy:vendors", function(callback) {
 });
 
 // Copy all files at the root level (src)
-gulp.task("copy", function() {
+gulp.task("copy", ["copy:vendors", "copy:fonts"], function() {
+    if (!$config["service-worker"])
+        $config.copy.push("!src/service-worker.js");
     gulp.src($config.copy, { dot: true })
         .pipe($.size({ title: "copy" }))
         .pipe(gulp.dest($config.dist.root));
@@ -245,7 +247,8 @@ gulp.task("generate-service-worker", ["copy:sw-scripts"], function() {
 
 // Build production files, the default task
 gulp.task("default", ["clean"], function(callback) {
-    runSequence("styles", ["copy", "html", "scripts", "styles", "images", "copy:vendors", "copy:fonts"],
-        "generate-service-worker",
-        callback);
+    var tasks = ["copy", "html", "scripts", "styles", "images"];
+    if ($config["service-worker"])
+        tasks.push("generate-service-worker");
+    runSequence("styles", tasks, callback);
 });
