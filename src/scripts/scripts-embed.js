@@ -164,7 +164,7 @@
         }
     };
 
-    $(document).ready(function() {
+    $(function() {
         videoSingle.init("videoSingle");
         videoPlayList.init("videoMediaPlayer");
     });

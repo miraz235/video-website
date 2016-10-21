@@ -41,7 +41,13 @@
         setVideoPlayer: function() {
             var self = this;
             var vplayer = videojs(self.vPlayerId, { controls: true, autoplay: true, preload: "auto" });
+            self.playsCounter = 0;
             vplayer.watermark(videoJsPluginOptions.watermark);
+            vplayer.on('play', $.proxy(self.setVideoPlayEvent, self));
+        },
+        setVideoPlayEvent: function(e) {
+            this.playsCounter++;
+            console.log('Plays ' + this.playsCounter);
         }
     }
 
@@ -122,8 +128,14 @@
                     this.poster('resources/videos/posters/' + self.mediaId + '.jpg');
                 }
             });
+            self.playsCounter = 0;
             vplayer.watermark(videoJsPluginOptions.watermark);
-            vplayer.on('ended', $.proxy(this.setVideoEndEvent, this));
+            vplayer.on('play', $.proxy(self.setVideoPlayEvent, self));
+            vplayer.on('ended', $.proxy(self.setVideoEndEvent, self));
+        },
+        setVideoPlayEvent: function(e) {
+            this.playsCounter++;
+            console.log('Plays ' + this.playsCounter);
         },
         setVideoEndEvent: function(e) {
 
@@ -160,20 +172,22 @@
                 }
                 this.load();
                 audioOption.plugins.wavesurfer.src = src;
+                self.playsCounter = 0;
                 self.audios[index] = videojs(this, audioOption);
                 self.audios[index].on('play', function(event) {
                     for (var i = 0; i < self.audios.length; i++) {
                         if (self.audios[i].id() != event.target.id) {
-                            self.audios[i].pause();
-                            self.audios[i].currentTime(0);
+                            var isPlaying = !self.audios[i].paused();
+                            if (isPlaying) {
+                                self.audios[i].pause();
+                                self.audios[i].currentTime(0);
+                                self.playsCounter = 0;
+                            }
                         }
                     }
+                    self.playsCounter++;
+                    console.log('Plays ' + self.playsCounter);
                 });
-                /*self.audios[index].watermark({
-                    url: 'http://blogg.no',
-                    image: 'resources/img/NA_negativ_svart_hvit.png',
-                    fadeTime: 1000
-                });*/
             });
 
         }
