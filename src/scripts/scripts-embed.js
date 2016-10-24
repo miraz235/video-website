@@ -6,14 +6,11 @@
 
     var playsAPICall = function(blogId, mediaId) {
         if (isDemo) return 0;
-        $.ajax({
-            method: "GET",
-            url: "http://blogsoft.local/index.bd?fa=public.updateMediaInfo",
-            data: {
-                blogId: blogId,
-                mediaId: mediaId,
-                mediaType: "video"
-            }
+        $.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo?callback=?", {
+            blogId: blogId,
+            mediaId: mediaId,
+            mediaType: "video"
+
         }).done(function(msg) {
             console.log(msg);
         });

@@ -6,14 +6,11 @@
 
     var playsAPICall = function(blogId, mediaId, mediaType) {
         if (isDemo) return 0;
-        $.ajax({
-            method: "GET",
-            url: "http://blogsoft.local/index.bd?fa=public.updateMediaInfo",
-            data: {
-                blogId: blogId,
-                mediaId: mediaId,
-                mediaType: mediaType
-            }
+        $.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo?callback=?", {
+            blogId: blogId,
+            mediaId: mediaId,
+            mediaType: mediaType
+
         }).done(function(msg) {
             console.log(msg);
         });
@@ -51,7 +48,12 @@
             if (!(vPlayerId && $("#" + vPlayerId).length))
                 return;
             this.vPlayerId = vPlayerId;
+            this.setMediaId();
             this.setVideoPlayer();
+        },
+        setMediaId: function() {
+            var queries = getUrlQueries(document.location.search.substr(1));
+            this.mediaId = queries.v;
         },
         setVideoPlayer: function() {
             var self = this;
@@ -64,7 +66,7 @@
             this.playsCounter++;
             console.log('Plays ' + this.playsCounter);
             if (this.playsCounter === 1) {
-                playsAPICall("", "", "video");
+                playsAPICall("", this.mediaId, "video");
             }
         }
     }
