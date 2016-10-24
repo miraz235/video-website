@@ -10,10 +10,18 @@ header[role="banner"] {
 
 #content[role="main"] {
     >.container {
-        margin: -45px auto 0;
+        margin: ($navbar-height*(-1) - 2) auto 0;
         padding: 0;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         background-color: $color-white;
+        >.navbar {
+            border-radius: 0;
+        }
+        .navbar-brand {
+            img {
+                margin: -20px 0 0 -20px;
+            }
+        }
     }
 }
 

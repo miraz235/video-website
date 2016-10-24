@@ -4,6 +4,21 @@
 
     var isDemo = JSON.parse("true");
 
+    var playsAPICall = function(blogId, mediaId, mediaType) {
+        if (isDemo) return 0;
+        $.ajax({
+            method: "GET",
+            url: "http://blogsoft.local/index.bd?fa=public.updateMediaInfo",
+            data: {
+                blogId: blogId,
+                mediaId: mediaId,
+                mediaType: mediaType
+            }
+        }).done(function(msg) {
+            console.log(msg);
+        });
+    };
+
     var getUrlQueries = function(queryStr) {
         var out = {};
         $.each(queryStr.split('&'), function(key, value) {
@@ -49,13 +64,7 @@
             this.playsCounter++;
             console.log('Plays ' + this.playsCounter);
             if (this.playsCounter === 1) {
-                $.post("http://blogsoft.local/index.bd?fa=public.updateMediaInfo", {
-                    blogId: "",
-                    mediaId: "",
-                    mediaType: "video"
-                }).done(function(data) {
-                    console.log(data);
-                });
+                playsAPICall("", "", "video");
             }
         }
     }
@@ -95,8 +104,6 @@
                             scrollTop: index * $li.outerHeight() + 1
                         }, 500);
                     }
-                    /*else if (self.currentIndex > -1)
-                                           return false;*/
                 }
             });
         },
@@ -147,13 +154,7 @@
             self.playsCounter++;
             console.log('Plays ' + self.playsCounter);
             if (self.playsCounter === 1) {
-                $.post("http://blogsoft.local/index.bd?fa=public.updateMediaInfo", {
-                    blogId: "",
-                    mediaId: self.mediaId,
-                    mediaType: "video"
-                }).done(function(data) {
-                    console.log(data);
-                });
+                playsAPICall("", self.mediaId, "video");
             }
         },
         setVideoEndEvent: function(e) {
@@ -206,17 +207,11 @@
                         }
                     }
                     self.playsCounter++;
-                    //console.log('Plays ' + self.playsCounter);
+
                     if (self.playsCounter === 1) {
                         var audioId = $(this.el()).attr("data-audio-id");
                         if (audioId) {
-                            $.post("http://blogsoft.local/index.bd?fa=public.updateMediaInfo", {
-                                blogId: "",
-                                mediaId: audioId,
-                                mediaType: "audio"
-                            }).done(function(data) {
-                                console.log(data);
-                            });
+                            playsAPICall("", audioId, "audio");
                             $(this.el()).attr("data-audio-id", '');
                         }
                     }

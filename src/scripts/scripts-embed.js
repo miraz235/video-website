@@ -4,6 +4,21 @@
 
     var isDemo = JSON.parse("@@__is-demo__");
 
+    var playsAPICall = function(blogId, mediaId) {
+        if (isDemo) return 0;
+        $.ajax({
+            method: "GET",
+            url: "http://blogsoft.local/index.bd?fa=public.updateMediaInfo",
+            data: {
+                blogId: blogId,
+                mediaId: mediaId,
+                mediaType: "video"
+            }
+        }).done(function(msg) {
+            console.log(msg);
+        });
+    };
+
     var getUrlQueries = function(queryStr) {
         var out = {};
         $.each(queryStr.split('&'), function(key, value) {
@@ -22,12 +37,21 @@
         }
     };
 
+    var getEmbedVideoId = function() {
+        var parts = location.pathname.split('/');
+        return parts[parts.length - 1];
+    };
+
     var videoSingle = {
         init: function(vPlayerId) {
             if (!(vPlayerId && $("#" + vPlayerId).length))
                 return;
             this.vPlayerId = vPlayerId;
+            this.setMediaId();
             this.setVideoPlayer();
+        },
+        setMediaId: function() {
+            this.mediaId = getEmbedVideoId();
         },
         setVideoPlayer: function() {
             var self = this;
@@ -43,6 +67,7 @@
         setVideoPlayEvent: function(e) {
             this.playsCounter++;
             console.log('Plays ' + this.playsCounter);
+            playsAPICall("", this.mediaId);
         }
     };
 
@@ -64,6 +89,8 @@
                 this.mediaId = queries.v;
                 if (!this.mediaId && this.videoList[0])
                     window.location.replace(this.videoList[0]);
+            } else {
+                this.mediaId = getEmbedVideoId();
             }
         },
 
@@ -120,8 +147,6 @@
                             scrollTop: index * $li.outerHeight() + 1
                         }, 500);
                     }
-                    /*else if (self.currentIndex > -1)
-                                           return false;*/
                 }
             });
             self.setPlaylistDrawer();
@@ -151,6 +176,7 @@
         setVideoPlayEvent: function(e) {
             this.playsCounter++;
             console.log('Plays ' + this.playsCounter);
+            playsAPICall("", this.mediaId);
         },
 
         setVideoEndEvent: function(e) {
