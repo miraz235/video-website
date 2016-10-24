@@ -68,3 +68,31 @@
         opacity: 1;
     }
 }
+
+.media-error {
+    display: table;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 40;
+    font-size: 127%;
+    line-height: 182%;
+    background: #000;
+    cursor: default;
+    user-select: none;
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/167883/void.gif);
+    background-size: cover;
+}
+
+.media-error__content {
+    position: relative;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.media-error__content-wrap {
+    width: 80%;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+}

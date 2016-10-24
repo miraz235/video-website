@@ -6,7 +6,7 @@
 
     var playsAPICall = function(blogId, mediaId) {
         if (isDemo) return 0;
-        $.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo?callback=?", {
+        $.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo&callback=?", {
             blogId: blogId,
             mediaId: mediaId,
             mediaType: "video"
