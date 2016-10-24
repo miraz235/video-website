@@ -1,0 +1,26 @@
+.media-player__poster {
+    float: left;
+    padding: 15px;
+    display: none;
+    &:before {
+        display: inline-block;
+        vertical-align: middle
+    }
+    img {
+        width: $audio-height;
+        height: $audio-height;
+        vertical-align: middle;
+    }
+    +.media-player__content {
+        .video-js {
+            height: 100px;
+        }
+    }
+    @media screen and (min-width: $screen-md-min) {
+        display: block;
+        +.media-player__content {
+            margin-left: $audio-height + 30;
+            padding: 15px 15px 0 0;
+        }
+    }
+}

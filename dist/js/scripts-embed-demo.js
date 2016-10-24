@@ -57,9 +57,9 @@
                 preload: "auto"
             };
             self.playsCounter = 0;
-            var vplayer = videojs(self.vPlayerId, setup);
-            vplayer.watermark(videoJsPluginOptions.watermark);
-            vplayer.on('play', $.proxy(self.setVideoPlayEvent, self));
+            self.vplayer = videojs(self.vPlayerId, setup);
+            self.vplayer.watermark(videoJsPluginOptions.watermark);
+            self.vplayer.on('play', $.proxy(self.setVideoPlayEvent, self));
         },
         setVideoPlayEvent: function(e) {
             this.playsCounter++;
@@ -125,7 +125,10 @@
                     $('.media-playlist').toggleClass("open");
                     $(this).off('click');
                 });
-            })
+            });
+            closebtn.on('click', function() {
+                $('body').off('click');
+            });
 
         },
         setVideoList: function() {
@@ -158,16 +161,16 @@
             var isAutoPlay = false;
             if (self.currentIndex > 0)
                 isAutoPlay = true;
-            var vplayer = videojs(self.vPlayerId, { controls: true, autoplay: isAutoPlay, preload: "none" }, function() {
+            self.vplayer = videojs(self.vPlayerId, { controls: true, autoplay: isAutoPlay, preload: "none" }, function() {
                 if (isDemo && self.mediaId) {
                     this.src([{ type: "video/mp4", src: "resources/videos/" + self.mediaId + ".mp4" }]);
                     this.poster('resources/videos/posters/' + self.mediaId + '.jpg');
                 }
             });
-            vplayer.watermark(videoJsPluginOptions.watermark);
+            self.vplayer.watermark(videoJsPluginOptions.watermark);
             self.playsCounter = 0;
-            vplayer.on('ended', $.proxy(self.setVideoEndEvent, self));
-            vplayer.on('play', $.proxy(self.setVideoPlayEvent, self));
+            self.vplayer.on('ended', $.proxy(self.setVideoEndEvent, self));
+            self.vplayer.on('play', $.proxy(self.setVideoPlayEvent, self));
         },
 
         setVideoPlayEvent: function(e) {
