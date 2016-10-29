@@ -31,6 +31,14 @@
             url: 'http://blogg.no',
             image: 'http://static.blogg.no/blogs/image/NA_negativ_small.png',
             fadeTime: 1000
+        },
+        wavesurfer: {
+            msDisplayMax: 10,
+            debug: true,
+            waveColor: 'grey',
+            progressColor: '#0092f5',
+            cursorColor: 'white',
+            hideScrollbar: false
         }
     };
 
@@ -189,9 +197,60 @@
         }
     };
 
+    var audioSingle = {
+        init: function(aPlayerId){
+            if (!(aPlayerId && $("#" + aPlayerId).length))
+                return;
+            this.aPlayerId = aPlayerId;
+            this.setMediaId();
+            this.setAudioPlayer();
+        },
+        setMediaId: function() {
+            var queries = getUrlQueries(document.location.search.substr(1));
+            this.mediaId = queries.id;
+        },
+        getSource: function(){
+            var $id = $("#" + this.aPlayerId);
+            $id[0].pause();
+            var src = null;
+            var source = $id.find("source");
+            if (source.length) {
+                src = source.attr("src");
+                source.remove();
+            }
+            $id[0].load();
+            return src;
+        },
+        setAudioPlayer: function() {
+            var self = this;
+            var audioOption = {
+                controls: true,
+                autoplay: false,
+                loop: false,
+                height: 100,
+                plugins: {
+                    wavesurfer: videoJsPluginOptions.wavesurfer
+                }
+            };
+            audioOption.plugins.wavesurfer.src = self.getSource();
+            self.playsCounter = 0;
+            
+            var vjsplayer = videojs(self.aPlayerId, audioOption);
+            vjsplayer.on('play', $.proxy(self.setAudioPlayEvent, self));
+        },
+        setAudioPlayEvent: function(e) {
+            this.playsCounter++;
+            console.log('Plays ' + this.playsCounter);
+            if (this.playsCounter === 1) {
+                playsAPICall("", this.mediaId, "audio");
+            }
+        }
+    };
+
     $(function() {
         videoSingle.init("videoSingle");
         videoPlayList.init("videoMediaPlayer");
+        audioSingle.init("audioSingle");
     });
 
 })(jQuery, videojs);

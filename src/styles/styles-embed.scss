@@ -1,4 +1,6 @@
 @import "variables";
+$embed-style: true;
+@import "../vendors/bootstrap/stylesheets/bootstrap/glyphicons";
 //@import "../vendors/bootstrap/stylesheets/bootstrap/normalize";
 html {
     font-family: sans-serif; // 1
@@ -59,6 +61,40 @@ h4 {
     font-size: $font-size-h4;
 }
 
+p {
+  margin: 0 0 ($line-height-computed / 2);
+}
+
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: ($line-height-computed / 2);
+  ul,
+  ol {
+    margin-bottom: 0;
+  }
+}
+
+@mixin list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.list-unstyled {
+  @include list-unstyled;
+}
+
+.list-inline {
+    @include list-unstyled;
+    margin-left: -5px;
+
+    > li {
+        display: inline-block;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+
 .text-nowrap {
     white-space: nowrap;
 }
@@ -66,6 +102,8 @@ h4 {
 .text-muted {
     color: $text-muted;
 }
+
+@import "../vendors/bootstrap/stylesheets/bootstrap/buttons";
 
 //@import "../vendors/bootstrap/stylesheets/bootstrap/utilities";
 .clearfix {
@@ -85,5 +123,17 @@ h4 {
 }
 
 //@import "utilities";
+.m-b-0 {
+    margin-bottom: 0 !important;
+}
+
+.text-truncate {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 @import "component-media";
 @import "component-media-embed";
+@import "component-media-podcast";

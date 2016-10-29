@@ -16,11 +16,29 @@
             height: 100px;
         }
     }
-    @media screen and (min-width: $screen-md-min) {
+    @if not $embed-style {
+        @media screen and (min-width: $screen-md-min) {
+            display: block;
+            +.media-player__content {
+                margin-left: $audio-height + 30;
+                padding: 15px 15px 0 0;
+            }
+        }
+    } @else {
         display: block;
         +.media-player__content {
-            margin-left: $audio-height + 30;
+             margin-left: $audio-height + 30;
             padding: 15px 15px 0 0;
         }
+    }
+}
+.media-info {
+    padding: 0 15px 15px;
+    @if not $embed-style {
+        @media screen and (min-width: $screen-md-min) {
+            padding: 15px;
+        }
+    } @else {
+        padding: 15px;
     }
 }

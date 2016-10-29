@@ -1,6 +1,7 @@
 @import "bootstrap-variables-override";
 @import "../vendors/bootstrap/stylesheets/bootstrap/variables";
 @import "../vendors/bootstrap/stylesheets/bootstrap/mixins";
+$embed-style: false !default;
 // Colors
 $color-white: #fff;
 $color-black: $gray-base;
