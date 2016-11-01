@@ -1,4 +1,4 @@
-(function ($, videojs) {
+(function ($, videojs, window) {
     'use strict';
     videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
 
@@ -223,12 +223,4 @@
     };
     window.embedMedia = embedMedia || {};
 
-    $(function () {
-        var videoSingle = embedMedia('video').setMediaPlayer("videoSingle");
-        var videoList = embedMedia('video').setMediaPlayer("videoMediaPlayer").setPlayList('.media-playlist__tracks li .media-playlist__video');
-        var audioSingle = embedMedia('audio');
-        audioSingle.setMediaPlayer("audioSingle");
-        var audioPlaylist = embedMedia('audio').setMediaPlayer("audioMediaPlayer").setPlayList('.media-playlist__tracks li .media-playlist__audio');
-    });
-
-})(jQuery, videojs);
+})(jQuery, videojs, window);

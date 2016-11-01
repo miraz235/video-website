@@ -38,7 +38,7 @@
         </div>
         <div class="media-info clearfix">
             <div class="pull-left">
-                <ul class="list-inline">
+                <ul class="list-inline m-b-0">
                     <li>
                         <button class="btn btn-default btn-xs">
                             <i class="glyphicon glyphicon-cloud-download"></i>
@@ -49,7 +49,7 @@
                 </ul>
             </div>
             <div class="pull-right">
-                <ul class="list-inline">
+                <ul class="list-inline m-b-0">
                     <li>
                         <button class="btn btn-default btn-xs">
                             <i class="glyphicon glyphicon-share-alt"></i>
@@ -68,6 +68,11 @@
 
     <script src="js/scripts-embed-demo.js"></script>
 
+    <script>
+        jQuery(function () {
+            var audioSingle = embedMedia('audio').setMediaPlayer("audioSingle");
+        });
+    </script>
     <!-- Built with love using Video Website -->
 </body>
 
