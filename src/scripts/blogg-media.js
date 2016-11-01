@@ -3,34 +3,37 @@
     videojs.options.flash.swf = "@@__video-swf-path__";
 
     var bloggMedia = function (mediaType) {
-        var isDemo = JSON.parse("@@__is-demo__");
-        var mediaPlayListUrls = [];
-        var mediaPlayerList = [];
-        var currentMedia = {
-            type: mediaType,
-            id: 0,
-            settings: null,
-            player: null,
-            src: '',
-            playsCounter: 0,
-            index: -1
-        };
-
-        var videoJsPluginOptions = {
-            watermark: {
-                url: 'http://blogg.no',
-                image: '@@__video-watermark-path__',
-                fadeTime: 1000
+        var isDemo = JSON.parse("@@__is-demo__"),
+            
+            mediaPlayListUrls = [],
+            mediaPlayerList = [],
+            
+            currentMedia = {
+                type: mediaType,
+                id: 0,
+                settings: null,
+                player: null,
+                src: '',
+                playsCounter: 0,
+                index: -1
             },
-            wavesurfer: {
-                msDisplayMax: 10,
-                debug: isDemo,
-                waveColor: 'grey',
-                progressColor: '#0092f5',
-                cursorColor: 'white',
-                hideScrollbar: true
-            }
-        };
+
+            videoJsPluginOptions = {
+                watermark: {
+                    url: 'http://blogg.no',
+                    image: '@@__video-watermark-path__',
+                    fadeTime: 1000
+                },
+                wavesurfer: {
+                    msDisplayMax: 10,
+                    debug: isDemo,
+                    waveColor: 'grey',
+                    progressColor: '#0092f5',
+                    cursorColor: 'white',
+                    hideScrollbar: true
+                }
+            };
+        
         var playsAPICall = function (blogId, mediaId, mediaType) {
             if (isDemo) return 0;
             $.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo&callback=?", {
@@ -108,8 +111,8 @@
         };
         
         var onMediaEndEvent = function () {
-            var waitTime = 1500;
-            var nextMedia = mediaPlayListUrls[currentMedia.index + 1];
+            var waitTime = 1500,
+                nextMedia = mediaPlayListUrls[currentMedia.index + 1];
             if (nextMedia && ((currentMedia.type == 'video' && getAutoChangeValue()) || currentMedia.type != 'video')) {
                 setTimeout(function () {
                     window.location.href = nextMedia;
@@ -127,22 +130,22 @@
         };
         
         var callbackDefault = function () {
-                switch (currentMedia.type) {
-                    case 'video':
+            switch (currentMedia.type) {
+                case 'video':
                         if (isDemo && currentMedia.id) {
                             this.src([{ type: "video/mp4", src: "resources/videos/" + currentMedia.id + ".mp4" }]);
                             this.poster('resources/videos/posters/' + currentMedia.id + '.jpg');
                         }
                         this.watermark(videoJsPluginOptions.watermark);
                         break;
-                    case 'audio':
+                case 'audio':
                         if (isDemo && currentMedia.id) {
                             this.src([{ type: "audio/mp3", src: "resources/audios/" + currentMedia.id + ".mp3" }]);
                         }
                         videoJsPluginOptions.wavesurfer.src = this.src();
                         this.wavesurfer(videoJsPluginOptions.wavesurfer);
-                }
-            };
+            }
+        };
 
         var addMediaPlayer = function($elem, setup, callback){
             if(!currentMedia.settings){
