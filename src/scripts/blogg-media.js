@@ -41,6 +41,7 @@
                 console.log(msg);
             });
         };
+        
         var getUrlQueries = function (queryStr) {
             var out = {};
             $.each(queryStr.split('&'), function (key, value) {
@@ -82,15 +83,49 @@
             };
             return defaultOpt;
         };
+        
+        var onMediaPlayEvent = function (event) {
+            for (var i = 0; i < mediaPlayerList.length; i++){
+                if (mediaPlayerList[i].id() != event.target.id) {
+                    if (!mediaPlayerList[i].paused()) {
+                        mediaPlayerList[i].pause();
+                        mediaPlayerList[i].currentTime(0);
+                        currentMedia.playsCounter = 0;
+                    }
+                }
+            }
+            currentMedia.playsCounter++;
+            if (currentMedia.playsCounter === 1) {
+                var mediaId = $(event.target.id).attr("data-"+currentMedia.type+"-id");
+                if (mediaId) {
+                    currentMedia.id = mediaId;
+                    $(event.target.id).attr("data-"+currentMedia.type+"-id", '');
+                }
+                if(currentMedia.id)
+                    playsAPICall("", currentMedia.id, currentMedia.type);
+                currentMedia.player = this;
+            }
+        };
+        
+        var onMediaEndEvent = function () {
+            var waitTime = 1500;
+            var nextMedia = mediaPlayListUrls[currentMedia.index + 1];
+            if (nextMedia && ((currentMedia.type == 'video' && getAutoChangeValue()) || currentMedia.type != 'video')) {
+                setTimeout(function () {
+                    window.location.href = nextMedia;
+                }, waitTime);
+            }
+        };
 
         var createPlayer = function ($element, setup, callback) {
             var player = videojs($element, setup, callback);
 
-            player.on('play', $.proxy(onMediaPlayEvent, this));
-            player.on('ended', $.proxy(onMediaEndEvent, this));
+            player.on('play', onMediaPlayEvent);
+            player.on('ended', onMediaEndEvent);
 
             return player;
         };
+        
         var callbackDefault = function () {
                 switch (currentMedia.type) {
                     case 'video':
@@ -141,92 +176,63 @@
             return this;
         };
 
-        var onMediaPlayEvent = function (event) {
-            for (var i = 0; i < mediaPlayerList.length; i++){
-                if (mediaPlayerList[i].id() != event.target.id) {
-                    if (!mediaPlayerList[i].paused()) {
-                        mediaPlayerList[i].pause();
-                        mediaPlayerList[i].currentTime(0);
-                        currentMedia.playsCounter = 0;
-                    }
-                }
-            }
-            currentMedia.playsCounter++;
-            if (currentMedia.playsCounter === 1) {
-                var mediaId = $(event.target.id).attr("data-"+currentMedia.type+"-id");
-                if (mediaId) {
-                    currentMedia.id = mediaId;
-                    $(event.target.id).attr("data-"+currentMedia.type+"-id", '');
-                }
-                if(currentMedia.id)
-                    playsAPICall("", currentMedia.id, currentMedia.type);
-                currentMedia.player = this;
-            }
-        };
-        var onMediaEndEvent = function () {
-            var waitTime = 1500;
-            var nextMedia = mediaPlayListUrls[currentMedia.index + 1];
-            if (nextMedia && ((currentMedia.type == 'video' && getAutoChangeValue()) || currentMedia.type != 'video')) {
-                setTimeout(function () {
-                    window.location.href = nextMedia;
-                }, waitTime);
-            }
-        };
-        var getList = function ($tracksDom) {
-            var mediaLinkList = [];
-            $tracksDom.each(function (index) {
-                var queries = getUrlQueries(this.href.split('?')[1]);
-                var $li = $(this).parent();
-                if (queries) {
-                    mediaLinkList[index] = this.href;
-                    if (window.location.href.indexOf(this.href) > -1) {
-                        $li.addClass("currently-playing");
-                        currentMedia.index = index;
-                        if (index > 0)
-                            currentMedia.player.autoplay(true);
-                        $li.parent().animate({
-                            scrollTop: index * $li.outerHeight() + 1
-                        }, 500);
-                    }
-                }
-            });
-            return mediaLinkList;
-        };
-
-        var setTrackNumber = function () {
-            var $trackNum = $(".media-playlist__header__info span");
-            $trackNum.text((currentMedia.index + 1) + '/' + mediaPlayListUrls.length);
-        };
-
-        var setAutoChangeValue = function(isAutoplay){
-            if (typeof(localStorage) !== undefined) {
-                localStorage.setItem("autoplayPlaylist", isAutoplay);
-            } else {
-                console.log("Sorry! No Web Storage support..");
-            }
-        };
-
-        var getAutoChangeValue = function(){
-            if (typeof(localStorage) !== undefined && localStorage.autoplayPlaylist !== undefined) {
-                var out = JSON.parse(localStorage.autoplayPlaylist);
-                $("#mediaAutoplay").prop("checked", out);
-                return out;
-            } else {
-                console.log("Sorry! No Web Storage support..");
-                return $("#mediaAutoplay").is(":checked");
-            }
-        };
-
-        var setAutoChange = function() {
-            var is_autoplay = getAutoChangeValue();
-            setAutoChangeValue(is_autoplay);
-            $("#mediaAutoplay").change(function(event) {
-                setAutoChangeValue($(this).is(":checked"));
-            });
-        };
-
         var setPlayList = function (domList) {
+                       
+            var getList = function ($tracksDom) {
+                var mediaLinkList = [];
+                $tracksDom.each(function (index) {
+                    var queries = getUrlQueries(this.href.split('?')[1]);
+                    var $li = $(this).parent();
+                    if (queries) {
+                        mediaLinkList[index] = this.href;
+                        if (window.location.href.indexOf(this.href) > -1) {
+                            $li.addClass("currently-playing");
+                            currentMedia.index = index;
+                            if (index > 0)
+                                currentMedia.player.autoplay(true);
+                            $li.parent().animate({
+                                scrollTop: index * $li.outerHeight() + 1
+                            }, 500);
+                        }
+                    }
+                });
+                return mediaLinkList;
+            };
+            
+            var setTrackNumber = function () {
+                var $trackNum = $(".media-playlist__header__info span");
+                $trackNum.text((currentMedia.index + 1) + '/' + mediaPlayListUrls.length);
+            };
+
+            var setAutoChangeValue = function(isAutoplay){
+                if (typeof(localStorage) !== undefined) {
+                    localStorage.setItem("autoplayPlaylist", isAutoplay);
+                } else {
+                    console.log("Sorry! No Web Storage support..");
+                }
+            };
+
+            var getAutoChangeValue = function(){
+                if (typeof(localStorage) !== undefined && localStorage.autoplayPlaylist !== undefined) {
+                    var out = JSON.parse(localStorage.autoplayPlaylist);
+                    $("#mediaAutoplay").prop("checked", out);
+                    return out;
+                } else {
+                    console.log("Sorry! No Web Storage support..");
+                    return $("#mediaAutoplay").is(":checked");
+                }
+            };
+
+            var setAutoChange = function() {
+                var is_autoplay = getAutoChangeValue();
+                setAutoChangeValue(is_autoplay);
+                $("#mediaAutoplay").change(function(event) {
+                    setAutoChangeValue($(this).is(":checked"));
+                });
+            };
+            
             if (!currentMedia.player) return;
+            
             var $tracksDom = $(domList);
 
             if ($tracksDom.length > 0) {
