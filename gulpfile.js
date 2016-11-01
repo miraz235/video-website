@@ -209,8 +209,8 @@ gulp.task("copy:vendors", function(callback) {
 
 // Copy all files at the root level (src)
 gulp.task("copy", ["copy:vendors", "copy:fonts"], function() {
-    if (!$config["service-worker"])
-        $config.copy.push("!src/service-worker.js");
+    /*if (!$config["service-worker"])
+        $config.copy.push("!src/service-worker.js");*/
     gulp.src($config.copy, { dot: true })
         .pipe($.size({ title: "copy" }))
         .pipe(gulp.dest($config.dist.root));

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Embed</title>
+
+    <!-- Color the status bar on mobile devices -->
+    <meta name="theme-color" content="#0063a6">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet">
+    <link rel="stylesheet" href="vendors/video.js/video-js.min.css" />
+    <link rel="stylesheet" href="vendors/videojs-watermark/videojs-watermark.css" />
+    <link rel="stylesheet" href="css/styles-embed.min.css" />
+
+</head>
+
+<body>
+    <div class="media-player media-wrap media-embed clearfix">
+        <div class="media-player__poster">
+            <img src="resources/audios/posters/cd-blank.jpg" width="100" alt="Audio 8" />
+        </div>
+        <div class="media-player__content">
+            <header>
+                <div class="info-content pull-right">
+                    <p class="m-b-0 text-truncate" title="John Doe">by - <a href="#">John Doe</a></p>
+                </div>
+                <h3 class="media-title text-truncate" title="Audio 8"><a href="podcast-episode-single.html">Audio 8</a></h3>
+            </header>
+            <audio id="audioMediaPlayer" class="video-js vjs-default-skin">
+                <source src="resources/audios/chrono.mp3" type='audio/mp3'/>
+                <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                <p class="vjs-no-js"><a href="resources/audios/chrono.mp3">resources/audios/chrono.mp3</a></p>
+            </audio>
+        </div>
+        <div class="media-info clearfix">
+            <div class="pull-left">
+                <ul class="list-inline">
+                    <li>
+                        <button class="btn btn-default btn-xs">
+                            <i class="glyphicon glyphicon-cloud-download"></i>
+                            Download
+                        </button>
+                    </li>
+                    <li><small class="text-muted">237 Downloads</small></li>
+                </ul>
+            </div>
+            <div class="pull-right">
+                <ul class="list-inline">
+                    <li>
+                        <button class="btn btn-default btn-xs">
+                            <i class="glyphicon glyphicon-share-alt"></i>
+                            Share
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <aside class="media-playlist">
+            <!-- Playlist -->
+            <ol class="media-playlist__tracks">
+                <li>
+                    <a href="audio-embed-playlist.html?id=chrono" class="media-playlist__audio clearfix">
+                        <span class="media-playlist__index">1</span>
+                        <span class="media-playlist__audio__thumb">
+                            <img width="90" src="resources/audios/posters/cd-blank.jpg" alt="Audio 1" />
+                        </span>
+                        <div class="media-playlist__audio__description">
+                            <h4 class="text-truncate">Audio 1</h4>
+                            <span>0:52</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="audio-embed-playlist.html?id=3705" class="media-playlist__audio clearfix">
+                        <span class="media-playlist__index">2</span>
+                        <span class="media-playlist__audio__thumb">
+                            <img width="90" src="resources/audios/posters/cd-blank.jpg" alt="Audio 2" />
+                        </span>
+                        <div class="media-playlist__audio__description">
+                            <h4 class="text-truncate">Audio 2</h4>
+                            <span>0:32</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="audio-embed-playlist.html?id=3706" class="media-playlist__audio clearfix">
+                        <span class="media-playlist__index">3</span>
+                        <span class="media-playlist__audio__thumb">
+                            <img width="90" src="resources/audios/posters/cd-blank.jpg" alt="Audio 3" />
+                        </span>
+                        <div class="media-playlist__audio__description">
+                            <h4 class="text-truncate">Audio 3</h4>
+                            <span>0:46</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="audio-embed-playlist.html?id=3717" class="media-playlist__audio clearfix">
+                        <span class="media-playlist__index">4</span>
+                        <span class="media-playlist__audio__thumb">
+                            <img width="90" src="resources/audios/posters/cd-blank.jpg" alt="Audio 4" />
+                        </span>
+                        <div class="media-playlist__audio__description">
+                            <h4 class="text-truncate">Audio 4</h4>
+                            <span>0:52</span>
+                        </div>
+                    </a>
+                </li>
+            </ol>
+            <!-- Header -->
+            <header class="media-playlist__header">
+                <div>
+                    <h3 class="media-playlist__header__title text-truncate"><a href="video-playlist.html" target="_blank">Audio Podcast 1</a></h3>
+                    <span class="media-playlist__header__info">
+                        <span></span> episodes
+                    </span>
+                </div>
+            </header>
+        </aside>
+    </div>
+
+    <script src="vendors/jquery/jquery.min.js"></script>
+    <script src="vendors/video.js/video.min.js"></script>
+    <script src="vendors/wavesurfer.js/wavesurfer.js"></script>
+    <script src="vendors/videojs-wavesurfer/videojs.wavesurfer.js"></script>
+
+    <script src="js/scripts-embed-demo.js"></script>
+
+    <!-- Built with love using Video Website -->
+</body>
+
+</html>

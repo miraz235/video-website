@@ -25,10 +25,12 @@
             }
         }
     } @else {
-        display: block;
-        +.media-player__content {
-             margin-left: $audio-height + 30;
-            padding: 15px 15px 0 0;
+        @media screen and (min-width: $screen-xs-min) {
+            display: block;
+            +.media-player__content {
+                margin-left: $audio-height + 30;
+                padding: 15px 15px 0 0;
+            }
         }
     }
 }
@@ -39,6 +41,8 @@
             padding: 15px;
         }
     } @else {
-        padding: 15px;
+        @media screen and (min-width: $screen-xs-min) {
+            padding: 15px;
+        }
     }
 }
