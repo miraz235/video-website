@@ -1,6 +1,6 @@
-(function($, videojs) {
+(function($) {
     'use strict';
-    videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
+    /*videojs.options.flash.swf = "../vendors/video.js/video-js.swf";
 
     var isDemo = JSON.parse("true");
 
@@ -221,12 +221,18 @@
             });
 
         }
-    };
+    };*/
 
     $(document).ready(function() {
-        videoSingle.init("videoSingle");
-        videoPlayList.init("videoMediaPlayer");
-        audioPlayers.init();
+        var videoSingle = bloggMedia('video').setMediaPlayer("videoSingle");
+        var videoMediaPlayer = bloggMedia('video').setMediaPlayer("videoMediaPlayer").setPlayList('.media-playlist__tracks li .media-playlist__video');
+        var audioSingle = bloggMedia('audio').setMediaPlayer("audioSingle");
+
+        var audiosInPage = bloggMedia('audio'); 
+        var $audios = $("audio.js-media-audio");
+        $audios.each(function(index) {
+            audiosInPage = audiosInPage.addMediaPlayer(this);
+        });
     });
 
-})(jQuery, videojs);
+})(jQuery);

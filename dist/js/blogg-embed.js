@@ -4,7 +4,7 @@
 
     var embedMedia = function (mediaType) {
         var isDemo = JSON.parse("false");
-        var mediaList = [];
+        var mediaPlayListUrls = [];
         var currentMedia = {
             type: mediaType,
             id: 0,
@@ -12,7 +12,7 @@
             player: null,
             src: '',
             playsCounter: 0,
-            index: 0
+            index: -1
         };
 
         var videoJsPluginOptions = {
@@ -49,15 +49,25 @@
             });
             return out;
         };
+        var getEmbedId = function() {
+            if(currentMedia.type == 'video'){
+                var parts = location.pathname.split('/');
+                return parts[parts.length - 1];
+            } else {
+                var queries = getUrlQueries(document.location.search.substr(1));
+                return queries.id;
+            }
+        };
 
         var setMediaId = function () {
-            mediaList = [];
-            mediaList.push(window.location.href);
+            mediaPlayListUrls = [];
+            mediaPlayListUrls.push(window.location.href);
+            currentMedia.index = 0;
             if (isDemo) {
                 var queries = getUrlQueries(document.location.search.substr(1));
                 currentMedia.id = currentMedia.type == 'video' ? queries.v : queries.id;
             } else {
-                currentMedia.id = getEmbedVideoId();
+                currentMedia.id = getEmbedId();
             }
         };
 
@@ -129,7 +139,7 @@
         };
         var onMediaEndEvent = function () {
             var waitTime = 1500;
-            var nextMedia = mediaList[currentMedia.index + 1];
+            var nextMedia = mediaPlayListUrls[currentMedia.index + 1];
             if (nextMedia) {
                 setTimeout(function () {
                     window.location.href = nextMedia;
@@ -159,7 +169,7 @@
 
         var setTrackNumber = function () {
             var $trackNum = $(".media-playlist__header__info span");
-            $trackNum.text((currentMedia.index + 1) + '/' + mediaList.length);
+            $trackNum.text((currentMedia.index + 1) + '/' + mediaPlayListUrls.length);
         };
 
         var setPlaylistDrawer = function () {
@@ -207,7 +217,7 @@
             var $tracksDom = $(domList);
 
             if ($tracksDom.length > 0) {
-                mediaList = getList($tracksDom);
+                mediaPlayListUrls = getList($tracksDom);
                 if (currentMedia.type == 'video') {
                     setPlaylistDrawer();
                 }
