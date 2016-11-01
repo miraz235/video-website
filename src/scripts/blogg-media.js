@@ -160,6 +160,24 @@
             mediaPlayerList.push(player);
             return this;
         };
+        
+        var totalPlayers = function(){
+            return mediaPlayerList.length;
+        };
+        
+        var remove = function(player){
+            player.dispose();
+        };
+        
+        var removePlayer = function(id){
+            if(!id && currentMedia.player){
+                id = currentMedia.player.id();
+            }
+            for(var i=0; i < totalPlayers(); i++){
+                if(id=='all' || id == mediaPlayerList[i].id())
+                    remove(mediaPlayerList[i]);
+            }
+        };
 
         var setMediaPlayer = function (domId, setup) {
             if (!(domId && $("#" + domId).length)) {
@@ -250,7 +268,9 @@
             createPlayer: createPlayer,
             setMediaPlayer: setMediaPlayer,
             setPlayList: setPlayList,
-            addMediaPlayer: addMediaPlayer
+            addMediaPlayer: addMediaPlayer,
+            totalPlayers: totalPlayers,
+            removePlayer: removePlayer
         };
     };
     window.bloggMedia = bloggMedia || {};
