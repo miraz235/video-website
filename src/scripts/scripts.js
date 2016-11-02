@@ -11,7 +11,6 @@
         $audios.each(function(index) {
             audiosInPage.addMediaPlayer(this);
         });
-        console.log(audiosInPage.totalPlayers())
     });
 
 })(jQuery);

@@ -99,10 +99,11 @@
             }
             currentMedia.playsCounter++;
             if (currentMedia.playsCounter === 1) {
-                var mediaId = $(event.target.id).attr("data-"+currentMedia.type+"-id");
+                var $targetDom = $('#'+event.target.id);
+                var mediaId = $targetDom.attr("data-"+currentMedia.type+"-id");
                 if (mediaId) {
                     currentMedia.id = mediaId;
-                    $(event.target.id).attr("data-"+currentMedia.type+"-id", '');
+                    $targetDom.attr("data-"+currentMedia.type+"-id", '');
                 }
                 if(currentMedia.id)
                     playsAPICall("", currentMedia.id, currentMedia.type);
