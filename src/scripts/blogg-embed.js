@@ -50,12 +50,12 @@
             return out;
         };
         var getEmbedId = function() {
-            if(currentMedia.type == 'video'){
+            if(!isDemo){
                 var parts = location.pathname.split('/');
                 return parts[parts.length - 1];
             } else {
                 var queries = getUrlQueries(document.location.search.substr(1));
-                return queries.id;
+                return currentMedia.type == 'video' ? queries.v : queries.id;
             }
         };
 
@@ -63,12 +63,7 @@
             mediaPlayListUrls = [];
             mediaPlayListUrls.push(window.location.href);
             currentMedia.index = 0;
-            if (isDemo) {
-                var queries = getUrlQueries(document.location.search.substr(1));
-                currentMedia.id = currentMedia.type == 'video' ? queries.v : queries.id;
-            } else {
-                currentMedia.id = getEmbedId();
-            }
+            currentMedia.id = getEmbedId();
         };
 
         var getDefaultSetup = function () {
@@ -99,6 +94,20 @@
 
             return player;
         };
+        
+        var getSrc = function($player){
+            $player[0].pause();
+            var src = null;
+            var source = $player.find("source");
+
+            if (source.length) {
+                src = source.attr("src");
+                source.remove();
+            }
+            $player[0].load();
+            return src;
+        };
+
         var setMediaPlayer = function (domId, setup) {
             if (!(domId && $("#" + domId).length)) {
                 console.log('Not found');
@@ -106,8 +115,10 @@
             }
             setMediaId();
             var defaultSetup = getDefaultSetup();
+            var srcPl = getSrc($("#" + domId));
 
             currentMedia.settings = $.extend({}, defaultSetup, setup);
+            
             var callback = function () {
                 switch (currentMedia.type) {
                     case 'video':
@@ -115,16 +126,24 @@
                             this.src([{ type: "video/mp4", src: "resources/videos/" + currentMedia.id + ".mp4" }]);
                             this.poster('resources/videos/posters/' + currentMedia.id + '.jpg');
                         }
+                        else if(srcPl){
+                            this.src([{ type: "video/mp4", src: srcPl }]);
+                        }
                         this.watermark(videoJsPluginOptions.watermark);
                         break;
                     case 'audio':
                         if (isDemo && currentMedia.id) {
                             this.src([{ type: "audio/mp3", src: "resources/audios/" + currentMedia.id + ".mp3" }]);
+                            videoJsPluginOptions.wavesurfer.src = this.src();
                         }
-                        videoJsPluginOptions.wavesurfer.src = this.src();
-                        this.wavesurfer(videoJsPluginOptions.wavesurfer);
+                        else if(srcPl){
+                            videoJsPluginOptions.wavesurfer.src = srcPl;
+                            this.wavesurfer(videoJsPluginOptions.wavesurfer);
+                        }
+                        
                 }
             }
+
             currentMedia.player = createPlayer(domId, currentMedia.settings, callback);
             currentMedia.playsCounter = 0;
 
