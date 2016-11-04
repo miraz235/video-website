@@ -91,11 +91,11 @@
     }
 
     &.media-error--video:after{
-        background-image: url(../resources/img/no-video.gif);
+        background-image: url(http://static.blogg.no/blogs/image/no-video.gif);
         opacity: .15;
     }
     &.media-error--audio:after{
-        background-image: url(../resources/img/star-move.png);
+        background-image: url(http://static.blogg.no/blogs/image/star-move.png);
     }
 
 }
