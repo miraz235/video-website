@@ -133,15 +133,15 @@
                         break;
                     case 'audio':
                         if (isDemo && currentMedia.id) {
-                            this.src([{ type: "audio/mp3", src: "resources/audios/" + currentMedia.id + ".mp3" }]);
-                            videoJsPluginOptions.wavesurfer.src = this.src();
+                            videoJsPluginOptions.wavesurfer.src = "resources/audios/" + currentMedia.id + ".mp3";
+                            this.wavesurfer(videoJsPluginOptions.wavesurfer);
                         }
                         else if(srcPl){
                             videoJsPluginOptions.wavesurfer.src = srcPl;
                             this.wavesurfer(videoJsPluginOptions.wavesurfer);
                         }
                         
-                }
+                };
             }
 
             currentMedia.player = createPlayer(domId, currentMedia.settings, callback);

@@ -150,7 +150,7 @@
                 console.log('No Player');
                 return this;
             }
-            var srcPl = getSrc($elem);
+            var srcPl = getSrc($($elem));
             var callbackDefault = function () {
                 switch (currentMedia.type) {
                     case 'video':
@@ -164,8 +164,7 @@
                             break;
                     case 'audio':
                             if (isDemo && currentMedia.id) {
-                                this.src([{ type: "audio/mp3", src: "resources/audios/" + currentMedia.id + ".mp3" }]);
-                                videoJsPluginOptions.wavesurfer.src = this.src();
+                                videoJsPluginOptions.wavesurfer.src = "resources/audios/" + currentMedia.id + ".mp3";
                             } else if(srcPl) {
                                 videoJsPluginOptions.wavesurfer.src = srcPl;
                             }

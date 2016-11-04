@@ -130,25 +130,47 @@
             return player;
         };
         
-        var callbackDefault = function () {
-            switch (currentMedia.type) {
-                case 'video':
-                        if (isDemo && currentMedia.id) {
-                            this.src([{ type: "video/mp4", src: "resources/videos/" + currentMedia.id + ".mp4" }]);
-                            this.poster('resources/videos/posters/' + currentMedia.id + '.jpg');
-                        }
-                        this.watermark(videoJsPluginOptions.watermark);
-                        break;
-                case 'audio':
-                        if (isDemo && currentMedia.id) {
-                            this.src([{ type: "audio/mp3", src: "resources/audios/" + currentMedia.id + ".mp3" }]);
-                        }
-                        videoJsPluginOptions.wavesurfer.src = this.src();
-                        this.wavesurfer(videoJsPluginOptions.wavesurfer);
+        
+        
+        var getSrc = function($player){
+            $player[0].pause();
+            var src = null;
+            var source = $player.find("source");
+
+            if (source.length) {
+                src = source.attr("src");
+                source.remove();
             }
+            $player[0].load();
+            return src;
         };
 
         var addMediaPlayer = function($elem, setup, callback){
+            if(!$elem){
+                console.log('No Player');
+                return this;
+            }
+            var srcPl = getSrc($($elem));
+            var callbackDefault = function () {
+                switch (currentMedia.type) {
+                    case 'video':
+                            if (isDemo && currentMedia.id) {
+                                this.src([{ type: "video/mp4", src: "resources/videos/" + currentMedia.id + ".mp4" }]);
+                                this.poster('resources/videos/posters/' + currentMedia.id + '.jpg');
+                            } else {
+                                this.src([{ type: "video/mp4", src: srcPl }]);
+                            }
+                            this.watermark(videoJsPluginOptions.watermark);
+                            break;
+                    case 'audio':
+                            if (isDemo && currentMedia.id) {
+                                videoJsPluginOptions.wavesurfer.src = "resources/audios/" + currentMedia.id + ".mp3";
+                            } else if(srcPl) {
+                                videoJsPluginOptions.wavesurfer.src = srcPl;
+                            }
+                            this.wavesurfer(videoJsPluginOptions.wavesurfer);
+                }
+            };
             if(!currentMedia.settings){
                 var defaultSetup = getDefaultSetup();
                 setup = $.extend({}, defaultSetup, setup);
