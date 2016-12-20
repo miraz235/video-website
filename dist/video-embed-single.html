@@ -11,9 +11,12 @@
     <!-- Color the status bar on mobile devices -->
     <meta name="theme-color" content="#0063a6">
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet">
-    <link rel="stylesheet" href="vendors/video.js/video-js.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet" />
+    <link rel="stylesheet" href="http://vjs.zencdn.net/5.8.8/video-js.css" />
     <link rel="stylesheet" href="vendors/videojs-watermark/videojs-watermark.css" />
+    <link rel="stylesheet" href="vendors/videojs-ima/videojs.ima.css" />
+    <link rel="stylesheet" href="vendors/videojs-contrib-ads/videojs.ads.css" />
+    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="css/styles-embed.min.css" />
 
 </head>
@@ -28,15 +31,29 @@
             </p>
         </video>
     </div>
-    <script src="vendors/jquery/jquery.min.js"></script>
-    <script src="vendors/video.js/video.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
     <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script>
+    <script src="vendors/videojs-ima/videojs.ima.js"></script>
+    <script src="vendors/videojs-contrib-ads/videojs.ads.js"></script>
+    <script src="vendors/videojs5-hlsjs-source-handler/videojs5-hlsjs-source-handler.min.js"></script>
+    <script src="vendors/videojs-quality-picker/vjs-quality-picker.min.js"></script>
 
     <script src="js/blogg-embed-demo.js"></script>
 
     <script>
-        jQuery(function () {
-            var videoSingle = embedMedia('video').setMediaPlayer("videoSingle");
+        jQuery(function() {
+            var videoSingle = embedMedia('video').setMediaPlayer("#videoSingle").setPlugins({
+                ima: {
+                    adTagUrl: 'http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&' +
+                        'iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&' +
+                        'impl=s&gdfp_req=1&env=vp&output=xml_vmap1&unviewed_position_start=1&' +
+                        'cust_params=sample_ar%3Dpremidpostpod%26deployment%3Dgmf-js&cmsid=496&' +
+                        'vid=short_onecue&correlator='
+                }
+            });
         });
     </script>
     <!-- Built with love using Video Website -->

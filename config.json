@@ -40,14 +40,23 @@
         }
     },
     "clean": [".tmp", "dist"],
-    "copy": ["src/**",
+    "copy": ["src/**/*",
         "!src/htmls{,/**}",
         "!src/styles{,/**}",
         "!src/scripts{,/**}",
         "!src/vendors{,/**}",
         "!src/templates{,/**}"
     ],
-    "vendors-active": ["bootstrap", "jquery", "video.js", "wavesurfer.js", "videojs-wavesurfer", "videojs-watermark"],
+    "vendors-active": [
+        "bootstrap",
+        "wavesurfer.js",
+        "videojs-wavesurfer",
+        "videojs-watermark",
+        "videojs-ima",
+        "videojs-contrib-ads",
+        "videojs5-hlsjs-source-handler",
+        "videojs-quality-picker"
+    ],
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",
     "tmp": {
         "root": ".tmp",
@@ -65,7 +74,8 @@
         "htmls": ["src/htmls/**/*.html"],
         "styles": [
             "src/styles/*.scss",
-            "src/styles/**/*.css"
+            "src/styles/**/*.css",
+            "!src/styles/bootstrap.scss"
         ],
         "scripts": [
             "!src/scripts/sw",
@@ -93,7 +103,11 @@
             "videojs-playlist": ["src/vendors/videojs-playlist/**"],
             "wavesurfer.js": ["src/vendors/wavesurfer.js/*.js"],
             "videojs-wavesurfer": ["src/vendors/videojs-wavesurfer/videojs.wavesurfer.js"],
-            "videojs-watermark": ["src/vendors/videojs-watermark/*"]
+            "videojs-watermark": ["src/vendors/videojs-watermark/*"],
+            "videojs-ima": ["src/vendors/videojs-ima/*"],
+            "videojs-contrib-ads": ["src/vendors/videojs-contrib-ads/*"],
+            "videojs5-hlsjs-source-handler": ["src/vendors/videojs5-hlsjs-source-handler/*"],
+            "videojs-quality-picker": ["src/vendors/videojs-quality-picker/*"]
         },
         "images": ["src/images/**/*.{jpeg, jpg, png, gif, svg}"],
         "sw": "src/scripts/sw/runtime-caching.js"

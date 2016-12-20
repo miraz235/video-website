@@ -1,18 +1,18 @@
 header[role="banner"] {
-    background: $brand-primary;
-    height: $header-height;
-    width: 100%;
-    color: $color-white;
-    a {
-        color: $color-white;
+    .navbar {
+        border-radius: 0;
+    }
+    .navbar-brand {
+        img {
+            margin: -20px 0 0 -20px;
+        }
     }
 }
 
 #content[role="main"] {
     >.container {
-        margin: ($navbar-height*(-1) - 2) auto 0;
         padding: 0;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
         background-color: $color-white;
         >.navbar {
             border-radius: 0;
@@ -28,16 +28,4 @@ header[role="banner"] {
 footer[role="contentinfo"] {
     margin: 40px 0 0 0;
     padding: 0 0 40px 0;
-}
-
-.container {
-    >h2,
-    >h1 {
-        margin-top: 50px;
-    }
-    >h1 {
-        padding-bottom: 9.5px;
-        margin: 42px 0 21px;
-        border-bottom: 1px solid $brand-primary-light;
-    }
 }

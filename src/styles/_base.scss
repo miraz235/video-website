@@ -1,0 +1,27 @@
+body {
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    color: $text-color;
+    background-color: $body-bg;
+}
+
+.container {
+    >h2,
+    >h1 {
+        margin-top: 50px;
+    }
+    >h1 {
+        padding-bottom: 9.5px;
+        margin: 42px 0 21px;
+        border-bottom: 1px solid $brand-primary-light;
+    }
+}
+
+.jumbotron {
+    h1,
+    .h1 {
+        font-weight: 300;
+        margin-top: 0;
+    }
+}

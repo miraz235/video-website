@@ -11,20 +11,56 @@
     <!-- Color the status bar on mobile devices -->
     <meta name="theme-color" content="#0063a6">
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet">
-    <link rel="stylesheet" href="vendors/video.js/video-js.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+    <link rel="stylesheet" href="http://vjs.zencdn.net/5.8.8/video-js.css" />
     <link rel="stylesheet" href="vendors/videojs-watermark/videojs-watermark.css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/styles.min.css" />
 
 </head>
 
 <body>
     <header role="banner">
-        <div class="container text-center">
-            <a href="index.html" rel="home">
-                <h1>Audio Podcast</h1>
-            </a>
+        <nav class="navbar navbar-default">
+            <div class="navbar-header w-full">
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="https://lh3.googleusercontent.com/6UY3OlO6NHZOBIIaoxj20xzlfNG2F8BrvCTenoV-KDS_3NIz-d7sh_1BNluupKiawA=w60">
+                </a>
+                <div class="navbar-brand w-md text-right">
+                    <a href="index.html" rel="home">
+                        Audio Podcast
+                    </a>
+                </div>
+                <ul class="nav navbar-nav pull-right m-r-0">
+                    <li class="dropdown">
+                        <a href="#collapseProfile" class="dropdown-toggle" data-toggle="collapse" role="button" aria-controls="collapseProfile" aria-expanded="false">
+                            <img src="http://lorempixel.com/output/people-q-c-24-24-1.jpg" width="24" height="24" alt="Bhaumik Patel" class="img-circle v-mid" /> Bhaumik Patel <span class="caret"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container p-b p-l-0 p-r-0 collapse" id="collapseProfile">
+            <div class="jumbotron m-b-0">
+                <div class="row">
+                    <div class="col-sm-6 col-md-4 col-sm-push-6 col-md-push-8 text-center">
+                        <img src="http://lorempixel.com/output/people-q-c-300-300-1.jpg" alt="Bhaumik Patel" class="img-thumbnail w-full m-b" />
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-sm-pull-6 col-md-pull-4">
+                        <h1>
+                            Bhaumik Patel</h1>
+                        <p><cite title="San Francisco, USA">San Francisco, USA <i class="glyphicon glyphicon-map-marker">
+                        </i></cite></p>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
+                            specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
+                        <div>
+                            <hr/>
+                            <p><i class="glyphicon glyphicon-envelope v-mid"></i> <a href="mailto:email@example.com">email@example.com</a></p>
+                            <p><i class="glyphicon glyphicon-globe v-mid"></i> <a href="http://supankar.bloggdev.no">supankar.bloggdev.no</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
     <main id="content" class="main-container" role="main">
@@ -218,12 +254,13 @@
             <span>&copy; 2016</span>
         </div>
     </footer>
-    <script src="vendors/jquery/jquery.min.js"></script>
-    <script src="vendors/bootstrap/javascripts/bootstrap.min.js"></script>
-    <script src="vendors/video.js/video.min.js"></script>
-    <script src="vendors/wavesurfer.js/wavesurfer.min.js"></script>
-    <script src="vendors/videojs-wavesurfer/videojs.wavesurfer.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.0.52/wavesurfer.min.js"></script>
+    <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
     <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script>
+    <script src="vendors/videojs-wavesurfer/videojs.wavesurfer.js"></script>
 
     <script src="js/blogg-media-demo.js"></script>
     <script src="js/scripts-demo.js"></script>
