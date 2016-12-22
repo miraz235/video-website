@@ -284,7 +284,19 @@
     <script src="vendors/videojs-contrib-dash/videojs-dash.min.js"></script>
 
     <script src="js/blogg-media-demo.js"></script>
-    <script src="js/scripts-demo.js"></script>
+    <script>
+        (function($) {
+            $(document).ready(function() {
+                // Audio
+                var audiosInPage = bloggMedia('audio');
+                var $audios = $("audio.js-media-audio");
+                $audios.each(function(index) {
+                    audiosInPage.addMediaPlayer(this);
+                });
+            });
+        })(jQuery);
+    </script>
+    <script src="js/scripts.js"></script>
 
     <!-- Built with love using Video Website -->
 </body>

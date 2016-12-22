@@ -354,11 +354,19 @@
     <script src="vendors/videojs-contrib-ads/videojs.ads.js"></script>
     <script src="vendors/videojs-contrib-dash/videojs-dash.min.js"></script>
     <script src="js/blogg-media-demo.js"></script>
-    <script src="js/scripts-demo.js"></script>
     <script>
         (function($) {
             $(document).ready(function() {
-
+                // Video
+                var videoMediaPlayer = bloggMedia('video').setMediaPlayer("#videoMediaPlayer", {
+                    html5: {
+                        hlsjsConfig: {
+                            autoStartLoad: true,
+                            debug: true
+                        }
+                    }
+                }).setPlayList('.media-playlist__tracks li .media-playlist__video');
+                // Share
                 $('#inputEmbedScript, #inputEmbedIframe').on('focus', function() {
                     var $this = $(this);
                     window.setTimeout(function() {
@@ -386,6 +394,7 @@
             });
         })(jQuery);
     </script>
+    <script src="js/scripts.js"></script>
 
     <!-- Built with love using Video Website -->
 </body>
