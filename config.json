@@ -30,7 +30,7 @@
                 "dev": "http://static.blogg.no/video/vendors/video.js/video-js.swf"
             },
             "__video-watermark-path__": {
-                "demo": "resources/img/NA_negativ_small.png",
+                "demo": "resources/img/imgpsh_fullsize.png",
                 "dev": "http://static.blogg.no/blogs/image/NA_negativ_small.png"
             },
             "__is-demo__": {
@@ -54,8 +54,7 @@
         "videojs-watermark",
         "videojs-ima",
         "videojs-contrib-ads",
-        "videojs5-hlsjs-source-handler",
-        "videojs-quality-picker"
+        "videojs-contrib-dash"
     ],
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",
     "tmp": {
@@ -106,6 +105,7 @@
             "videojs-watermark": ["src/vendors/videojs-watermark/*"],
             "videojs-ima": ["src/vendors/videojs-ima/*"],
             "videojs-contrib-ads": ["src/vendors/videojs-contrib-ads/*"],
+            "videojs-contrib-dash": ["src/vendors/videojs-contrib-dash/*"],
             "videojs5-hlsjs-source-handler": ["src/vendors/videojs5-hlsjs-source-handler/*"],
             "videojs-quality-picker": ["src/vendors/videojs-quality-picker/*"]
         },

@@ -116,7 +116,7 @@ gulp.task("scripts", ["scripts:tmp"], function(callback) {
         .pipe(gulp.dest($distName + $config.dist.scripts));
 });
 
-gulp.task("styles", ["lint:styles"], function() {
+gulp.task("styles", [], function() {
     var processors = [
         require('postcss-csssimple'), // fix common browser bugs
         require('autoprefixer')({ browsers: $config.browsers }), // add vendor prefixes

@@ -327,3 +327,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.bg-img {
+    background-color: #eee;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}

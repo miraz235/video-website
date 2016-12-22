@@ -22,14 +22,18 @@
 </head>
 
 <body>
-    <div class="media-wrap media-embed ">
-        <video id="videoMediaPlayer" class="video-js vjs-default-skin vjs-big-play-centered embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png">
+    <div class="media-wrap media-embed">
+        <video id="videoMediaPlayer" class="video-js vjs-bloggmedia-skin vjs-big-play-centered vjs-16-9 embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png">
             <source src="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-demo.webm" type='video/webm' /> 
             <p class="vjs-no-js">
                 To view this video please enable JavaScript, and consider upgrading to a web browser
                 that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
             </p>
         </video>
+        <header class="media-playlist__header">
+            <a title="Open" href="#" class="media-playlist__icon"><span class="vjs-icon-share"></span></a>
+            <h3 class="media-playlist__header__title text-truncate"><a href="video-playlist.html" target="_blank">Video Playlist 1</a></h3>
+        </header>
         <aside class="media-playlist drawer">
             <!-- Header -->
             <header class="media-playlist__header">
@@ -97,12 +101,12 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js"></script>
     <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
     <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script>
     <script src="vendors/videojs-ima/videojs.ima.js"></script>
     <script src="vendors/videojs-contrib-ads/videojs.ads.js"></script>
-    <script src="vendors/videojs5-hlsjs-source-handler/videojs5-hlsjs-source-handler.min.js"></script>
-    <script src="vendors/videojs-quality-picker/vjs-quality-picker.min.js"></script>
+    <script src="vendors/videojs-contrib-dash/videojs-dash.min.js"></script>
 
     <script src="js/blogg-embed-demo.js"></script>
 

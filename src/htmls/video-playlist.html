@@ -27,20 +27,20 @@
         <nav class="navbar navbar-default">
             <div class="navbar-header w-full">
                 <a class="navbar-brand" href="#">
-                    <img alt="Brand" src="https://lh3.googleusercontent.com/6UY3OlO6NHZOBIIaoxj20xzlfNG2F8BrvCTenoV-KDS_3NIz-d7sh_1BNluupKiawA=w60">
+                    <img alt="Brand" src="http://blogsoft.no/lib/img/logo2.png">
                 </a>
-                <div class="navbar-brand w-md text-right">
+                <ul class="nav navbar-nav pull-right m-r-0">
+                    <li class="dropdown">
+                        <a href="#collapseProfile" class="dropdown-toggle" data-toggle="collapse" role="button" aria-controls="collapseProfile" aria-expanded="false">
+                            <img src="images/blank.gif" width="24" height="24" alt="Bhaumik Patel" class="img-circle v-mid bg-img" style="background-image:url(http://lorempixel.com/output/people-q-c-24-24-1.jpg)" /> Bhaumik Patel <span class="caret"></span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="navbar-brand brand text-center">
                     <a href="index.html" rel="home">
                         Video Page
                     </a>
                 </div>
-                <ul class="nav navbar-nav pull-right m-r-0">
-                    <li class="dropdown">
-                        <a href="#collapseProfile" class="dropdown-toggle" data-toggle="collapse" role="button" aria-controls="collapseProfile" aria-expanded="false">
-                            <img src="http://lorempixel.com/output/people-q-c-24-24-1.jpg" width="24" height="24" alt="Bhaumik Patel" class="img-circle v-mid" /> Bhaumik Patel <span class="caret"></span>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </nav>
         <div class="container p-b p-l-0 p-r-0 collapse" id="collapseProfile">
@@ -73,7 +73,7 @@
                     <div class="media-wrap media-video">
                         <!-- Main Video -->
                         <div class="media-player">
-                            <video id="videoMediaPlayer" class="video-js vjs-default-skin vjs-big-play-centered" width="640" height="360" poster="resources/videos/posters/glacier.jpg">
+                            <video id="videoMediaPlayer" class="video-js vjs-bloggmedia-skin vjs-big-play-centered" poster="resources/videos/posters/glacier.jpg">
                                 <source src="resources/videos/glacier.mp4" type="video/mp4">
                                 <p class="vjs-no-js">
                                     To view this video please enable JavaScript, and consider upgrading to a web browser
@@ -347,12 +347,12 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js"></script>
     <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
     <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script>
     <script src="vendors/videojs-ima/videojs.ima.js"></script>
     <script src="vendors/videojs-contrib-ads/videojs.ads.js"></script>
-    <script src="vendors/videojs5-hlsjs-source-handler/videojs5-hlsjs-source-handler.min.js"></script>
-    <script src="vendors/videojs-quality-picker/vjs-quality-picker.min.js"></script>
+    <script src="vendors/videojs-contrib-dash/videojs-dash.min.js"></script>
     <script src="js/blogg-media-demo.js"></script>
     <script src="js/scripts-demo.js"></script>
     <script>

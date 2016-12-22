@@ -1,73 +1,31 @@
 (function($, videojs, window) {
     'use strict';
-    videojs.options.flash.swf = "@@__video-swf-path__";
 
     var bloggMedia = function(mediaType) {
-        var isDemo = JSON.parse("@@__is-demo__"),
+        var _startEvent = 'click';
+        if (navigator.userAgent.match(/iPhone/i) ||
+            navigator.userAgent.match(/iPad/i) ||
+            navigator.userAgent.match(/Android/i)) {
+            _startEvent = 'touchend';
+        }
+        var _isDemo = JSON.parse("@@__is-demo__"),
 
-            mediaPlayListUrls = [],
-            mediaPlayerList = [],
+            _mediaPlayListUrls = [],
+            _mediaPlayerList = [],
 
-            currentMedia = {
+            _currentMedia = {
                 type: mediaType,
                 id: 0,
                 settings: null,
                 player: null,
+                plugins: null,
                 src: '',
                 playsCounter: 0,
                 index: -1
             },
+            _idSelector = '#embedMedia';
 
-            videoJsPluginOptions = {
-                watermark: {
-                    url: 'http://blogg.no',
-                    image: '@@__video-watermark-path__',
-                    fadeTime: 1000
-                },
-                wavesurfer: {
-                    msDisplayMax: 10,
-                    debug: isDemo,
-                    waveColor: 'grey',
-                    progressColor: '#0092f5',
-                    cursorColor: 'white',
-                    hideScrollbar: true
-                }
-            };
-
-        var playsAPICall = function(blogId, mediaId, mediaType) {
-            if (isDemo) return 0;
-            $.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo&callback=?", {
-                blogId: blogId,
-                mediaId: mediaId,
-                mediaType: mediaType
-            }).done(function(msg) {
-                console.log(msg);
-            });
-        };
-
-        var getUrlQueries = function(queryStr) {
-            var out = {};
-            $.each(queryStr.split('&'), function(key, value) {
-                var i = value.split('=');
-                if (i.length == 2)
-                    out[i[0].toString()] = i[1].toString();
-            });
-            return out;
-        };
-
-        var setMediaId = function() {
-            mediaPlayListUrls = [];
-            mediaPlayListUrls.push(window.location.href);
-            currentMedia.index = 0;
-            /*if (isDemo) {*/
-            var queries = getUrlQueries(document.location.search.substr(1));
-            currentMedia.id = currentMedia.type == 'video' ? queries.v : queries.id;
-            /*} else {
-                currentMedia.id = getEmbedVideoId();
-            }*/
-        };
-
-        var getDefaultSetup = function() {
+        var _getDefaultSetup = function() {
             var defaultOpt = {
                 controls: true,
                 autoplay: false,
@@ -78,7 +36,7 @@
                 }
             };
 
-            switch (currentMedia.type) {
+            switch (_currentMedia.type) {
                 case 'audio':
                     defaultOpt.height = 100;
                     defaultOpt.controlBar.fullscreenToggle = false;
@@ -87,209 +45,331 @@
             return defaultOpt;
         };
 
+        var _getPluginDefaultOptions = function() {
+            var vjPlgOpt = {
+                watermark: {
+                    position: 'bottom-right',
+                    url: 'http://blogg.no',
+                    image: '@@__video-watermark-path__',
+                    fadeTime: null
+                },
+                wavesurfer: {
+                    msDisplayMax: 10,
+                    debug: _isDemo,
+                    waveColor: 'grey',
+                    progressColor: '#e22190',
+                    cursorColor: 'white',
+                    hideScrollbar: true
+                },
+                ima: {
+                    id: typeof _idSelector == 'string' ? _idSelector.replace('#', '') : _idSelector,
+                    adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator='
+                }
+            };
+            var selectedPlugins = {},
+                plg = {
+                    video: ["watermark", "ima"],
+                    audio: ["wavesurfer"]
+                };
+            for (var idx in plg[_currentMedia.type]) {
+                var plugin = plg[_currentMedia.type][idx];
+                selectedPlugins[plugin] = vjPlgOpt[plugin];
+            }
+
+            return selectedPlugins;
+        };
+
+        var _playsAPICall = function(blogId, mediaId, mediaType) {
+            if (_isDemo) return 0;
+            $.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo&callback=?", {
+                blogId: blogId,
+                mediaId: mediaId,
+                mediaType: mediaType
+            }).done(function(msg) {
+                console.log(msg);
+            });
+        };
+
+        var _getUrlQueries = function(queryStr) {
+            var out = {};
+            $.each(queryStr.split('&'), function(key, value) {
+                var i = value.split('=');
+                if (i.length == 2)
+                    out[i[0].toString()] = i[1].toString();
+            });
+            return out;
+        };
+
+        var _setMediaId = function() {
+            _mediaPlayListUrls = [];
+            _mediaPlayListUrls.push(window.location.href);
+            _currentMedia.index = 0;
+            var queries = _getUrlQueries(document.location.search.substr(1));
+            _currentMedia.id = _currentMedia.type == 'video' ? queries.v : queries.id;
+        };
+
+        var _runPlugin = function() {
+            for (var plugin in _currentMedia.plugins) {
+                _currentMedia.player[plugin](_currentMedia.plugins[plugin]);
+                switch (plugin) {
+                    case 'ima':
+                        _currentMedia.player.one(_startEvent, function() {
+                            _currentMedia.player.ima.initializeAdDisplayContainer();
+                            _currentMedia.player.ima.requestAds();
+                            _currentMedia.player.play();
+                        });
+                        break;
+                }
+            }
+        };
+
+        var _getSrc = function($player) {
+            var src = null;
+            var source = $player.find("source");
+
+            if (source.length) {
+                src = source.attr("src");
+                if (_currentMedia.type == 'audio') {
+                    $player[0].pause();
+                    source.remove();
+                }
+            }
+            if (_currentMedia.type == 'audio')
+                $player[0].load();
+            return src;
+        };
+
+        var createPlayer = function(element, setup, callback) {
+            var defaultSetup = _getDefaultSetup();
+            _idSelector = element || _idSelector;
+            _currentMedia.settings = $.extend({}, defaultSetup, setup);
+            if (!_currentMedia.plugins)
+                _currentMedia.plugins = _getPluginDefaultOptions();
+
+            var srcPl = _getSrc($(_idSelector));
+            var playerCallback = function() {
+                switch (_currentMedia.type) {
+                    case 'video':
+                        if (_isDemo && _currentMedia.id) {
+                            this.src([{ type: "video/mp4", src: "resources/videos/" + _currentMedia.id + ".mp4" }]);
+                            this.poster('resources/videos/posters/' + _currentMedia.id + '.jpg');
+                        }
+                        break;
+                    case 'audio':
+                        if (_isDemo && _currentMedia.id) {
+                            _currentMedia.plugins.wavesurfer.src = "resources/audios/" + _currentMedia.id + ".mp3";
+                        } else if (srcPl) {
+                            _currentMedia.plugins.wavesurfer.src = srcPl;
+                        }
+
+                };
+                if (callback) callback();
+                _runPlugin();
+            }
+
+            var player = videojs(_idSelector, _currentMedia.settings, playerCallback);
+            player.on('play', $.proxy(onMediaPlayEvent, this));
+            player.on('ended', $.proxy(onMediaEndEvent, this));
+
+            _currentMedia.player = player;
+
+            return player;
+        };
+
         var onMediaPlayEvent = function(event) {
-            for (var i = 0; i < mediaPlayerList.length; i++) {
-                if (mediaPlayerList[i].id() != event.target.id) {
-                    if (!mediaPlayerList[i].paused()) {
-                        mediaPlayerList[i].pause();
-                        mediaPlayerList[i].currentTime(0);
-                        currentMedia.playsCounter = 0;
+            for (var i = 0; i < _mediaPlayerList.length; i++) {
+                if (_mediaPlayerList[i].id() != event.target.id) {
+                    if (!_mediaPlayerList[i].paused()) {
+                        _mediaPlayerList[i].pause();
+                        _mediaPlayerList[i].currentTime(0);
+                        _currentMedia.playsCounter = 0;
                     }
                 }
             }
-            currentMedia.playsCounter++;
-            if (currentMedia.playsCounter === 1) {
+            _currentMedia.playsCounter++;
+            if (_currentMedia.playsCounter === 1) {
                 var $targetDom = $('#' + event.target.id);
-                var mediaId = $targetDom.attr("data-" + currentMedia.type + "-id");
+                var mediaId = $targetDom.attr("data-" + _currentMedia.type + "-id");
                 if (mediaId) {
-                    currentMedia.id = mediaId;
-                    $targetDom.attr("data-" + currentMedia.type + "-id", '');
+                    _currentMedia.id = mediaId;
+                    $targetDom.attr("data-" + _currentMedia.type + "-id", '');
                 }
-                if (currentMedia.id)
-                    playsAPICall("", currentMedia.id, currentMedia.type);
-                currentMedia.player = this;
+                if (_currentMedia.id)
+                    _playsAPICall("", _currentMedia.id, _currentMedia.type);
+                _currentMedia.player = this;
             }
         };
 
         var onMediaEndEvent = function() {
             var waitTime = 1500,
-                nextMedia = mediaPlayListUrls[currentMedia.index + 1];
-            if (nextMedia && ((currentMedia.type == 'video' && getAutoChangeValue()) || currentMedia.type != 'video')) {
+                nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
+            if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type != 'video')) {
                 setTimeout(function() {
                     window.location.href = nextMedia;
                 }, waitTime);
             }
         };
 
-        var createPlayer = function($element, setup, callback) {
-            var player = videojs($element, setup, callback);
-
-            player.on('play', onMediaPlayEvent);
-            player.on('ended', onMediaEndEvent);
-
-            return player;
-        };
-
-
-
-        var getSrc = function($player) {
-            $player[0].pause();
-            var src = null;
-            var source = $player.find("source");
-
-            if (source.length) {
-                src = source.attr("src");
-                source.remove();
-            }
-            $player[0].load();
-            return src;
-        };
-
         var addMediaPlayer = function($elem, setup, callback) {
-            if (!$elem) {
+            if (!($elem && $($elem).length)) {
                 console.log('No Player');
                 return this;
             }
-            var srcPl = getSrc($($elem));
+            /*var srcPl = _getSrc($($elem));
             var callbackDefault = function() {
-                switch (currentMedia.type) {
+                switch (_currentMedia.type) {
                     case 'video':
-                        if (isDemo && currentMedia.id) {
-                            this.src([{ type: "video/mp4", src: "resources/videos/" + currentMedia.id + ".mp4" }]);
-                            this.poster('resources/videos/posters/' + currentMedia.id + '.jpg');
-                        } else {
-                            this.src([{ type: "video/mp4", src: srcPl }]);
+                        if (_isDemo && _currentMedia.id) {
+                            this.src([{ type: "video/mp4", src: "resources/videos/" + _currentMedia.id + ".mp4" }]);
+                            this.poster('resources/videos/posters/' + _currentMedia.id + '.jpg');
                         }
-                        this.watermark(videoJsPluginOptions.watermark);
                         break;
                     case 'audio':
-                        if (isDemo && currentMedia.id) {
-                            videoJsPluginOptions.wavesurfer.src = "resources/audios/" + currentMedia.id + ".mp3";
+                        if (_isDemo && _currentMedia.id) {
+                            videoJsPluginOptions.wavesurfer.src = "resources/audios/" + _currentMedia.id + ".mp3";
                         } else if (srcPl) {
                             videoJsPluginOptions.wavesurfer.src = srcPl;
                         }
                         this.wavesurfer(videoJsPluginOptions.wavesurfer);
                 }
             };
-            if (!currentMedia.settings) {
-                var defaultSetup = getDefaultSetup();
+            if (!_currentMedia.settings) {
+                var defaultSetup = _getDefaultSetup();
                 setup = $.extend({}, defaultSetup, setup);
-                currentMedia.settings = setup;
+                _currentMedia.settings = setup;
             } else {
-                setup = $.extend({}, currentMedia.settings, setup);
-            }
+                setup = $.extend({}, _currentMedia.settings, setup);
+            }*/
 
-            var player = createPlayer($elem, setup, callback || callbackDefault);
-            mediaPlayerList.push(player);
+            var player = createPlayer($elem, setup, callback);
+            _mediaPlayerList.push(player);
             return this;
         };
 
-        var totalPlayers = function() {
-            return mediaPlayerList.length;
+        var setMediaPlayer = function(domId, setup, callback) {
+            if (typeof domId != 'undefined' && !(domId && $(domId).length)) {
+                console.log('Not found');
+                return this;
+            } else if (_mediaPlayerList.length) {
+                console.log('Already Initialize');
+                return this;
+            }
+            _setMediaId();
+
+            addMediaPlayer(domId, setup, callback);
+            _currentMedia.player = _mediaPlayerList[0];
+            _currentMedia.playsCounter = 0;
+
+            return this;
         };
 
-        var remove = function(player) {
+        var setPlugins = function(plugins) {
+            if (!_currentMedia.player || !plugins)
+                return this;
+            var videoJsPluginOptions = _getPluginDefaultOptions();
+            for (var plugin in plugins) {
+                if (plugin in _currentMedia.player) {
+                    _currentMedia.plugins[plugin] = $.extend({}, videoJsPluginOptions[plugin], plugins[plugin]);
+                }
+            }
+            return this;
+        };
+
+        var getMediaPlayer = function() {
+            return _currentMedia.player;
+        };
+
+        var totalPlayers = function() {
+            return _mediaPlayerList.length;
+        };
+
+        var _remove = function(player) {
             player.dispose();
         };
 
         var removePlayer = function(id) {
-            if (!id && currentMedia.player) {
-                id = currentMedia.player.id();
+            if (!id && _currentMedia.player) {
+                id = _currentMedia.player.id();
             }
-            for (var i = 0; i < totalPlayers(); i++) {
-                if (id == 'all' || id == mediaPlayerList[i].id())
-                    remove(mediaPlayerList[i]);
+            for (var i = 0; i < _totalPlayers(); i++) {
+                if (id == 'all' || id == _mediaPlayerList[i].id())
+                    _remove(_mediaPlayerList[i]);
             }
         };
 
-        var setMediaPlayer = function(domId, setup) {
-            if (!(domId && $(domId).length)) {
-                console.log('Not found');
-                return this;
-            } else if (mediaPlayerList.length) {
-                console.log('Already Initialize');
-                return this;
+        var getList = function($tracksDom) {
+            var mediaLinkList = [];
+            $tracksDom.each(function(index) {
+                var queries = _getUrlQueries(this.href.split('?')[1]);
+                var $li = $(this).parent();
+                if (queries) {
+                    mediaLinkList[index] = this.href;
+                    if (window.location.href.indexOf(this.href) > -1) {
+                        $li.addClass("currently-playing");
+                        _currentMedia.index = index;
+                        if (index > 0)
+                            _currentMedia.player.autoplay(true);
+                        $li.parent().animate({
+                            scrollTop: index * $li.outerHeight() + 1
+                        }, 500);
+                    }
+                }
+            });
+            return mediaLinkList;
+        };
+
+        var _setTrackNumber = function() {
+            var $trackNum = $(".media-playlist__header__info span");
+            $trackNum.text((_currentMedia.index + 1) + '/' + _mediaPlayListUrls.length);
+        };
+
+        var _setAutoChangeValue = function(isAutoplay) {
+            if (typeof(localStorage) !== undefined) {
+                localStorage.setItem("autoplayPlaylist", isAutoplay);
+            } else {
+                console.log("Sorry! No Web Storage support..");
             }
-            setMediaId();
+        };
 
-            addMediaPlayer(domId);
-            currentMedia.player = mediaPlayerList[0];
-            currentMedia.playsCounter = 0;
+        var _getAutoChangeValue = function() {
+            if (typeof(localStorage) !== undefined && localStorage.autoplayPlaylist !== undefined) {
+                var out = JSON.parse(localStorage.autoplayPlaylist);
+                $("#mediaAutoplay").prop("checked", out);
+                return out;
+            } else {
+                console.log("Sorry! No Web Storage support..");
+                return $("#mediaAutoplay").is(":checked");
+            }
+        };
 
-            return this;
+        var _setAutoChange = function() {
+            var is_autoplay = _getAutoChangeValue();
+            _setAutoChangeValue(is_autoplay);
+            $("#mediaAutoplay").change(function(event) {
+                _setAutoChangeValue($(this).is(":checked"));
+            });
         };
 
         var setPlayList = function(domList) {
 
-            var getList = function($tracksDom) {
-                var mediaLinkList = [];
-                $tracksDom.each(function(index) {
-                    var queries = getUrlQueries(this.href.split('?')[1]);
-                    var $li = $(this).parent();
-                    if (queries) {
-                        mediaLinkList[index] = this.href;
-                        if (window.location.href.indexOf(this.href) > -1) {
-                            $li.addClass("currently-playing");
-                            currentMedia.index = index;
-                            if (index > 0)
-                                currentMedia.player.autoplay(true);
-                            $li.parent().animate({
-                                scrollTop: index * $li.outerHeight() + 1
-                            }, 500);
-                        }
-                    }
-                });
-                return mediaLinkList;
-            };
-
-            var setTrackNumber = function() {
-                var $trackNum = $(".media-playlist__header__info span");
-                $trackNum.text((currentMedia.index + 1) + '/' + mediaPlayListUrls.length);
-            };
-
-            var setAutoChangeValue = function(isAutoplay) {
-                if (typeof(localStorage) !== undefined) {
-                    localStorage.setItem("autoplayPlaylist", isAutoplay);
-                } else {
-                    console.log("Sorry! No Web Storage support..");
-                }
-            };
-
-            var getAutoChangeValue = function() {
-                if (typeof(localStorage) !== undefined && localStorage.autoplayPlaylist !== undefined) {
-                    var out = JSON.parse(localStorage.autoplayPlaylist);
-                    $("#mediaAutoplay").prop("checked", out);
-                    return out;
-                } else {
-                    console.log("Sorry! No Web Storage support..");
-                    return $("#mediaAutoplay").is(":checked");
-                }
-            };
-
-            var setAutoChange = function() {
-                var is_autoplay = getAutoChangeValue();
-                setAutoChangeValue(is_autoplay);
-                $("#mediaAutoplay").change(function(event) {
-                    setAutoChangeValue($(this).is(":checked"));
-                });
-            };
-
-            if (!currentMedia.player) return;
+            if (!_currentMedia.player) return;
 
             var $tracksDom = $(domList);
 
             if ($tracksDom.length > 0) {
-                mediaPlayListUrls = getList($tracksDom);
-                setTrackNumber();
-                if (currentMedia.type == 'video')
-                    setAutoChange();
+                _mediaPlayListUrls = getList($tracksDom);
+                _setTrackNumber();
+                if (_currentMedia.type == 'video')
+                    _setAutoChange();
             }
         };
 
         return {
             createPlayer: createPlayer,
             setMediaPlayer: setMediaPlayer,
+            getMediaPlayer: getMediaPlayer,
             setPlayList: setPlayList,
+            setPlugins: setPlugins,
             addMediaPlayer: addMediaPlayer,
             totalPlayers: totalPlayers,
             removePlayer: removePlayer
