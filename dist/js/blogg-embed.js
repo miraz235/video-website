@@ -1,5 +1,9 @@
 (function($, videojs, window) {
     'use strict';
+    var dashCallback = function(player, mediaPlayer) {
+        mediaPlayer.getDebug().setLogToBrowserConsole(false);
+    };
+    videojs.Html5DashJS.hook('beforeInitialize', dashCallback);
 
     var embedMedia = function(mediaType) {
         var _startEvent = 'click';
@@ -13,7 +17,6 @@
             _currentMedia = {
                 type: mediaType,
                 id: 0,
-                settings: {},
                 player: null,
                 plugins: null,
                 src: '',
@@ -46,7 +49,7 @@
                 watermark: {
                     position: 'bottom-right',
                     url: 'http://blogg.no',
-                    image: 'http://static.blogg.no/blogs/image/NA_negativ_small.png',
+                    image: '@@__video-watermark-path__',
                     fadeTime: null
                 },
                 wavesurfer: {
@@ -59,7 +62,7 @@
                 },
                 ima: {
                     id: _idSelector.replace('#', ''),
-                    adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator='
+                    adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2FTV2video%2Fnettavisen%2FSide3&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&description_url=http%3A%2F%2Fwww.nettavisen.no%2F&correlator=843573442472758&hl=no&dfpduration=3&sdkv=h.3.153.3&sdki=d&scor=2299575987365357&adk=3757432570&osd=2&frm=0&sdr=1&afvsz=200x200%2C250x250%2C300x250%2C336x280%2C450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fwww.nettavisen.no%2Fvideo%2F19-aring-fikk-sjokk-da-han-gikk-pa-skolens-toalett%2F3423294927.html&ged=ve4_td4_tt1_pd4_la4000_er514.-518.666.-218_vi396.0.1346.1903_vp0_eb16491'
                 }
             };
             var selectedPlugins = {},
@@ -143,7 +146,7 @@
         var createPlayer = function(element, setup, callback) {
             var defaultSetup = _getDefaultSetup();
             _idSelector = element || _idSelector;
-            _currentMedia.settings = $.extend({}, defaultSetup, setup);
+            var settings = $.extend({}, defaultSetup, setup);
             if (!_currentMedia.plugins)
                 _currentMedia.plugins = _getPluginDefaultOptions();
 
@@ -168,7 +171,7 @@
                 _runPlugin();
             }
 
-            var player = videojs(_idSelector, _currentMedia.settings, playerCallback);
+            var player = videojs(_idSelector, settings, playerCallback);
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
 
@@ -199,7 +202,7 @@
             }
             _setMediaId();
 
-            createPlayer(domId, _currentMedia.settings, callback);
+            createPlayer(domId, setup, callback);
             _currentMedia.playsCounter = 0;
 
             return this;
@@ -300,8 +303,6 @@
             }
             return this;
         };
-
-        _currentMedia.settings = _getDefaultSetup();
 
         return {
             createPlayer: createPlayer,

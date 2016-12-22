@@ -1,5 +1,9 @@
 (function($, videojs, window) {
     'use strict';
+    var dashCallback = function(player, mediaPlayer) {
+        mediaPlayer.getDebug().setLogToBrowserConsole(false);
+    };
+    videojs.Html5DashJS.hook('beforeInitialize', dashCallback);
 
     var embedMedia = function(mediaType) {
         var _startEvent = 'click';
@@ -13,7 +17,6 @@
             _currentMedia = {
                 type: mediaType,
                 id: 0,
-                settings: {},
                 player: null,
                 plugins: null,
                 src: '',
@@ -46,7 +49,7 @@
                 watermark: {
                     position: 'bottom-right',
                     url: 'http://blogg.no',
-                    image: 'resources/img/imgpsh_fullsize.png',
+                    image: '@@__video-watermark-path__',
                     fadeTime: null
                 },
                 wavesurfer: {
@@ -143,7 +146,7 @@
         var createPlayer = function(element, setup, callback) {
             var defaultSetup = _getDefaultSetup();
             _idSelector = element || _idSelector;
-            _currentMedia.settings = $.extend({}, defaultSetup, setup);
+            var settings = $.extend({}, defaultSetup, setup);
             if (!_currentMedia.plugins)
                 _currentMedia.plugins = _getPluginDefaultOptions();
 
@@ -168,7 +171,7 @@
                 _runPlugin();
             }
 
-            var player = videojs(_idSelector, _currentMedia.settings, playerCallback);
+            var player = videojs(_idSelector, settings, playerCallback);
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
 
@@ -199,7 +202,7 @@
             }
             _setMediaId();
 
-            createPlayer(domId, _currentMedia.settings, callback);
+            createPlayer(domId, setup, callback);
             _currentMedia.playsCounter = 0;
 
             return this;
@@ -300,8 +303,6 @@
             }
             return this;
         };
-
-        _currentMedia.settings = _getDefaultSetup();
 
         return {
             createPlayer: createPlayer,
