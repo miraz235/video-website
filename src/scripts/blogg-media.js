@@ -165,7 +165,7 @@
 
                 };
                 if (callback) callback();
-                _runPlugin(this, _currentMedia.plugins || plgOpts);
+                _runPlugin(this, $.extend({}, plgOpts, _currentMedia.plugins));
             }
 
             var player = videojs(element, settings, playerCallback);
@@ -242,6 +242,8 @@
             if (!_currentMedia.player || !plugins)
                 return this;
             var videoJsPluginOptions = _getPluginDefaultOptions(_currentMedia.player.id());
+            if (!_currentMedia.plugins)
+                _currentMedia.plugins = videoJsPluginOptions;
             for (var plugin in plugins) {
                 if (plugin in _currentMedia.player) {
                     _currentMedia.plugins[plugin] = $.extend({}, videoJsPluginOptions[plugin], plugins[plugin]);
@@ -326,7 +328,6 @@
         };
 
         var setPlayList = function(domList) {
-
             if (!_currentMedia.player) return;
 
             var $tracksDom = $(domList);
@@ -337,6 +338,7 @@
                 if (_currentMedia.type == 'video')
                     _setAutoChange();
             }
+            return this;
         };
 
         return {

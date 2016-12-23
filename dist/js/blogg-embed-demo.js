@@ -49,7 +49,7 @@
                 watermark: {
                     position: 'bottom-right',
                     url: 'http://blogg.no',
-                    image: '@@__video-watermark-path__',
+                    image: '',
                     fadeTime: null
                 },
                 wavesurfer: {

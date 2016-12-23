@@ -17,10 +17,10 @@ var replaceObj = (function() {
     var r = { demo: {}, dev: {} };
 
     for (var prop in $config.replace.keys) {
-        if ($config.replace.keys[prop].demo)
-            r.demo[prop] = $config.replace.keys[prop].demo;
-        if ($config.replace.keys[prop].dev)
-            r.dev[prop] = $config.replace.keys[prop].dev;
+        //if ($config.replace.keys[prop].demo)
+        r.demo[prop] = $config.replace.keys[prop].demo;
+        //if ($config.replace.keys[prop].dev)
+        r.dev[prop] = $config.replace.keys[prop].dev;
     }
 
     return r;

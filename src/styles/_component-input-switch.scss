@@ -37,9 +37,9 @@
             height: 0;
             &:checked {
                 +.lever {
-                    background-color: lighten($brand-primary-light, 40%);
+                    background-color: lighten($video-color, 40%);
                     &:after {
-                        background-color: $brand-primary-light;
+                        background-color: $video-color;
                         left: 24px;
                     }
                 }
