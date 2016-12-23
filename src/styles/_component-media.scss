@@ -30,6 +30,7 @@
                 padding-left: $video-width;
                 .video-js {
                     height: 100%;
+                    padding: 0;
                 }
             }
             .media-playlist {
@@ -48,6 +49,7 @@
     clear: both;
     .video-js {
         width: 100%;
+        padding-top: 56.25%;
     }
 }
 

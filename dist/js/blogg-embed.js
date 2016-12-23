@@ -114,15 +114,15 @@
             _currentMedia.id = _getEmbedId();
         };
 
-        var _runPlugin = function() {
-            for (var plugin in _currentMedia.plugins) {
-                _currentMedia.player[plugin](_currentMedia.plugins[plugin]);
+        var _runPlugin = function(player, plugins) {
+            for (var plugin in plugins) {
+                player[plugin](plugins[plugin]);
                 switch (plugin) {
                     case 'ima':
-                        _currentMedia.player.one(_startEvent, function() {
-                            _currentMedia.player.ima.initializeAdDisplayContainer();
-                            _currentMedia.player.ima.requestAds();
-                            _currentMedia.player.play();
+                        player.one(_startEvent, function() {
+                            player.ima.initializeAdDisplayContainer();
+                            player.ima.requestAds();
+                            player.play();
                         });
                         break;
                 }
@@ -147,8 +147,6 @@
             var defaultSetup = _getDefaultSetup();
             _idSelector = element || _idSelector;
             var settings = $.extend({}, defaultSetup, setup);
-            if (!_currentMedia.plugins)
-                _currentMedia.plugins = _getPluginDefaultOptions();
 
             var srcPl = _getSrc($(_idSelector));
             var playerCallback = function() {
@@ -161,17 +159,18 @@
                         break;
                     case 'audio':
                         if (_isDemo && _currentMedia.id) {
-                            _currentMedia.plugins.wavesurfer.src = "resources/audios/" + _currentMedia.id + ".mp3";
+                            plgOpts.wavesurfer.src = "resources/audios/" + _currentMedia.id + ".mp3";
                         } else if (srcPl) {
-                            _currentMedia.plugins.wavesurfer.src = srcPl;
+                            plgOpts.wavesurfer.src = srcPl;
                         }
 
                 };
                 if (callback) callback();
-                _runPlugin();
+                _runPlugin(this, $.extend({}, plgOpts, _currentMedia.plugins));
             }
 
             var player = videojs(_idSelector, settings, playerCallback);
+            var plgOpts = _getPluginDefaultOptions(player.id());
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
 
@@ -212,6 +211,8 @@
             if (!_currentMedia.player || !plugins)
                 return this;
             var videoJsPluginOptions = _getPluginDefaultOptions();
+            if (!_currentMedia.plugins)
+                _currentMedia.plugins = videoJsPluginOptions;
             for (var plugin in plugins) {
                 if (plugin in _currentMedia.player) {
                     _currentMedia.plugins[plugin] = $.extend({}, videoJsPluginOptions[plugin], plugins[plugin]);
