@@ -5,6 +5,7 @@
         mediaPlayer.getDebug().setLogToBrowserConsole(false);
     };
     videojs.Html5DashJS.hook('beforeInitialize', dashCallback);
+    window.videojs = videojs;
 
     var bloggMedia = function(mediaType) {
         var _startEvent = 'click';
@@ -53,7 +54,7 @@
             var vjPlgOpt = {
                 watermark: {
                     position: 'bottom-right',
-                    url: 'http://blogg.no',
+                    url: '',
                     image: '@@__video-watermark-path__',
                     fadeTime: null
                 },
@@ -61,7 +62,7 @@
                     msDisplayMax: 10,
                     debug: _isDemo,
                     waveColor: 'grey',
-                    progressColor: '#e22190',
+                    progressColor: '#ffffff',
                     cursorColor: 'white',
                     hideScrollbar: true
                 },

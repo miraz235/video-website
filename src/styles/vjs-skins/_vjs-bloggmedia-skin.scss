@@ -20,14 +20,14 @@ $primary-foreground-color: #fff; // #fff default
 // The default color of control backgrounds is mostly black but with a little
 // bit of blue so it can still be seen on all-black video frames, which are common.
 // Try changing to #900
-$primary-background-color: #e22190; // #2B333F default
+$primary-background-color: #2B333F; // #2B333F default
 // Try changing to true
 $center-big-play-button: true; // true default
 .video-js {
     /* The base font size controls the size of everything, not just text.
      All dimensions use em-based sizes so that the scale along with the font size.
      Try increasing it to 15px and see what happens. */
-    font-size: 10px;
+    font-size: 14px;
     /* The main font color changes the ICON COLORS as well as the text */
     color: $primary-foreground-color;
 }
@@ -42,7 +42,7 @@ $center-big-play-button: true; // true default
     /* The font size is what makes the big play button...big. 
      All width/height values use ems, which are a multiple of the font size.
      If the .video-js font-size is 10px, then 3em equals 30px.*/
-    font-size: 8em;
+    font-size: 6em;
     /* We're using SCSS vars here because the values are used in multiple places.
      Now that font size is set, the following em values will be a multiple of the
      new font size. If the font-size is 3em (30px), then setting any of
@@ -93,9 +93,7 @@ $slider-bg-color: lighten($primary-background-color, 33%);
 .video-js .vjs-slider {
     background-color: $slider-bg-color;
     background-color: rgba($slider-bg-color, 0.5);
-    background-color: rgba(255, 255, 255, .3);
     border-radius: 2px;
-    height: 4px;
 }
 
 
@@ -131,9 +129,60 @@ $slider-bg-color: lighten($primary-background-color, 33%);
 
 //Skin Style Starts
 .vjs-bloggmedia-skin {
-    .vjs-big-play-button,
-    .vjs-control-bar,
-    .vjs-menu-button .vjs-menu-content {
+    .vjs-watermark-bottom-right,
+    .vjs-watermark-bottom-left {
+        bottom: 0em;
+    }
+    &.vjs-has-started {
+        .vjs-watermark-bottom-right,
+        .vjs-watermark-bottom-left {
+            bottom: 3em;
+            transition: all 0.4s;
+        }
+        &.vjs-user-active {
+            .vjs-watermark-bottom-right,
+            .vjs-watermark-bottom-left {
+                bottom: 3.5em;
+                transition: all 0.2s;
+            }
+        }
+        &.vjs-user-inactive.vjs-playing {
+            .vjs-watermark-bottom-right,
+            .vjs-watermark-bottom-left {
+                bottom: 0.3em;
+            }
+        }
+    }
+    .vjs-current-time,
+    .vjs-time-divider,
+    .vjs-duration,
+    .vjs-custom-control-spacer {
+        display: block;
+    }
+    .vjs-time-divider {
+        padding: 0;
+        text-align: center;
+        width: 0.5em !important;
+    }
+    .vjs-progress-control {
+        position: absolute;
+        display: block;
+        left: 0;
+        right: 0;
+        width: auto;
+        font-size: 0.7em;
+        height: 1em;
+        top: -0.2em;
+        transition: all 0.4s;
+    }
+    &:hover {
+        .vjs-progress-control {
+            top: -0.4em;
+            font-size: 1em;
+            transition: all 0.2s;
+        }
+    }
+    .vjs-big-play-button {
         background-color: #444;
         /* Opacity: 1.0 = 100%, 0.0 = 0% */
         background-color: rgba(#444, 0.7);
@@ -177,16 +226,7 @@ $slider-bg-color: lighten($primary-background-color, 33%);
         width: 22px;
         margin-right: 10px;
     }
-    .vjs-slider-bar {
-        background: $slider-bg-color;
-    }
-    .vjs-volume-level,
-    .vjs-play-progress {
-        background: $primary-background-color;
-    }
-    .vjs-slider-horizontal {
-        .vjs-volume-level {
-            height: 0.4em;
-        }
+    .vjs-custom-control-spacer {
+        flex: 1;
     }
 }
