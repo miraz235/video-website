@@ -162,7 +162,7 @@ $slider-bg-color: lighten($primary-background-color, 33%);
     .vjs-time-divider {
         padding: 0;
         text-align: center;
-        width: 0.5em !important;
+        min-width: 0.5em;
     }
     .vjs-progress-control {
         position: absolute;
@@ -190,6 +190,7 @@ $slider-bg-color: lighten($primary-background-color, 33%);
     &:hover .vjs-big-play-button,
     .vjs-big-play-button:focus {
         background-color: $primary-background-color;
+        box-shadow: 0 0 10px #fff;
     }
     .vjs-poster {
         outline: none; //Remove Blue Outline on Click

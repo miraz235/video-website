@@ -31,6 +31,7 @@
                 autoplay: false,
                 loop: false,
                 preload: "none",
+                inactivityTimeout: 1000,
                 controlBar: {
                     currentTimeDisplay: true,
                     timeDivider: true,

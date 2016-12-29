@@ -36,6 +36,7 @@
                 autoplay: false,
                 loop: false,
                 preload: "none",
+                inactivityTimeout: 1000,
                 controlBar: {
                     fullscreenToggle: true
                 }
