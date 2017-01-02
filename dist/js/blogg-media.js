@@ -75,7 +75,7 @@
             var selectedPlugins = {},
                 plg = {
                     video: ["watermark", "ima"],
-                    audio: ["wavesurfer"]
+                    audio: []
                 };
             for (var idx in plg[_currentMedia.type]) {
                 var plugin = plg[_currentMedia.type][idx];
@@ -87,13 +87,13 @@
 
         var _playsAPICall = function(blogId, mediaId, mediaType) {
             if (_isDemo) return 0;
-            $.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo&callback=?", {
+            /*$.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo&callback=?", {
                 blogId: blogId,
                 mediaId: mediaId,
                 mediaType: mediaType
             }).done(function(msg) {
                 console.log(msg);
-            });
+            });*/
         };
 
         var _getUrlQueries = function(queryStr) {
@@ -134,13 +134,13 @@
 
             if (source.length) {
                 src = source.attr("src");
-                if (_currentMedia.type == 'audio') {
+                /*if (_currentMedia.type == 'audio') {
                     $player[0].pause();
                     source.remove();
-                }
+                }*/
             }
-            if (_currentMedia.type == 'audio')
-                $player[0].load();
+            /*if (_currentMedia.type == 'audio')
+                $player[0].load();*/
             return src;
         };
 
@@ -160,9 +160,13 @@
                         break;
                     case 'audio':
                         if (_isDemo && _currentMedia.id) {
-                            plgOpts.wavesurfer.src = "resources/audios/" + _currentMedia.id + ".mp3";
+                            if (plgOpts.wavesurfer)
+                                plgOpts.wavesurfer.src = "resources/audios/" + _currentMedia.id + ".mp3";
+                            else
+                                this.src([{ type: "audio/mp3", src: "resources/audios/" + _currentMedia.id + ".mp3" }]);
                         } else if (srcPl) {
-                            plgOpts.wavesurfer.src = srcPl;
+                            if (plgOpts.wavesurfer)
+                                plgOpts.wavesurfer.src = srcPl;
                         }
 
                 };

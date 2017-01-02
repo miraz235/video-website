@@ -13,7 +13,24 @@
     }
     +.media-player__content {
         .video-js {
-            height: 100px;
+            height: 50px;
+            background: transparent;
+            .vjs-control-bar {
+                padding-right: 10px;
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .vjs-loading-spinner {
+                display: none;
+            }
+            &.vjs-paused {
+                .vjs-big-play-button {
+                    display: none;
+                }
+                .vjs-control-bar {
+                    display: flex;
+                }
+            }
         }
     }
     @if not $embed-style {
@@ -24,7 +41,8 @@
                 padding: 15px 15px 0 0;
             }
         }
-    } @else {
+    }
+    @else {
         @media screen and (min-width: $screen-xs-min) {
             display: block;
             +.media-player__content {
@@ -34,13 +52,15 @@
         }
     }
 }
+
 .media-info {
     padding: 0 15px 15px;
     @if not $embed-style {
         @media screen and (min-width: $screen-md-min) {
             padding: 15px;
         }
-    } @else {
+    }
+    @else {
         @media screen and (min-width: $screen-xs-min) {
             padding: 15px;
         }

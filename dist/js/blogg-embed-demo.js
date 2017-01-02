@@ -33,17 +33,14 @@
                 preload: "none",
                 inactivityTimeout: 1000,
                 controlBar: {
-                    currentTimeDisplay: true,
-                    timeDivider: true,
-                    durationDisplay: true,
-                    remainingTimeDisplay: false,
-                    customControlsSpacer: {}
+                    remainingTimeDisplay: false
+                        //customControlsSpacer: {}
                 }
             };
 
             switch (_currentMedia.type) {
                 case 'audio':
-                    defaultOpt.height = 100;
+                    defaultOpt.height = 50;
                     defaultOpt.controlBar.fullscreenToggle = false;
                     break;
             };
@@ -74,7 +71,7 @@
             var selectedPlugins = {},
                 plg = {
                     video: ["watermark", "ima"],
-                    audio: ["wavesurfer"]
+                    audio: []
                 };
             for (var idx in plg[_currentMedia.type]) {
                 var plugin = plg[_currentMedia.type][idx];
@@ -86,13 +83,13 @@
 
         var _playsAPICall = function(blogId, mediaId, mediaType) {
             if (_isDemo) return 0;
-            $.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo&callback=?", {
+            /*$.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo&callback=?", {
                 blogId: blogId,
                 mediaId: mediaId,
                 mediaType: mediaType
             }).done(function(msg) {
                 console.log(msg);
-            });
+            });*/
         };
         var _getUrlQueries = function(queryStr) {
             var out = {};
@@ -140,13 +137,13 @@
 
             if (source.length) {
                 src = source.attr("src");
-                if (_currentMedia.type == 'audio') {
+                /*if (_currentMedia.type == 'audio') {
                     $player[0].pause();
                     source.remove();
-                }
+                }*/
             }
-            if (_currentMedia.type == 'audio')
-                $player[0].load();
+            /*if (_currentMedia.type == 'audio')
+                $player[0].load();*/
             return src;
         };
         var createPlayer = function(element, setup, callback) {
@@ -164,10 +161,16 @@
                         }
                         break;
                     case 'audio':
+                        if (plgOpts.wavesurfer)
+                            break;
                         if (_isDemo && _currentMedia.id) {
-                            plgOpts.wavesurfer.src = "resources/audios/" + _currentMedia.id + ".mp3";
+                            if (plgOpts.wavesurfer)
+                                plgOpts.wavesurfer.src = "resources/audios/" + _currentMedia.id + ".mp3";
+                            else
+                                this.src([{ type: "audio/mp3", src: "resources/audios/" + _currentMedia.id + ".mp3" }]);
                         } else if (srcPl) {
-                            plgOpts.wavesurfer.src = srcPl;
+                            if (plgOpts.wavesurfer)
+                                plgOpts.wavesurfer.src = srcPl;
                         }
 
                 };
@@ -265,6 +268,7 @@
                 click: function(event) {
                     event.stopPropagation();
                     $('.media-playlist').toggleClass("open");
+                    _currentMedia.player.pause();
                     return false;
                 }
             });
@@ -273,7 +277,7 @@
 
             togglebtn.html('<span class="vjs-icon-chapters"></span>')
                 .wrap('<div class="drawer-handle text-nowrap"></div>').parent()
-                .append('<span class="media-playlist__header__info"><span></span> videos</span>')
+                //.append('<span class="media-playlist__header__info"><span></span> videos</span>')
                 .prependTo('.media-playlist');
 
             closebtn.attr("title", "Close")

@@ -20,14 +20,14 @@ $primary-foreground-color: #fff; // #fff default
 // The default color of control backgrounds is mostly black but with a little
 // bit of blue so it can still be seen on all-black video frames, which are common.
 // Try changing to #900
-$primary-background-color: #000; // #2B333F default
+$primary-background-color: #2B333F; // #2B333F default
 // Try changing to true
 $center-big-play-button: true; // true default
 .video-js {
     /* The base font size controls the size of everything, not just text.
      All dimensions use em-based sizes so that the scale along with the font size.
      Try increasing it to 15px and see what happens. */
-    font-size: 10px;
+    font-size: 14px;
     /* The main font color changes the ICON COLORS as well as the text */
     color: $primary-foreground-color;
 }
@@ -42,14 +42,14 @@ $center-big-play-button: true; // true default
     /* The font size is what makes the big play button...big. 
      All width/height values use ems, which are a multiple of the font size.
      If the .video-js font-size is 10px, then 3em equals 30px.*/
-    font-size: 3em;
+    font-size: 6em;
     /* We're using SCSS vars here because the values are used in multiple places.
      Now that font size is set, the following em values will be a multiple of the
      new font size. If the font-size is 3em (30px), then setting any of
      the following values to 3em would equal 30px. 3 * font-size. */
-    $big-play-width: 1.5em;
+    $big-play-width: 1.2em;
     /* 1.5em = 45px default */
-    $big-play-height: 1.5em;
+    $big-play-height: 1.2em;
     line-height: $big-play-height;
     height: $big-play-height;
     width: $big-play-width;
@@ -86,25 +86,24 @@ $center-big-play-button: true; // true default
 
 // Make a slightly lighter version of the main background
 // for the slider background.
-$slider-bg-color: $primary-foreground-color; //lighten($primary-background-color, 33%);
+$slider-bg-color: lighten($primary-background-color, 33%);
 
 /* Slider - used for Volume bar and Progress bar */
 
 .video-js .vjs-slider {
     background-color: $slider-bg-color;
-    background-color: rgba($slider-bg-color, 0.3);
+    background-color: rgba($slider-bg-color, 0.5);
+    border-radius: 2px;
 }
 
 
 /* The slider bar color is used for the progress bar and the volume bar
    (the first two can be removed after a fix that's coming) */
 
-$highlight-color: #29c3ff;
 .video-js .vjs-volume-level,
 .video-js .vjs-play-progress,
 .video-js .vjs-slider-bar {
-    background: $highlight-color; //$primary-foreground-color;
-    background: rgba($highlight-color, 0.8);
+    background: $primary-foreground-color;
 }
 
 
@@ -128,95 +127,110 @@ $highlight-color: #29c3ff;
     background: rgba($slider-bg-color, 0.75);
 }
 
-// Skin Styles
-$shade-color: lighten($primary-background-color, 50%);
+//Skin Style Starts
 .vjs-bloggmedia-skin {
-    .vjs-play-control {
-        background: lighten($primary-background-color, 30%);
-        height: 3em;
-        width: 3em;
-        border-radius: 50%;
-        font-size: 1.2em;
-        margin: -0.3em 0.5em 0 0;
-        box-shadow: 1px 0px 1px rgba(darken($primary-background-color, 30%), 0.5);
-        &:hover,
-        &:focus {
-            background: darken($highlight-color, 10%);
+    .vjs-watermark-bottom-right,
+    .vjs-watermark-bottom-left {
+        bottom: 0em;
+    }
+    &.vjs-has-started {
+        .vjs-watermark-bottom-right,
+        .vjs-watermark-bottom-left {
+            bottom: 3em;
+            transition: all 0.4s;
+        }
+        &.vjs-user-active {
+            .vjs-watermark-bottom-right,
+            .vjs-watermark-bottom-left {
+                bottom: 3.5em;
+                transition: all 0.2s;
+            }
+        }
+        &.vjs-user-inactive.vjs-playing {
+            .vjs-watermark-bottom-right,
+            .vjs-watermark-bottom-left {
+                bottom: 0.3em;
+            }
         }
     }
-    .vjs-mouse-display:before,
-    .vjs-play-progress:before,
-    .vjs-volume-level:before {
-        content: ''; //Remove Circle from Progress Bar
+    .vjs-current-time,
+    .vjs-time-divider,
+    .vjs-duration,
+    .vjs-custom-control-spacer {
+        display: block;
     }
-    .vjs-progress-holder {
-        &,
-        .vjs-play-progress,
-        .vjs-load-progress,
-        .vjs-load-progress div {
-            height: 1em;
-        }
-        .vjs-load-progress {
-            background: repeating-linear-gradient( -45deg, rgba($primary-foreground-color, .5), rgba($primary-foreground-color, .5) 25%, rgba(lighten($primary-background-color, 50%), .5) 25%, rgba(lighten($primary-background-color, 50%), .5) 50%, rgba($primary-foreground-color, .5) 50%) top left fixed;
-            // Then just define how big the background should be
-            background-size: 20px 20px;
-        }
+    .vjs-time-control {
+        padding: 0 .3em;
     }
-    .vjs-control-bar {
+    .vjs-time-divider {
+        padding: 0;
+        text-align: center;
+        min-width: 0.5em;
+    }
+    .vjs-progress-control {
+        position: absolute;
+        display: block;
+        left: 0;
+        right: 0;
         width: auto;
-        margin: 0 10px 10px;
-        border-radius: 2em;
+        font-size: 0.7em;
+        height: 1em;
+        top: -0.2em;
+        transition: all 0.4s;
+    }
+    &:hover {
+        .vjs-progress-control {
+            top: -0.4em;
+            font-size: 1em;
+            transition: all 0.2s;
+        }
+    }
+    .vjs-big-play-button {
+        background-color: #444;
+        /* Opacity: 1.0 = 100%, 0.0 = 0% */
+        background-color: rgba(#444, 0.7);
+    }
+    &:hover .vjs-big-play-button,
+    .vjs-big-play-button:focus {
+        background-color: $primary-background-color;
+        box-shadow: 0 0 10px #fff;
+    }
+    .vjs-poster {
+        outline: none; //Remove Blue Outline on Click
+        outline: 0;
+    }
+    &.vjs-fullscreen {
+        .vjs-fullscreen-control {
+            background: #fff;
+            &:after {
+                background: #000;
+                content: "";
+                display: block;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 5px;
+                width: 5px;
+            }
+            &:before {
+                content: '';
+            }
+        }
     }
     .vjs-fullscreen-control {
-        order: 2;
+        &:before {
+            content: '';
+        }
+        border: 3px solid #fff;
+        box-sizing: border-box;
+        cursor: pointer;
+        margin-top: -7px;
+        top: 50%;
+        height: 14px;
+        width: 22px;
+        margin-right: 10px;
     }
-    .vjs-mute-control:before,
-    .vjs-volume-menu-button:before,
-    .vjs-mute-control.vjs-vol-0:before,
-    .vjs-volume-menu-button.vjs-vol-0:before,
-    .vjs-mute-control.vjs-vol-1:before,
-    .vjs-volume-menu-button.vjs-vol-1:before,
-    .vjs-mute-control.vjs-vol-2:before,
-    .vjs-volume-menu-button.vjs-vol-2:before {
-        content: ''; //Remove Volume Icons
-    }
-    .vjs-menu-button-inline .vjs-menu,
-    .vjs-menu-button-inline:focus .vjs-menu,
-    .vjs-menu-button-inline.vjs-slider-active .vjs-menu {
-        display: block;
-        opacity: 1;
-    }
-    .vjs-volume-menu-button {
-        width: 3em;
-        margin: 0 5px;
-        order: 1;
-    }
-    .vjs-menu-button .vjs-menu-content,
-    .vjs-menu-button-inline:hover,
-    .vjs-menu-button-inline:focus,
-    .vjs-menu-button-inline.vjs-slider-active {
-        width: 3em;
-    }
-    .vjs-menu-button-inline .vjs-menu {
-        left: 0; //Override to Align Volume To the Right Side
-    }
-    .vjs-volume-bar {
-        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAcCAQAAACw95UnAAAAMElEQVRIx2NgoBL4n4YKGUYNHkEG4zJg1OCRYDCpBowaPJwMppbLRg0eNXjUYBLEAXWNUA6QNm1lAAAAAElFTkSuQmCC);
-        background-size: 22px 14px;
-        background-repeat: no-repeat;
-        height: 100%;
-        width: 100%;
-        max-width: 22px;
-        max-height: 14px;
-        margin: 7px 4px;
-        border-radius: 0;
-    }
-    .vjs-volume-level {
-        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAcAQAAAAAyhWABAAAAAnRSTlMAAHaTzTgAAAAZSURBVHgBYwAB/g9EUv+JokCqiaT+U4MCAPKPS7WUUOc1AAAAAElFTkSuQmCC);
-        background-size: 22px 14px;
-        background-repeat: no-repeat;
-        max-width: 22px;
-        max-height: 14px;
-        height: 100%;
+    .vjs-custom-control-spacer {
+        flex: 1;
     }
 }

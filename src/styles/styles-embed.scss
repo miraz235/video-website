@@ -3,7 +3,7 @@ $embed-style: true;
 //@import "../vendors/bootstrap/stylesheets/bootstrap/glyphicons";
 //@import "../vendors/bootstrap/stylesheets/bootstrap/normalize";
 html {
-    font-family: sans-serif; // 1
+    font-family: Roboto, sans-serif; // 1
     -ms-text-size-adjust: 100%; // 2
     -webkit-text-size-adjust: 100%; // 2
 }
@@ -135,4 +135,4 @@ ol {
 @import "component-media";
 @import "component-media-embed";
 @import "component-media-podcast";
-@import "vjs-skins/vjs-bloggmedia-skin"
+@import "vjs-skins/vjs-bloggmedia-skin";
