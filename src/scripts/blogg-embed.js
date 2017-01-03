@@ -25,6 +25,13 @@
                 index: -1
             },
             _idSelector = '#embedMedia';
+        var _notifyHeightToParent = function(height) {
+            var message = 'em|height|' + height;
+            window.parent.postMessage(message, "*");
+        };
+        /*if (_currentMedia.type == 'audio')
+            _notifyHeightToParent(165);*/
+
         var _getDefaultSetup = function() {
             var defaultOpt = {
                 controls: true,

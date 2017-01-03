@@ -1,6 +1,10 @@
 (function() {
     var iframe;
     var helpers = {
+        setIFrameHeight: function(el, height) {
+            el.height = height;
+            el.style.height = height + "px";
+        },
         resize: function(el) {
             var wrapper = el.parentNode;
             var width = Math.max(wrapper.scrollWidth, wrapper.offsetWidth, wrapper.clientWidth);
@@ -23,14 +27,17 @@
             message = message.data;
             if (typeof message !== "undefined" && message != null && typeof message == "string" && message.indexOf("em") > -1) {
                 message = message.split("|");
+
                 var key = message[1];
                 var value = message[2];
+
                 switch (key) {
                     case "height":
                         iframe.height = value;
                         iframe.style.height = value + "px";
                         break;
                 }
+
             }
         }
     };
@@ -95,7 +102,8 @@
         return;
 
     config = {
-        src: searchParams(me.src, 'url')
+        src: searchParams(me.src, 'url'),
+        type: searchParams(me.src, 'type')
     };
     var wrapper = document.createElement('div');
     wrapper.style.position = "relative";
@@ -103,11 +111,18 @@
     createIframe(config);
     wrapper.appendChild(iframe);
     insertAfter(me, wrapper);
-    window.addEventListener("resize", helpers.resizeAll);
-    window.addEventListener("message", helpers.onMessage);
-    setTimeout(function() {
-        helpers.resize(iframe);
-    }, 1500);
+    if (config.type != 'audio') {
+        window.addEventListener("resize", helpers.resizeAll);
+        window.addEventListener("message", helpers.onMessage);
+        setTimeout(function() {
+            helpers.resize(iframe);
+        }, 1500);
+    } else {
+        if (searchParams(me.src, 'list') == '1')
+            helpers.setIFrameHeight(iframe, 450);
+        else
+            helpers.setIFrameHeight(iframe, 165);
+    }
 
     me.className = "em-injected";
 })();

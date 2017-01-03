@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Embed Preview</title>
+
+    <!-- Color the status bar on mobile devices -->
+    <meta name="theme-color" content="#0063a6">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet" />
+    <link rel="stylesheet" href="http://vjs.zencdn.net/5.8.8/video-js.css" />
+    <link rel="stylesheet" href="vendors/videojs-watermark/videojs-watermark.css" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/styles-embed.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js"></script>
+    <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
+    <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script>
+    <script src="vendors/videojs-contrib-dash/videojs-dash.min.js"></script>
+    <script src="vendors/videojs5-hlsjs-source-handler/videojs5-hlsjs-source-handler.min.js"></script>
+</head>
+
+<body>
+    <div class="media-wrap media-embed">
+        <video class="video-js vjs-bloggmedia-skin vjs-16-9 embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png" data-setup='{"controls": true, "preload": "auto", "inactivityTimeout": 1000, "controlBar": {"remainingTimeDisplay": false}, "plugins": {"watermark": {"image":"resources/img/imgpsh_fullsize.png", "position": "bottom-right", "fadeTime": null}}}'>
+            <source src="http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.m3u8" type="application/x-mpegURL" />
+            <source src="http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.mpd" type="application/dash+xml" />
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a web browser
+                that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+            </p>
+        </video>
+    </div>
+
+</body>
+
+</html>
