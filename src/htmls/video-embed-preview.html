@@ -26,7 +26,8 @@
 
 <body>
     <div class="media-wrap media-embed">
-        <video class="video-js vjs-bloggmedia-skin vjs-16-9 embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png" data-setup='{"controls": true, "preload": "auto", "inactivityTimeout": 1000, "controlBar": {"remainingTimeDisplay": false}, "plugins": {"watermark": {"image":"resources/img/imgpsh_fullsize.png", "position": "bottom-right", "fadeTime": null}}}'>
+        <div class="media-false-back" style="background-image: url(//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png)"></div>
+        <video id="emVideoPreview" class="video-js vjs-bloggmedia-skin vjs-16-9 embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png" data-setup='{"controls": true, "preload": "auto", "inactivityTimeout": 1000, "controlBar": {"remainingTimeDisplay": false}, "plugins": {"watermark": {"image":"resources/img/imgpsh_fullsize.png", "position": "bottom-right", "fadeTime": null}}}'>
             <source src="http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.m3u8" type="application/x-mpegURL" />
             <source src="http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.mpd" type="application/dash+xml" />
             <p class="vjs-no-js">

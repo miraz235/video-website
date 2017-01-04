@@ -210,6 +210,13 @@
             }
         };
 
+        var _setFalseBack = function() {
+            if (_currentMedia.type == 'video') {
+                var $flaseBackDom = $('<div class="media-false-back"></div>').css("background-image", "url(" + _currentMedia.player.poster() + ")");
+                $(_idSelector).before($flaseBackDom);
+            }
+        };
+
         var setMediaPlayer = function(domId, setup, callback) {
             if (typeof domId != 'undefined' && !(domId && $(domId).length)) {
                 console.log('Not found');
@@ -219,6 +226,8 @@
 
             createPlayer(domId, setup, callback);
             _currentMedia.playsCounter = 0;
+            _setFalseBack();
+
 
             return this;
         };
