@@ -30,9 +30,13 @@
                 that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
             </p>
         </video>
-        <header class="media-playlist__header">
-            <a title="Open" href="#" class="media-playlist__icon"><span class="vjs-icon-share"></span></a>
-            <h3 class="media-playlist__header__title text-truncate"><a href="video-playlist.html" target="_blank">Video Playlist 1</a></h3>
+        <header class="media-header">
+            <div class="media-btn-group pull-right">
+                <button title="Open Playlist" class="media-playlist__icon"><span class="vjs-icon-chapters"></span></button>
+                <button title="Share" class="media-playlist__icon"><span class="vjs-icon-share"></span></button>
+            </div>
+
+            <h3 class="media-title"><a href="video-single.html" target="_blank">Video 1</a></h3>
         </header>
         <aside class="media-playlist drawer">
             <!-- Header -->
@@ -96,6 +100,39 @@
                 </li>
             </ol>
         </aside>
+        <!-- Share -->
+        <!--<aside class="media-share">
+            <header class="media-playlist__header">
+                <div class="pull-right text-center text-muted"><a title="Close" href="#" class="media-playlist__icon">&times;</a></div>
+            </header>
+            <div class="panel panel-default">
+                <div class="panel-heading">Embed
+                    <a class="close" href="#collapseShare" data-toggle="collapse" aria-controls="collapseShare" aria-expanded="false">&times;</a>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="inputEmbedScript" class="sr-only1">Script</label>
+                        <input type="text" class="form-control" id="inputEmbedScript" placeholder="Embed Script code" />
+                    </div>
+                    <div class="form-group" id="iframeBlock">
+                        <label for="inputEmbedIframe" class="sr-only1">iFrame</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="inputEmbedIframe" placeholder="Embed iFrame code" />
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="js-dimention">853 &times; 480</span> <span class="caret"></span></button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="#560x315">560 &times; 315</a></li>
+                                    <li><a href="#1280x720">1280 &times; 720</a></li>
+                                    <li><a href="#853x480">853 &times; 480</a></li>
+                                    <li><a href="#640x360">640 &times; 360</a></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>-->
     </div>
 
 

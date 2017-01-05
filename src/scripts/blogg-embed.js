@@ -216,6 +216,13 @@
                 $(_idSelector).before($flaseBackDom);
             }
         };
+        var _setHeader = function() {
+            if (_currentMedia.type == 'video') {
+                var $emHeader = $(_idSelector).next('.media-header');
+                $(_idSelector).append($emHeader);
+                $emHeader.remove();
+            }
+        }
 
         var setMediaPlayer = function(domId, setup, callback) {
             if (typeof domId != 'undefined' && !(domId && $(domId).length)) {
@@ -227,7 +234,7 @@
             createPlayer(domId, setup, callback);
             _currentMedia.playsCounter = 0;
             _setFalseBack();
-
+            _setHeader();
 
             return this;
         };

@@ -85,6 +85,18 @@
     }
 }
 
+// Share
+.media-share {
+    background-color: rgba($color-black, 0.8);
+    overflow: visible;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    right: 1px;
+    bottom: 1px;
+    z-index: 1;
+}
+
 //Error
 .media-error {
     display: table;

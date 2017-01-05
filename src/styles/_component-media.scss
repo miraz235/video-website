@@ -67,6 +67,38 @@
     }
 }
 
+.media-header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    padding: 15px 10px;
+    .media-title {
+        background-color: $color-black;
+        padding: 5px 10px;
+        display: inline-block;
+    }
+}
+
+.media-btn-group {
+    .media-playlist__icon {
+        display: block;
+        border: none;
+        color: #fff;
+        background: rgba($color-black, 0.5);
+        width: 1.5em;
+        height: 1.5em;
+        line-height: 1.5;
+        font-size: 1.5em;
+        margin-bottom: 0.2em;
+        &:hover,
+        &:focus {
+            background-color: darken($video-color, 10%);
+        }
+    }
+}
+
 .info-content {
     color: lighten($gray-base, 65%);
     font-size: 85%;

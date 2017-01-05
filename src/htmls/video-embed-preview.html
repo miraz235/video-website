@@ -26,7 +26,14 @@
 
 <body>
     <div class="media-wrap media-embed">
-        <div class="media-false-back" style="background-image: url(//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png)"></div>
+        <div class="media-false-back"></div>
+        <video id="emVideoPreview" class="video-js vjs-bloggmedia-skin vjs-16-9 embed">
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a web browser
+                that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+            </p>
+        </video>
+        <!-- 
         <video id="emVideoPreview" class="video-js vjs-bloggmedia-skin vjs-16-9 embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png" data-setup='{"controls": true, "preload": "auto", "inactivityTimeout": 1000, "controlBar": {"remainingTimeDisplay": false}, "plugins": {"watermark": {"image":"resources/img/imgpsh_fullsize.png", "position": "bottom-right", "fadeTime": null}}}'>
             <source src="http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.m3u8" type="application/x-mpegURL" />
             <source src="http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.mpd" type="application/dash+xml" />
@@ -35,8 +42,47 @@
                 that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
             </p>
         </video>
+        -->
+        <header class="media-header">
+            <h3 class="media-title">Video Playlist 1</h3>
+        </header>
     </div>
-
+    <script>
+        function getURLParameter(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+        }
+        document.querySelector(".media-title").innerHTML = getURLParameter('title');
+        var falseBack = document.querySelector(".media-false-back");
+        if (getURLParameter('poster'))
+            falseBack.style.backgroundImage = "url(" + getURLParameter('poster') + ")";
+        if (!getURLParameter('videosrc')) {
+            var elm = document.querySelector(".media-embed");
+            elm.parentNode.removeChild(elm);
+        } else {
+            videojs('emVideoPreview', {
+                controls: true,
+                autoplay: false,
+                loop: false,
+                preload: "none",
+                inactivityTimeout: 1000,
+                controlBar: {
+                    remainingTimeDisplay: false
+                },
+                poster: getURLParameter('poster'),
+                sources: [{
+                    src: getURLParameter('videosrc'),
+                    type: 'application/x-mpegURL'
+                }],
+                plugins: {
+                    watermark: {
+                        image: getURLParameter('watermerk') == 'true' ? 'resources/img/imgpsh_fullsize.png' : '',
+                        position: "bottom-right",
+                        fadeTime: null
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

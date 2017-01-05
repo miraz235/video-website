@@ -83,9 +83,69 @@
         <div class="container">
             <section>
                 <div class="container p-b p-t">
+                    <script type='text/javascript' src='//embed.air.tv/v1/twoview_bootstrap.js?organization=54XH0EOnQu-bsBQ4q9DatQ'></script>
                     <div class="row">
+
                         <div class="col-md-6">
-                            <iframe width="100%" height="450" src="video-embed-preview.html" frameborder="0" allowfullscreen></iframe>
+                            <button id="uploadImgBtn">Upload Image</button>
+                            <button id="uploadVdoBtn">Upload Video</button>
+                            <label>
+                                <input id="watermarkEnable" type="checkbox" /> Watermark
+                            </label>
+                            <input id="videoTitle" type="text" />
+                            <iframe id="previewVideo" width="100%" height="450" style="background-color: #efefef" frameborder="0" allowfullscreen></iframe>
+                            <script>
+                                (function() {
+                                    var srcBase = 'video-embed-preview.html';
+                                    var preview = {
+                                        src: '',
+                                        poster: '',
+                                        watermerk: false,
+                                        videosrc: '',
+                                        title: ''
+                                    };
+
+                                    var previewVideo = document.querySelector("#previewVideo");
+                                    var loadSrc = function() {
+                                        var url = '';
+                                        if (preview.src != '') {
+                                            url = preview.src +
+                                                '?poster=' + encodeURIComponent(preview.poster) +
+                                                '&watermerk=' + preview.watermerk +
+                                                '&videosrc=' + encodeURIComponent(preview.videosrc) +
+                                                '&title=' + encodeURIComponent(preview.title);
+                                        }
+                                        console.log(url);
+                                        previewVideo.src = url;
+                                    };
+                                    var uploadImgBtn = document.querySelector("#uploadImgBtn");
+                                    uploadImgBtn.addEventListener("click", function() {
+                                        preview.poster = "//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png";
+                                        previewVideo.style.backgroundImage = "url(" + preview.poster + ")";
+                                        previewVideo.style.backgroundSize = "cover";
+                                        previewVideo.style.backgroundPosition = "center";
+                                        previewVideo.style.backgroundRepeat = "no-repeat";
+                                    });
+                                    var uploadVdoBtn = document.querySelector("#uploadVdoBtn");
+                                    uploadVdoBtn.addEventListener("click", function() {
+                                        preview.src = srcBase;
+                                        preview.videosrc = "http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.m3u8"
+                                        loadSrc();
+                                    });
+                                    var watermarkEnable = document.querySelector("#watermarkEnable");
+                                    watermarkEnable.addEventListener("change", function() {
+                                        preview.src = srcBase;
+                                        preview.watermerk = this.checked;
+                                        loadSrc();
+                                    });
+                                    var videoTitle = document.querySelector("#videoTitle");
+                                    videoTitle.addEventListener("change", function() {
+                                        preview.src = srcBase;
+                                        preview.title = this.value;
+                                        loadSrc();
+                                    });
+                                })();
+                            </script>
                         </div>
                         <div class="col-md-6">
                             <script src="js/emload.js?url=video-embed-single.html" async defer class="em"></script>
@@ -156,12 +216,6 @@
         ga('send', 'pageview');
     </script>
     <!-- Built with love using Video Website -->
-</body>
-
-</html>i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, 'script', '//www.google-analytics.com/analytics.js',
-'ga'); ga('create', 'UA-XXXXX-X', 'auto'); ga('send', 'pageview');
-</script>
-<!-- Built with love using Video Website -->
 </body>
 
 </html>
