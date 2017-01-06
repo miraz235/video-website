@@ -120,7 +120,7 @@ gulp.task("styles", [], function() {
     var processors = [
         require('postcss-csssimple'), // fix common browser bugs
         require('autoprefixer')({ browsers: $config.browsers }), // add vendor prefixes
-        require('cssnano')(), // minify the result
+        require('cssnano')({ zindex: false }), // minify the result
         require('postcss-reporter')
     ];
     return gulp.src($config.src.styles)

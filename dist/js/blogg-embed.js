@@ -209,6 +209,32 @@
                 }, waitTime);
             }
         };
+        var _boxCloseControl = function(boxClass, title) {
+            var closebtn = $('<a>', {
+                title: title,
+                href: "#",
+                class: "media-icon",
+                click: function(event) {
+                    event.stopPropagation();
+                    $(boxClass + '.drawer').removeClass("open");
+                    //_currentMedia.player.pause();
+                    return false;
+                }
+            });
+
+            closebtn.html('&times;')
+                .wrap('<div class="pull-right text-center text-muted"></div>')
+                .parent()
+                .prependTo(boxClass);
+
+            $(boxClass).on('click', function(event) {
+                event.stopPropagation();
+            });
+        };
+        var _setShareDrawer = function() {
+            $('#shareBtn').show();
+            _boxCloseControl(".media-share", "Close share box");
+        };
 
         var _setFalseBack = function() {
             if (_currentMedia.type == 'video') {
@@ -219,10 +245,53 @@
         var _setHeader = function() {
             if (_currentMedia.type == 'video') {
                 var $emHeader = $(_idSelector).next('.media-header');
-                $(_idSelector).append($emHeader);
-                $emHeader.remove();
+                $emHeader.appendTo(_idSelector);
+                var btnGroups = $emHeader.find('.media-btn-group button');
+                btnGroups.on('click', function(event) {
+                    event.stopPropagation();
+                    if ($('.drawer[data-btnid=' + this.id + ']').length > 0) {
+                        $('.drawer[data-btnid=' + this.id + ']').addClass('open');
+                        _currentMedia.player.pause();
+                    }
+                    return false;
+                });
             }
-        }
+        };
+        var _openWindow = function(url, title, opt) {
+            var width = opt.width,
+                height = opt.height,
+                scrollbars = opt.scrollbars || 'yes',
+                resizable = opt.resizable || 'yes',
+                toolbar = opt.toolbar || 'no',
+                winPosY = (window.screenY || window.screenTop || 0) + window.outerHeight / 2 - height / 2,
+                winPosX = (window.screenX || window.screenLeft || 0) + window.outerWidth / 2 - width / 2;
+            if (window.chrome && window.navigator.userAgent.toLowerCase().indexOf("mac os x") !== -1)
+                height += 27;
+            if (window.safari)
+                height += 47;
+            var winOpt = "width=" + width +
+                ",height=" + height +
+                ",left=" + winPosX +
+                ",top=" + winPosY +
+                ",scrollbars=" + scrollbars +
+                ",resizable=" + resizable +
+                ",toolbar=" + toolbar;
+            return window.open(url, title, winOpt);
+        };
+        var _setShare = function() {
+            $('.media-share .buttons a').on('click', function(event) {
+                event.stopPropagation();
+                if ($(this).hasClass('email'))
+                    return true;
+                _openWindow(this.href,
+                    this.class, {
+                        width: 500,
+                            height: 400
+                    });
+                return false;
+            });
+            _setShareDrawer();
+        };
 
         var setMediaPlayer = function(domId, setup, callback) {
             if (typeof domId != 'undefined' && !(domId && $(domId).length)) {
@@ -235,6 +304,7 @@
             _currentMedia.playsCounter = 0;
             _setFalseBack();
             _setHeader();
+            _setShare();
 
             return this;
         };
@@ -284,44 +354,8 @@
         };
 
         var _setPlaylistDrawer = function() {
-            var togglebtn = $('<a>', {
-                title: "Open",
-                href: "#",
-                class: "media-playlist__icon",
-                click: function(event) {
-                    event.stopPropagation();
-                    $('.media-playlist').toggleClass("open");
-                    _currentMedia.player.pause();
-                    return false;
-                }
-            });
-
-            var closebtn = togglebtn.clone(true, true);
-
-            togglebtn.html('<span class="vjs-icon-chapters"></span>')
-                .wrap('<div class="drawer-handle text-nowrap"></div>').parent()
-                //.append('<span class="media-playlist__header__info"><span></span> videos</span>')
-                .prependTo('.media-playlist');
-
-            closebtn.attr("title", "Close")
-                .html('&times;')
-                .wrap('<div class="pull-right text-center text-muted"></div>')
-                .parent()
-                .prependTo('.media-playlist__header');
-
-            $('.media-playlist').on('click', function(event) {
-                event.stopPropagation();
-            })
-
-            togglebtn.on('click', function() {
-                $('body').on('click', function() {
-                    $('.drawer').toggleClass("open");
-                    $(this).off('click');
-                });
-            });
-            closebtn.on('click', function() {
-                $('body').off('click');
-            });
+            $('#playListBtn').show();
+            _boxCloseControl(".media-playlist", "Close playlist box");
         };
 
         var setPlayList = function(domList) {
