@@ -226,12 +226,12 @@ $shade-color: lighten($primary-background-color, 50%);
     }
     .vjs-watermark-bottom-right,
     .vjs-watermark-bottom-left {
-        bottom: 0em;
+        bottom: 0.3em;
     }
     &.vjs-has-started {
         .vjs-watermark-bottom-right,
         .vjs-watermark-bottom-left {
-            bottom: 3em;
+            bottom: 6.5em;
             transition: all 0.4s;
         }
         &.vjs-user-inactive.vjs-playing {
