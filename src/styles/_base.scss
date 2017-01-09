@@ -6,6 +6,11 @@ body {
     background-color: $body-bg;
 }
 
+hr {
+    border-top-color: #bdbcba;
+    border-style: dotted;
+}
+
 .container {
     >h2,
     >h1 {
@@ -24,4 +29,12 @@ body {
         font-weight: 300;
         margin-top: 0;
     }
+}
+
+.modal {
+    z-index: 11111;
+}
+
+.modal-backdrop {
+    z-index: 11110;
 }

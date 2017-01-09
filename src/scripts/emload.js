@@ -1,14 +1,12 @@
 (function() {
     var iframe;
     var helpers = {
-        setIFrameHeight: function(el, height) {
-            el.height = height;
-            el.style.height = height + "px";
-        },
-        resize: function(el) {
-            var wrapper = el.parentNode;
-            var width = Math.max(wrapper.scrollWidth, wrapper.offsetWidth, wrapper.clientWidth);
-            var height = Math.round(width * 9 / 16); // 16:9 ratio;
+        setIFrameHeight: function(el, height, withRatio) {
+            if (withRatio) {
+                var wrapper = el.parentNode;
+                var width = Math.max(wrapper.scrollWidth, wrapper.offsetWidth, wrapper.clientWidth);
+                height += Math.round(width * 9 / 16); // 16:9 ratio;
+            }
             el.height = height;
             el.style.height = height + "px";
         },
@@ -19,6 +17,14 @@
                 var wrapper = el.parentNode;
                 var width = Math.max(wrapper.scrollWidth, wrapper.offsetWidth, wrapper.clientWidth);
                 var height = Math.round(width * 9 / 16); // 16:9 ratio;
+                if (el.classList.contains('em-iframe-audio')) {
+                    var audioHeight = 165;
+                    if (el.classList.contains('em-iframe-audio-list'))
+                        height += audioHeight;
+                    else
+                        height = audioHeight;
+                }
+
                 el.height = height;
                 el.style.height = height + "px";
             }
@@ -74,6 +80,11 @@
         iframe.className = "em-iframe em-single-iframe";
         iframe.name = "em-iframe";
         iframe.src = config.src;
+        if (config.type == 'audio') {
+            iframe.className += " em-iframe-audio";
+            if (config.list == '1')
+                iframe.className += " em-iframe-audio-list";
+        }
         return false;
     }
 
@@ -103,7 +114,8 @@
 
     config = {
         src: searchParams(me.src, 'url'),
-        type: searchParams(me.src, 'type')
+        type: searchParams(me.src, 'type'),
+        list: searchParams(me.src, 'list')
     };
     var wrapper = document.createElement('div');
     wrapper.style.position = "relative";
@@ -112,17 +124,16 @@
     wrapper.appendChild(iframe);
     insertAfter(me, wrapper);
     if (config.type != 'audio') {
-        window.addEventListener("resize", helpers.resizeAll);
-        window.addEventListener("message", helpers.onMessage);
         setTimeout(function() {
-            helpers.resize(iframe);
+            helpers.setIFrameHeight(iframe, 0, true);
         }, 1500);
     } else {
         if (searchParams(me.src, 'list') == '1')
-            helpers.setIFrameHeight(iframe, 450);
+            helpers.setIFrameHeight(iframe, 165, true);
         else
             helpers.setIFrameHeight(iframe, 165);
     }
-
+    window.addEventListener("resize", helpers.resizeAll);
+    window.addEventListener("message", helpers.onMessage);
     me.className = "em-injected";
 })();

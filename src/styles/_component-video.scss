@@ -1,15 +1,19 @@
 .video-container {
     background-color: $gray;
     color: $color-white;
+    position: relative;
+    margin-top: -20px;
     a {
         color: $gray-lighter;
         &:hover {
             color: $color-white;
         }
     }
-    .container,
     video {
         width: 100%;
+        padding: 0;
+    }
+    .container {
         padding: 0;
     }
 }

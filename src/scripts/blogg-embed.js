@@ -223,7 +223,7 @@
             });
 
             closebtn.html('&times;')
-                .wrap('<div class="pull-right text-center text-muted"></div>')
+                .wrap('<div class="media-close text-muted"></div>')
                 .parent()
                 .prependTo(boxClass);
 
@@ -246,16 +246,18 @@
             if (_currentMedia.type == 'video') {
                 var $emHeader = $(_idSelector).next('.media-header');
                 $emHeader.appendTo(_idSelector);
-                var btnGroups = $emHeader.find('.media-btn-group button');
-                btnGroups.on('click', function(event) {
-                    event.stopPropagation();
-                    if ($('.drawer[data-btnid=' + this.id + ']').length > 0) {
-                        $('.drawer[data-btnid=' + this.id + ']').addClass('open');
-                        _currentMedia.player.pause();
-                    }
-                    return false;
-                });
             }
+        };
+        var _setButtons = function() {
+            var btnGroups = $('[data-embutton]');
+            btnGroups.on('click', function(event) {
+                event.stopPropagation();
+                if (this.id && $('.drawer[data-btnid=' + this.id + ']').length > 0) {
+                    $('.drawer[data-btnid=' + this.id + ']').addClass('open');
+                    _currentMedia.player.pause();
+                }
+                return false;
+            });
         };
         var _openWindow = function(url, title, opt) {
             var width = opt.width,
@@ -304,6 +306,7 @@
             _currentMedia.playsCounter = 0;
             _setFalseBack();
             _setHeader();
+            _setButtons();
             _setShare();
 
             return this;
