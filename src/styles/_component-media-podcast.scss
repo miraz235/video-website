@@ -55,14 +55,17 @@
 
 .media-info {
     padding: 0 15px 15px;
+    overflow: hidden;
     @if not $embed-style {
         @media screen and (min-width: $screen-md-min) {
-            padding: 15px;
+            padding-top: 15px;
+            padding-left: 0;
         }
     }
     @else {
         @media screen and (min-width: $screen-xs-min) {
-            padding: 15px;
+            padding-top: 15px;
+            padding-left: 0;
         }
     }
 }
