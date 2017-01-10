@@ -120,6 +120,9 @@
         pointer-events: none;
         bottom: 10px;
     }
+    .vjs-ad-playing & {
+        z-index: 0;
+    }
 }
 
 .video-js {

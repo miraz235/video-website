@@ -63,8 +63,10 @@
 
 .media-share-container {
     text-align: center;
-    position: relative;
+    position: absolute;
     top: 50%;
+    left: 0;
+    right: 0;
     margin-top: -5em;
     color: #fff;
     padding: 0 3em;
