@@ -10,6 +10,13 @@ header[role="banner"] {
     }
 }
 
+#collapseProfile {
+    padding: 0;
+    .jumbotron {
+        margin-top: -20px;
+    }
+}
+
 #content[role="main"] {
     >.container {
         padding: 0;

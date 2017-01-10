@@ -71,12 +71,12 @@
         iframe.style.border = "none";
         iframe.style.width = "100%";
         iframe.style.maxWidth = "100%";
+        iframe.style.height = "100%";
+        iframe.style.position = "relative";
         iframe.scrolling = "no";
         iframe.setAttribute("webkitallowfullscreen", "true");
         iframe.setAttribute("mozallowfullscreen", "true");
         iframe.setAttribute("allowfullscreen", "true");
-        iframe.style.height = "100%";
-        iframe.style.position = "relative";
         iframe.className = "em-iframe em-single-iframe";
         iframe.name = "em-iframe";
         iframe.src = config.src;
@@ -134,6 +134,6 @@
             helpers.setIFrameHeight(iframe, 165);
     }
     window.addEventListener("resize", helpers.resizeAll);
-    window.addEventListener("message", helpers.onMessage);
+    //window.addEventListener("message", helpers.onMessage);
     me.className = "em-injected";
 })();
