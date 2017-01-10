@@ -70,6 +70,9 @@ $center-big-play-button: true; // true default
         top: 0.5em;
     }
     transition: background-color .25s cubic-bezier(0.0, 0.0, 0.2, 1);
+    @media screen and (max-width: $screen-xs-max - 285) {
+        font-size: 3em;
+    }
 }
 
 
