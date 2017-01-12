@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="vendors/videojs-watermark/videojs-watermark.css" />
     <link rel="stylesheet" href="vendors/videojs-ima/videojs.ima.css" />
     <link rel="stylesheet" href="vendors/videojs-contrib-ads/videojs.ads.css" />
+    <link rel="stylesheet" href="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.css" />
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="css/styles-embed.min.css" />
 
@@ -129,7 +130,15 @@
                         </a>
                     </li>
                 </ul>
-                <p><a href="http://localhost:8080/dist/video-single.html" target="_blank">localhost:8080/dist/video-single.html</a></p>
+                <div class="social-textfield-container">
+                    <label for="inputEmbedScript" class="social-textfield-label">Script</label>
+                    <input id="inputEmbedScript" name="script" type="text" class="social-textfield-url" placeholder="Embed Script code" value="<iframe src=&quot;http://widgets.ign.com/video/embed/content.html?url=http://www.ign.com/videos/2016/06/15/7-fans-react-to-playing-legend-of-zelda-breath-of-the-wild-ign-access&quot; width=&quot;468&quot; height=&quot;263&quot; scrolling=&quot;no&quot; frameborder=&quot;0&quot; allowfullscreen></iframe>">
+                </div>
+                <div class="social-textfield-container">
+                    <label for="inputEmbedIframe" class="social-textfield-label">Embed</label>
+                    <input id="inputEmbedIframe" name="embed" type="text" class="social-textfield-url" placeholder="Embed iFrame code" value="<iframe src=&quot;http://widgets.ign.com/video/embed/content.html?url=http://www.ign.com/videos/2016/06/15/7-fans-react-to-playing-legend-of-zelda-breath-of-the-wild-ign-access&quot; width=&quot;468&quot; height=&quot;263&quot; scrolling=&quot;no&quot; frameborder=&quot;0&quot; allowfullscreen></iframe>">
+                </div>
+
             </div>
         </aside>
     </div>
@@ -143,6 +152,8 @@
     <script src="vendors/videojs-ima/videojs.ima.js"></script>
     <script src="vendors/videojs-contrib-ads/videojs.ads.js"></script>
     <script src="vendors/videojs-contrib-dash/videojs-dash.min.js"></script>
+    <script src="vendors/videojs-contextmenu/videojs-contextmenu.min.js"></script>
+    <script src="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js"></script>
 
     <script src="js/blogg-embed-demo.js"></script>
 

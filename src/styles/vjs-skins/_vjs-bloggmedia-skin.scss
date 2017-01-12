@@ -139,6 +139,12 @@ $shade-color: lighten($primary-background-color, 50%);
     .vjs-big-play-button:focus {
         background-color: darken($highlight-color, 10%);
     }
+    &.vjs-has-started .vjs-big-play-button {
+        display: block;
+    }
+    &.vjs-playing .vjs-big-play-button {
+        display: none;
+    }
     .vjs-play-control {
         background: lighten($primary-background-color, 30%);
         height: 3em;

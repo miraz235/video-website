@@ -207,8 +207,20 @@
                                                     </a>
                                                 </li>
                                             </ul>
-                                            <p><a href="http://localhost:8080/dist/video-single.html" target="_blank">localhost:8080/dist/video-single.html</a></p>
                                         </div>
+                                    </div>
+                                    <div class="text-center bg-info p-y">
+                                        <div class="input-switch">
+                                            <label>
+                                                    <span class="sr-only">Off</span>
+                                                    <input type="checkbox" id="inputWithPlaylist" checked>
+                                                    <span class="lever"></span>
+                                                    <span class="sr-only">On</span>
+                                                    With Playlist
+                                                </label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
                                         <div class="form-group">
                                             <label for="inputEmbedScript" class="sr-only1">Script</label>
                                             <input type="text" class="form-control" id="inputEmbedScript" placeholder="Embed Script code" />
@@ -447,6 +459,7 @@
                         $this.select();
                     });
                 });
+                var inputWithPlaylist = $('#inputWithPlaylist');
                 var embedIframeDefaultCode = '<iframe width="1280" height="720" src="https://www.youtube.com/embed/FBOmTLMbKQs" frameborder="0" allowfullscreen></iframe>';
                 var inputEmbedIframe = $('#inputEmbedIframe');
                 var iframBlock = $('#iframeBlock');
@@ -465,6 +478,12 @@
                     setDimention(this.hash);
                 });
                 setDimention(window.location.hash);
+                inputWithPlaylist.on('change', function() {
+                    if (this.checked)
+                        console.log('with playlist');
+                    else
+                        console.log('no playlist');
+                });
             });
         })(jQuery);
     </script>

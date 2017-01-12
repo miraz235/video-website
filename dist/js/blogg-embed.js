@@ -53,6 +53,26 @@
             };
             return defaultOpt;
         };
+        var _copyToClipboard = function(text) {
+            if (typeof text != "string")
+                return;
+            var textArea = $('<textarea></textarea>').css({
+                'position': 'absolute',
+                'left': '-9999px',
+                'top': '0'
+            }).val(text);
+            $('body').append(textArea);
+            textArea.select();
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+                console.log('Copying text command was ' + msg);
+            } catch (err) {
+                console.log('Oops, unable to copy');
+            }
+            textArea.remove();
+
+        };
 
         var _getPluginDefaultOptions = function() {
             var vjPlgOpt = {
@@ -73,11 +93,25 @@
                 ima: {
                     id: _idSelector.replace('#', ''),
                     adTagUrl: 'null'
+                },
+                contextmenuUI: {
+                    content: [{
+                        label: 'Copy embed script code',
+                        listener: function() {
+                            //$('#shareBtn').trigger('click');
+                            _copyToClipboard($('#inputEmbedScript').val());
+                        }
+                    }, {
+                        label: 'Copy embed iframe code',
+                        listener: function() {
+                            _copyToClipboard($('#inputEmbedIframe').val());
+                        }
+                    }]
                 }
             };
             var selectedPlugins = {},
                 plg = {
-                    video: ["watermark", "ima"],
+                    video: ["watermark", "ima", "contextmenuUI"],
                     audio: []
                 };
             for (var idx in plg[_currentMedia.type]) {
@@ -234,6 +268,12 @@
         var _setShareDrawer = function() {
             $('#shareBtn').show();
             _boxCloseControl(".media-share", "Close share box");
+            $('#inputEmbedScript, #inputEmbedIframe').on('focus', function() {
+                var $this = $(this);
+                window.setTimeout(function() {
+                    $this.select();
+                });
+            });
         };
 
         var _setFalseBack = function() {
