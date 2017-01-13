@@ -210,13 +210,13 @@
                                         </div>
                                     </div>
                                     <div class="text-center bg-info p-y">
+                                        <label for="inputWithPlaylist">Playlist</label>
                                         <div class="input-switch">
                                             <label>
-                                                    <span class="sr-only">Off</span>
+                                                    <span class="text-muted">Off</span>
                                                     <input type="checkbox" id="inputWithPlaylist" checked>
                                                     <span class="lever"></span>
-                                                    <span class="sr-only">On</span>
-                                                    With Playlist
+                                                    <span class="text-muted">On</span>
                                                 </label>
                                         </div>
                                     </div>
@@ -460,29 +460,53 @@
                     });
                 });
                 var inputWithPlaylist = $('#inputWithPlaylist');
-                var embedIframeDefaultCode = '<iframe width="1280" height="720" src="https://www.youtube.com/embed/FBOmTLMbKQs" frameborder="0" allowfullscreen></iframe>';
+                var inputEmbedScript = $('#inputEmbedScript');
                 var inputEmbedIframe = $('#inputEmbedIframe');
+                var embedSrc = "https://www.youtube.com/embed/FBOmTLMbKQs";
+                var embedScriptDefaultCode = inputEmbedScript.val() || '<script async defer class="em"><\/script>';
+                var embedIframeDefaultCode = inputEmbedIframe.val() || '<iframe width="1280" height="720" frameborder="0" allowfullscreen></iframe>';
+
                 var iframBlock = $('#iframeBlock');
                 var displayDimention = iframBlock.find('.js-dimention');
 
-                function setDimention(hashData) {
-                    var dimention = hashData.replace('#', '').split('x');
-                    if (dimention.length == 2) {
-                        displayDimention.html(dimention[0] + ' &times; ' + dimention[1]);
-                        var $newCode = $(embedIframeDefaultCode);
-                        $newCode.attr('width', dimention[0]).attr('height', dimention[1]);
-                        inputEmbedIframe.val($newCode.prop('outerHTML'));
+                function setIframeValue(hashData) {
+                    var $newCode = $(embedIframeDefaultCode);
+                    if (hashData) {
+                        var dimention = hashData.replace('#', '').split('x');
+                        if (dimention.length == 2) {
+                            displayDimention.html(dimention[0] + ' &times; ' + dimention[1]);
+                            $newCode.attr('width', dimention[0]).attr('height', dimention[1]);
+                        }
                     }
+
+                    $newCode.attr('src', embedSrc);
+                    inputEmbedIframe.val($newCode.prop('outerHTML'));
                 }
-                iframBlock.find('.dropdown-menu a').on('click', function() {
-                    setDimention(this.hash);
+
+                function setScriptValue(type, list) {
+                    var $newCode = $(embedScriptDefaultCode);
+                    type = type ? '&type=' + type : '';
+                    list = list ? '&list=1' : '';
+                    $newCode.attr('src', "js/emload.js?url=" + window.encodeURIComponent(embedSrc) + type + list);
+                    inputEmbedScript.val($newCode.prop('outerHTML'));
+                }
+                setScriptValue();
+
+                iframBlock.find('.dropdown-menu a').on('click', function(e) {
+                    e.preventDefault();
+                    setIframeValue(this.hash);
                 });
-                setDimention(window.location.hash);
+                setIframeValue();
+
                 inputWithPlaylist.on('change', function() {
-                    if (this.checked)
+                    if (this.checked) {
                         console.log('with playlist');
-                    else
+                        embedSrc = embedSrc + '?list';
+                    } else {
                         console.log('no playlist');
+                    }
+                    setScriptValue();
+                    setIframeValue();
                 });
             });
         })(jQuery);

@@ -428,8 +428,7 @@
     text-align: left;
     display: flex;
     &:hover {
-        border-color: $brand-primary-light;
-        background-color: $brand-primary-light;
+        background-color: $video-color;
     }
 }
 
