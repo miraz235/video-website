@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <div class="media-wrap media-embed">
+    <div class="media-wrap media-embed with-xinfo">
         <video id="videoSingle" class="video-js vjs-bloggmedia-skin embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png">
             <source src="http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.m3u8" type="application/x-mpegURL" />
             <source src="http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.mpd" type="application/dash+xml" />
@@ -68,17 +68,21 @@
                     </li>
                 </ul>
                 <div class="social-textfield-container">
-                    <label for="inputEmbedScript" class="social-textfield-label">Script</label>
+                    <label for="inputEmbedScript" class="social-textfield-label">Responsiv spiller</label>
                     <input id="inputEmbedScript" name="script" type="text" class="social-textfield-url" placeholder="Embed Script code" value="<iframe src=&quot;http://widgets.ign.com/video/embed/content.html?url=http://www.ign.com/videos/2016/06/15/7-fans-react-to-playing-legend-of-zelda-breath-of-the-wild-ign-access&quot; width=&quot;468&quot; height=&quot;263&quot; scrolling=&quot;no&quot; frameborder=&quot;0&quot; allowfullscreen></iframe>">
                 </div>
                 <div class="social-textfield-container">
-                    <label for="inputEmbedIframe" class="social-textfield-label">Embed</label>
+                    <label for="inputEmbedIframe" class="social-textfield-label">Fast bredde</label>
                     <input id="inputEmbedIframe" name="embed" type="text" class="social-textfield-url" placeholder="Embed iFrame code" value="<iframe src=&quot;http://widgets.ign.com/video/embed/content.html?url=http://www.ign.com/videos/2016/06/15/7-fans-react-to-playing-legend-of-zelda-breath-of-the-wild-ign-access&quot; width=&quot;468&quot; height=&quot;263&quot; scrolling=&quot;no&quot; frameborder=&quot;0&quot; allowfullscreen></iframe>">
                 </div>
 
             </div>
         </aside>
     </div>
+    <header class="media-xinfo">
+        <a href="share.html" id="media-share" class="btn btn-xs btn-primary pull-right" title="Share">Share</a>
+        <p title="Video 1" class="text-truncate"><a href="video-single.html" target="_blank">Video 1</a></p>
+    </header>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
@@ -106,6 +110,37 @@
                                                    'cust_params=sample_ar%3Dpremidpostpod%26deployment%3Dgmf-js&cmsid=496&' +
                                                    'vid=short_onecue&correlator='*/
                 }
+            });
+
+            // Share
+            var _openWindow = function(url, title, opt) {
+                var width = opt.width,
+                    height = opt.height,
+                    scrollbars = opt.scrollbars || 'yes',
+                    resizable = opt.resizable || 'yes',
+                    toolbar = opt.toolbar || 'no',
+                    winPosY = (window.screenY || window.screenTop || 0) + window.outerHeight / 2 - height / 2,
+                    winPosX = (window.screenX || window.screenLeft || 0) + window.outerWidth / 2 - width / 2;
+                if (window.chrome && window.navigator.userAgent.toLowerCase().indexOf("mac os x") !== -1)
+                    height += 27;
+                if (window.safari)
+                    height += 47;
+                var winOpt = "width=" + width +
+                    ",height=" + height +
+                    ",left=" + winPosX +
+                    ",top=" + winPosY +
+                    ",scrollbars=" + scrollbars +
+                    ",resizable=" + resizable +
+                    ",toolbar=" + toolbar;
+                return window.open(url, title, winOpt);
+            };
+            $('#media-share').on('click', function(event) {
+                event.preventDefault();
+                _openWindow(this.href,
+                    this.class, {
+                        width: 500,
+                            height: 356
+                    });
             });
         });
     </script>

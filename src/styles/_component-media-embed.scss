@@ -7,6 +7,15 @@
         top: 0;
         left: 0;
         box-shadow: inset 0 0 0 1px $track-border;
+        &.with-xinfo {
+            height: auto;
+            bottom: 27px;
+            +.media-xinfo {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
+        }
         .video-js {
             width: 100%;
             height: 100%;
@@ -27,6 +36,9 @@
             transform: translateX(-100%);
             visibility: hidden;
             transition: transform .25s cubic-bezier(0.4, 0.0, 1, 1), visibility .25s cubic-bezier(0.4, 0.0, 1, 1);
+            @media screen and (max-width: $screen-xs-min) {
+                font-size: 0.8em;
+            }
             &.open {
                 border-right: 1px solid rgba($color-white, .08);
                 transform: translateX(0);
@@ -34,6 +46,19 @@
                 transition: transform .25s cubic-bezier(0.0, 0.0, 0.2, 1), visibility .25s cubic-bezier(0.0, 0.0, 0.2, 1);
             }
         }
+    }
+}
+
+.media-xinfo {
+    font-size: 0.8em;
+    .btn {
+        margin-left: 1em;
+        font-weight: 600;
+        border-radius: 0;
+    }
+    p {
+        margin: 0;
+        padding: 0.3em 0 0;
     }
 }
 

@@ -103,6 +103,10 @@ ol {
 }
 
 @import "../vendors/bootstrap/stylesheets/bootstrap/buttons";
+.btn-primary {
+    @include button-variant($btn-primary-color, $video-color, $video-color);
+}
+
 //@import "../vendors/bootstrap/stylesheets/bootstrap/utilities";
 .clearfix {
     @include clearfix;
