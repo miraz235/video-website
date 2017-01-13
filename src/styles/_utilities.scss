@@ -353,3 +353,21 @@
     background-size: cover;
     background-position: center;
 }
+
+.v-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* Fonts */
+
+.f-md {
+    font-size: 2em;
+}
+
+.f-lg {
+    font-size: 10em;
+}
