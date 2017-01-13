@@ -6,7 +6,7 @@
     >li {
         margin: 0 10px 10px 0;
         padding: 0;
-        @media screen and (max-width: $screen-xs-max - 300) {
+        @media screen and (max-width: $screen-xs-min) {
             display: block;
             text-align: center;
         }
@@ -17,7 +17,7 @@
     display: block;
     width: 196px;
     text-align: left;
-    @media screen and (max-width: $screen-xs-max - 300) {
+    @media screen and (max-width: $screen-xs-min) {
         display: inline-block;
     }
 }

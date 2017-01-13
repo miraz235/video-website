@@ -70,7 +70,7 @@ $center-big-play-button: true; // true default
         top: 0.5em;
     }
     transition: background-color .25s cubic-bezier(0.0, 0.0, 0.2, 1);
-    @media screen and (max-width: $screen-xs-max - 285) {
+    @media screen and (max-width: $screen-xs-min) {
         font-size: 3em;
     }
 }
@@ -248,6 +248,23 @@ $shade-color: lighten($primary-background-color, 50%);
             .vjs-watermark-bottom-left {
                 bottom: 0.3em;
             }
+        }
+    }
+    @media screen and (max-width: $screen-xs-min - 150) {
+        .vjs-volume-menu-button {
+            display: none;
+        }
+    }
+    @media screen and (max-width: $screen-xs-min - 250) {
+        &.vjs-has-started .vjs-big-play-button {
+            display: none;
+        }
+        .vjs-control-bar {
+            background-color: transparent;
+        }
+        .vjs-progress-control,
+        .vjs-fullscreen-control {
+            display: none;
         }
     }
 }

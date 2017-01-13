@@ -97,6 +97,9 @@
     padding: 15px 10px;
     visibility: visible;
     opacity: 1;
+    @media screen and (max-width: $screen-xs-min - 100) {
+        padding: 0;
+    }
     .media-title,
     .media-btn-group,
     .media-author {
@@ -126,6 +129,12 @@
     }
     .vjs-ad-playing & {
         z-index: 0;
+    }
+    @media screen and (max-width: $screen-xs-min - 100) {
+        .media-btn-group,
+        .media-author {
+            display: none;
+        }
     }
 }
 
@@ -427,6 +436,7 @@
     line-height: 3.8;
     text-align: left;
     display: flex;
+    overflow: hidden;
     &:hover {
         background-color: $video-color;
     }
