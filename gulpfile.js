@@ -7,11 +7,13 @@ var swPrecache = require("sw-precache");
 var gulpLoadPlugins = require("gulp-load-plugins");
 var merge = require('merge-stream');
 var assemble = require('assemble');
+var merge = require('merge2');
+var request = require('request');
+var source = require('vinyl-source-stream');
 
 var $ = gulpLoadPlugins();
 var $config = require("./config.json");
 var $reload = browserSync.reload;
-var $distName = $config.dist.root + "/";
 var $app = assemble();
 var replaceObj = (function() {
     var r = { demo: {}, dev: {} };
@@ -44,7 +46,7 @@ gulp.task("images", function() {
             title: "images",
             showFiles: true
         }))
-        .pipe(gulp.dest($distName + $config.dist.images));
+        .pipe(gulp.dest($config.dist.images));
 });
 
 gulp.task("html", function() {
@@ -66,7 +68,7 @@ gulp.task("html", function() {
             title: 'html',
             showFiles: true
         })))
-        .pipe(gulp.dest($distName + $config.dist.htmls));
+        .pipe(gulp.dest($config.dist.htmls));
 
 });
 gulp.task("scripts:tmp", function(callback) {
@@ -87,6 +89,7 @@ gulp.task("scripts:tmp", function(callback) {
                 .pipe(gulp.dest($config.tmp.scripts));
         }))
 });
+
 gulp.task("scripts", ["scripts:tmp"], function(callback) {
     return gulp.src($config.tmp["scripts-files"])
         //.pipe($.newer($config.tmp.scripts))
@@ -101,7 +104,7 @@ gulp.task("scripts", ["scripts:tmp"], function(callback) {
             title: 'scripts',
             showFiles: true
         }))
-        .pipe(gulp.dest($distName + $config.dist.scripts))
+        .pipe(gulp.dest($config.dist.scripts))
         .pipe($.rename({
             extname: ".min.js"
         }))
@@ -113,7 +116,141 @@ gulp.task("scripts", ["scripts:tmp"], function(callback) {
             title: 'scripts',
             showFiles: true
         }))
-        .pipe(gulp.dest($distName + $config.dist.scripts));
+        .pipe(gulp.dest($config.dist.scripts));
+});
+
+var jqueryjs = request('https://code.jquery.com/jquery-3.1.1.js')
+    .pipe(source('jquery.js'));
+var bootstrapjs = request('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js')
+    .pipe(source('bootstrap.js'));
+var videojsjs = request('http://vjs.zencdn.net/5.8.8/video.js')
+    .pipe(source('video.js'));
+var imajs = request('http://imasdk.googleapis.com/js/sdkloader/ima3.js')
+    .pipe(source('ima3.js'));
+var dashjs = request('https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js')
+    .pipe(source('dash.js'));
+
+gulp.task("scripts:emall", function(callback) {
+    var src = $config.src["scripts-concate"];
+    src.push("dist/scripts/blogg-embed.js");
+    var localjs = gulp.src(src);
+    return merge(jqueryjs, [bootstrapjs, videojsjs, imajs, dashjs], localjs)
+        .pipe($.buffer())
+        .pipe($.concat('all-embed.js'))
+        .pipe(gulp.dest($config.tmp.root))
+        .pipe($.if($config.sourcemap, $.sourcemaps.init()))
+        .pipe($.size({
+            title: 'scripts',
+            showFiles: true
+        }))
+        .pipe(gulp.dest($config.dist.scripts))
+        .pipe($.rename({
+            extname: ".min.js"
+        }))
+        .pipe($.if($config.compress.js, $.uglify({
+            preserveComments: 'some'
+        })))
+        .pipe($.if($config.sourcemap, $.sourcemaps.write('.')))
+        .pipe($.size({
+            title: 'scripts',
+            showFiles: true
+        }))
+        .pipe(gulp.dest($config.dist.scripts));
+});
+
+gulp.task("scripts:weball", function(callback) {
+    var src = $config.src["scripts-concate"];
+    src.push("dist/scripts/blogg-media.js");
+    var localjs = gulp.src(src);
+    return merge(jqueryjs, [bootstrapjs, videojsjs, imajs, dashjs], localjs)
+        .pipe($.buffer())
+        .pipe($.concat('all-web.js'))
+        .pipe(gulp.dest($config.tmp.root))
+        .pipe($.if($config.sourcemap, $.sourcemaps.init()))
+        .pipe($.size({
+            title: 'scripts',
+            showFiles: true
+        }))
+        .pipe(gulp.dest($config.dist.scripts))
+        .pipe($.rename({
+            extname: ".min.js"
+        }))
+        .pipe($.if($config.compress.js, $.uglify({
+            preserveComments: 'some'
+        })))
+        .pipe($.if($config.sourcemap, $.sourcemaps.write('.')))
+        .pipe($.size({
+            title: 'scripts',
+            showFiles: true
+        }))
+        .pipe(gulp.dest($config.dist.scripts));
+});
+
+
+var bootstrapcss = request('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    .pipe(source('bootstrap.css'));
+var videojscss = request('http://vjs.zencdn.net/5.8.8/video-js.css')
+    .pipe(source('video.css'));
+
+gulp.task("styles:emall", function(callback) {
+    var src = $config.src["styles-concate"];
+    src.push("dist/css/styles-embed.min.css");
+    var localcss = gulp.src(src);
+    return merge(bootstrapcss, videojscss, localcss)
+        .pipe($.buffer())
+        .pipe($.concat('all-embed.css'))
+        .pipe(gulp.dest($config.tmp.root))
+        .pipe($.if($config.sourcemap, $.sourcemaps.init()))
+        .pipe($.size({
+            title: 'styles',
+            showFiles: true
+        }))
+        .pipe(gulp.dest($config.dist.styles))
+        .pipe($.rename({
+            extname: ".min.js"
+        }))
+        .pipe($.postcss([
+            require('cssnano')({ zindex: false }),
+            require('postcss-reporter')
+        ]))
+        .pipe($.if($config.sourcemap, $.sourcemaps.write('.')))
+        .pipe($.size({
+            title: 'styles',
+            showFiles: true
+        }))
+        .pipe(gulp.dest($config.dist.styles));
+});
+gulp.task("styles:weball", function(callback) {
+    var src = $config.src["styles-concate"];
+    src.push("dist/css/styles.min.css");
+    var localcss = gulp.src(src);
+    return merge(bootstrapcss, videojscss, localcss)
+        .pipe($.buffer())
+        .pipe($.concat('all-web.css'))
+        .pipe(gulp.dest($config.tmp.root))
+        .pipe($.if($config.sourcemap, $.sourcemaps.init()))
+        .pipe($.size({
+            title: 'styles',
+            showFiles: true
+        }))
+        .pipe(gulp.dest($config.dist.styles))
+        .pipe($.rename({
+            extname: ".min.js"
+        }))
+        .pipe($.postcss([
+            require('cssnano')({ zindex: false }),
+            require('postcss-reporter')
+        ]))
+        .pipe($.if($config.sourcemap, $.sourcemaps.write('.')))
+        .pipe($.size({
+            title: 'styles',
+            showFiles: true
+        }))
+        .pipe(gulp.dest($config.dist.styles));
+});
+
+gulp.task("concate", ["styles", "scripts"], function(cb) {
+    runSequence(["scripts:weball", "scripts:emall"], ["styles:weball", "styles:emall"], cb)
 });
 
 gulp.task("styles", [], function() {
@@ -143,7 +280,7 @@ gulp.task("styles", [], function() {
             title: "styles",
             showFiles: true
         }))
-        .pipe(gulp.dest($distName + $config.dist.styles));
+        .pipe(gulp.dest($config.dist.styles));
 });
 
 gulp.task("lint:styles", function() {
@@ -183,7 +320,7 @@ gulp.task("copy:fonts", function() {
         if ($config["vendors-active"].indexOf(key) === -1)
             continue;
         jsBundleStreams.push(gulp.src($config.src.fonts[key])
-            .pipe(gulp.dest($distName + $config.dist.fonts + '/' + key))
+            .pipe(gulp.dest($config.dist.fonts + '/' + key))
         );
     }
     // Merge and return streams
@@ -198,7 +335,7 @@ gulp.task("copy:vendors", function(callback) {
         if ($config["vendors-active"].indexOf(key) === -1)
             continue;
         jsBundleStreams.push(gulp.src($config.src.vendors[key])
-            .pipe(gulp.dest($distName + $config.dist.vendors + '/' + key))
+            .pipe(gulp.dest($config.dist.vendors + '/' + key))
         );
     }
 
@@ -220,7 +357,7 @@ gulp.task("copy", ["copy:vendors", "copy:fonts"], function() {
 gulp.task("copy:sw-scripts", function() {
     return gulp.src([$config.sw, $config.src.sw])
         .pipe(gulp.dest($config.tmp.sw))
-        .pipe(gulp.dest($distName + $config.dist.sw));
+        .pipe(gulp.dest($config.dist.sw));
 });
 
 gulp.task("generate-service-worker", ["copy:sw-scripts"], function() {
@@ -236,18 +373,18 @@ gulp.task("generate-service-worker", ["copy:sw-scripts"], function() {
             `${$config.dist.sw}/runtime-caching.js`
         ],
         staticFileGlobs: [
-            `${$distName + $config.dist.images}/**/*`,
-            `${$distName + $config.dist.scripts}/**/*.js`,
-            `${$distName + $config.dist.styles}/**/*.css`,
+            `${$config.dist.images}/**/*`,
+            `${$config.dist.scripts}/**/*.js`,
+            `${$config.dist.styles}/**/*.css`,
             `${$config.dist.root}/*.{html,json}`
         ],
-        stripPrefix: $distName
+        stripPrefix: `${$config.dist.root}/`
     })
 });
 
 // Build production files, the default task
 gulp.task("default", ["clean"], function(callback) {
-    var tasks = ["copy", "html", "scripts", "styles", "images"];
+    var tasks = ["copy", "html", "concate", "images"];
     if ($config["service-worker"])
         tasks.push("generate-service-worker");
     runSequence("styles", tasks, callback);

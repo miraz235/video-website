@@ -6,6 +6,7 @@
     >li {
         margin: 0 10px 10px 0;
         padding: 0;
+        vertical-align: top;
         @media screen and (max-width: $screen-xs-min) {
             display: block;
             text-align: center;

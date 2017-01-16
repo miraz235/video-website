@@ -10,6 +10,21 @@ header[role="banner"] {
     }
 }
 
+.brand {
+    a[rel="home"] {
+        border: 1px solid rgba($color-black, .15);
+        color: $color-black;
+        background-color: $color-white;
+        padding: 8px 12px;
+        font-weight: 300;
+        &:hover {
+            background-color: rgba($color-black, .7);
+            color: $color-white;
+            text-decoration: none;
+        }
+    }
+}
+
 #collapseProfile {
     padding: 0;
     .jumbotron {

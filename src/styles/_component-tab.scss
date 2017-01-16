@@ -1,4 +1,4 @@
-.nav-tabs {
+/*.nav-tabs {
     border-bottom-width: 2px;
     >li {
         // Actual tabs (as links)
@@ -43,10 +43,51 @@
 .tab-nav>li>a::after {
     background: $brand-primary none repeat scroll 0% 0%;
     color: #fff;
+}*/
+
+.nav-tabs {
+    border-bottom-width: 0;
+    margin-bottom: 10px;
+    >li {
+        >a {
+            border-radius: 0;
+            border-color: $gray-light;
+            margin-right: 10px;
+            &:hover {
+                border-color: $gray;
+                background-color: $color-white;
+            }
+            &:after {
+                content: "";
+                height: 0;
+                width: 0;
+                position: absolute;
+                left: 50%;
+                top: 100%;
+                margin-left: -4px;
+                transition: all 250ms ease 0s;
+                border: {
+                    color: transparent;
+                    style: solid;
+                    width: 7px 7px 0;
+                }
+            }
+        }
+        &.active>a {
+            &,
+            &:hover,
+            &:focus {
+                border-color: $gray;
+            }
+            &:after {
+                border-top-color: $gray;
+            }
+        }
+    }
 }
 
 .tab-pane {
-    padding: 15px 0;
+    padding: 10px 0;
 }
 
 .tab-content {

@@ -11,6 +11,11 @@ hr {
     border-style: dotted;
 }
 
+h1,
+h2 {
+    font-weight: 300;
+}
+
 .container {
     >h2,
     >h1 {
@@ -37,4 +42,8 @@ hr {
 
 .modal-backdrop {
     z-index: 11110;
+}
+
+.well {
+    border-radius: 0;
 }

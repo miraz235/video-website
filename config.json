@@ -77,10 +77,24 @@
             "src/styles/**/*.css",
             "!src/styles/bootstrap.scss"
         ],
+        "styles-concate": [
+            "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.css",
+            "dist/vendors/videojs-ima/videojs.ima.css",
+            "dist/vendors/videojs-contrib-ads/videojs.ads.css",
+            "dist/vendors/videojs-watermark/videojs-watermark.css"
+        ],
         "scripts": [
             "!src/scripts/sw",
             "src/scripts/*.js",
             "!src/scripts/videojs-playlists.js"
+        ],
+        "scripts-concate": [
+            "dist/vendors/videojs-contextmenu/videojs-contextmenu.js",
+            "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.js",
+            "dist/vendors/videojs-ima/videojs.ima.js",
+            "dist/vendors/videojs-contrib-ads/videojs.ads.js",
+            "dist/vendors/videojs-contrib-dash/videojs-dash.js",
+            "dist/vendors/videojs-watermark/videojs-watermarks.js"
         ],
         "fonts": {
             "bootstrap": ["src/vendors/bootstrap/fonts/bootstrap/**"]
@@ -117,12 +131,12 @@
     },
     "dist": {
         "root": "dist",
-        "htmls": "",
-        "styles": "css",
-        "scripts": "js",
-        "fonts": "fonts",
-        "vendors": "vendors",
-        "images": "images",
-        "sw": "js/sw"
+        "htmls": "dist",
+        "styles": "dist/css",
+        "scripts": "dist/js",
+        "fonts": "dist/fonts",
+        "vendors": "dist/vendors",
+        "images": "dist/images",
+        "sw": "dist/js/sw"
     }
 }
