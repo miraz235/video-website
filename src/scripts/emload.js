@@ -23,10 +23,9 @@
                         height += audioHeight;
                     else
                         height = audioHeight;
+                    el.height = height;
+                    el.style.height = height + "px";
                 }
-
-                el.height = height;
-                el.style.height = height + "px";
             }
         },
         onMessage: function(message) {
@@ -73,6 +72,7 @@
         iframe.style.maxWidth = "100%";
         iframe.style.height = "100%";
         iframe.style.position = "relative";
+        iframe.style.top = "0";
         iframe.scrolling = "no";
         iframe.setAttribute("webkitallowfullscreen", "true");
         iframe.setAttribute("mozallowfullscreen", "true");
@@ -84,6 +84,8 @@
             iframe.className += " em-iframe-audio";
             if (config.list == '1')
                 iframe.className += " em-iframe-audio-list";
+        } else {
+            iframe.style.position = "absolute";
         }
         return false;
     }
@@ -120,20 +122,22 @@
     var wrapper = document.createElement('div');
     wrapper.style.position = "relative";
     wrapper.style.width = '100%';
+    if (config.type != 'audio')
+        wrapper.style.paddingTop = '56.25%';
     createIframe(config);
     wrapper.appendChild(iframe);
     insertAfter(me, wrapper);
-    if (config.type != 'audio') {
-        setTimeout(function() {
+    if (config.type == 'audio') {
+        /*setTimeout(function() {
             helpers.setIFrameHeight(iframe, 0, true);
         }, 1500);
-    } else {
+    } else {*/
         if (searchParams(me.src, 'list') == '1')
             helpers.setIFrameHeight(iframe, 165, true);
         else
             helpers.setIFrameHeight(iframe, 165);
+        window.addEventListener("resize", helpers.resizeAll);
     }
-    window.addEventListener("resize", helpers.resizeAll);
     //window.addEventListener("message", helpers.onMessage);
     me.className = "em-injected";
 })();
