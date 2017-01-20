@@ -159,8 +159,7 @@ $shade-color: lighten($primary-background-color, 50%);
         }
     }
     .vjs-mouse-display:before,
-    .vjs-play-progress:before,
-    .vjs-volume-level:before {
+    .vjs-play-progress:before {
         content: ''; //Remove Circle from Progress Bar
     }
     .vjs-progress-holder {
@@ -184,54 +183,64 @@ $shade-color: lighten($primary-background-color, 50%);
     .vjs-fullscreen-control {
         order: 2;
     }
-    .vjs-mute-control:before,
-    .vjs-volume-menu-button:before,
-    .vjs-mute-control.vjs-vol-0:before,
-    .vjs-volume-menu-button.vjs-vol-0:before,
-    .vjs-mute-control.vjs-vol-1:before,
-    .vjs-volume-menu-button.vjs-vol-1:before,
-    .vjs-mute-control.vjs-vol-2:before,
-    .vjs-volume-menu-button.vjs-vol-2:before {
-        content: ''; //Remove Volume Icons
-    }
-    .vjs-menu-button-inline .vjs-menu,
-    .vjs-menu-button-inline:focus .vjs-menu,
-    .vjs-menu-button-inline.vjs-slider-active .vjs-menu {
-        display: block;
-        opacity: 1;
-    }
     .vjs-volume-menu-button {
-        width: 3em;
-        margin: 0 5px;
         order: 1;
     }
-    .vjs-menu-button .vjs-menu-content,
-    .vjs-menu-button-inline:hover,
-    .vjs-menu-button-inline:focus,
-    .vjs-menu-button-inline.vjs-slider-active {
-        width: 3em;
+    .vjs-menu {
+        z-index: 1;
     }
-    .vjs-menu-button-inline .vjs-menu {
-        left: 0; //Override to Align Volume To the Right Side
-    }
-    .vjs-volume-bar {
-        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAcCAQAAACw95UnAAAAMElEQVRIx2NgoBL4n4YKGUYNHkEG4zJg1OCRYDCpBowaPJwMppbLRg0eNXjUYBLEAXWNUA6QNm1lAAAAAElFTkSuQmCC);
-        background-size: 22px 14px;
-        background-repeat: no-repeat;
-        height: 100%;
-        width: 100%;
-        max-width: 22px;
-        max-height: 14px;
-        margin: 7px 4px;
-        border-radius: 0;
-    }
-    .vjs-volume-level {
-        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAcAQAAAAAyhWABAAAAAnRSTlMAAHaTzTgAAAAZSURBVHgBYwAB/g9EUv+JokCqiaT+U4MCAPKPS7WUUOc1AAAAAElFTkSuQmCC);
-        background-size: 22px 14px;
-        background-repeat: no-repeat;
-        max-width: 22px;
-        max-height: 14px;
-        height: 100%;
+    .vjs-menu-button-inline {
+        .vjs-volume-level:before {
+            content: ''; //Remove Circle from Progress Bar
+        }
+        &.vjs-mute-control:before,
+        &.vjs-volume-menu-button:before,
+        &.vjs-mute-control.vjs-vol-0:before,
+        &.vjs-volume-menu-button.vjs-vol-0:before,
+        &.vjs-mute-control.vjs-vol-1:before,
+        &.vjs-volume-menu-button.vjs-vol-1:before,
+        &.vjs-mute-control.vjs-vol-2:before,
+        &.vjs-volume-menu-button.vjs-vol-2:before {
+            content: ''; //Remove Volume Icons
+        }
+        .vjs-menu,
+        &:focus .vjs-menu,
+        &.vjs-slider-active .vjs-menu {
+            display: block;
+            opacity: 1;
+        }
+        &.vjs-volume-menu-button {
+            width: 3em;
+            margin: 0 5px;
+        }
+        .vjs-menu-content,
+        &:hover,
+        &:focus,
+        &.vjs-slider-active {
+            width: 3em;
+        }
+        .vjs-menu {
+            left: 0; //Override to Align Volume To the Right Side
+        }
+        .vjs-volume-bar {
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAcCAQAAACw95UnAAAAMElEQVRIx2NgoBL4n4YKGUYNHkEG4zJg1OCRYDCpBowaPJwMppbLRg0eNXjUYBLEAXWNUA6QNm1lAAAAAElFTkSuQmCC);
+            background-size: 22px 14px;
+            background-repeat: no-repeat;
+            height: 100%;
+            width: 100%;
+            max-width: 22px;
+            max-height: 14px;
+            margin: 7px 4px;
+            border-radius: 0;
+        }
+        .vjs-volume-level {
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAcAQAAAAAyhWABAAAAAnRSTlMAAHaTzTgAAAAZSURBVHgBYwAB/g9EUv+JokCqiaT+U4MCAPKPS7WUUOc1AAAAAElFTkSuQmCC);
+            background-size: 22px 14px;
+            background-repeat: no-repeat;
+            max-width: 22px;
+            max-height: 14px;
+            height: 100%;
+        }
     }
     .vjs-watermark-bottom-right,
     .vjs-watermark-bottom-left {

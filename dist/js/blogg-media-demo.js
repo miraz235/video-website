@@ -47,6 +47,11 @@
                     defaultOpt.height = 100;
                     defaultOpt.controlBar.fullscreenToggle = false;
                     break;
+                default:
+                    defaultOpt.controlBar.volumeMenuButton = {
+                        inline: false,
+                        vertical: true
+                    };
             };
             return defaultOpt;
         };
