@@ -21,3 +21,7 @@
 .vjs-ad-playing .vjs-audio-button {
     display: none;
 }
+
+.vjs-ad-playing>video {
+    display: none;
+}

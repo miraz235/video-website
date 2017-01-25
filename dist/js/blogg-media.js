@@ -79,9 +79,9 @@
                 ima: {
                     id: vId,
                     showControlsForJSAds: false,
-                    prerollTimeout: 500,
                     adLabel: 'Annonse',
-                    adTagUrl: 'null'
+                    adTagUrl: 'null',
+                    prerollTimeout: 1000
                 },
                 replayButton: {}
             };
@@ -134,10 +134,10 @@
                             player.ima(plugins.ima);
                             player.ima.initializeAdDisplayContainer();
                             player.ima.requestAds();
+                            player.one(_startEvent, function() {
+                                player.play();
+                            });
                         }
-                        /*player.one(_startEvent, function() {
-                            player.play();
-                        });*/
                         break;
                     default:
                         player[plugin](plugins[plugin]);
@@ -195,9 +195,6 @@
             var plgOpts = _getPluginDefaultOptions(player.id());
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
-            player.one(_startEvent, function() {
-                player.play();
-            });
 
             return player;
         };

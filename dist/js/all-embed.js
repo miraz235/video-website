@@ -45626,9 +45626,11 @@ module.exports = exports['default'];
                 ima: {
                     id: _idSelector.replace('#', ''),
                     showControlsForJSAds: false,
-                    prerollTimeout: 100,
                     adLabel: 'Annonse',
-                    adTagUrl: 'null'
+                    adTagUrl: 'null',
+                    contribAdsSettings: {
+                        prerollTimeout: 500
+                    }
                 },
                 contextmenuUI: {
                     content: [{
@@ -45703,10 +45705,10 @@ module.exports = exports['default'];
                             player.ima(plugins.ima);
                             player.ima.initializeAdDisplayContainer();
                             player.ima.requestAds();
+                            player.one(_startEvent, function() {
+                                player.play();
+                            });
                         }
-                        /*player.one(_startEvent, function() {
-                            player.play();
-                        });*/
                         break;
                     default:
                         player[plugin](plugins[plugin]);
@@ -45764,9 +45766,6 @@ module.exports = exports['default'];
             var plgOpts = _getPluginDefaultOptions(player.id());
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
-            player.one(_startEvent, function() {
-                player.play();
-            });
 
             _currentMedia.player = player;
 

@@ -102,9 +102,9 @@
                 ima: {
                     id: _idSelector.replace('#', ''),
                     showControlsForJSAds: false,
-                    prerollTimeout: 100,
                     adLabel: 'Annonse',
-                    adTagUrl: '@@__video-ima-ad__'
+                    adTagUrl: '@@__video-ima-ad__',
+                    prerollTimeout: 1000
                 },
                 contextmenuUI: {
                     content: [{
@@ -179,10 +179,13 @@
                             player.ima(plugins.ima);
                             player.ima.initializeAdDisplayContainer();
                             player.ima.requestAds();
+                            player.one(_startEvent, function() {
+                                player.play();
+                            });
+                            player.one('adsready', function() {
+                                player.pause();
+                            });
                         }
-                        /*player.one(_startEvent, function() {
-                            player.play();
-                        });*/
                         break;
                     default:
                         player[plugin](plugins[plugin]);
@@ -240,9 +243,6 @@
             var plgOpts = _getPluginDefaultOptions(player.id());
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
-            player.one(_startEvent, function() {
-                player.play();
-            });
 
             _currentMedia.player = player;
 
