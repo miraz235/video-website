@@ -29,6 +29,7 @@
     "gulp-assemble": "^0.3.3",
     "gulp-buffer": "0.0.2",
     "gulp-cache": "^0.4.5",
+    "gulp-clone": "^1.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-extname": "^0.2.2",
     "gulp-foreach": "^0.1.0",

@@ -52,10 +52,10 @@
         "videojs-watermark",
         "videojs-ima",
         "videojs-contrib-ads",
-        "videojs-contrib-dash",
         "videojs5-hlsjs-source-handler",
         "videojs-contextmenu",
-        "videojs-contextmenu-ui"
+        "videojs-contextmenu-ui",
+        "videojs-replay"
     ],
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",
     "tmp": {
@@ -81,7 +81,8 @@
             "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.css",
             "dist/vendors/videojs-ima/videojs.ima.css",
             "dist/vendors/videojs-contrib-ads/videojs.ads.css",
-            "dist/vendors/videojs-watermark/videojs-watermark.css"
+            "dist/vendors/videojs-watermark/videojs-watermark.css",
+            "src/vendors/videojs-replay/videojs-replay.css"
         ],
         "scripts": [
             "!src/scripts/sw",
@@ -93,8 +94,9 @@
             "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.js",
             "dist/vendors/videojs-ima/videojs.ima.js",
             "dist/vendors/videojs-contrib-ads/videojs.ads.js",
-            "dist/vendors/videojs-contrib-dash/videojs-dash.js",
-            "dist/vendors/videojs-watermark/videojs-watermarks.js"
+            "dist/vendors/videojs5-hlsjs-source-handler/videojs5-hlsjs-source-handler.js",
+            "dist/vendors/videojs-watermark/videojs-watermarks.js",
+            "src/vendors/videojs-replay/videojs-replay.js"
         ],
         "fonts": {
             "bootstrap": ["src/vendors/bootstrap/fonts/bootstrap/**"]
@@ -124,7 +126,8 @@
             "videojs5-hlsjs-source-handler": ["src/vendors/videojs5-hlsjs-source-handler/*"],
             "videojs-quality-picker": ["src/vendors/videojs-quality-picker/*"],
             "videojs-contextmenu": ["src/vendors/videojs-contextmenu/*"],
-            "videojs-contextmenu-ui": ["src/vendors/videojs-contextmenu-ui/*"]
+            "videojs-contextmenu-ui": ["src/vendors/videojs-contextmenu-ui/*"],
+            "videojs-replay": ["src/vendors/videojs-replay/**"]
         },
         "images": ["src/images/**/*.{jpeg, jpg, png, gif, svg}"],
         "sw": "src/scripts/sw/runtime-caching.js"

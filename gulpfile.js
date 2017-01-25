@@ -119,22 +119,34 @@ gulp.task("scripts", ["scripts:tmp"], function(callback) {
         .pipe(gulp.dest($config.dist.scripts));
 });
 
-var jqueryjs = request('https://code.jquery.com/jquery-3.1.1.js')
-    .pipe(source('jquery.js'));
-var bootstrapjs = request('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js')
-    .pipe(source('bootstrap.js'));
-var videojsjs = request('http://vjs.zencdn.net/5.8.8/video.js')
-    .pipe(source('video.js'));
-var imajs = request('http://imasdk.googleapis.com/js/sdkloader/ima3.js')
-    .pipe(source('ima3.js'));
-var dashjs = request('https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js')
-    .pipe(source('dash.js'));
+var jqueryjs = function() {
+    return request('https://code.jquery.com/jquery-3.1.1.js')
+        .pipe(source('jquery-3.1.1.js'))
+};
+var bootstrapjs = function() {
+    return request('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js')
+        .pipe(source('bootstrap.js'))
+};
+var videojsjs = function() {
+    return request('http://vjs.zencdn.net/5.8.8/video.js')
+        .pipe(source('video.js'))
+};
+var imajs = function() {
+    return request('http://imasdk.googleapis.com/js/sdkloader/ima3.js')
+        .pipe(source('ima3.js'))
+};
+var dashjs = function() {
+    return request('https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js')
+        .pipe(source('dash.all.min.js'))
+};
 
 gulp.task("scripts:emall", function(callback) {
     var src = $config.src["scripts-concate"];
-    src.push("dist/scripts/blogg-embed.js");
+    src.push("dist/js/blogg-embed.js");
     var localjs = gulp.src(src);
-    return merge(jqueryjs, [bootstrapjs, videojsjs, imajs, dashjs], localjs)
+    //var jq = jqueryjs.pipe($.clone());
+    //console.log(jqueryjs);
+    return merge(jqueryjs(), videojsjs(), imajs(), localjs)
         .pipe($.buffer())
         .pipe($.concat('all-embed.js'))
         .pipe(gulp.dest($config.tmp.root))
@@ -160,9 +172,10 @@ gulp.task("scripts:emall", function(callback) {
 
 gulp.task("scripts:weball", function(callback) {
     var src = $config.src["scripts-concate"];
-    src.push("dist/scripts/blogg-media.js");
+    src.push("dist/js/blogg-media.js");
     var localjs = gulp.src(src);
-    return merge(jqueryjs, [bootstrapjs, videojsjs, imajs, dashjs], localjs)
+
+    return merge(jqueryjs(), bootstrapjs(), videojsjs(), imajs(), localjs)
         .pipe($.buffer())
         .pipe($.concat('all-web.js'))
         .pipe(gulp.dest($config.tmp.root))
@@ -187,16 +200,20 @@ gulp.task("scripts:weball", function(callback) {
 });
 
 
-var bootstrapcss = request('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
-    .pipe(source('bootstrap.css'));
-var videojscss = request('http://vjs.zencdn.net/5.8.8/video-js.css')
-    .pipe(source('video.css'));
+var bootstrapcss = function() {
+    return request('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+        .pipe(source('bootstrap.css'))
+};
+var videojscss = function() {
+    return request('http://vjs.zencdn.net/5.8.8/video-js.css')
+        .pipe(source('video-js.css'))
+};
 
 gulp.task("styles:emall", function(callback) {
     var src = $config.src["styles-concate"];
     src.push("dist/css/styles-embed.min.css");
     var localcss = gulp.src(src);
-    return merge(bootstrapcss, videojscss, localcss)
+    return merge(videojscss(), localcss)
         .pipe($.buffer())
         .pipe($.concat('all-embed.css'))
         .pipe(gulp.dest($config.tmp.root))
@@ -207,7 +224,7 @@ gulp.task("styles:emall", function(callback) {
         }))
         .pipe(gulp.dest($config.dist.styles))
         .pipe($.rename({
-            extname: ".min.js"
+            extname: ".min.css"
         }))
         .pipe($.postcss([
             require('cssnano')({ zindex: false }),
@@ -224,7 +241,7 @@ gulp.task("styles:weball", function(callback) {
     var src = $config.src["styles-concate"];
     src.push("dist/css/styles.min.css");
     var localcss = gulp.src(src);
-    return merge(bootstrapcss, videojscss, localcss)
+    return merge(bootstrapcss(), videojscss(), localcss)
         .pipe($.buffer())
         .pipe($.concat('all-web.css'))
         .pipe(gulp.dest($config.tmp.root))
@@ -235,7 +252,7 @@ gulp.task("styles:weball", function(callback) {
         }))
         .pipe(gulp.dest($config.dist.styles))
         .pipe($.rename({
-            extname: ".min.js"
+            extname: ".min.css"
         }))
         .pipe($.postcss([
             require('cssnano')({ zindex: false }),
@@ -250,7 +267,7 @@ gulp.task("styles:weball", function(callback) {
 });
 
 gulp.task("concate", ["styles", "scripts"], function(cb) {
-    runSequence(["scripts:weball", "scripts:emall"], ["styles:weball", "styles:emall"], cb)
+    runSequence(["scripts:emall", "scripts:weball"], ["styles:emall", "styles:weball"], cb)
 });
 
 gulp.task("styles", [], function() {

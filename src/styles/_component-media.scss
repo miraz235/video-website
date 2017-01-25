@@ -41,6 +41,7 @@
                 height: $video-height;
                 position: absolute;
                 right: 0;
+                padding: 0;
             }
         }
     }
@@ -479,5 +480,11 @@
     &:focus {
         background-color: $color-white;
         color: $color-black;
+    }
+}
+
+.video-js {
+    &.vjs-ad-loading>video {
+        opacity: 0;
     }
 }

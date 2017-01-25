@@ -1,10 +1,10 @@
 (function($, videojs, window) {
     'use strict';
 
-    var dashCallback = function(player, mediaPlayer) {
+    /*var dashCallback = function(player, mediaPlayer) {
         mediaPlayer.getDebug().setLogToBrowserConsole(false);
     };
-    videojs.Html5DashJS.hook('beforeInitialize', dashCallback);
+    videojs.Html5DashJS.hook('beforeInitialize', dashCallback);*/
     window.videojs = videojs;
 
     var bloggMedia = function(mediaType) {
@@ -28,15 +28,19 @@
                 playsCounter: 0,
                 index: -1
             },
-            _idSelector = '#embedMedia';
+            _idSelector = '#embedMedia',
+            _timeupWaitingID = 0;
 
         var _getDefaultSetup = function() {
             var defaultOpt = {
                 controls: true,
                 autoplay: false,
                 loop: false,
-                preload: "none",
-                inactivityTimeout: 1000,
+                preload: "metadata",
+                html5: {
+                    hlsjsConfig: {}
+                },
+                inactivityTimeout: 500,
                 controlBar: {
                     fullscreenToggle: true
                 }
@@ -74,13 +78,17 @@
                 },
                 ima: {
                     id: vId,
+                    showControlsForJSAds: false,
+                    prerollTimeout: 500,
+                    adLabel: 'Annonse',
                     adTagUrl: '@@__video-ima-ad__'
-                }
+                },
+                replayButton: {}
             };
             var selectedPlugins = {},
                 plg = {
-                    video: ["watermark", "ima"],
-                    audio: []
+                    video: ["watermark", "ima", "replayButton"],
+                    audio: ["replayButton"]
                 };
             for (var idx in plg[_currentMedia.type]) {
                 var plugin = plg[_currentMedia.type][idx];
@@ -120,15 +128,19 @@
 
         var _runPlugin = function(player, plugins) {
             for (var plugin in plugins) {
-                player[plugin](plugins[plugin]);
                 switch (plugin) {
                     case 'ima':
-                        player.one(_startEvent, function() {
+                        if (plugins.ima.adTagUrl) {
+                            player.ima(plugins.ima);
                             player.ima.initializeAdDisplayContainer();
                             player.ima.requestAds();
+                        }
+                        /*player.one(_startEvent, function() {
                             player.play();
-                        });
+                        });*/
                         break;
+                    default:
+                        player[plugin](plugins[plugin]);
                 }
             }
         };
@@ -183,11 +195,15 @@
             var plgOpts = _getPluginDefaultOptions(player.id());
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
+            player.one(_startEvent, function() {
+                player.play();
+            });
 
             return player;
         };
 
         var onMediaPlayEvent = function(event) {
+            this.clearTimeout(_timeupWaitingID);
             for (var i = 0; i < _mediaPlayerList.length; i++) {
                 if (_mediaPlayerList[i].id() != event.target.id) {
                     if (!_mediaPlayerList[i].paused()) {
@@ -212,10 +228,10 @@
         };
 
         var onMediaEndEvent = function() {
-            var waitTime = 1500,
+            var waitTime = 3000,
                 nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type != 'video')) {
-                setTimeout(function() {
+                _timeupWaitingID = this.setTimeout(function() {
                     window.location.href = nextMedia;
                 }, waitTime);
             }

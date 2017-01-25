@@ -1,9 +1,9 @@
 (function($, videojs, window) {
     'use strict';
-    var dashCallback = function(player, mediaPlayer) {
+    /*var dashCallback = function(player, mediaPlayer) {
         mediaPlayer.getDebug().setLogToBrowserConsole(false);
     };
-    videojs.Html5DashJS.hook('beforeInitialize', dashCallback);
+    videojs.Html5DashJS.hook('beforeInitialize', dashCallback);*/
     window.videojs = videojs;
 
     var embedMedia = function(mediaType) {
@@ -24,12 +24,13 @@
                 playsCounter: 0,
                 index: -1
             },
-            _idSelector = '#embedMedia';
-        var _notifyHeightToParent = function(height) {
+            _idSelector = '#embedMedia',
+            _timeupWaitingID = null;
+        /*var _notifyHeightToParent = function(height) {
             var message = 'em|height|' + height;
             window.parent.postMessage(message, "*");
         };
-        /*if (_currentMedia.type == 'audio')
+        if (_currentMedia.type == 'audio')
             _notifyHeightToParent(165);*/
 
         var _getDefaultSetup = function() {
@@ -37,8 +38,11 @@
                 controls: true,
                 autoplay: false,
                 loop: false,
-                preload: "none",
-                inactivityTimeout: 1000,
+                preload: "metadata",
+                html5: {
+                    hlsjsConfig: {}
+                },
+                inactivityTimeout: 500,
                 controlBar: {
                     remainingTimeDisplay: false
                         //customControlsSpacer: {}
@@ -97,6 +101,9 @@
                 },
                 ima: {
                     id: _idSelector.replace('#', ''),
+                    showControlsForJSAds: false,
+                    prerollTimeout: 100,
+                    adLabel: 'Annonse',
                     adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator='
                 },
                 contextmenuUI: {
@@ -112,12 +119,13 @@
                             _copyToClipboard($('#inputEmbedIframe').val());
                         }
                     }]
-                }
+                },
+                replayButton: {}
             };
             var selectedPlugins = {},
                 plg = {
-                    video: ["watermark", "ima", "contextmenuUI"],
-                    audio: []
+                    video: ["watermark", "ima", "contextmenuUI", "replayButton"],
+                    audio: ["replayButton"]
                 };
             for (var idx in plg[_currentMedia.type]) {
                 var plugin = plg[_currentMedia.type][idx];
@@ -165,15 +173,19 @@
 
         var _runPlugin = function(player, plugins) {
             for (var plugin in plugins) {
-                player[plugin](plugins[plugin]);
                 switch (plugin) {
                     case 'ima':
-                        player.one(_startEvent, function() {
+                        if (plugins.ima.adTagUrl) {
+                            player.ima(plugins.ima);
                             player.ima.initializeAdDisplayContainer();
                             player.ima.requestAds();
+                        }
+                        /*player.one(_startEvent, function() {
                             player.play();
-                        });
+                        });*/
                         break;
+                    default:
+                        player[plugin](plugins[plugin]);
                 }
             }
         };
@@ -228,22 +240,26 @@
             var plgOpts = _getPluginDefaultOptions(player.id());
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
+            player.one(_startEvent, function() {
+                player.play();
+            });
 
             _currentMedia.player = player;
 
             return player;
         };
         var onMediaPlayEvent = function(event) {
+            this.clearTimeout(_timeupWaitingID);
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1) {
                 _playsAPICall("", _currentMedia.id, _currentMedia.type);
             }
         };
         var onMediaEndEvent = function() {
-            var waitTime = 1500;
+            var waitTime = 3000;
             var nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia) {
-                setTimeout(function() {
+                _timeupWaitingID = this.setTimeout(function() {
                     window.location.href = nextMedia;
                 }, waitTime);
             }

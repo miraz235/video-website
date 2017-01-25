@@ -105,8 +105,7 @@ $slider-bg-color: $primary-foreground-color; //lighten($primary-background-color
 
 $highlight-color: #29c3ff;
 .video-js .vjs-volume-level,
-.video-js .vjs-play-progress,
-.video-js .vjs-slider-bar {
+.video-js .vjs-play-progress {
     background: $highlight-color; //$primary-foreground-color;
     background: rgba($highlight-color, 0.8);
 }
