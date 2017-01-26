@@ -7,7 +7,7 @@
     videojs.Html5DashJS.hook('beforeInitialize', dashCallback);*/
     window.videojs = videojs;
 
-    var bloggMedia = function(mediaType) {
+    var bloggMedia = function(mediaType, mediaId) {
         var _startEvent = 'click';
         if (navigator.userAgent.match(/iPhone/i) ||
             navigator.userAgent.match(/iPad/i) ||
@@ -22,6 +22,7 @@
             _currentMedia = {
                 type: mediaType,
                 id: 0,
+                vid: mediaId || 0,
                 player: null,
                 plugins: null,
                 src: '',
@@ -36,7 +37,7 @@
                 controls: true,
                 autoplay: false,
                 loop: false,
-                preload: "metadata",
+                preload: "none",
                 html5: {
                     hlsjsConfig: {}
                 },
@@ -98,15 +99,13 @@
             return selectedPlugins;
         };
 
-        var _playsAPICall = function(blogId, mediaId, mediaType) {
-            if (_isDemo) return 0;
-            /*$.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo&callback=?", {
-                blogId: blogId,
-                mediaId: mediaId,
-                mediaType: mediaType
+        var _playsAPICall = function(mediaId, mediaType) {
+            if (_isDemo || mediaType == 'audio') return 0;
+            $.getJSON("http://hits.blogsoft.org?callback=?", {
+                vid: mediaId
             }).done(function(msg) {
                 console.log(msg);
-            });*/
+            });
         };
 
         var _getUrlQueries = function(queryStr) {
@@ -119,7 +118,7 @@
             return out;
         };
 
-        var _setMediaId = function() {
+        var _setMediaUrlId = function() {
             _mediaPlayListUrls = [window.location.href];
             _currentMedia.index = 0;
             var queries = _getUrlQueries(document.location.search.substr(1));
@@ -213,13 +212,13 @@
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1) {
                 var $targetDom = $('#' + event.target.id);
-                var mediaId = $targetDom.attr("data-" + _currentMedia.type + "-id");
-                if (mediaId) {
-                    _currentMedia.id = mediaId;
+                var mediaUrlId = $targetDom.attr("data-" + _currentMedia.type + "-id");
+                if (mediaUrlId) {
+                    _currentMedia.id = mediaUrlId;
                     $targetDom.attr("data-" + _currentMedia.type + "-id", '');
                 }
                 if (_currentMedia.id)
-                    _playsAPICall("", _currentMedia.id, _currentMedia.type);
+                    _playsAPICall(_currentMedia.vid, _currentMedia.type);
                 _currentMedia.player = this;
             }
         };
@@ -253,7 +252,7 @@
                 console.log('Already Initialize');
                 return this;
             }
-            _setMediaId();
+            _setMediaUrlId();
 
             addMediaPlayer(domId, setup, callback);
             _currentMedia.player = _mediaPlayerList[0];

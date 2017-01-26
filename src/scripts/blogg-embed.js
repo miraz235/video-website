@@ -6,7 +6,7 @@
     videojs.Html5DashJS.hook('beforeInitialize', dashCallback);*/
     window.videojs = videojs;
 
-    var embedMedia = function(mediaType) {
+    var embedMedia = function(mediaType, mediaId) {
         var _startEvent = 'click';
         if (navigator.userAgent.match(/iPhone/i) ||
             navigator.userAgent.match(/iPad/i) ||
@@ -18,6 +18,7 @@
             _currentMedia = {
                 type: mediaType,
                 id: 0,
+                vid: mediaId || 0,
                 player: null,
                 plugins: null,
                 src: '',
@@ -25,7 +26,7 @@
                 index: -1
             },
             _idSelector = '#embedMedia',
-            _timeupWaitingID = null;
+            _timeupWaitingID = 0;
         /*var _notifyHeightToParent = function(height) {
             var message = 'em|height|' + height;
             window.parent.postMessage(message, "*");
@@ -38,13 +39,13 @@
                 controls: true,
                 autoplay: false,
                 loop: false,
-                preload: "metadata",
+                preload: "none",
                 html5: {
                     hlsjsConfig: {}
                 },
                 inactivityTimeout: 500,
                 controlBar: {
-                    remainingTimeDisplay: false
+                    fullscreenToggle: true
                         //customControlsSpacer: {}
                 }
             };
@@ -135,15 +136,13 @@
             return selectedPlugins;
         };
 
-        var _playsAPICall = function(blogId, mediaId, mediaType) {
-            if (_isDemo) return 0;
-            /*$.getJSON("http://blogsoft.local/index.bd?fa=public.updateMediaInfo&callback=?", {
-                blogId: blogId,
-                mediaId: mediaId,
-                mediaType: mediaType
+        var _playsAPICall = function(mediaId, mediaType) {
+            if (_isDemo || mediaType == 'audio') return 0;
+            $.getJSON("http://hits.blogsoft.org?callback=?", {
+                vid: mediaId
             }).done(function(msg) {
                 console.log(msg);
-            });*/
+            });
         };
         var _getUrlQueries = function(queryStr) {
             var out = {};
@@ -164,7 +163,7 @@
             }
         };
 
-        var _setMediaId = function() {
+        var _setMediaUrlId = function() {
             _mediaPlayListUrls = [];
             _mediaPlayListUrls.push(window.location.href);
             _currentMedia.index = 0;
@@ -252,7 +251,7 @@
             this.clearTimeout(_timeupWaitingID);
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1) {
-                _playsAPICall("", _currentMedia.id, _currentMedia.type);
+                _playsAPICall(_currentMedia.vid, _currentMedia.type);
             }
         };
         var onMediaEndEvent = function() {
@@ -361,7 +360,7 @@
                 console.log('Not found');
                 return this;
             }
-            _setMediaId();
+            _setMediaUrlId();
 
             createPlayer(domId, setup, callback);
             _currentMedia.playsCounter = 0;
