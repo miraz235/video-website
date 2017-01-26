@@ -100,7 +100,7 @@
         };
 
         var _playsAPICall = function(mediaId, mediaType) {
-            if (_isDemo || mediaType == 'audio') return 0;
+            if (_isDemo || mediaType == 'audio' || !mediaId) return 0;
             $.getJSON("http://hits.blogsoft.org?callback=?", {
                 vid: mediaId
             }).done(function(msg) {
