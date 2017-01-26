@@ -105,7 +105,7 @@
                     showControlsForJSAds: false,
                     adLabel: 'Annonse',
                     adTagUrl: 'null',
-                    prerollTimeout: 1000
+                    prerollTimeout: 5000
                 },
                 contextmenuUI: {
                     content: [{
@@ -242,10 +242,15 @@
             var plgOpts = _getPluginDefaultOptions(player.id());
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
+            player.on('adstart', $.proxy(onMediaAdStartEvent, this));
 
             _currentMedia.player = player;
 
             return player;
+        };
+
+        var onMediaAdStartEvent = function(event) {
+            this.pause();
         };
         var onMediaPlayEvent = function(event) {
             this.clearTimeout(_timeupWaitingID);

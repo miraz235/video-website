@@ -82,7 +82,7 @@
                     showControlsForJSAds: false,
                     adLabel: 'Annonse',
                     adTagUrl: 'null',
-                    prerollTimeout: 1000
+                    prerollTimeout: 5000
                 },
                 replayButton: {}
             };
@@ -194,8 +194,13 @@
             var plgOpts = _getPluginDefaultOptions(player.id());
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
+            player.on('adstart', $.proxy(onMediaAdStartEvent, this));
 
             return player;
+        };
+
+        var onMediaAdStartEvent = function(event) {
+            this.pause();
         };
 
         var onMediaPlayEvent = function(event) {
