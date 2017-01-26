@@ -101,7 +101,7 @@
 
         var _playsAPICall = function(mediaId, mediaType) {
             if (_isDemo || mediaType == 'audio' || !mediaId) return 0;
-            $.get("http://hits.blogsoft.org", {
+            $.getJSON("http://hits.blogsoft.org?callback=?", {
                 vid: mediaId
             }).done(function(msg) {
                 console.log(msg);

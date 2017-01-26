@@ -138,7 +138,7 @@
 
         var _playsAPICall = function(mediaId, mediaType) {
             if (_isDemo || mediaType == 'audio' || !mediaId) return 0;
-            $.get("http://hits.blogsoft.org", {
+            $.getJSON("http://hits.blogsoft.org?callback=?", {
                 vid: mediaId
             }).done(function(msg) {
                 console.log(msg);
@@ -369,7 +369,7 @@
 
             createPlayer(domId, setup, callback);
             _currentMedia.playsCounter = 0;
-            _setFalseBack();
+            //_setFalseBack();
             _setHeader();
             _setButtons();
             _setShare();
