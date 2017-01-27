@@ -51,14 +51,17 @@
 
 .media-xinfo {
     font-size: 0.8em;
-    .btn {
+    div {
         margin-left: 1em;
+    }
+    .btn {
+        margin-left: 0.3em;
         font-weight: 600;
         border-radius: 0;
     }
     p {
         margin: 0;
-        padding: 0.3em 0 0;
+        padding: .15em 0 0;
     }
 }
 
