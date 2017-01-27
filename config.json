@@ -52,7 +52,6 @@
         "videojs-watermark",
         "videojs-ima",
         "videojs-contrib-ads",
-        "videojs5-hlsjs-source-handler",
         "videojs-contextmenu",
         "videojs-contextmenu-ui",
         "videojs-replay"
@@ -94,7 +93,6 @@
             "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.js",
             "dist/vendors/videojs-ima/videojs.ima.js",
             "dist/vendors/videojs-contrib-ads/videojs.ads.js",
-            "dist/vendors/videojs5-hlsjs-source-handler/videojs5-hlsjs-source-handler.js",
             "dist/vendors/videojs-watermark/videojs-watermarks.js",
             "src/vendors/videojs-replay/videojs-replay.js"
         ],
