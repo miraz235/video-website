@@ -1,5 +1,5 @@
 (function() {
-    var iframe;
+    var wrapper, iframe, lazyload = true;
     var helpers = {
         setIFrameHeight: function(el, height, withRatio) {
             if (withRatio) {
@@ -28,6 +28,27 @@
                 }
             }
         },
+        loadIframe: function() {
+            wrapper.appendChild(iframe);
+            if (config.type == 'audio') {
+                /*setTimeout(function() {
+                    helpers.setIFrameHeight(iframe, 0, true);
+                }, 1500);
+            } else {*/
+                if (searchParams(me.src, 'list') == '1')
+                    this.setIFrameHeight(iframe, 165, true);
+                else
+                    this.setIFrameHeight(iframe, 165);
+                window.addEventListener("resize", this.resizeAll);
+            }
+            wrapper.className = "em-loaded";
+        },
+        load: function() {
+            if (!wrapper.classList.contains('em-loaded') && window.scrollY < wrapper.parentNode.offsetTop && wrapper.parentNode.offsetTop < window.scrollY + window.innerHeight) {
+                this.loadIframe();
+            }
+        },
+
         onMessage: function(message) {
             message = message.data;
             if (typeof message !== "undefined" && message != null && typeof message == "string" && message.indexOf("em") > -1) {
@@ -73,6 +94,7 @@
         iframe.style.height = "100%";
         iframe.style.position = "relative";
         iframe.style.top = "0";
+        iframe.style.backgroundColor = "#fff";
         iframe.scrolling = "no";
         iframe.setAttribute("webkitallowfullscreen", "true");
         iframe.setAttribute("mozallowfullscreen", "true");
@@ -119,25 +141,21 @@
         type: searchParams(me.src, 'type'),
         list: searchParams(me.src, 'list')
     };
-    var wrapper = document.createElement('div');
+    wrapper = document.createElement('div');
     wrapper.style.position = "relative";
     wrapper.style.width = '100%';
+    wrapper.style.backgroundColor = "#777";
     if (config.type != 'audio')
         wrapper.style.paddingTop = '56.25%';
     createIframe(config);
-    wrapper.appendChild(iframe);
     insertAfter(me, wrapper);
-    if (config.type == 'audio') {
-        /*setTimeout(function() {
-            helpers.setIFrameHeight(iframe, 0, true);
-        }, 1500);
-    } else {*/
-        if (searchParams(me.src, 'list') == '1')
-            helpers.setIFrameHeight(iframe, 165, true);
-        else
-            helpers.setIFrameHeight(iframe, 165);
-        window.addEventListener("resize", helpers.resizeAll);
-    }
+
+    if (lazyload) {
+        helpers.load();
+        window.addEventListener("scroll", helpers.load.bind(helpers), false);
+    } else
+        helpers.loadIframe();
+
     //window.addEventListener("message", helpers.onMessage);
     me.className = "em-injected";
 })();
