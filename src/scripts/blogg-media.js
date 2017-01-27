@@ -105,6 +105,7 @@
                 vid: mediaId
             }).done(function(msg) {
                 console.log(msg);
+                _currentMedia.playsCounter++;
             });
         };
 
@@ -196,6 +197,7 @@
             player.on('ended', $.proxy(onMediaEndEvent, this));
             player.on('adstart', $.proxy(onMediaAdStartEvent, this));
             player.on('adend', $.proxy(onMediaAdEndEvent, this));
+            player.on('adskip', $.proxy(onMediaAdEndEvent, this));
 
             _currentMedia.player = player;
 
