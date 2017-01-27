@@ -40285,6 +40285,7 @@ module.exports = exports['default'];
                 vid: mediaId
             }).done(function(msg) {
                 console.log(msg);
+                _currentMedia.playsCounter++;
             });
         };
         var _getUrlQueries = function(queryStr) {
@@ -40386,6 +40387,8 @@ module.exports = exports['default'];
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
             player.on('adstart', $.proxy(onMediaAdStartEvent, this));
+            player.on('adend', $.proxy(onMediaAdEndEvent, this));
+            player.on('adskip', $.proxy(onMediaAdEndEvent, this));
 
             _currentMedia.player = player;
 
@@ -40395,10 +40398,17 @@ module.exports = exports['default'];
         var onMediaAdStartEvent = function(event) {
             this.pause();
         };
+
+        var onMediaAdEndEvent = function(event) {
+            if (_currentMedia.playsCounter === 1) {
+                _playsAPICall(_currentMedia.vid, _currentMedia.type);
+            }
+        };
+
         var onMediaPlayEvent = function(event) {
             this.clearTimeout(_timeupWaitingID);
             _currentMedia.playsCounter++;
-            if (_currentMedia.playsCounter === 1) {
+            if (_currentMedia.playsCounter === 1 && !(_currentMedia.plugins.ima && _currentMedia.plugins.ima.adTagUrl)) {
                 _playsAPICall(_currentMedia.vid, _currentMedia.type);
             }
         };
@@ -40419,7 +40429,7 @@ module.exports = exports['default'];
                 click: function(event) {
                     event.stopPropagation();
                     $(boxClass + '.drawer').removeClass("open");
-                    _currentMedia.player.play();
+                    //_currentMedia.player.play();
                     return false;
                 }
             });

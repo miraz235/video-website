@@ -286,7 +286,7 @@
                 click: function(event) {
                     event.stopPropagation();
                     $(boxClass + '.drawer').removeClass("open");
-                    _currentMedia.player.play();
+                    //_currentMedia.player.play();
                     return false;
                 }
             });
