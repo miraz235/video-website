@@ -243,6 +243,7 @@
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
             player.on('adstart', $.proxy(onMediaAdStartEvent, this));
+            player.on('adend', $.proxy(onMediaAdEndEvent, this));
 
             _currentMedia.player = player;
 
@@ -252,10 +253,17 @@
         var onMediaAdStartEvent = function(event) {
             this.pause();
         };
+
+        var onMediaAdEndEvent = function(event) {
+            if (_currentMedia.playsCounter === 1) {
+                _playsAPICall(_currentMedia.vid, _currentMedia.type);
+            }
+        };
+
         var onMediaPlayEvent = function(event) {
             this.clearTimeout(_timeupWaitingID);
             _currentMedia.playsCounter++;
-            if (_currentMedia.playsCounter === 1) {
+            if (_currentMedia.playsCounter === 1 && !(_currentMedia.plugins.ima && _currentMedia.plugins.ima.adTagUrl)) {
                 _playsAPICall(_currentMedia.vid, _currentMedia.type);
             }
         };

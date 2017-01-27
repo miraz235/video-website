@@ -195,12 +195,21 @@
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
             player.on('adstart', $.proxy(onMediaAdStartEvent, this));
+            player.on('adend', $.proxy(onMediaAdEndEvent, this));
+
+            _currentMedia.player = player;
 
             return player;
         };
 
         var onMediaAdStartEvent = function(event) {
             this.pause();
+        };
+
+        var onMediaAdEndEvent = function(event) {
+            if (_currentMedia.playsCounter === 1) {
+                _playsAPICall(_currentMedia.vid, _currentMedia.type);
+            }
         };
 
         var onMediaPlayEvent = function(event) {
@@ -215,7 +224,7 @@
                 }
             }
             _currentMedia.playsCounter++;
-            if (_currentMedia.playsCounter === 1) {
+            if (_currentMedia.playsCounter === 1 && !(_currentMedia.plugins.ima && _currentMedia.plugins.ima.adTagUrl)) {
                 var $targetDom = $('#' + event.target.id);
                 var mediaUrlId = $targetDom.attr("data-" + _currentMedia.type + "-id");
                 if (mediaUrlId) {
@@ -224,7 +233,6 @@
                 }
                 if (_currentMedia.id)
                     _playsAPICall(_currentMedia.vid, _currentMedia.type);
-                _currentMedia.player = this;
             }
         };
 
