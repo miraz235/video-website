@@ -40149,7 +40149,16 @@ module.exports = exports['default'];
     videojs.Html5DashJS.hook('beforeInitialize', dashCallback);*/
     window.videojs = videojs;
 
-    var embedMedia = function(mediaType, mediaId) {
+    var APIlist = {
+        plays: function(mediaId, blogId) {
+            return $.getJSON("http://hits.blogsoft.org?callback=?", {
+                id: blogId,
+                vid: mediaId
+            });
+        }
+    };
+
+    var embedMedia = function(mediaType, mediaId, blogId) {
         var _startEvent = 'click';
         if (navigator.userAgent.match(/iPhone/i) ||
             navigator.userAgent.match(/iPad/i) ||
@@ -40161,6 +40170,7 @@ module.exports = exports['default'];
             _currentMedia = {
                 type: mediaType,
                 id: 0,
+                bid: blogId || 0,
                 vid: mediaId || 0,
                 player: null,
                 plugins: null,
@@ -40279,11 +40289,9 @@ module.exports = exports['default'];
             return selectedPlugins;
         };
 
-        var _playsAPICall = function(mediaId, mediaType) {
-            if (_isDemo || mediaType == 'audio' || !mediaId) return 0;
-            $.getJSON("http://hits.blogsoft.org?callback=?", {
-                vid: mediaId
-            }).done(function(msg) {
+        var _playsAPICall = function() {
+            if (_isDemo || _currentMedia.type == 'audio' || !_currentMedia.vid) return 0;
+            APIlist.plays(_currentMedia.vid, _currentMedia.bid).done(function(msg) {
                 console.log(msg);
                 _currentMedia.playsCounter++;
             });
@@ -40401,7 +40409,7 @@ module.exports = exports['default'];
 
         var onMediaAdEndEvent = function(event) {
             if (_currentMedia.playsCounter === 1) {
-                _playsAPICall(_currentMedia.vid, _currentMedia.type);
+                _playsAPICall();
             }
         };
 
@@ -40409,7 +40417,7 @@ module.exports = exports['default'];
             this.clearTimeout(_timeupWaitingID);
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1 && !(_currentMedia.plugins.ima && _currentMedia.plugins.ima.adTagUrl)) {
-                _playsAPICall(_currentMedia.vid, _currentMedia.type);
+                _playsAPICall();
             }
         };
         var onMediaEndEvent = function() {
