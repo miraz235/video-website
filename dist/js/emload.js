@@ -1,5 +1,5 @@
 (function() {
-    var wrapper, iframe, lazyload = false;
+    var wrapper, iframe, lazyload = true;
     var helpers = {
         setIFrameHeight: function(el, height, withRatio) {
             if (withRatio) {
@@ -28,6 +28,14 @@
                 }
             }
         },
+        getTopPosition: function(element) {
+            var yPosition = 0;
+            while (element) {
+                yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+                element = element.offsetParent;
+            }
+            return yPosition;
+        },
         loadIframe: function() {
             wrapper.appendChild(iframe);
             if (config.type == 'audio') {
@@ -45,7 +53,8 @@
             wrapper.className = "em-loaded";
         },
         lazyload: function() {
-            if (!wrapper.classList.contains('em-loaded') && window.scrollY < wrapper.parentNode.offsetTop && wrapper.parentNode.offsetTop < window.scrollY + window.innerHeight) {
+            var wrapperTop = this.getTopPosition(wrapper);
+            if (!wrapper.classList.contains('em-loaded') && wrapperTop >= 0 && wrapperTop <= window.innerHeight) {
                 this.loadIframe();
             }
         },
