@@ -28,13 +28,27 @@
                 }
             }
         },
-        getTopPosition: function(element) {
+        hasScrollbar: function(node) {
+            if (node === null) {
+                return null;
+            }
+
+            if (node.scrollHeight > node.clientHeight) {
+                return node;
+            } else {
+                return this.hasScrollbar(node.parentNode);
+            }
+        },
+        getTopPosition: function(element, scrollableParent) {
             var yPosition = 0;
             while (element) {
+                /*yPosition += element.offsetTop;
+                if (yPosition > 0)
+                    break;*/
                 yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
                 element = element.offsetParent;
             }
-            return yPosition;
+            return yPosition; // - scrollableParent.offsetTop - scrollableParent.scrollTop + scrollableParent.clientTop;
         },
         loadIframe: function() {
             wrapper.appendChild(iframe);
@@ -53,8 +67,10 @@
             wrapper.className = "em-loaded";
         },
         lazyload: function() {
-            var wrapperTop = this.getTopPosition(wrapper);
-            if (!wrapper.classList.contains('em-loaded') && wrapperTop >= 0 && wrapperTop <= window.innerHeight) {
+            var scrollableParent = this.hasScrollbar(wrapper.parentNode);
+            var wrapperTop = this.getTopPosition(wrapper, scrollableParent);
+            //console.log(wrapperTop, scrollableParent.clientHeight);
+            if (!wrapper.classList.contains('em-loaded') && wrapperTop >= 0 && wrapperTop <= scrollableParent.clientHeight) {
                 this.loadIframe();
             }
         },
@@ -165,6 +181,7 @@
     lazyload = config.lazy == "null" ? lazyload : true;
     if (lazyload) {
         helpers.lazyload();
+        //var scrollableParent = helpers.hasScrollbar(wrapper.parentNode);
         window.addEventListener("scroll", helpers.lazyload.bind(helpers), false);
     } else
         helpers.loadIframe();
