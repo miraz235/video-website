@@ -193,6 +193,7 @@
                             player.one('adsready', function() {
                                 player.pause();
                             });
+                            player.trigger('nopostroll');
                         }
                         break;
                     default:

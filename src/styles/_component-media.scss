@@ -488,3 +488,7 @@
         opacity: 0;
     }
 }
+
+.vjs-ad-playing>video {
+    display: none;
+}

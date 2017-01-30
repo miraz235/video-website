@@ -143,14 +143,17 @@ var hlsjs = function() {
     return request('https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/4.1.1/videojs-contrib-hls.min.js')
         .pipe(source('videojs-contrib-hls.min.js'))
 };
-
+var adsjs = function() {
+    return request('https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.1/videojs.ads.min.js')
+        .pipe(source('videojs.ads.min.js'))
+};
 gulp.task("scripts:emall", function(callback) {
     var src = $config.src["scripts-concate"];
     src.push("dist/js/blogg-embed.js");
     var localjs = gulp.src(src);
     //var jq = jqueryjs.pipe($.clone());
     //console.log(jqueryjs);
-    return merge(jqueryjs(), videojsjs(), hlsjs(), imajs(), localjs)
+    return merge(jqueryjs(), videojsjs(), hlsjs(), adsjs(), imajs(), localjs)
         .pipe($.buffer())
         .pipe($.concat('all-embed.js'))
         .pipe(gulp.dest($config.tmp.root))
@@ -179,7 +182,7 @@ gulp.task("scripts:weball", function(callback) {
     src.push("dist/js/blogg-media.js");
     var localjs = gulp.src(src);
 
-    return merge(jqueryjs(), bootstrapjs(), videojsjs(), hlsjs(), imajs(), localjs)
+    return merge(jqueryjs(), bootstrapjs(), videojsjs(), hlsjs(), adsjs(), imajs(), localjs)
         .pipe($.buffer())
         .pipe($.concat('all-web.js'))
         .pipe(gulp.dest($config.tmp.root))
@@ -212,12 +215,16 @@ var videojscss = function() {
     return request('http://vjs.zencdn.net/5.15.1/video-js.css')
         .pipe(source('video-js.css'))
 };
+var adscss = function() {
+    return request('https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.1/videojs.ads.css')
+        .pipe(source('videojs.ads.css'))
+};
 
 gulp.task("styles:emall", function(callback) {
     var src = $config.src["styles-concate"];
     src.push("dist/css/styles-embed.min.css");
     var localcss = gulp.src(src);
-    return merge(videojscss(), localcss)
+    return merge(videojscss(), adscss(), localcss)
         .pipe($.buffer())
         .pipe($.concat('all-embed.css'))
         .pipe(gulp.dest($config.tmp.root))
@@ -245,7 +252,7 @@ gulp.task("styles:weball", function(callback) {
     var src = $config.src["styles-concate"];
     src.push("dist/css/styles.min.css");
     var localcss = gulp.src(src);
-    return merge(bootstrapcss(), videojscss(), localcss)
+    return merge(bootstrapcss(), videojscss(), adscss(), localcss)
         .pipe($.buffer())
         .pipe($.concat('all-web.css'))
         .pipe(gulp.dest($config.tmp.root))

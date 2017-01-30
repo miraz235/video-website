@@ -144,6 +144,7 @@
                             player.one(_startEvent, function() {
                                 player.play();
                             });
+                            player.trigger('nopostroll');
                         }
                         break;
                     default:

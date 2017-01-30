@@ -51,7 +51,6 @@
         "bootstrap",
         "videojs-watermark",
         "videojs-ima",
-        "videojs-contrib-ads",
         "videojs-contextmenu",
         "videojs-contextmenu-ui",
         "videojs-replay"
