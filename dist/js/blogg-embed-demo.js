@@ -149,7 +149,7 @@
         var _playsAPICall = function() {
             if (_isDemo || _currentMedia.type == 'audio' || !_currentMedia.vid) return 0;
             APIlist.plays(_currentMedia.vid, _currentMedia.bid).done(function(msg) {
-                console.log(msg);
+                //console.log(msg);
                 _currentMedia.playsCounter++;
             });
         };
@@ -185,6 +185,7 @@
                     case 'ima':
                         if (plugins.ima.adTagUrl) {
                             player.ima(plugins.ima);
+                            player.trigger('nopostroll');
                             player.ima.initializeAdDisplayContainer();
                             player.ima.requestAds();
                             player.one(_startEvent, function() {
@@ -193,7 +194,9 @@
                             player.one('adsready', function() {
                                 player.pause();
                             });
-                            player.trigger('nopostroll');
+                            /*player.one('adend', function() {
+                                player.ads.endLinearAdMode();
+                            });*/
                         }
                         break;
                     default:

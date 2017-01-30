@@ -111,7 +111,7 @@
         var _playsAPICall = function() {
             if (_isDemo || _currentMedia.type == 'audio' || !_currentMedia.vid) return 0;
             APIlist.plays(_currentMedia.vid, _currentMedia.bid).done(function(msg) {
-                console.log(msg);
+                //console.log(msg);
                 _currentMedia.playsCounter++;
             });
         };
