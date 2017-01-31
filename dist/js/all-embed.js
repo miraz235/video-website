@@ -39452,7 +39452,10 @@ module.exports = exports['default'];
             player.on('ended', $.proxy(onMediaEndEvent, this));
             player.on('adstart', $.proxy(onMediaAdStartEvent, this));
             player.on('adend', $.proxy(onMediaAdEndEvent, this));
+            player.on('ads-ad-ended', $.proxy(onMediaAdEndEvent, this));
             player.on('adskip', $.proxy(onMediaAdEndEvent, this));
+            player.on('adserror', $.proxy(onMediaAdEndEvent, this));
+            player.on('adscanceled', $.proxy(onMediaAdEndEvent, this));
 
             _currentMedia.player = player;
 
