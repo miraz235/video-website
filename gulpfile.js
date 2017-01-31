@@ -128,7 +128,7 @@ var bootstrapjs = function() {
         .pipe(source('bootstrap.js'))
 };
 var videojsjs = function() {
-    return request('http://vjs.zencdn.net/5.15.1/video.js')
+    return request('http://vjs.zencdn.net/5.16.0/video.js')
         .pipe(source('video.js'))
 };
 var imajs = function() {
@@ -212,7 +212,7 @@ var bootstrapcss = function() {
         .pipe(source('bootstrap.css'))
 };
 var videojscss = function() {
-    return request('http://vjs.zencdn.net/5.15.1/video-js.css')
+    return request('http://vjs.zencdn.net/5.16.0/video-js.css')
         .pipe(source('video-js.css'))
 };
 var adscss = function() {

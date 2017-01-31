@@ -489,6 +489,11 @@
     }
 }
 
-.vjs-ad-playing>video {
-    display: none;
+.vjs-ad-playing {
+    >video {
+        display: none;
+    }
+    .vjs-big-play-button {
+        z-index: 1111 !important;
+    }
 }

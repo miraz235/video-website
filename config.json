@@ -78,7 +78,6 @@
         "styles-concate": [
             "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.css",
             "dist/vendors/videojs-ima/videojs.ima.css",
-            "dist/vendors/videojs-contrib-ads/videojs.ads.css",
             "dist/vendors/videojs-watermark/videojs-watermark.css",
             "src/vendors/videojs-replay/videojs-replay.css"
         ],
@@ -91,7 +90,6 @@
             "dist/vendors/videojs-contextmenu/videojs-contextmenu.js",
             "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.js",
             "dist/vendors/videojs-ima/videojs.ima.js",
-            "dist/vendors/videojs-contrib-ads/videojs.ads.js",
             "dist/vendors/videojs-watermark/videojs-watermarks.js",
             "src/vendors/videojs-replay/videojs-replay.js"
         ],
