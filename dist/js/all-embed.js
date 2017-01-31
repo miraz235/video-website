@@ -39454,12 +39454,16 @@ module.exports = exports['default'];
             player.on('adend', $.proxy(onMediaAdEndEvent, this));
             player.on('ads-ad-ended', $.proxy(onMediaAdEndEvent, this));
             player.on('adskip', $.proxy(onMediaAdEndEvent, this));
-            player.on('adserror', $.proxy(onMediaAdEndEvent, this));
             player.on('adscanceled', $.proxy(onMediaAdEndEvent, this));
+            player.on('adserror', $.proxy(onMediaAdErrorEvent, this));
 
             _currentMedia.player = player;
 
             return player;
+        };
+
+        var onMediaAdErrorEvent = function(event) {
+            _currentMedia.plugins.ima.error = true;
         };
 
         var onMediaAdStartEvent = function(event) {
@@ -39475,7 +39479,10 @@ module.exports = exports['default'];
         var onMediaPlayEvent = function(event) {
             this.clearTimeout(_timeupWaitingID);
             _currentMedia.playsCounter++;
-            if (_currentMedia.playsCounter === 1 && !(_currentMedia.plugins.ima && _currentMedia.plugins.ima.adTagUrl)) {
+            if (_currentMedia.playsCounter === 1 &&
+                !(_currentMedia.plugins.ima &&
+                    (_currentMedia.plugins.ima.adTagUrl &&
+                        !_currentMedia.plugins.ima.error))) {
                 _playsAPICall();
             }
         };

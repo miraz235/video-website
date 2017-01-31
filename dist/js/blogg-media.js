@@ -206,12 +206,16 @@
             player.on('adstart', $.proxy(onMediaAdStartEvent, this));
             player.on('ads-ad-ended', $.proxy(onMediaAdEndEvent, this));
             player.on('adskip', $.proxy(onMediaAdEndEvent, this));
-            player.on('adserror', $.proxy(onMediaAdEndEvent, this));
             player.on('adscanceled', $.proxy(onMediaAdEndEvent, this));
+            player.on('adserror', $.proxy(onMediaAdErrorEvent, this));
 
             _currentMedia.player = player;
 
             return player;
+        };
+
+        var onMediaAdErrorEvent = function(event) {
+            _currentMedia.plugins.ima.error = true;
         };
 
         var onMediaAdStartEvent = function(event) {
@@ -236,7 +240,10 @@
                 }
             }
             _currentMedia.playsCounter++;
-            if (_currentMedia.playsCounter === 1 && !(_currentMedia.plugins.ima && _currentMedia.plugins.ima.adTagUrl)) {
+            if (_currentMedia.playsCounter === 1 &&
+                !(_currentMedia.plugins.ima &&
+                    (_currentMedia.plugins.ima.adTagUrl &&
+                        !_currentMedia.plugins.ima.error))) {
                 var $targetDom = $('#' + event.target.id);
                 var mediaUrlId = $targetDom.attr("data-" + _currentMedia.type + "-id");
                 if (mediaUrlId) {
