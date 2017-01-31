@@ -174,9 +174,15 @@ $shade-color: lighten($primary-background-color, 50%);
             background-size: 20px 20px;
         }
     }
+    .vjs-progress-control {
+        .vjs-mouse-display {
+            z-index: 2;
+        }
+    }
     .vjs-control-bar {
         width: auto;
         margin: 0 10px 10px;
+        z-index: 1112;
         //border-radius: 2em;
     }
     .vjs-fullscreen-control {
