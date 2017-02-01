@@ -37409,639 +37409,14 @@ Y.prototype.discardAdBreak=Y.prototype.td;Y.prototype.requestNextAdBreak=Y.proto
  * @copyright 2016 Brightcove, Inc.
  * @license Apache-2.0
  */
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.videojsContextmenu = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (global){
-/**
- * @module plugin
- */
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _videoJs = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _videoJs2 = _interopRequireDefault(_videoJs);
-
-/* eslint func-style: 0 */
-
-var defaults = {
-  cancel: true,
-  sensitivity: 10,
-  wait: 500,
-  disabled: false
-};
-
-var EVENT_NAME = 'vjs-contextmenu';
-
-/**
- * Abstracts a DOM standard event into a vjs-contextmenu event.
- *
- * @private
- * @param  {Player} player
- * @param  {Event} event
- *         A triggering, native event.
- * @return {Player}
- */
-function sendAbstractedEvent(player, event) {
-  if (player.contextmenu.options.disabled) {
-    // videojs-contextmenu is disabled
-    return player;
-  }
-  var abstracted = {
-    target: player,
-    type: EVENT_NAME
-  };
-
-  ['clientX', 'clientY', 'pageX', 'pageY', 'screenX', 'screenY'].forEach(function (k) {
-    abstracted[k] = event[k];
-  });
-
-  return player.trigger(abstracted);
-}
-
-/**
- * Handles both touchcancel and touchend events.
- *
- * @private
- * @param  {Event} e
- */
-function handleTouchEnd(e) {
-  var current = this.contextmenu.current;
-
-  if (!current) {
-    return;
-  }
-
-  var wait = this.contextmenu.options.wait;
-
-  if (e.type === 'touchend' && Number(new Date()) - current.time >= wait) {
-    sendAbstractedEvent(this, e);
-  }
-
-  this.contextmenu.current = null;
-}
-
-/**
- * Handles touchmove events.
- *
- * @private
- * @param  {Event} e
- */
-function handleTouchMove(e) {
-  var current = this.contextmenu.current;
-
-  if (!current) {
-    return;
-  }
-
-  var touch = e.touches[0];
-  var sensitivity = this.contextmenu.options.sensitivity;
-
-  // Cancel the current touch if the pointer has moved in either direction
-  // more than the sensitivity number of pixels.
-  if (touch.screenX - current.screenX > sensitivity || touch.screenY - current.screenY > sensitivity) {
-    this.contextmenu.current = null;
-  }
-}
-
-/**
- * Handles touchstart events.
- *
- * @private
- * @param  {Event} e
- */
-function handleTouchStart(e) {
-
-  // We only care about the first touch point.
-  if (this.contextmenu.current) {
-    return;
-  }
-
-  var touch = e.touches[0];
-
-  this.contextmenu.current = {
-    screenX: touch.screenX,
-    screenY: touch.screenY,
-    time: Number(new Date())
-  };
-}
-
-/**
- * Handles contextmenu events.
- *
- * @private
- * @param  {Event} e
- */
-function handleContextMenu(e) {
-  if (this.contextmenu.options.cancel && !this.contextmenu.options.disabled) {
-    e.preventDefault();
-  }
-
-  sendAbstractedEvent(this, e).
-
-  // If we get a "contextmenu" event, we can rely on that going forward
-  // because this client supports it; so, we can stop listening for
-  // touch events.
-  off(['touchcancel', 'touchend'], handleTouchEnd).off('touchmove', handleTouchMove).off('touchstart', handleTouchStart);
-}
-
-/**
- * A cross-device context menu implementation for video.js players.
- *
- * @param    {Object}  [options={}]
- * @param    {Boolean} [cancel=true]
- *           Whether or not to cancel the native "contextmenu" event when
- *           it is seen.
- *
- * @param    {Number} [sensitivity=10]
- *           The maximum number of pixels a finger can move because a touch
- *           is no longer considered to be "held".
- *
- * @param    {Number} [wait=500]
- *           The minimum number of milliseconds a touch must be "held" before
- *           it registers.
- */
-function contextmenu(options) {
-  var _this = this;
-
-  var isFirstInit = this.contextmenu === contextmenu;
-
-  if (isFirstInit) {
-
-    // Wrap the plugin function with an player instance-specific function. This
-    // allows us to attach the modal to it without affecting other players on
-    // the page.
-    this.contextmenu = function () {
-      contextmenu.apply(this, arguments);
-    };
-
-    this.contextmenu.VERSION = '1.2.0';
-  }
-
-  this.contextmenu.options = _videoJs2['default'].mergeOptions(defaults, options);
-
-  // When re-initing, we only want to update options; so, we bail out to
-  // prevent any doubling-up of event listeners.
-  if (!isFirstInit) {
-    return;
-  }
-
-  this.on('contextmenu', handleContextMenu).on(['touchcancel', 'touchend'], handleTouchEnd).on('touchmove', handleTouchMove).on('touchstart', handleTouchStart);
-
-  this.ready(function () {
-    return _this.addClass(EVENT_NAME);
-  });
-}
-
-_videoJs2['default'].plugin('contextmenu', contextmenu);
-contextmenu.VERSION = '1.2.0';
-
-exports['default'] = contextmenu;
-module.exports = exports['default'];
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[1])(1)
-});
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var t;t="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,t.videojsContextmenu=e()}}(function(){return function e(t,n,o){function i(r,c){if(!n[r]){if(!t[r]){var f="function"==typeof require&&require;if(!c&&f)return f(r,!0);if(u)return u(r,!0);var s=new Error("Cannot find module '"+r+"'");throw s.code="MODULE_NOT_FOUND",s}var d=n[r]={exports:{}};t[r][0].call(d.exports,function(e){var n=t[r][1][e];return i(n?n:e)},d,d.exports,e,t,n,o)}return n[r].exports}for(var u="function"==typeof require&&require,r=0;r<o.length;r++)i(o[r]);return i}({1:[function(e,t,n){(function(e){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(e.contextmenu.options.disabled)return e;var n={target:e,type:h};return["clientX","clientY","pageX","pageY","screenX","screenY"].forEach(function(e){n[e]=t[e]}),e.trigger(n)}function u(e){var t=this.contextmenu.current;if(t){var n=this.contextmenu.options.wait;"touchend"===e.type&&Number(new Date)-t.time>=n&&i(this,e),this.contextmenu.current=null}}function r(e){var t=this.contextmenu.current;if(t){var n=e.touches[0],o=this.contextmenu.options.sensitivity;(n.screenX-t.screenX>o||n.screenY-t.screenY>o)&&(this.contextmenu.current=null)}}function c(e){if(!this.contextmenu.current){var t=e.touches[0];this.contextmenu.current={screenX:t.screenX,screenY:t.screenY,time:Number(new Date)}}}function f(e){this.contextmenu.options.cancel&&!this.contextmenu.options.disabled&&e.preventDefault(),i(this,e).off(["touchcancel","touchend"],u).off("touchmove",r).off("touchstart",c)}function s(e){var t=this,n=this.contextmenu===s;n&&(this.contextmenu=function(){s.apply(this,arguments)},this.contextmenu.VERSION="1.2.0"),this.contextmenu.options=a.default.mergeOptions(l,e),n&&(this.on("contextmenu",f).on(["touchcancel","touchend"],u).on("touchmove",r).on("touchstart",c),this.ready(function(){return t.addClass(h)}))}Object.defineProperty(n,"__esModule",{value:!0});var d="undefined"!=typeof window?window.videojs:"undefined"!=typeof e?e.videojs:null,a=o(d),l={cancel:!0,sensitivity:10,wait:500,disabled:!1},h="vjs-contextmenu";a.default.plugin("contextmenu",s),s.VERSION="1.2.0",n.default=s,t.exports=n.default}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}]},{},[1])(1)});
 /**
  * videojs-contextmenu-ui
  * @version 3.0.3
  * @copyright 2016 Brightcove, Inc.
  * @license Apache-2.0
  */
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.videojsContextmenuUi = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (global){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _globalWindow = require('global/window');
-
-var _globalWindow2 = _interopRequireDefault(_globalWindow);
-
-var _videoJs = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _videoJs2 = _interopRequireDefault(_videoJs);
-
-var MenuItem = _videoJs2['default'].getComponent('MenuItem');
-
-var ContextMenuItem = (function (_MenuItem) {
-  _inherits(ContextMenuItem, _MenuItem);
-
-  function ContextMenuItem() {
-    _classCallCheck(this, ContextMenuItem);
-
-    _get(Object.getPrototypeOf(ContextMenuItem.prototype), 'constructor', this).apply(this, arguments);
-  }
-
-  _createClass(ContextMenuItem, [{
-    key: 'handleClick',
-    value: function handleClick(e) {
-      var _this = this;
-
-      _get(Object.getPrototypeOf(ContextMenuItem.prototype), 'handleClick', this).call(this);
-      this.options_.listener();
-
-      // Close the containing menu after the call stack clears.
-      _globalWindow2['default'].setTimeout(function () {
-        _this.player().contextmenuUI.menu.dispose();
-      }, 1);
-    }
-  }]);
-
-  return ContextMenuItem;
-})(MenuItem);
-
-exports['default'] = ContextMenuItem;
-module.exports = exports['default'];
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"global/window":6}],2:[function(require,module,exports){
-(function (global){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _globalWindow = require('global/window');
-
-var _globalWindow2 = _interopRequireDefault(_globalWindow);
-
-var _videoJs = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _videoJs2 = _interopRequireDefault(_videoJs);
-
-var _contextMenuItem = require('./context-menu-item');
-
-var _contextMenuItem2 = _interopRequireDefault(_contextMenuItem);
-
-var Menu = _videoJs2['default'].getComponent('Menu');
-
-var ContextMenu = (function (_Menu) {
-  _inherits(ContextMenu, _Menu);
-
-  function ContextMenu(player, options) {
-    var _this = this;
-
-    _classCallCheck(this, ContextMenu);
-
-    _get(Object.getPrototypeOf(ContextMenu.prototype), 'constructor', this).call(this, player, options);
-
-    // Each menu component has its own `dispose` method that can be
-    // safely bound and unbound to events while maintaining its context.
-    this.dispose = _videoJs2['default'].bind(this, this.dispose);
-
-    options.content.forEach(function (c) {
-      var fn = function fn() {};
-
-      if (typeof c.listener === 'function') {
-        fn = c.listener;
-      } else if (typeof c.href === 'string') {
-        fn = function () {
-          return _globalWindow2['default'].open(c.href);
-        };
-      }
-
-      _this.addItem(new _contextMenuItem2['default'](player, {
-        label: c.label,
-        listener: _videoJs2['default'].bind(player, fn)
-      }));
-    });
-  }
-
-  _createClass(ContextMenu, [{
-    key: 'createEl',
-    value: function createEl() {
-      var el = _get(Object.getPrototypeOf(ContextMenu.prototype), 'createEl', this).call(this);
-
-      _videoJs2['default'].addClass(el, 'vjs-contextmenu-ui-menu');
-      el.style.left = this.options_.position.left + 'px';
-      el.style.top = this.options_.position.top + 'px';
-
-      return el;
-    }
-  }]);
-
-  return ContextMenu;
-})(Menu);
-
-exports['default'] = ContextMenu;
-module.exports = exports['default'];
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./context-menu-item":1,"global/window":6}],3:[function(require,module,exports){
-// For now, these are copy-pasted from video.js until they are exposed.
-
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-exports.findElPosition = findElPosition;
-exports.getPointerPosition = getPointerPosition;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _globalDocument = require('global/document');
-
-var _globalDocument2 = _interopRequireDefault(_globalDocument);
-
-var _globalWindow = require('global/window');
-
-var _globalWindow2 = _interopRequireDefault(_globalWindow);
-
-/**
- * Offset Left
- * getBoundingClientRect technique from
- * John Resig http://ejohn.org/blog/getboundingclientrect-is-awesome/
- *
- * @function findElPosition
- * @param {Element} el Element from which to get offset
- * @return {Object}
- */
-
-function findElPosition(el) {
-  var box = undefined;
-
-  if (el.getBoundingClientRect && el.parentNode) {
-    box = el.getBoundingClientRect();
-  }
-
-  if (!box) {
-    return {
-      left: 0,
-      top: 0
-    };
-  }
-
-  var docEl = _globalDocument2['default'].documentElement;
-  var body = _globalDocument2['default'].body;
-
-  var clientLeft = docEl.clientLeft || body.clientLeft || 0;
-  var scrollLeft = _globalWindow2['default'].pageXOffset || body.scrollLeft;
-  var left = box.left + scrollLeft - clientLeft;
-
-  var clientTop = docEl.clientTop || body.clientTop || 0;
-  var scrollTop = _globalWindow2['default'].pageYOffset || body.scrollTop;
-  var top = box.top + scrollTop - clientTop;
-
-  // Android sometimes returns slightly off decimal values, so need to round
-  return {
-    left: Math.round(left),
-    top: Math.round(top)
-  };
-}
-
-/**
- * Get pointer position in element
- * Returns an object with x and y coordinates.
- * The base on the coordinates are the bottom left of the element.
- *
- * @function getPointerPosition
- * @param {Element} el Element on which to get the pointer position on
- * @param {Event} event Event object
- * @return {Object}
- *         This object will have x and y coordinates corresponding to the
- *         mouse position
- */
-
-function getPointerPosition(el, event) {
-  var position = {};
-  var box = findElPosition(el);
-  var boxW = el.offsetWidth;
-  var boxH = el.offsetHeight;
-  var boxY = box.top;
-  var boxX = box.left;
-  var pageY = event.pageY;
-  var pageX = event.pageX;
-
-  if (event.changedTouches) {
-    pageX = event.changedTouches[0].pageX;
-    pageY = event.changedTouches[0].pageY;
-  }
-
-  position.y = Math.max(0, Math.min(1, (boxY - pageY + boxH) / boxH));
-  position.x = Math.max(0, Math.min(1, (pageX - boxX) / boxW));
-
-  return position;
-}
-},{"global/document":5,"global/window":6}],4:[function(require,module,exports){
-
-},{}],5:[function(require,module,exports){
-(function (global){
-var topLevel = typeof global !== 'undefined' ? global :
-    typeof window !== 'undefined' ? window : {}
-var minDoc = require('min-document');
-
-if (typeof document !== 'undefined') {
-    module.exports = document;
-} else {
-    var doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
-
-    if (!doccy) {
-        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
-    }
-
-    module.exports = doccy;
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":4}],6:[function(require,module,exports){
-(function (global){
-if (typeof window !== "undefined") {
-    module.exports = window;
-} else if (typeof global !== "undefined") {
-    module.exports = global;
-} else if (typeof self !== "undefined"){
-    module.exports = self;
-} else {
-    module.exports = {};
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],7:[function(require,module,exports){
-(function (global){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _globalDocument = require('global/document');
-
-var _globalDocument2 = _interopRequireDefault(_globalDocument);
-
-var _videoJs = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _videoJs2 = _interopRequireDefault(_videoJs);
-
-var _contextMenu = require('./context-menu');
-
-var _contextMenu2 = _interopRequireDefault(_contextMenu);
-
-var _util = require('./util');
-
-/**
- * Whether or not the player has an active context menu.
- *
- * @param  {Player} player
- * @return {Boolean}
- */
-function hasMenu(player) {
-  return player.hasOwnProperty('contextmenuUI') && player.contextmenuUI.hasOwnProperty('menu') && player.contextmenuUI.menu.el();
-}
-
-/**
- * Calculates the position of a menu based on the pointer position and player
- * size.
- *
- * @param  {Object} pointerPosition
- * @param  {Object} playerSize
- * @return {Object}
- */
-function findMenuPosition(pointerPosition, playerSize) {
-  return {
-    left: Math.round(playerSize.width * pointerPosition.x),
-    top: Math.round(playerSize.height - playerSize.height * pointerPosition.y)
-  };
-}
-
-/**
- * Handles vjs-contextmenu events.
- *
- * @param  {Event} e
- */
-function onVjsContextMenu(e) {
-  var _this = this;
-
-  // If this event happens while the custom menu is open, close it and do
-  // nothing else. This will cause native contextmenu events to be intercepted
-  // once again; so, the next time a contextmenu event is encountered, we'll
-  // open the custom menu.
-  if (hasMenu(this)) {
-    _videoJs2['default'].log('contextmenu-ui: saw vjs-contextmenu, but menu open');
-    this.contextmenuUI.menu.dispose();
-    return;
-  }
-
-  // Stop canceling the native contextmenu event until further notice.
-  this.contextmenu.options.cancel = false;
-
-  // Calculate the positioning of the menu based on the player size and
-  // triggering event.
-  var pointerPosition = (0, _util.getPointerPosition)(this.el(), e);
-  var playerSize = this.el().getBoundingClientRect();
-  var menuPosition = findMenuPosition(pointerPosition, playerSize);
-
-  e.preventDefault();
-
-  _videoJs2['default'].log('contextmenu-ui: saw vjs-contextmenu', e, pointerPosition, playerSize, menuPosition);
-
-  var menu = this.contextmenuUI.menu = new _contextMenu2['default'](this, {
-    content: this.contextmenuUI.content,
-    position: menuPosition
-  });
-
-  // This is for backward compatibility. We no longer have the `closeMenu`
-  // function, but removing it would necessitate a major version bump.
-  this.contextmenuUI.closeMenu = function () {
-    _videoJs2['default'].warn('player.contextmenuUI.closeMenu() is deprecated, please use player.contextmenuUI.menu.dispose() instead!');
-    menu.dispose();
-  };
-
-  menu.on('dispose', function () {
-
-    _videoJs2['default'].log('contextmenu-ui: disposed menu');
-
-    // Begin canceling contextmenu events again, so subsequent events will
-    // cause the custom menu to be displayed again.
-    _this.contextmenu.options.cancel = true;
-    _videoJs2['default'].off(_globalDocument2['default'], ['click', 'tap'], menu.dispose);
-    _this.removeChild(menu);
-    delete _this.contextmenuUI.menu;
-  });
-
-  this.addChild(menu);
-  _videoJs2['default'].on(_globalDocument2['default'], ['click', 'tap'], menu.dispose);
-}
-
-/**
- * Creates a menu for videojs-contextmenu abstract event(s).
- *
- * @function contextmenuUI
- * @param    {Object} options
- * @param    {Array}  options.content
- *           An array of objects which populate a content list within the menu.
- */
-function contextmenuUI(options) {
-  var _this2 = this;
-
-  if (!Array.isArray(options.content)) {
-    throw new Error('"content" required');
-  }
-
-  // If we have already invoked the plugin, teardown before setting up again.
-  if (hasMenu(this)) {
-    this.contextmenuUI.menu.dispose();
-    this.off('vjs-contextmenu', this.contextmenuUI.onVjsContextMenu);
-
-    // Deleting the player-specific contextmenuUI plugin function/namespace will
-    // restore the original plugin function, so it can be called again.
-    delete this.contextmenuUI;
-  }
-
-  // If we are not already providing "vjs-contextmenu" events, do so.
-  this.contextmenu();
-
-  // Wrap the plugin function with an player instance-specific function. This
-  // allows us to attach the menu to it without affecting other players on
-  // the page.
-  var cmui = this.contextmenuUI = function () {
-    contextmenuUI.apply(this, arguments);
-  };
-
-  cmui.onVjsContextMenu = _videoJs2['default'].bind(this, onVjsContextMenu);
-  cmui.content = options.content;
-  cmui.VERSION = '3.0.3';
-
-  this.on('vjs-contextmenu', cmui.onVjsContextMenu).ready(function () {
-    return _this2.addClass('vjs-contextmenu-ui');
-  });
-}
-
-_videoJs2['default'].plugin('contextmenuUI', contextmenuUI);
-contextmenuUI.VERSION = '3.0.3';
-
-exports['default'] = contextmenuUI;
-module.exports = exports['default'];
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./context-menu":2,"./util":3,"global/document":5}]},{},[7])(7)
-});
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var t;t="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,t.videojsContextmenuUi=e()}}(function(){return function e(t,n,o){function i(r,f){if(!n[r]){if(!t[r]){var l="function"==typeof require&&require;if(!f&&l)return l(r,!0);if(u)return u(r,!0);var d=new Error("Cannot find module '"+r+"'");throw d.code="MODULE_NOT_FOUND",d}var a=n[r]={exports:{}};t[r][0].call(a.exports,function(e){var n=t[r][1][e];return i(n?n:e)},a,a.exports,e,t,n,o)}return n[r].exports}for(var u="function"==typeof require&&require,r=0;r<o.length;r++)i(o[r]);return i}({1:[function(e,t,n){(function(o){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function u(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function r(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(n,"__esModule",{value:!0});var f=function(){function e(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(t,n,o){return n&&e(t.prototype,n),o&&e(t,o),t}}(),l=function(e,t,n){for(var o=!0;o;){var i=e,u=t,r=n;o=!1,null===i&&(i=Function.prototype);var f=Object.getOwnPropertyDescriptor(i,u);if(void 0!==f){if("value"in f)return f.value;var l=f.get;if(void 0===l)return;return l.call(r)}var d=Object.getPrototypeOf(i);if(null===d)return;e=d,t=u,n=r,o=!0,f=d=void 0}},d=e("global/window"),a=i(d),c="undefined"!=typeof window?window.videojs:"undefined"!=typeof o?o.videojs:null,s=i(c),p=s.default.getComponent("MenuItem"),y=function(e){function t(){u(this,t),l(Object.getPrototypeOf(t.prototype),"constructor",this).apply(this,arguments)}return r(t,e),f(t,[{key:"handleClick",value:function(e){var n=this;l(Object.getPrototypeOf(t.prototype),"handleClick",this).call(this),this.options_.listener(),a.default.setTimeout(function(){n.player().contextmenuUI.menu.dispose()},1)}}]),t}(p);n.default=y,t.exports=n.default}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"global/window":6}],2:[function(e,t,n){(function(o){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function u(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function r(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(n,"__esModule",{value:!0});var f=function(){function e(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(t,n,o){return n&&e(t.prototype,n),o&&e(t,o),t}}(),l=function(e,t,n){for(var o=!0;o;){var i=e,u=t,r=n;o=!1,null===i&&(i=Function.prototype);var f=Object.getOwnPropertyDescriptor(i,u);if(void 0!==f){if("value"in f)return f.value;var l=f.get;if(void 0===l)return;return l.call(r)}var d=Object.getPrototypeOf(i);if(null===d)return;e=d,t=u,n=r,o=!0,f=d=void 0}},d=e("global/window"),a=i(d),c="undefined"!=typeof window?window.videojs:"undefined"!=typeof o?o.videojs:null,s=i(c),p=e("./context-menu-item"),y=i(p),h=s.default.getComponent("Menu"),w=function(e){function t(e,n){var o=this;u(this,t),l(Object.getPrototypeOf(t.prototype),"constructor",this).call(this,e,n),this.dispose=s.default.bind(this,this.dispose),n.content.forEach(function(t){var n=function(){};"function"==typeof t.listener?n=t.listener:"string"==typeof t.href&&(n=function(){return a.default.open(t.href)}),o.addItem(new y.default(e,{label:t.label,listener:s.default.bind(e,n)}))})}return r(t,e),f(t,[{key:"createEl",value:function(){var e=l(Object.getPrototypeOf(t.prototype),"createEl",this).call(this);return s.default.addClass(e,"vjs-contextmenu-ui-menu"),e.style.left=this.options_.position.left+"px",e.style.top=this.options_.position.top+"px",e}}]),t}(h);n.default=w,t.exports=n.default}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"./context-menu-item":1,"global/window":6}],3:[function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}function i(e){var t=void 0;if(e.getBoundingClientRect&&e.parentNode&&(t=e.getBoundingClientRect()),!t)return{left:0,top:0};var n=f.default.documentElement,o=f.default.body,i=n.clientLeft||o.clientLeft||0,u=d.default.pageXOffset||o.scrollLeft,r=t.left+u-i,l=n.clientTop||o.clientTop||0,a=d.default.pageYOffset||o.scrollTop,c=t.top+a-l;return{left:Math.round(r),top:Math.round(c)}}function u(e,t){var n={},o=i(e),u=e.offsetWidth,r=e.offsetHeight,f=o.top,l=o.left,d=t.pageY,a=t.pageX;return t.changedTouches&&(a=t.changedTouches[0].pageX,d=t.changedTouches[0].pageY),n.y=Math.max(0,Math.min(1,(f-d+r)/r)),n.x=Math.max(0,Math.min(1,(a-l)/u)),n}Object.defineProperty(n,"__esModule",{value:!0}),n.findElPosition=i,n.getPointerPosition=u;var r=e("global/document"),f=o(r),l=e("global/window"),d=o(l)},{"global/document":5,"global/window":6}],4:[function(e,t,n){},{}],5:[function(e,t,n){(function(n){var o="undefined"!=typeof n?n:"undefined"!=typeof window?window:{},i=e("min-document");if("undefined"!=typeof document)t.exports=document;else{var u=o["__GLOBAL_DOCUMENT_CACHE@4"];u||(u=o["__GLOBAL_DOCUMENT_CACHE@4"]=i),t.exports=u}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"min-document":4}],6:[function(e,t,n){(function(e){"undefined"!=typeof window?t.exports=window:"undefined"!=typeof e?t.exports=e:"undefined"!=typeof self?t.exports=self:t.exports={}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],7:[function(e,t,n){(function(o){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function u(e){return e.hasOwnProperty("contextmenuUI")&&e.contextmenuUI.hasOwnProperty("menu")&&e.contextmenuUI.menu.el()}function r(e,t){return{left:Math.round(t.width*e.x),top:Math.round(t.height-t.height*e.y)}}function f(e){var t=this;if(u(this))return s.default.log("contextmenu-ui: saw vjs-contextmenu, but menu open"),void this.contextmenuUI.menu.dispose();this.contextmenu.options.cancel=!1;var n=(0,h.getPointerPosition)(this.el(),e),o=this.el().getBoundingClientRect(),i=r(n,o);e.preventDefault(),s.default.log("contextmenu-ui: saw vjs-contextmenu",e,n,o,i);var f=this.contextmenuUI.menu=new y.default(this,{content:this.contextmenuUI.content,position:i});this.contextmenuUI.closeMenu=function(){s.default.warn("player.contextmenuUI.closeMenu() is deprecated, please use player.contextmenuUI.menu.dispose() instead!"),f.dispose()},f.on("dispose",function(){s.default.log("contextmenu-ui: disposed menu"),t.contextmenu.options.cancel=!0,s.default.off(a.default,["click","tap"],f.dispose),t.removeChild(f),delete t.contextmenuUI.menu}),this.addChild(f),s.default.on(a.default,["click","tap"],f.dispose)}function l(e){var t=this;if(!Array.isArray(e.content))throw new Error('"content" required');u(this)&&(this.contextmenuUI.menu.dispose(),this.off("vjs-contextmenu",this.contextmenuUI.onVjsContextMenu),delete this.contextmenuUI),this.contextmenu();var n=this.contextmenuUI=function(){l.apply(this,arguments)};n.onVjsContextMenu=s.default.bind(this,f),n.content=e.content,n.VERSION="3.0.3",this.on("vjs-contextmenu",n.onVjsContextMenu).ready(function(){return t.addClass("vjs-contextmenu-ui")})}Object.defineProperty(n,"__esModule",{value:!0});var d=e("global/document"),a=i(d),c="undefined"!=typeof window?window.videojs:"undefined"!=typeof o?o.videojs:null,s=i(c),p=e("./context-menu"),y=i(p),h=e("./util");s.default.plugin("contextmenuUI",l),l.VERSION="3.0.3",n.default=l,t.exports=n.default}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"./context-menu":2,"./util":3,"global/document":5}]},{},[7])(7)});
 /**
  * Copyright 2014 Google Inc.
  *
@@ -39235,106 +38610,21 @@ module.exports = exports['default'];
   videojs.plugin('ima', imaPlugin);
 }(window.videojs));
 
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.videojsReplay = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (global){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _videoJs = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _videoJs2 = _interopRequireDefault(_videoJs);
-
-// Default options for the plugin.
-var defaults = {};
-
-var addReplayClass = function addReplayClass(player) {
-  if (player.duration() !== Infinity) {
-    player.addClass('vjs-replay').getChild('controlBar').getChild('playToggle').controlText(player.localize('Replay'));
-  }
-};
-
-var removeReplayClass = function removeReplayClass(player) {
-  var controlLabel = undefined;
-
-  if (!player.hasClass('vjs-replay')) {
-    return;
-  }
-
-  // Reset the control's label
-  if (player.paused()) {
-    controlLabel = player.localize('Play');
-  } else {
-    controlLabel = player.localize('Pause');
-  }
-  player.removeClass('vjs-replay').getChild('controlBar').getChild('playToggle').controlText(controlLabel);
-};
-
 /**
- * Function to invoke when the player is ready.
- *
- * This is a great place for your plugin to initialize itself. When this
- * function is called, the player will have its DOM and child components
- * in place.
- *
- * @function onPlayerReady
- * @param    {Player} player
- * @param    {Object} [options={}]
+ * videojs-replay
+ * @version 1.1.0
+ * @copyright 2017 Derk-Jan Hartman
+ * @license (MIT OR Apache-2.0)
  */
-var onPlayerReady = function onPlayerReady(player, options) {
-  player.on('ended', function () {
-    addReplayClass(player);
-  });
-  player.on(['play', 'seeking'], function () {
-    removeReplayClass(player);
-  });
-};
-
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var n;n="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,n.videojsReplay=e()}}(function(){return function e(n,o,t){function i(f,r){if(!o[f]){if(!n[f]){var d="function"==typeof require&&require;if(!r&&d)return d(f,!0);if(l)return l(f,!0);var u=new Error("Cannot find module '"+f+"'");throw u.code="MODULE_NOT_FOUND",u}var a=o[f]={exports:{}};n[f][0].call(a.exports,function(e){var o=n[f][1][e];return i(o?o:e)},a,a.exports,e,n,o,t)}return o[f].exports}for(var l="function"==typeof require&&require,f=0;f<t.length;f++)i(t[f]);return i}({1:[function(e,n,o){(function(e){"use strict";function t(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(o,"__esModule",{value:!0});var i="undefined"!=typeof window?window.videojs:"undefined"!=typeof e?e.videojs:null,l=t(i),f={},r=function(e){e.duration()!==1/0&&e.addClass("vjs-replay").getChild("controlBar").getChild("playToggle").controlText(e.localize("Replay"))},d=function(e){var n=void 0;e.hasClass("vjs-replay")&&(n=e.paused()?e.localize("Play"):e.localize("Pause"),e.removeClass("vjs-replay").getChild("controlBar").getChild("playToggle").controlText(n))},u=function(e,n){e.on("ended",function(){r(e)}),e.on(["play","seeking"],function(){d(e)})},a=function(e){var n=this;this.ready(function(){u(n,l.default.mergeOptions(f,e))})};l.default.plugin("replayButton",a),a.VERSION="1.1.0",o.default=a,n.exports=o.default}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}]},{},[1])(1)});
 /**
- * A video.js plugin.
- *
- * In the plugin function, the value of `this` is a video.js `Player`
- * instance. You cannot rely on the player being in a "ready" state here,
- * depending on how the plugin is invoked. This may or may not be important
- * to you; if not, remove the wait for "ready"!
- *
- * @function replayButton
- * @param    {Object} [options={}]
- *           An object of options left to the plugin author to define.
+ * blogg-embed
+ * @version 1.1.0
+ * @copyright 2017 blogg.no
  */
-var replayButton = function replayButton(options) {
-  var _this = this;
-
-  this.ready(function () {
-    onPlayerReady(_this, _videoJs2['default'].mergeOptions(defaults, options));
-  });
-};
-
-// Register the plugin with video.js.
-_videoJs2['default'].plugin('replayButton', replayButton);
-
-// Include the version number.
-replayButton.VERSION = '1.1.0';
-
-exports['default'] = replayButton;
-module.exports = exports['default'];
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
-},{}]},{},[1])(1)
-});
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9icm93c2VyLXBhY2svX3ByZWx1ZGUuanMiLCIvaG9tZS9taXJhei9Eb3dubG9hZHMvdmlkZW9qcy1yZXBsYXktbWFzdGVyL3NyYy9wbHVnaW4uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Ozs7Ozs7Ozs7dUJDQW9CLFVBQVU7Ozs7O0FBRzlCLElBQU0sUUFBUSxHQUFHLEVBQUUsQ0FBQzs7QUFFcEIsSUFBTSxjQUFjLEdBQUcsU0FBakIsY0FBYyxDQUFJLE1BQU0sRUFBSztBQUNqQyxNQUFJLE1BQU0sQ0FBQyxRQUFRLEVBQUUsS0FBSyxRQUFRLEVBQUU7QUFDbEMsVUFBTSxDQUFDLFFBQVEsQ0FBQyxZQUFZLENBQUMsQ0FDMUIsUUFBUSxDQUFDLFlBQVksQ0FBQyxDQUN0QixRQUFRLENBQUMsWUFBWSxDQUFDLENBQ3RCLFdBQVcsQ0FBQyxNQUFNLENBQUMsUUFBUSxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUM7R0FDM0M7Q0FDRixDQUFDOztBQUVGLElBQU0saUJBQWlCLEdBQUcsU0FBcEIsaUJBQWlCLENBQUksTUFBTSxFQUFLO0FBQ3BDLE1BQUksWUFBWSxZQUFBLENBQUM7O0FBRWpCLE1BQUksQ0FBQyxNQUFNLENBQUMsUUFBUSxDQUFDLFlBQVksQ0FBQyxFQUFFO0FBQ2xDLFdBQU87R0FDUjs7O0FBR0QsTUFBSSxNQUFNLENBQUMsTUFBTSxFQUFFLEVBQUU7QUFDbkIsZ0JBQVksR0FBRyxNQUFNLENBQUMsUUFBUSxDQUFDLE1BQU0sQ0FBQyxDQUFDO0dBQ3hDLE1BQU07QUFDTCxnQkFBWSxHQUFHLE1BQU0sQ0FBQyxRQUFRLENBQUMsT0FBTyxDQUFDLENBQUM7R0FDekM7QUFDRCxRQUFNLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxDQUM3QixRQUFRLENBQUMsWUFBWSxDQUFDLENBQ3RCLFFBQVEsQ0FBQyxZQUFZLENBQUMsQ0FDdEIsV0FBVyxDQUFDLFlBQVksQ0FBQyxDQUFDO0NBQzlCLENBQUM7Ozs7Ozs7Ozs7Ozs7QUFhRixJQUFNLGFBQWEsR0FBRyxTQUFoQixhQUFhLENBQUksTUFBTSxFQUFFLE9BQU8sRUFBSztBQUN6QyxRQUFNLENBQUMsRUFBRSxDQUFDLE9BQU8sRUFBRSxZQUFNO0FBQ3ZCLGtCQUFjLENBQUMsTUFBTSxDQUFDLENBQUM7R0FDeEIsQ0FBQyxDQUFDO0FBQ0gsUUFBTSxDQUFDLEVBQUUsQ0FBQyxDQUFDLE1BQU0sRUFBRSxTQUFTLENBQUMsRUFBRSxZQUFNO0FBQ25DLHFCQUFpQixDQUFDLE1BQU0sQ0FBQyxDQUFDO0dBQzNCLENBQUMsQ0FBQztDQUNKLENBQUM7Ozs7Ozs7Ozs7Ozs7O0FBY0YsSUFBTSxZQUFZLEdBQUcsU0FBZixZQUFZLENBQVksT0FBTyxFQUFFOzs7QUFDckMsTUFBSSxDQUFDLEtBQUssQ0FBQyxZQUFNO0FBQ2YsaUJBQWEsUUFBTyxxQkFBUSxZQUFZLENBQUMsUUFBUSxFQUFFLE9BQU8sQ0FBQyxDQUFDLENBQUM7R0FDOUQsQ0FBQyxDQUFDO0NBQ0osQ0FBQzs7O0FBR0YscUJBQVEsTUFBTSxDQUFDLGNBQWMsRUFBRSxZQUFZLENBQUMsQ0FBQzs7O0FBRzdDLFlBQVksQ0FBQyxPQUFPLEdBQUcsYUFBYSxDQUFDOztxQkFFdEIsWUFBWSIsImZpbGUiOiJnZW5lcmF0ZWQuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlc0NvbnRlbnQiOlsiKGZ1bmN0aW9uIGUodCxuLHIpe2Z1bmN0aW9uIHMobyx1KXtpZighbltvXSl7aWYoIXRbb10pe3ZhciBhPXR5cGVvZiByZXF1aXJlPT1cImZ1bmN0aW9uXCImJnJlcXVpcmU7aWYoIXUmJmEpcmV0dXJuIGEobywhMCk7aWYoaSlyZXR1cm4gaShvLCEwKTt2YXIgZj1uZXcgRXJyb3IoXCJDYW5ub3QgZmluZCBtb2R1bGUgJ1wiK28rXCInXCIpO3Rocm93IGYuY29kZT1cIk1PRFVMRV9OT1RfRk9VTkRcIixmfXZhciBsPW5bb109e2V4cG9ydHM6e319O3Rbb11bMF0uY2FsbChsLmV4cG9ydHMsZnVuY3Rpb24oZSl7dmFyIG49dFtvXVsxXVtlXTtyZXR1cm4gcyhuP246ZSl9LGwsbC5leHBvcnRzLGUsdCxuLHIpfXJldHVybiBuW29dLmV4cG9ydHN9dmFyIGk9dHlwZW9mIHJlcXVpcmU9PVwiZnVuY3Rpb25cIiYmcmVxdWlyZTtmb3IodmFyIG89MDtvPHIubGVuZ3RoO28rKylzKHJbb10pO3JldHVybiBzfSkiLCJpbXBvcnQgdmlkZW9qcyBmcm9tICd2aWRlby5qcyc7XG5cbi8vIERlZmF1bHQgb3B0aW9ucyBmb3IgdGhlIHBsdWdpbi5cbmNvbnN0IGRlZmF1bHRzID0ge307XG5cbmNvbnN0IGFkZFJlcGxheUNsYXNzID0gKHBsYXllcikgPT4ge1xuICBpZiAocGxheWVyLmR1cmF0aW9uKCkgIT09IEluZmluaXR5KSB7XG4gICAgcGxheWVyLmFkZENsYXNzKCd2anMtcmVwbGF5JylcbiAgICAgIC5nZXRDaGlsZCgnY29udHJvbEJhcicpXG4gICAgICAuZ2V0Q2hpbGQoJ3BsYXlUb2dnbGUnKVxuICAgICAgLmNvbnRyb2xUZXh0KHBsYXllci5sb2NhbGl6ZSgnUmVwbGF5JykpO1xuICB9XG59O1xuXG5jb25zdCByZW1vdmVSZXBsYXlDbGFzcyA9IChwbGF5ZXIpID0+IHtcbiAgbGV0IGNvbnRyb2xMYWJlbDtcblxuICBpZiAoIXBsYXllci5oYXNDbGFzcygndmpzLXJlcGxheScpKSB7XG4gICAgcmV0dXJuO1xuICB9XG5cbiAgLy8gUmVzZXQgdGhlIGNvbnRyb2wncyBsYWJlbFxuICBpZiAocGxheWVyLnBhdXNlZCgpKSB7XG4gICAgY29udHJvbExhYmVsID0gcGxheWVyLmxvY2FsaXplKCdQbGF5Jyk7XG4gIH0gZWxzZSB7XG4gICAgY29udHJvbExhYmVsID0gcGxheWVyLmxvY2FsaXplKCdQYXVzZScpO1xuICB9XG4gIHBsYXllci5yZW1vdmVDbGFzcygndmpzLXJlcGxheScpXG4gICAgLmdldENoaWxkKCdjb250cm9sQmFyJylcbiAgICAuZ2V0Q2hpbGQoJ3BsYXlUb2dnbGUnKVxuICAgIC5jb250cm9sVGV4dChjb250cm9sTGFiZWwpO1xufTtcblxuLyoqXG4gKiBGdW5jdGlvbiB0byBpbnZva2Ugd2hlbiB0aGUgcGxheWVyIGlzIHJlYWR5LlxuICpcbiAqIFRoaXMgaXMgYSBncmVhdCBwbGFjZSBmb3IgeW91ciBwbHVnaW4gdG8gaW5pdGlhbGl6ZSBpdHNlbGYuIFdoZW4gdGhpc1xuICogZnVuY3Rpb24gaXMgY2FsbGVkLCB0aGUgcGxheWVyIHdpbGwgaGF2ZSBpdHMgRE9NIGFuZCBjaGlsZCBjb21wb25lbnRzXG4gKiBpbiBwbGFjZS5cbiAqXG4gKiBAZnVuY3Rpb24gb25QbGF5ZXJSZWFkeVxuICogQHBhcmFtICAgIHtQbGF5ZXJ9IHBsYXllclxuICogQHBhcmFtICAgIHtPYmplY3R9IFtvcHRpb25zPXt9XVxuICovXG5jb25zdCBvblBsYXllclJlYWR5ID0gKHBsYXllciwgb3B0aW9ucykgPT4ge1xuICBwbGF5ZXIub24oJ2VuZGVkJywgKCkgPT4ge1xuICAgIGFkZFJlcGxheUNsYXNzKHBsYXllcik7XG4gIH0pO1xuICBwbGF5ZXIub24oWydwbGF5JywgJ3NlZWtpbmcnXSwgKCkgPT4ge1xuICAgIHJlbW92ZVJlcGxheUNsYXNzKHBsYXllcik7XG4gIH0pO1xufTtcblxuLyoqXG4gKiBBIHZpZGVvLmpzIHBsdWdpbi5cbiAqXG4gKiBJbiB0aGUgcGx1Z2luIGZ1bmN0aW9uLCB0aGUgdmFsdWUgb2YgYHRoaXNgIGlzIGEgdmlkZW8uanMgYFBsYXllcmBcbiAqIGluc3RhbmNlLiBZb3UgY2Fubm90IHJlbHkgb24gdGhlIHBsYXllciBiZWluZyBpbiBhIFwicmVhZHlcIiBzdGF0ZSBoZXJlLFxuICogZGVwZW5kaW5nIG9uIGhvdyB0aGUgcGx1Z2luIGlzIGludm9rZWQuIFRoaXMgbWF5IG9yIG1heSBub3QgYmUgaW1wb3J0YW50XG4gKiB0byB5b3U7IGlmIG5vdCwgcmVtb3ZlIHRoZSB3YWl0IGZvciBcInJlYWR5XCIhXG4gKlxuICogQGZ1bmN0aW9uIHJlcGxheUJ1dHRvblxuICogQHBhcmFtICAgIHtPYmplY3R9IFtvcHRpb25zPXt9XVxuICogICAgICAgICAgIEFuIG9iamVjdCBvZiBvcHRpb25zIGxlZnQgdG8gdGhlIHBsdWdpbiBhdXRob3IgdG8gZGVmaW5lLlxuICovXG5jb25zdCByZXBsYXlCdXR0b24gPSBmdW5jdGlvbihvcHRpb25zKSB7XG4gIHRoaXMucmVhZHkoKCkgPT4ge1xuICAgIG9uUGxheWVyUmVhZHkodGhpcywgdmlkZW9qcy5tZXJnZU9wdGlvbnMoZGVmYXVsdHMsIG9wdGlvbnMpKTtcbiAgfSk7XG59O1xuXG4vLyBSZWdpc3RlciB0aGUgcGx1Z2luIHdpdGggdmlkZW8uanMuXG52aWRlb2pzLnBsdWdpbigncmVwbGF5QnV0dG9uJywgcmVwbGF5QnV0dG9uKTtcblxuLy8gSW5jbHVkZSB0aGUgdmVyc2lvbiBudW1iZXIuXG5yZXBsYXlCdXR0b24uVkVSU0lPTiA9ICdfX1ZFUlNJT05fXyc7XG5cbmV4cG9ydCBkZWZhdWx0IHJlcGxheUJ1dHRvbjtcbiJdfQ==
-
 (function($, videojs, window) {
     'use strict';
-    /*var dashCallback = function(player, mediaPlayer) {
-        mediaPlayer.getDebug().setLogToBrowserConsole(false);
-    };
-    videojs.Html5DashJS.hook('beforeInitialize', dashCallback);*/
+
     window.videojs = videojs;
 
     var APIlist = {
@@ -39375,35 +38665,6 @@ module.exports = exports['default'];
         if (_currentMedia.type == 'audio')
             _notifyHeightToParent(165);*/
 
-        var _getDefaultSetup = function() {
-            var defaultOpt = {
-                controls: true,
-                autoplay: false,
-                loop: false,
-                preload: "none",
-                html5: {
-                    hlsjsConfig: {}
-                },
-                inactivityTimeout: 500,
-                controlBar: {
-                    fullscreenToggle: true
-                        //customControlsSpacer: {}
-                }
-            };
-
-            switch (_currentMedia.type) {
-                case 'audio':
-                    defaultOpt.height = 50;
-                    defaultOpt.controlBar.fullscreenToggle = false;
-                    break;
-                default:
-                    defaultOpt.controlBar.volumeMenuButton = {
-                        inline: false,
-                        vertical: true
-                    };
-            };
-            return defaultOpt;
-        };
         var _copyToClipboard = function(text) {
             if (typeof text != "string")
                 return;
@@ -39425,6 +38686,35 @@ module.exports = exports['default'];
 
         };
 
+        var _getDefaultSetup = function() {
+            var defaultOpt = {
+                controls: true,
+                autoplay: false,
+                loop: false,
+                preload: "none",
+                html5: {
+                    hlsjsConfig: {}
+                },
+                inactivityTimeout: 500,
+                controlBar: {
+                    fullscreenToggle: true
+                }
+            };
+
+            switch (_currentMedia.type) {
+                case 'audio':
+                    defaultOpt.height = 50;
+                    defaultOpt.controlBar.fullscreenToggle = false;
+                    break;
+                default:
+                    defaultOpt.controlBar.volumeMenuButton = {
+                        inline: false,
+                        vertical: true
+                    };
+            };
+            return defaultOpt;
+        };
+
         var _getPluginDefaultOptions = function() {
             var vjPlgOpt = {
                 watermark: {
@@ -39432,14 +38722,6 @@ module.exports = exports['default'];
                     url: '',
                     image: '',
                     fadeTime: null
-                },
-                wavesurfer: {
-                    msDisplayMax: 10,
-                    debug: _isDemo,
-                    waveColor: 'grey',
-                    progressColor: '#ffffff',
-                    cursorColor: 'white',
-                    hideScrollbar: true
                 },
                 ima: {
                     id: _idSelector.replace('#', ''),
@@ -39524,6 +38806,9 @@ module.exports = exports['default'];
                             });
                             player.one('adsready', function() {
                                 player.pause();
+                            });
+                            player.one('contentended', function() {
+                                player.ima.getAdsManager().discardAdBreak();
                             });
                             /*player.one('adend', function() {
                                 player.ads.endLinearAdMode();

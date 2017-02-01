@@ -87,11 +87,11 @@
             "!src/scripts/videojs-playlists.js"
         ],
         "scripts-concate": [
-            "dist/vendors/videojs-contextmenu/videojs-contextmenu.js",
-            "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.js",
+            "dist/vendors/videojs-contextmenu/videojs-contextmenu.min.js",
+            "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js",
             "dist/vendors/videojs-ima/videojs.ima.js",
-            "dist/vendors/videojs-watermark/videojs-watermarks.js",
-            "src/vendors/videojs-replay/videojs-replay.js"
+            "dist/vendors/videojs-watermark/videojs-watermarks.min.js",
+            "src/vendors/videojs-replay/videojs-replay.min.js"
         ],
         "fonts": {
             "bootstrap": ["src/vendors/bootstrap/fonts/bootstrap/**"]

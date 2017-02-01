@@ -1,9 +1,11 @@
+/**
+ * blogg-embed
+ * @version 1.1.0
+ * @copyright 2017 blogg.no
+ */
 (function($, videojs, window) {
     'use strict';
-    /*var dashCallback = function(player, mediaPlayer) {
-        mediaPlayer.getDebug().setLogToBrowserConsole(false);
-    };
-    videojs.Html5DashJS.hook('beforeInitialize', dashCallback);*/
+
     window.videojs = videojs;
 
     var APIlist = {
@@ -44,35 +46,6 @@
         if (_currentMedia.type == 'audio')
             _notifyHeightToParent(165);*/
 
-        var _getDefaultSetup = function() {
-            var defaultOpt = {
-                controls: true,
-                autoplay: false,
-                loop: false,
-                preload: "none",
-                html5: {
-                    hlsjsConfig: {}
-                },
-                inactivityTimeout: 500,
-                controlBar: {
-                    fullscreenToggle: true
-                        //customControlsSpacer: {}
-                }
-            };
-
-            switch (_currentMedia.type) {
-                case 'audio':
-                    defaultOpt.height = 50;
-                    defaultOpt.controlBar.fullscreenToggle = false;
-                    break;
-                default:
-                    defaultOpt.controlBar.volumeMenuButton = {
-                        inline: false,
-                        vertical: true
-                    };
-            };
-            return defaultOpt;
-        };
         var _copyToClipboard = function(text) {
             if (typeof text != "string")
                 return;
@@ -94,6 +67,35 @@
 
         };
 
+        var _getDefaultSetup = function() {
+            var defaultOpt = {
+                controls: true,
+                autoplay: false,
+                loop: false,
+                preload: "none",
+                html5: {
+                    hlsjsConfig: {}
+                },
+                inactivityTimeout: 500,
+                controlBar: {
+                    fullscreenToggle: true
+                }
+            };
+
+            switch (_currentMedia.type) {
+                case 'audio':
+                    defaultOpt.height = 50;
+                    defaultOpt.controlBar.fullscreenToggle = false;
+                    break;
+                default:
+                    defaultOpt.controlBar.volumeMenuButton = {
+                        inline: false,
+                        vertical: true
+                    };
+            };
+            return defaultOpt;
+        };
+
         var _getPluginDefaultOptions = function() {
             var vjPlgOpt = {
                 watermark: {
@@ -101,14 +103,6 @@
                     url: '',
                     image: '',
                     fadeTime: null
-                },
-                wavesurfer: {
-                    msDisplayMax: 10,
-                    debug: _isDemo,
-                    waveColor: 'grey',
-                    progressColor: '#ffffff',
-                    cursorColor: 'white',
-                    hideScrollbar: true
                 },
                 ima: {
                     id: _idSelector.replace('#', ''),
@@ -193,6 +187,9 @@
                             });
                             player.one('adsready', function() {
                                 player.pause();
+                            });
+                            player.one('contentended', function() {
+                                player.ima.getAdsManager().discardAdBreak();
                             });
                             /*player.one('adend', function() {
                                 player.ads.endLinearAdMode();

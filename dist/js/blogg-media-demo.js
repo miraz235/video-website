@@ -1,10 +1,11 @@
+/**
+ * blogg-media
+ * @version 1.1.0
+ * @copyright 2017 blogg.no
+ */
 (function($, videojs, window) {
     'use strict';
 
-    /*var dashCallback = function(player, mediaPlayer) {
-        mediaPlayer.getDebug().setLogToBrowserConsole(false);
-    };
-    videojs.Html5DashJS.hook('beforeInitialize', dashCallback);*/
     window.videojs = videojs;
     var APIlist = {
         plays: function(mediaId, blogId) {
@@ -78,14 +79,6 @@
                     image: '',
                     fadeTime: null
                 },
-                wavesurfer: {
-                    msDisplayMax: 10,
-                    debug: _isDemo,
-                    waveColor: 'grey',
-                    progressColor: '#ffffff',
-                    cursorColor: 'white',
-                    hideScrollbar: true
-                },
                 ima: {
                     id: vId,
                     showControlsForJSAds: false,
@@ -144,6 +137,12 @@
                             player.one(_startEvent, function() {
                                 player.play();
                             });
+                            player.one('adsready', function() {
+                                player.pause();
+                            });
+                            player.one('contentended', function() {
+                                player.ima.getAdsManager().discardAdBreak();
+                            });
                             player.trigger('nopostroll');
                         }
                         break;
@@ -184,6 +183,8 @@
                         }
                         break;
                     case 'audio':
+                        if (plgOpts.wavesurfer)
+                            break;
                         if (_isDemo && _currentMedia.id) {
                             if (plgOpts.wavesurfer)
                                 plgOpts.wavesurfer.src = "resources/audios/" + _currentMedia.id + ".mp3";
