@@ -75,8 +75,8 @@
             }
         },
 
-        onMessage: function(message) {
-            message = message.data;
+        onMessage: function(event) {
+            message = event.data;
             if (typeof message !== "undefined" && message != null && typeof message == "string" && message.indexOf("em") > -1) {
                 message = message.split("|");
 
@@ -191,6 +191,6 @@
     } else
         helpers.loadIframe();
 
-    //window.addEventListener("message", helpers.onMessage);
+    //window.addEventListener("message", helpers.onMessage, false);
     me.className = "em-injected";
 })();
