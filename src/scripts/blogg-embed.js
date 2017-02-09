@@ -24,6 +24,13 @@
             navigator.userAgent.match(/Android/i)) {
             _startEvent = 'touchend';
         }
+        var _emLang = {
+            CLOSE_SHARE: { en: "Close share box", no: "kk del boks" },
+            CLOSE_PLAYLIST: { en: "Close playlist box", no: "Lukk spilleliste boksen" },
+            ADVERTISEMENT: { en: "Advertisement", no: "Annonse" },
+            COPY_SCRIPT: { en: "Copy embed script code", no: "Kopier skriptkode" },
+            COPY_EMBED: { en: "Copy embed iframe code", no: "Kopier embed iframe-koden" }
+        };
         var _isDemo = JSON.parse("@@__is-demo__"),
             _mediaPlayListUrls = [],
             _currentMedia = {
@@ -39,6 +46,8 @@
             },
             _idSelector = '#embedMedia',
             _timeupWaitingID = 0;
+
+        var _culture = _isDemo ? "en" : "no";
         /*var _notifyHeightToParent = function(height) {
             var message = 'em|height|' + height;
             window.parent.postMessage(message, "*");
@@ -107,19 +116,19 @@
                 ima: {
                     id: _idSelector.replace('#', ''),
                     showControlsForJSAds: false,
-                    adLabel: 'Annonse',
+                    adLabel: _emLang.ADVERTISEMENT[_culture],
                     adTagUrl: '@@__video-ima-ad__',
                     prerollTimeout: 5000
                 },
                 contextmenuUI: {
                     content: [{
-                        label: 'Copy embed script code',
+                        label: _emLang.COPY_SCRIPT[_culture],
                         listener: function() {
                             //$('#shareBtn').trigger('click');
                             _copyToClipboard($('#inputEmbedScript').val());
                         }
                     }, {
-                        label: 'Copy embed iframe code',
+                        label: _emLang.COPY_EMBED[_culture],
                         listener: function() {
                             _copyToClipboard($('#inputEmbedIframe').val());
                         }
@@ -191,9 +200,6 @@
                             player.one('contentended', function() {
                                 player.ima.getAdsManager().discardAdBreak();
                             });
-                            /*player.one('adend', function() {
-                                player.ads.endLinearAdMode();
-                            });*/
                         }
                         break;
                     default:
@@ -253,10 +259,10 @@
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
             player.on('adstart', $.proxy(onMediaAdStartEvent, this));
-            player.on('adend', $.proxy(onMediaAdEndEvent, this));
-            player.on('ads-ad-ended', $.proxy(onMediaAdEndEvent, this));
-            player.on('adskip', $.proxy(onMediaAdEndEvent, this));
-            player.on('adscanceled', $.proxy(onMediaAdEndEvent, this));
+            //player.on('adend', $.proxy(onMediaAdEndEvent, this));
+            //player.on('ads-ad-ended', $.proxy(onMediaAdEndEvent, this));
+            //player.on('adskip', $.proxy(onMediaAdEndEvent, this));
+            //player.on('adscanceled', $.proxy(onMediaAdEndEvent, this));
             player.on('adserror', $.proxy(onMediaAdErrorEvent, this));
 
             _currentMedia.player = player;
@@ -272,19 +278,21 @@
             this.pause();
         };
 
-        var onMediaAdEndEvent = function(event) {
+        /*var onMediaAdEndEvent = function(event) {
             if (_currentMedia.playsCounter === 1) {
                 _playsAPICall();
             }
-        };
+        };*/
 
         var onMediaPlayEvent = function(event) {
             this.clearTimeout(_timeupWaitingID);
             _currentMedia.playsCounter++;
-            if (_currentMedia.playsCounter === 1 &&
-                !(_currentMedia.plugins.ima &&
-                    (_currentMedia.plugins.ima.adTagUrl &&
-                        !_currentMedia.plugins.ima.error))) {
+            if (_currentMedia.playsCounter === 1
+                /*&&
+                               !(_currentMedia.plugins.ima &&
+                                   (_currentMedia.plugins.ima.adTagUrl &&
+                                       !_currentMedia.plugins.ima.error))*/
+            ) {
                 _playsAPICall();
             }
         };
@@ -295,7 +303,7 @@
                 _timeupWaitingID = this.setTimeout(function() {
                     window.location.href = nextMedia;
                 }, waitTime);
-            }
+            } else _currentMedia.playsCounter = 0;
         };
         var _boxCloseControl = function(boxClass, title) {
             var closebtn = $('<a>', {
@@ -321,7 +329,7 @@
         };
         var _setShareDrawer = function() {
             $('#shareBtn').show();
-            _boxCloseControl(".media-share", "Close share box");
+            _boxCloseControl(".media-share", _emLang.CLOSE_SHARE[_culture]);
             $('#inputEmbedScript, #inputEmbedIframe').on('focus', function() {
                 var $this = $(this);
                 window.setTimeout(function() {
@@ -452,7 +460,7 @@
 
         var _setPlaylistDrawer = function() {
             $('#playListBtn').show();
-            _boxCloseControl(".media-playlist", "Close playlist box");
+            _boxCloseControl(".media-playlist", _emLang.CLOSE_PLAYLIST[_culture]);
         };
 
         var setPlayList = function(domList) {

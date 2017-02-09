@@ -23,6 +23,9 @@
             navigator.userAgent.match(/Android/i)) {
             _startEvent = 'touchend';
         }
+        var _emLang = {
+            ADVERTISEMENT: { en: "Advertisement", no: "Annonse" }
+        };
         var _isDemo = JSON.parse("true"),
 
             _mediaPlayListUrls = [],
@@ -41,6 +44,8 @@
             },
             _idSelector = '#embedMedia',
             _timeupWaitingID = 0;
+
+        var _culture = _isDemo ? "en" : "no";
 
         var _getDefaultSetup = function() {
             var defaultOpt = {
@@ -82,7 +87,7 @@
                 ima: {
                     id: vId,
                     showControlsForJSAds: false,
-                    adLabel: 'Annonse',
+                    adLabel: _emLang.ADVERTISEMENT[_culture],
                     adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator=',
                     prerollTimeout: 5000
                 },
@@ -143,7 +148,6 @@
                             player.one('contentended', function() {
                                 player.ima.getAdsManager().discardAdBreak();
                             });
-                            player.trigger('nopostroll');
                         }
                         break;
                     default:
@@ -205,9 +209,9 @@
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
             player.on('adstart', $.proxy(onMediaAdStartEvent, this));
-            player.on('ads-ad-ended', $.proxy(onMediaAdEndEvent, this));
-            player.on('adskip', $.proxy(onMediaAdEndEvent, this));
-            player.on('adscanceled', $.proxy(onMediaAdEndEvent, this));
+            //player.on('ads-ad-ended', $.proxy(onMediaAdEndEvent, this));
+            //player.on('adskip', $.proxy(onMediaAdEndEvent, this));
+            //player.on('adscanceled', $.proxy(onMediaAdEndEvent, this));
             player.on('adserror', $.proxy(onMediaAdErrorEvent, this));
 
             _currentMedia.player = player;
@@ -223,11 +227,11 @@
             this.pause();
         };
 
-        var onMediaAdEndEvent = function(event) {
+        /*var onMediaAdEndEvent = function(event) {
             if (_currentMedia.playsCounter === 1) {
                 _playsAPICall();
             }
-        };
+        };*/
 
         var onMediaPlayEvent = function(event) {
             this.clearTimeout(_timeupWaitingID);
@@ -241,10 +245,12 @@
                 }
             }
             _currentMedia.playsCounter++;
-            if (_currentMedia.playsCounter === 1 &&
-                !(_currentMedia.plugins.ima &&
-                    (_currentMedia.plugins.ima.adTagUrl &&
-                        !_currentMedia.plugins.ima.error))) {
+            if (_currentMedia.playsCounter === 1
+                /*&&
+                               !(_currentMedia.plugins.ima &&
+                                   (_currentMedia.plugins.ima.adTagUrl &&
+                                       !_currentMedia.plugins.ima.error))*/
+            ) {
                 var $targetDom = $('#' + event.target.id);
                 var mediaUrlId = $targetDom.attr("data-" + _currentMedia.type + "-id");
                 if (mediaUrlId) {
