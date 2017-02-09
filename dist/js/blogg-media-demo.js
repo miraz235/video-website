@@ -137,9 +137,9 @@
                     case 'ima':
                         if (plugins.ima.adTagUrl) {
                             player.ima(plugins.ima);
-                            player.ima.initializeAdDisplayContainer();
-                            player.ima.requestAds();
                             player.one(_startEvent, function() {
+                                player.ima.initializeAdDisplayContainer();
+                                player.ima.requestAds();
                                 player.play();
                             });
                             player.one('adsready', function() {
