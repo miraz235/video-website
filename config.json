@@ -55,6 +55,40 @@
         "videojs-contextmenu-ui",
         "videojs-replay"
     ],
+    "concate": {
+        "styles": {
+            "local": [
+                "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.css",
+                "dist/vendors/videojs-ima/videojs.ima.css",
+                "dist/vendors/videojs-watermark/videojs-watermark.css",
+                "src/vendors/videojs-replay/videojs-replay.css"
+            ],
+            "cdn": {
+                "bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
+                "videojs": "http://vjs.zencdn.net/5.16.0/video-js.css",
+                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.3/videojs.ads.css"
+            }
+        },
+        "scripts": {
+            "local": [
+                "dist/vendors/videojs-contextmenu/videojs-contextmenu.min.js",
+                "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js",
+                "dist/vendors/videojs-ima/videojs.ima.js",
+                "dist/vendors/videojs-watermark/videojs-watermarks.min.js",
+                "src/vendors/videojs-replay/videojs-replay.min.js"
+            ],
+
+            "cdn": {
+                "jquery": "https://code.jquery.com/jquery-3.1.1.js",
+                "bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js",
+                "videojs": "http://vjs.zencdn.net/5.16.0/video.js",
+                "ima": "http://imasdk.googleapis.com/js/sdkloader/ima3.js",
+                "dash": "https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js",
+                "hls": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/4.1.1/videojs-contrib-hls.min.js",
+                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.3/videojs.ads.min.js"
+            }
+        }
+    },
     "sw": "node_modules/sw-toolbox/sw-toolbox.js",
     "tmp": {
         "root": ".tmp",
@@ -75,23 +109,10 @@
             "src/styles/**/*.css",
             "!src/styles/bootstrap.scss"
         ],
-        "styles-concate": [
-            "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.css",
-            "dist/vendors/videojs-ima/videojs.ima.css",
-            "dist/vendors/videojs-watermark/videojs-watermark.css",
-            "src/vendors/videojs-replay/videojs-replay.css"
-        ],
         "scripts": [
             "!src/scripts/sw",
             "src/scripts/*.js",
             "!src/scripts/videojs-playlists.js"
-        ],
-        "scripts-concate": [
-            "dist/vendors/videojs-contextmenu/videojs-contextmenu.min.js",
-            "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js",
-            "dist/vendors/videojs-ima/videojs.ima.js",
-            "dist/vendors/videojs-watermark/videojs-watermarks.min.js",
-            "src/vendors/videojs-replay/videojs-replay.min.js"
         ],
         "fonts": {
             "bootstrap": ["src/vendors/bootstrap/fonts/bootstrap/**"]

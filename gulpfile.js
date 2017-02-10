@@ -120,35 +120,35 @@ gulp.task("scripts", ["scripts:tmp"], function(callback) {
 });
 
 var jqueryjs = function() {
-    return request('https://code.jquery.com/jquery-3.1.1.js')
+    return request($config.concate.scripts.cdn.jquery)
         .pipe(source('jquery-3.1.1.js'))
 };
 var bootstrapjs = function() {
-    return request('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js')
+    return request($config.concate.scripts.cdn.bootstrap)
         .pipe(source('bootstrap.js'))
 };
 var videojsjs = function() {
-    return request('http://vjs.zencdn.net/5.16.0/video.js')
+    return request($config.concate.scripts.cdn.videojs)
         .pipe(source('video.js'))
 };
 var imajs = function() {
-    return request('http://imasdk.googleapis.com/js/sdkloader/ima3.js')
+    return request($config.concate.scripts.cdn.ima)
         .pipe(source('ima3.js'))
 };
 var dashjs = function() {
-    return request('https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js')
+    return request($config.concate.scripts.cdn.dash)
         .pipe(source('dash.all.min.js'))
 };
 var hlsjs = function() {
-    return request('https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/4.1.1/videojs-contrib-hls.min.js')
+    return request($config.concate.scripts.cdn.hls)
         .pipe(source('videojs-contrib-hls.min.js'))
 };
 var adsjs = function() {
-    return request('https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.1/videojs.ads.min.js')
+    return request($config.concate.scripts.cdn.ads)
         .pipe(source('videojs.ads.min.js'))
 };
 gulp.task("scripts:emall", function(callback) {
-    var src = $config.src["scripts-concate"];
+    var src = $config.concate.scripts.local;
     src.push("dist/js/blogg-embed.js");
     var localjs = gulp.src(src);
     //var jq = jqueryjs.pipe($.clone());
@@ -178,7 +178,7 @@ gulp.task("scripts:emall", function(callback) {
 });
 
 gulp.task("scripts:weball", function(callback) {
-    var src = $config.src["scripts-concate"];
+    var src = $config.concate.scripts.local;
     src.push("dist/js/blogg-media.js");
     var localjs = gulp.src(src);
 
@@ -208,20 +208,20 @@ gulp.task("scripts:weball", function(callback) {
 
 
 var bootstrapcss = function() {
-    return request('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    return request($config.concate.styles.cdn.bootstrap)
         .pipe(source('bootstrap.css'))
 };
 var videojscss = function() {
-    return request('http://vjs.zencdn.net/5.16.0/video-js.css')
+    return request($config.concate.styles.cdn.videojs)
         .pipe(source('video-js.css'))
 };
 var adscss = function() {
-    return request('https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.1/videojs.ads.css')
+    return request($config.concate.styles.cdn.ads)
         .pipe(source('videojs.ads.css'))
 };
 
 gulp.task("styles:emall", function(callback) {
-    var src = $config.src["styles-concate"];
+    var src = $config.concate.styles.local;
     src.push("dist/css/styles-embed.min.css");
     var localcss = gulp.src(src);
     return merge(videojscss(), adscss(), localcss)
@@ -249,7 +249,7 @@ gulp.task("styles:emall", function(callback) {
         .pipe(gulp.dest($config.dist.styles));
 });
 gulp.task("styles:weball", function(callback) {
-    var src = $config.src["styles-concate"];
+    var src = $config.concate.styles.local;
     src.push("dist/css/styles.min.css");
     var localcss = gulp.src(src);
     return merge(bootstrapcss(), videojscss(), adscss(), localcss)

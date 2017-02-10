@@ -1,12 +1,10 @@
 /**
  * blogg-embed
- * @version 1.1.0
+ * @version 1.1.1
  * @copyright 2017 blogg.no
  */
 (function($, videojs, window) {
     'use strict';
-
-    window.videojs = videojs;
 
     var APIlist = {
         plays: function(mediaId, blogId) {
