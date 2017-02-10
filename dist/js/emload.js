@@ -120,6 +120,7 @@
         iframe.style.height = "100%";
         iframe.style.position = "relative";
         iframe.style.top = "0";
+        iframe.style.left = "0";
         iframe.scrolling = "no";
         iframe.setAttribute("webkitallowfullscreen", "true");
         iframe.setAttribute("mozallowfullscreen", "true");
