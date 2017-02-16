@@ -10,6 +10,11 @@
         width: $audio-height;
         height: $audio-height;
         vertical-align: middle;
+        background-color: rgba($gray-light, 0.5);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        font-size: 0;
     }
     +.media-player__content {
         .video-js {
