@@ -2,11 +2,32 @@
     float: left;
     padding: 15px;
     display: none;
+    position: relative;
+    &:before,
+    &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
     &:before {
-        display: inline-block;
-        vertical-align: middle
+        width: 40%;
+        height: 40%;
+        box-shadow: inset 15px 0px 0px -7px $gray-lighter, inset -15px 0px 0px -7px $color-white;
+        background: linear-gradient($gray-lighter 20%, transparent 0);
+        transform: translate(-35%, -60%);
+    }
+    &:after {
+        width: 20%;
+        height: 20%;
+        border-radius: 50%;
+        background-color: $gray-lighter;
+        box-shadow: 58px 0 0 0 $gray-lighter;
+        transform: translate(-147%, 26%);
     }
     img {
+        position: relative;
+        z-index: 1;
         width: $audio-height;
         height: $audio-height;
         vertical-align: middle;
