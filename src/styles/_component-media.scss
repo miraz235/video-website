@@ -128,7 +128,7 @@
         bottom: 10px;
     }
     .vjs-ad-playing & {
-        z-index: 0;
+        display: none;
     }
     @media screen and (max-width: $screen-xs-min - 100) {
         .media-author {
@@ -482,17 +482,9 @@
     }
 }
 
-.video-js {
-    &.vjs-ad-loading>video {
-        opacity: 0;
-    }
-}
-
 .vjs-ad-playing {
-    >video {
-        display: none;
-    }
+    .vjs-loading-spinner,
     .vjs-big-play-button {
-        z-index: 1111 !important;
+        display: none !important;
     }
 }
