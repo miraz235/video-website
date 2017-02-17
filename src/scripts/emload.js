@@ -126,9 +126,10 @@
         wrapper.className = config.wrapClass || 'em-wrapper';
     }
 
-    var me = document.currentScript ?
+    var me = document.currentScript && document.currentScript.className == "em" ?
         document.currentScript : [].slice.call(document.getElementsByClassName("em")).find(helpers.isEMLoadScript);
     if (!me) return;
+
     var config = {
         src: helpers.searchParams(me.src, 'url'),
         type: helpers.searchParams(me.src, 'type'),
