@@ -110,8 +110,6 @@
             iframe.className += " em-iframe-audio";
             if (config.list !== null) iframe.className += " em-iframe-audio-list";
         } else iframe.style.position = "absolute";
-
-        return false;
     }
 
     function createWrapper(config) {
