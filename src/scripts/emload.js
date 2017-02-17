@@ -62,7 +62,7 @@
         getTopPosition: function(element, scrollableParent) {
             var yPosition = 0;
             while (element) {
-                yPosition += (element.offsetTop - (element.tagName === 'BODY' ? (window.pageYOffset || document.documentElement.scrollTop) : element.scrollTop) + element.clientTop);
+                yPosition += element.offsetTop - (element.tagName === 'BODY' ? (window.pageYOffset || document.documentElement.scrollTop) : element.scrollTop) + element.clientTop;
                 element = element.offsetParent;
             }
             return yPosition;
