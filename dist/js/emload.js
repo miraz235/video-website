@@ -71,10 +71,6 @@
             wrapper.appendChild(iframe);
             wrapper.className += " em-loaded";
             if (config.type == 'audio') {
-                /*setTimeout(function() {
-                    helpers.setIFrameHeight(iframe, 0, true);
-                }, 1500);
-            } else {*/
                 wrapper.style.paddingTop = "0";
                 if (this.searchParams(me.src, 'list') !== null)
                     this.setIFrameHeight(iframe, 165, true);
@@ -88,21 +84,6 @@
             var wrapperTop = this.getTopPosition(wrapper, scrollableParent);
             if (!wrapper.classList.contains('em-loaded') && wrapperTop >= 0 && wrapperTop <= scrollableParent.clientHeight) {
                 this.loadIframe();
-            }
-        },
-        onMessage: function(event) {
-            message = event.data;
-            if (typeof message !== "undefined" && message != null && typeof message == "string" && message.indexOf("em") > -1) {
-                message = message.split("|");
-                var key = message[1];
-                var value = message[2];
-                switch (key) {
-                    case "height":
-                        iframe.height = value;
-                        iframe.style.height = value + "px";
-                        break;
-                }
-
             }
         }
     };
@@ -169,6 +150,5 @@
         window.addEventListener("scroll", helpers.lazyload.bind(helpers), false);
     } else helpers.loadIframe();
 
-    //window.addEventListener("message", helpers.onMessage, false);
     me.className = "em-injected";
 })();
