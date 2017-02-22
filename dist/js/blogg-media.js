@@ -87,7 +87,7 @@
                     id: vId,
                     showControlsForJSAds: false,
                     adLabel: _emLang.ADVERTISEMENT[_culture],
-                    adTagUrl: 'null',
+                    adTagUrl: '',
                     prerollTimeout: 5000
                 },
                 replayButton: {}
@@ -151,7 +151,8 @@
                         }
                         break;
                     default:
-                        player[plugin](plugins[plugin]);
+                        if (typeof player[plugin] === 'function')
+                            player[plugin](plugins[plugin]);
                 }
             }
         };
@@ -172,12 +173,22 @@
             return src;
         };
 
+        var _setAttrsForMobile = function() {
+            var contentPlayer = $(_idSelector)[0];
+            if ((navigator.userAgent.match(/iPad/i) ||
+                    navigator.userAgent.match(/Android/i)) &&
+                contentPlayer.hasAttribute('controls')) {
+                contentPlayer.removeAttribute('controls');
+            }
+        };
+
         var createPlayer = function(element, setup, callback) {
             var defaultSetup = _getDefaultSetup();
-            element = element || _idSelector;
+            _idSelector = element || _idSelector;
             var settings = $.extend({}, defaultSetup, setup);
 
-            var srcPl = _getSrc($(element));
+            var srcPl = _getSrc($(_idSelector));
+            _setAttrsForMobile();
             var playerCallback = function() {
                 switch (_currentMedia.type) {
                     case 'video':
@@ -204,7 +215,7 @@
                 _runPlugin(this, $.extend({}, plgOpts, _currentMedia.plugins));
             }
 
-            var player = videojs(element, settings, playerCallback);
+            var player = videojs(_idSelector, settings, playerCallback);
             var plgOpts = _getPluginDefaultOptions(player.id());
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));

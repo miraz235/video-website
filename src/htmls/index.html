@@ -90,6 +90,7 @@
         <div class="container">
             <section>
                 <div class="container p-b p-t">
+                    <iframe width="660" height="380" src="https://googleads.github.io/videojs-ima/examples/simple/"></iframe>
                     <div class="row">
 
                         <!--<div class="col-md-6">
@@ -100,59 +101,59 @@
                             </label>
                             <input id="videoTitle" type="text" />
                             <iframe id="previewVideo" width="100%" height="450" style="background-color: #efefef" frameborder="0" allowfullscreen></iframe>
-                            <script>
-                                (function() {
-                                    var srcBase = 'video-embed-preview.html';
-                                    var preview = {
-                                        src: '',
-                                        poster: '',
-                                        watermerk: false,
-                                        videosrc: '',
-                                        title: ''
-                                    };
+                    <script>
+                        (function() {
+                            var srcBase = 'video-embed-preview.html';
+                            var preview = {
+                                src: '',
+                                poster: '',
+                                watermerk: false,
+                                videosrc: '',
+                                title: ''
+                            };
 
-                                    var previewVideo = document.querySelector("#previewVideo");
-                                    var loadSrc = function() {
-                                        var url = '';
-                                        if (preview.src != '') {
-                                            url = preview.src +
-                                                '?poster=' + encodeURIComponent(preview.poster) +
-                                                '&watermerk=' + preview.watermerk +
-                                                '&videosrc=' + encodeURIComponent(preview.videosrc) +
-                                                '&title=' + encodeURIComponent(preview.title);
-                                        }
-                                        console.log(url);
-                                        previewVideo.src = url;
-                                    };
-                                    var uploadImgBtn = document.querySelector("#uploadImgBtn");
-                                    uploadImgBtn.addEventListener("click", function() {
-                                        preview.poster = "//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png";
-                                        previewVideo.style.backgroundImage = "url(" + preview.poster + ")";
-                                        previewVideo.style.backgroundSize = "cover";
-                                        previewVideo.style.backgroundPosition = "center";
-                                        previewVideo.style.backgroundRepeat = "no-repeat";
-                                    });
-                                    var uploadVdoBtn = document.querySelector("#uploadVdoBtn");
-                                    uploadVdoBtn.addEventListener("click", function() {
-                                        preview.src = srcBase;
-                                        preview.videosrc = "http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.m3u8"
-                                        loadSrc();
-                                    });
-                                    var watermarkEnable = document.querySelector("#watermarkEnable");
-                                    watermarkEnable.addEventListener("change", function() {
-                                        preview.src = srcBase;
-                                        preview.watermerk = this.checked;
-                                        loadSrc();
-                                    });
-                                    var videoTitle = document.querySelector("#videoTitle");
-                                    videoTitle.addEventListener("change", function() {
-                                        preview.src = srcBase;
-                                        preview.title = this.value;
-                                        loadSrc();
-                                    });
-                                })();
-                            </script>
-                        </div>-->
+                            var previewVideo = document.querySelector("#previewVideo");
+                            var loadSrc = function() {
+                                var url = '';
+                                if (preview.src != '') {
+                                    url = preview.src +
+                                        '?poster=' + encodeURIComponent(preview.poster) +
+                                        '&watermerk=' + preview.watermerk +
+                                        '&videosrc=' + encodeURIComponent(preview.videosrc) +
+                                        '&title=' + encodeURIComponent(preview.title);
+                                }
+                                console.log(url);
+                                previewVideo.src = url;
+                            };
+                            var uploadImgBtn = document.querySelector("#uploadImgBtn");
+                            uploadImgBtn.addEventListener("click", function() {
+                                preview.poster = "//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png";
+                                previewVideo.style.backgroundImage = "url(" + preview.poster + ")";
+                                previewVideo.style.backgroundSize = "cover";
+                                previewVideo.style.backgroundPosition = "center";
+                                previewVideo.style.backgroundRepeat = "no-repeat";
+                            });
+                            var uploadVdoBtn = document.querySelector("#uploadVdoBtn");
+                            uploadVdoBtn.addEventListener("click", function() {
+                                preview.src = srcBase;
+                                preview.videosrc = "http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.m3u8"
+                                loadSrc();
+                            });
+                            var watermarkEnable = document.querySelector("#watermarkEnable");
+                            watermarkEnable.addEventListener("change", function() {
+                                preview.src = srcBase;
+                                preview.watermerk = this.checked;
+                                loadSrc();
+                            });
+                            var videoTitle = document.querySelector("#videoTitle");
+                            videoTitle.addEventListener("change", function() {
+                                preview.src = srcBase;
+                                preview.title = this.value;
+                                loadSrc();
+                            });
+                        })();
+                    </script>
+                </div>-->
                         <div class="col-md-6">
                             <script src="http://static.blogg.no/blogs/media/js/emload.js?url=http%3A%2F%2Fkjetiltester%2Eblogg%2Eno%2Fvideo%2Fembed%2F3e32a9567d1c4584a2e63f59fc4c7480%26profile%3D1%26title%3D0%26share%3D1%26shareBtn%3D0%26showCount%3D1%26v%3D1&amp;lazy" async=""
                                 defer="" class="em-injected"></script>
@@ -236,23 +237,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
     <!--<script src="js/web-starter.min.js"></script>-->
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-    <script>
-        (function(i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function() {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-XXXXX-X', 'auto');
-        ga('send', 'pageview');
-    </script>
-    <!-- Built with love using Video Website -->
+    <!--<script type="text/javascript" src="js/YConsole-compiled.js"></script>
+    <script type="text/javascript">
+        YConsole.show();
+    </script>-->
 </body>
 
 </html>

@@ -201,7 +201,8 @@
                         }
                         break;
                     default:
-                        player[plugin](plugins[plugin]);
+                        if (typeof player[plugin] === 'function')
+                            player[plugin](plugins[plugin]);
                 }
             }
         };
@@ -220,12 +221,22 @@
                 $player[0].load();*/
             return src;
         };
+
+        var _setAttrsForMobile = function() {
+            var contentPlayer = $(_idSelector)[0];
+            if ((navigator.userAgent.match(/iPad/i) ||
+                    navigator.userAgent.match(/Android/i)) &&
+                contentPlayer.hasAttribute('controls')) {
+                contentPlayer.removeAttribute('controls');
+            }
+        };
+
         var createPlayer = function(element, setup, callback) {
             var defaultSetup = _getDefaultSetup();
             _idSelector = element || _idSelector;
             var settings = $.extend({}, defaultSetup, setup);
-
-            var srcPl = _getSrc($(_idSelector));
+            //var srcPl = _getSrc($(_idSelector));
+            _setAttrsForMobile();
             var playerCallback = function() {
                 switch (_currentMedia.type) {
                     case 'video':
@@ -235,18 +246,9 @@
                         }
                         break;
                     case 'audio':
-                        if (plgOpts.wavesurfer)
-                            break;
                         if (_isDemo && _currentMedia.id) {
-                            if (plgOpts.wavesurfer)
-                                plgOpts.wavesurfer.src = "resources/audios/" + _currentMedia.id + ".mp3";
-                            else
-                                this.src([{ type: "audio/mp3", src: "resources/audios/" + _currentMedia.id + ".mp3" }]);
-                        } else if (srcPl) {
-                            if (plgOpts.wavesurfer)
-                                plgOpts.wavesurfer.src = srcPl;
+                            this.src([{ type: "audio/mp3", src: "resources/audios/" + _currentMedia.id + ".mp3" }]);
                         }
-
                 };
                 if (callback) callback();
                 _runPlugin(this, $.extend({}, plgOpts, _currentMedia.plugins));
