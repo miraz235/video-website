@@ -42,9 +42,8 @@
                 index: -1
             },
             _idSelector = '#embedMedia',
-            _timeupWaitingID = 0;
-
-        var _culture = _isDemo ? "en" : "no";
+            _timeupWaitingID = 0,
+            _culture = 'no';
 
         var _getDefaultSetup = function() {
             var defaultOpt = {
@@ -130,23 +129,41 @@
             _currentMedia.id = _currentMedia.type == 'video' ? queries.v : queries.id;
         };
 
+        var _loadAds = function(player) {
+            console.log('ads load', 'autoplay: ' + player.autoplay());
+            player.ima.initializeAdDisplayContainer();
+            player.ima.requestAds();
+            player.play();
+        };
+
+        var _removeAds = function(player) {
+            player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
+            player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
+            $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
+        };
+
         var _runPlugin = function(player, plugins) {
             for (var plugin in plugins) {
                 switch (plugin) {
                     case 'ima':
                         if (plugins.ima.adTagUrl) {
                             player.ima(plugins.ima);
-                            player.trigger('nopostroll');
-                            player.ima.initializeAdDisplayContainer();
-                            player.ima.requestAds();
-                            player.one(_startEvent, function() {
-                                player.play();
-                            });
+                            if (!player.autoplay()) {
+                                player.one(_startEvent, function() {
+                                    _loadAds(player);
+                                });
+                            } else {
+                                (function(player) {
+                                    setTimeout(function() {
+                                        _loadAds(player);
+                                    }, 100);
+                                })(player);
+                            };
                             player.one('adsready', function() {
-                                player.pause();
+                                //player.pause();
                             });
                             player.one('contentended', function() {
-                                player.ima.getAdsManager().discardAdBreak();
+                                _removeAds(player);
                             });
                         }
                         break;
@@ -220,9 +237,6 @@
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
             player.on('adstart', $.proxy(onMediaAdStartEvent, this));
-            //player.on('ads-ad-ended', $.proxy(onMediaAdEndEvent, this));
-            //player.on('adskip', $.proxy(onMediaAdEndEvent, this));
-            //player.on('adscanceled', $.proxy(onMediaAdEndEvent, this));
             player.on('adserror', $.proxy(onMediaAdErrorEvent, this));
 
             _currentMedia.player = player;
@@ -232,10 +246,11 @@
 
         var onMediaAdErrorEvent = function(event) {
             _currentMedia.plugins.ima.error = true;
+            _removeAds(_currentMedia.player);
         };
 
         var onMediaAdStartEvent = function(event) {
-            this.pause();
+            //this.pause();
         };
 
         /*var onMediaAdEndEvent = function(event) {

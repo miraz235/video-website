@@ -36,6 +36,10 @@
             "__is-demo__": {
                 "demo": "true",
                 "dev": "false"
+            },
+            "__culture__": {
+                "demo": "en",
+                "dev": "no"
             }
         }
     },

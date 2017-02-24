@@ -19,7 +19,13 @@
     <link rel="stylesheet" href="vendors/videojs-replay/videojs-replay.css" />
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="css/styles-embed.min.css" />
-
+    <script type="text/javascript" src="js/YConsole-compiled.js"></script>
+    <script type="text/javascript">
+        YConsole.activate();
+        console.log("first intercepted log.");
+        YConsole.docking = "bottom";
+        YConsole.show();
+    </script>
 </head>
 
 <body>
@@ -157,7 +163,7 @@
     <script src="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js"></script>
     <script src="vendors/videojs-replay/videojs-replay.min.js"></script>
 
-    <script src="js/blogg-embed.js"></script>
+    <script src="js/blogg-embed-demo.js"></script>
 
     <script>
         jQuery(function() {

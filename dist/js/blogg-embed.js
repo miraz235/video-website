@@ -43,36 +43,8 @@
                 index: -1
             },
             _idSelector = '#embedMedia',
-            _timeupWaitingID = 0;
-
-        var _culture = _isDemo ? "en" : "no";
-        /*var _notifyHeightToParent = function(height) {
-            var message = 'em|height|' + height;
-            window.parent.postMessage(message, "*");
-        };
-        if (_currentMedia.type == 'audio')
-            _notifyHeightToParent(165);*/
-
-        var _copyToClipboard = function(text) {
-            if (typeof text != "string")
-                return;
-            var textArea = $('<textarea></textarea>').css({
-                'position': 'absolute',
-                'left': '-9999px',
-                'top': '0'
-            }).val(text);
-            $('body').append(textArea);
-            textArea.select();
-            try {
-                var successful = document.execCommand('copy');
-                var msg = successful ? 'successful' : 'unsuccessful';
-                console.log('Copying text command was ' + msg);
-            } catch (err) {
-                console.log('Oops, unable to copy');
-            }
-            textArea.remove();
-
-        };
+            _timeupWaitingID = 0,
+            _culture = 'no';
 
         var _getDefaultSetup = function() {
             var defaultOpt = {
@@ -105,36 +77,36 @@
 
         var _getPluginDefaultOptions = function() {
             var vjPlgOpt = {
-                watermark: {
-                    position: 'bottom-right',
-                    url: '',
-                    image: '',
-                    fadeTime: null
+                    watermark: {
+                        position: 'bottom-right',
+                        url: '',
+                        image: '',
+                        fadeTime: null
+                    },
+                    ima: {
+                        id: _idSelector.replace('#', ''),
+                        showControlsForJSAds: false,
+                        adLabel: _emLang.ADVERTISEMENT[_culture],
+                        adTagUrl: '',
+                        prerollTimeout: 5000
+                    },
+                    contextmenuUI: {
+                        content: [{
+                            label: _emLang.COPY_SCRIPT[_culture],
+                            listener: function() {
+                                //$('#shareBtn').trigger('click');
+                                _copyToClipboard($('#inputEmbedScript').val());
+                            }
+                        }, {
+                            label: _emLang.COPY_EMBED[_culture],
+                            listener: function() {
+                                _copyToClipboard($('#inputEmbedIframe').val());
+                            }
+                        }]
+                    },
+                    replayButton: {}
                 },
-                ima: {
-                    id: _idSelector.replace('#', ''),
-                    showControlsForJSAds: false,
-                    adLabel: _emLang.ADVERTISEMENT[_culture],
-                    adTagUrl: '',
-                    prerollTimeout: 5000
-                },
-                contextmenuUI: {
-                    content: [{
-                        label: _emLang.COPY_SCRIPT[_culture],
-                        listener: function() {
-                            //$('#shareBtn').trigger('click');
-                            _copyToClipboard($('#inputEmbedScript').val());
-                        }
-                    }, {
-                        label: _emLang.COPY_EMBED[_culture],
-                        listener: function() {
-                            _copyToClipboard($('#inputEmbedIframe').val());
-                        }
-                    }]
-                },
-                replayButton: {}
-            };
-            var selectedPlugins = {},
+                selectedPlugins = {},
                 plg = {
                     video: ["watermark", "ima", "contextmenuUI", "replayButton"],
                     audio: ["replayButton"]
@@ -145,6 +117,34 @@
             }
 
             return selectedPlugins;
+        };
+
+        /*var _notifyHeightToParent = function(height) {
+            var message = 'em|height|' + height;
+            window.parent.postMessage(message, "*");
+        };
+        if (_currentMedia.type == 'audio')
+            _notifyHeightToParent(165);*/
+
+        var _copyToClipboard = function(text) {
+            if (typeof text != "string")
+                return;
+            var textArea = $('<textarea></textarea>').css({
+                'position': 'absolute',
+                'left': '-9999px',
+                'top': '0'
+            }).val(text);
+            $('body').append(textArea);
+            textArea.select();
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+                console.log('Copying text command was ' + msg);
+            } catch (err) {
+                console.log('Oops, unable to copy');
+            }
+            textArea.remove();
+
         };
 
         var _playsAPICall = function() {
@@ -180,23 +180,43 @@
             _currentMedia.id = _getEmbedId();
         };
 
+        var _loadAds = function(player) {
+            console.log('ads load', 'autoplay: ' + player.autoplay());
+            player.ima.initializeAdDisplayContainer();
+            player.ima.requestAds();
+            player.play();
+        };
+
+        var _removeAds = function(player) {
+            player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
+            player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
+            $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
+        };
+
         var _runPlugin = function(player, plugins) {
             for (var plugin in plugins) {
                 switch (plugin) {
                     case 'ima':
                         if (plugins.ima.adTagUrl) {
                             player.ima(plugins.ima);
-                            player.trigger('nopostroll');
-                            player.ima.initializeAdDisplayContainer();
-                            player.ima.requestAds();
-                            player.one(_startEvent, function() {
-                                player.play();
-                            });
+
+                            if (!player.autoplay()) {
+                                player.one(_startEvent, function() {
+                                    _loadAds(player);
+                                });
+                            } else {
+                                (function(player) {
+                                    setTimeout(function() {
+                                        _loadAds(player);
+                                    }, 100);
+                                })(player);
+                            };
                             player.one('adsready', function() {
-                                player.pause();
+                                //console.log('ads ready');
+                                //player.pause();
                             });
                             player.one('contentended', function() {
-                                player.ima.getAdsManager().discardAdBreak();
+                                _removeAds(player);
                             });
                         }
                         break;
@@ -259,10 +279,6 @@
             player.on('play', $.proxy(onMediaPlayEvent, this));
             player.on('ended', $.proxy(onMediaEndEvent, this));
             player.on('adstart', $.proxy(onMediaAdStartEvent, this));
-            //player.on('adend', $.proxy(onMediaAdEndEvent, this));
-            //player.on('ads-ad-ended', $.proxy(onMediaAdEndEvent, this));
-            //player.on('adskip', $.proxy(onMediaAdEndEvent, this));
-            //player.on('adscanceled', $.proxy(onMediaAdEndEvent, this));
             player.on('adserror', $.proxy(onMediaAdErrorEvent, this));
 
             _currentMedia.player = player;
@@ -271,11 +287,14 @@
         };
 
         var onMediaAdErrorEvent = function(event) {
+            //console.log('ads error');
             _currentMedia.plugins.ima.error = true;
+            _removeAds(_currentMedia.player);
         };
 
         var onMediaAdStartEvent = function(event) {
-            this.pause();
+            //console.log('ads start');
+            //this.pause();
         };
 
         /*var onMediaAdEndEvent = function(event) {
