@@ -68,30 +68,55 @@
             return yPosition;
         },
         loadIframe: function() {
-            wrapper.appendChild(iframe);
-            wrapper.className += " em-loaded";
+            this.wrapper.appendChild(this.iframe);
+            this.wrapper.classList.add("em-loaded");
             if (config.type == 'audio') {
-                wrapper.style.paddingTop = "0";
-                if (this.searchParams(me.src, 'list') !== null)
-                    this.setIFrameHeight(iframe, 165, true);
+                this.wrapper.style.paddingTop = "0";
+                if (this.searchParams(this.script.src, 'list') !== null)
+                    this.setIFrameHeight(this.iframe, 165, true);
                 else
-                    this.setIFrameHeight(iframe, 165);
+                    this.setIFrameHeight(this.iframe, 165);
                 window.addEventListener("resize", this.resizeAll);
             }
         },
-        lazyload: function() {
-            var scrollableParent = this.hasScrollbar(wrapper.parentNode);
-            var wrapperTop = this.getTopPosition(wrapper, scrollableParent);
-            if (!wrapper.classList.contains('em-loaded') && wrapperTop >= 0 && wrapperTop <= scrollableParent.clientHeight) {
-                this.loadIframe();
+        lazyload: function(event) {
+            var scrollableParent = this.hasScrollbar(this.wrapper.parentNode);
+            var wrapperTop = this.getTopPosition(this.wrapper, scrollableParent);
+            if (wrapperTop + this.wrapper.clientHeight >= 0 && wrapperTop <= scrollableParent.clientHeight) {
+                if (!this.wrapper.classList.contains('em-loaded'))
+                    this.loadIframe();
+            } else {
+                if (this.wrapper.classList.contains('em-loaded') && this.wrapper.classList.contains('em-playing')) {
+                    this.wrapper.classList.remove("em-playing");
+                    this.iframe.contentWindow.postMessage('em|' + JSON.stringify({ empause: true }), "*");
+                }
+            }
+        },
+        onMessage: function(event) {
+            message = event.data;
+            if (typeof message !== "undefined" && message != null && typeof message == "string" && message.indexOf("em|") > -1) {
+                var targetFrame = false;
+
+                message = JSON.parse(message.split("|")[1]);
+                if (message.frameid)
+                    targetFrame = this.iframe.id == "id-" + message.frameid;
+
+                if (message.play) {
+                    if (targetFrame) {
+                        this.wrapper.classList.add("em-playing");
+                    } else {
+                        this.wrapper.classList.remove("em-playing");
+                        this.iframe.contentWindow.postMessage('em|' + JSON.stringify({ empause: true }), "*");
+                    }
+                } else console.log(message);
             }
         }
     };
 
     function createIframe(config) {
-        var id = "id-" + Math.round((Math.random(1000) * 1000)).toString();
+        var id = Math.round((Math.random(1000) * 1000)).toString();
         iframe = document.createElement("iframe");
-        iframe.id = id;
+        iframe.id = "id-" + id;
         iframe.style.border = "none";
         iframe.style.width = "100%";
         iframe.style.maxWidth = "100%";
@@ -103,12 +128,12 @@
         iframe.setAttribute("webkitallowfullscreen", "true");
         iframe.setAttribute("mozallowfullscreen", "true");
         iframe.setAttribute("allowfullscreen", "true");
-        iframe.className = "em-iframe em-single-iframe";
-        iframe.name = "em-iframe";
+        iframe.classList.add("em-iframe", "em-single-iframe");
+        iframe.name = "em-iframe-" + id;
         iframe.src = config.src;
         if (config.type == 'audio') {
-            iframe.className += " em-iframe-audio";
-            if (config.list !== null) iframe.className += " em-iframe-audio-list";
+            iframe.classList.add("em-iframe-audio");
+            if (config.list !== null) iframe.classList.add("em-iframe-audio-list");
         } else iframe.style.position = "absolute";
     }
 
@@ -141,6 +166,9 @@
     createWrapper(config);
     createIframe(config);
     helpers.insertAfter(me, wrapper);
+    helpers.wrapper = wrapper;
+    helpers.iframe = iframe;
+    helpers.script = me;
 
     lazyload = config.lazy === null ? lazyload : true;
     if (lazyload) {
@@ -149,5 +177,10 @@
         window.addEventListener("scroll", helpers.lazyload.bind(helpers), false);
     } else helpers.loadIframe();
 
+    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent",
+        messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+    window[eventMethod](messageEvent, helpers.onMessage.bind(helpers), false);
+
     me.className = "em-injected";
+    return false;
 })();

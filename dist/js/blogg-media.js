@@ -130,7 +130,7 @@
         };
 
         var _loadAds = function(player) {
-            console.log('ads load', 'autoplay: ' + player.autoplay());
+            //console.log('ads load', 'autoplay: ' + player.autoplay());
             player.ima.initializeAdDisplayContainer();
             player.ima.requestAds();
             player.play();
@@ -246,7 +246,7 @@
 
         var onMediaAdErrorEvent = function(event) {
             _currentMedia.plugins.ima.error = true;
-            _removeAds(_currentMedia.player);
+            //_removeAds(_currentMedia.player);
         };
 
         var onMediaAdStartEvent = function(event) {

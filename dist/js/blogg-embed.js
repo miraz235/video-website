@@ -119,12 +119,11 @@
             return selectedPlugins;
         };
 
-        /*var _notifyHeightToParent = function(height) {
-            var message = 'em|height|' + height;
-            window.parent.postMessage(message, "*");
+        var _notifyToParent = function(msg) {
+            var message = $.extend({ frameid: (window.name ? window.name.replace("em-iframe-", "") : '') }, msg);
+            window.parent.postMessage('em|' + JSON.stringify(message), "*");
         };
-        if (_currentMedia.type == 'audio')
-            _notifyHeightToParent(165);*/
+
 
         var _copyToClipboard = function(text) {
             if (typeof text != "string")
@@ -181,7 +180,7 @@
         };
 
         var _loadAds = function(player) {
-            console.log('ads load', 'autoplay: ' + player.autoplay());
+            //console.log('ads load', 'autoplay: ' + player.autoplay());
             player.ima.initializeAdDisplayContainer();
             player.ima.requestAds();
             player.play();
@@ -287,9 +286,9 @@
         };
 
         var onMediaAdErrorEvent = function(event) {
-            //console.log('ads error');
+            console.log('ads error');
             _currentMedia.plugins.ima.error = true;
-            _removeAds(_currentMedia.player);
+            //_removeAds(_currentMedia.player);
         };
 
         var onMediaAdStartEvent = function(event) {
@@ -304,6 +303,7 @@
         };*/
 
         var onMediaPlayEvent = function(event) {
+            _notifyToParent({ play: true });
             this.clearTimeout(_timeupWaitingID);
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1
@@ -495,6 +495,17 @@
             }
             return this;
         };
+
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent",
+            messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+        window[eventMethod](messageEvent, function(e) {
+            var message = e.data;
+            if (typeof message == "string" && message.indexOf("em|") > -1) {
+                message = JSON.parse(message.split("|")[1]);
+                if (message.empause)
+                    _currentMedia.player.pause();
+            }
+        }, false);
 
         return {
             createPlayer: createPlayer,
