@@ -204,11 +204,9 @@
                                     _loadAds(player);
                                 });
                             } else {
-                                (function(player) {
-                                    setTimeout(function() {
-                                        _loadAds(player);
-                                    }, 100);
-                                })(player);
+                                setTimeout((function() {
+                                    _loadAds(player);
+                                }).bind(this), 100);
                             };
                             player.one('adsready', function() {
                                 //console.log('ads ready');

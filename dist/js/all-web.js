@@ -41827,11 +41827,9 @@ Y.prototype.setVolume=Y.prototype.Ec;Y.prototype.sendImpressionUrls=Y.prototype.
                                     _loadAds(player);
                                 });
                             } else {
-                                (function(player) {
-                                    setTimeout(function() {
-                                        _loadAds(player);
-                                    }, 100);
-                                })(player);
+                                setTimeout((function() {
+                                    _loadAds(player);
+                                }).bind(this), 100);
                             };
                             player.one('adsready', function() {
                                 //console.log('ads ready');
@@ -42302,11 +42300,9 @@ Y.prototype.setVolume=Y.prototype.Ec;Y.prototype.sendImpressionUrls=Y.prototype.
                                     _loadAds(player);
                                 });
                             } else {
-                                (function(player) {
-                                    setTimeout(function() {
-                                        _loadAds(player);
-                                    }, 100);
-                                })(player);
+                                setTimeout((function() {
+                                    _loadAds(player);
+                                }).bind(this), 100);
                             };
                             player.one('adsready', function() {
                                 //player.pause();

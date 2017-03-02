@@ -138,7 +138,7 @@ $shade-color: lighten($primary-background-color, 50%);
     .vjs-big-play-button:focus {
         background-color: darken($highlight-color, 10%);
     }
-    &.vjs-has-started .vjs-big-play-button {
+    &.vjs-paused .vjs-big-play-button {
         display: block;
         z-index: 1112;
     }
@@ -271,7 +271,7 @@ $shade-color: lighten($primary-background-color, 50%);
         }
     }
     @media screen and (max-width: $screen-xs-min - 250) {
-        &.vjs-has-started .vjs-big-play-button {
+        &.vjs-paused .vjs-big-play-button {
             display: none;
         }
         .vjs-control-bar {
