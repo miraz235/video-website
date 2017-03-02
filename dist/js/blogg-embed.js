@@ -210,7 +210,7 @@
                             };
                             player.one('adsready', function() {
                                 //console.log('ads ready');
-                                //player.pause();
+                                player.pause();
                             });
                             player.one('contentended', function() {
                                 _removeAds(player);

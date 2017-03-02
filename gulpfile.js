@@ -131,10 +131,6 @@ var videojsjs = function() {
     return request($config.concate.scripts.cdn.videojs)
         .pipe(source('video.js'))
 };
-var imajs = function() {
-    return request($config.concate.scripts.cdn.ima)
-        .pipe(source('ima3.js'))
-};
 var dashjs = function() {
     return request($config.concate.scripts.cdn.dash)
         .pipe(source('dash.all.min.js'))
@@ -153,7 +149,7 @@ gulp.task("scripts:emall", function(callback) {
     var localjs = gulp.src(src);
     //var jq = jqueryjs.pipe($.clone());
     //console.log(jqueryjs);
-    return merge(jqueryjs(), videojsjs(), hlsjs(), adsjs(), imajs(), localjs)
+    return merge(jqueryjs(), videojsjs(), hlsjs(), adsjs(), localjs)
         .pipe($.buffer())
         .pipe($.concat('all-embed.js'))
         .pipe(gulp.dest($config.tmp.root))
@@ -182,7 +178,7 @@ gulp.task("scripts:weball", function(callback) {
     src.push("dist/js/blogg-media.js");
     var localjs = gulp.src(src);
 
-    return merge(jqueryjs(), bootstrapjs(), videojsjs(), hlsjs(), adsjs(), imajs(), localjs)
+    return merge(jqueryjs(), bootstrapjs(), videojsjs(), hlsjs(), adsjs(), localjs)
         .pipe($.buffer())
         .pipe($.concat('all-web.js'))
         .pipe(gulp.dest($config.tmp.root))

@@ -86,7 +86,6 @@
                 "jquery": "https://code.jquery.com/jquery-3.1.1.js",
                 "bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js",
                 "videojs": "http://vjs.zencdn.net/5.16.0/video.js",
-                "ima": "http://imasdk.googleapis.com/js/sdkloader/ima3.js",
                 "dash": "https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js",
                 "hls": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/4.1.1/videojs-contrib-hls.min.js",
                 "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.3/videojs.ads.min.js"
