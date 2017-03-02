@@ -303,7 +303,7 @@
         };*/
 
         var onMediaPlayEvent = function(event) {
-            _notifyToParent({ play: true });
+            _notifyToParent({ emmethod: "play" });
             this.clearTimeout(_timeupWaitingID);
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1
@@ -502,8 +502,14 @@
             var message = e.data;
             if (typeof message == "string" && message.indexOf("em|") > -1) {
                 message = JSON.parse(message.split("|")[1]);
-                if (message.empause)
-                    _currentMedia.player.pause();
+                switch (message.emmethod) {
+                    case "pause":
+                        _currentMedia.player.pause();
+                        break;
+                    case "play":
+                        _currentMedia.player.play();
+                        break;
+                }
             }
         }, false);
 

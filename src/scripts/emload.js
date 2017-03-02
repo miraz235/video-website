@@ -28,6 +28,26 @@
 
             return !hasParam ? null : window.decodeURIComponent(paramValue);
         },
+        YT_ready: (function() {
+            var onReady_funcs = [],
+                api_isReady = false;
+            /* @param func function     Function to execute on ready
+             * @param func Boolean      If true, all qeued functions are executed
+             * @param b_before Boolean  If true, the func will added to the first
+                                         position in the queue*/
+            return function(func, b_before) {
+                if (func === true) {
+                    api_isReady = true;
+                    while (onReady_funcs.length) {
+                        // Removes the first func from the array, and execute func
+                        onReady_funcs.shift()();
+                    }
+                } else if (typeof func == "function") {
+                    if (api_isReady) func();
+                    else onReady_funcs[b_before ? "unshift" : "push"](func);
+                }
+            }
+        })(),
         setIFrameHeight: function(el, height, withRatio) {
             if (withRatio) {
                 var wrapper = el.parentNode;
@@ -79,6 +99,18 @@
                 window.addEventListener("resize", this.resizeAll);
             }
         },
+        pauseVideo: function() {
+            this.wrapper.classList.remove("em-playing");
+            this.wrapper.classList.add("em-paused");
+            var postMsg = 'em|' + JSON.stringify({ emmethod: "pause" }),
+                origin = "*";
+            if (this.iframe.src.indexOf("vimeo.com") > 0) {
+                postMsg = JSON.stringify({ method: 'pause' });
+                origin = 'https://player.vimeo.com';
+            }
+            if (this.iframe.contentWindow)
+                this.iframe.contentWindow.postMessage(postMsg, origin);
+        },
         lazyload: function(event) {
             var scrollableParent = this.hasScrollbar(this.wrapper.parentNode);
             var wrapperTop = this.getTopPosition(this.wrapper, scrollableParent);
@@ -87,8 +119,7 @@
                     this.loadIframe();
             } else {
                 if (this.wrapper.classList.contains('em-loaded') && this.wrapper.classList.contains('em-playing')) {
-                    this.wrapper.classList.remove("em-playing");
-                    this.iframe.contentWindow.postMessage('em|' + JSON.stringify({ empause: true }), "*");
+                    this.pauseVideo();
                 }
             }
         },
@@ -100,15 +131,16 @@
                 message = JSON.parse(message.split("|")[1]);
                 if (message.frameid)
                     targetFrame = this.iframe.id == "id-" + message.frameid;
-
-                if (message.play) {
-                    if (targetFrame) {
-                        this.wrapper.classList.add("em-playing");
-                    } else {
-                        this.wrapper.classList.remove("em-playing");
-                        this.iframe.contentWindow.postMessage('em|' + JSON.stringify({ empause: true }), "*");
-                    }
-                } else console.log(message);
+                switch (message.emmethod) {
+                    case "play":
+                        if (targetFrame) {
+                            this.wrapper.classList.add("em-playing");
+                            this.wrapper.classList.remove("em-paused");
+                        } else this.pauseVideo();
+                        break;
+                    default:
+                        console.log(message);
+                };
             }
         }
     };
