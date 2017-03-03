@@ -41210,11 +41210,18 @@ void(e.data&&e.data.action&&"init"!==e.data.action&&this.messageHandlers[e.data.
                 $(_idSelector).before($flaseBackDom);
             }
         };
+        var _setTitle = function() {
+            $('.media-title a, .media-playlist__header__title a').on('click', function(event) {
+                event.stopPropagation();
+                _currentMedia.player.pause();
+            });
+        };
         var _setHeader = function() {
             if (_currentMedia.type == 'video') {
                 var $emHeader = $(_idSelector).next('.media-header');
                 $emHeader.appendTo(_idSelector);
             }
+            _setTitle();
         };
         var _setButtons = function() {
             var btnGroups = $('[data-embutton]');
