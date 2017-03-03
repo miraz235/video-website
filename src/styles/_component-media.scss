@@ -89,12 +89,13 @@
     }
 }
 
+// Header
 .media-header {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
-    padding: 15px 10px;
+    padding: 10px;
     visibility: visible;
     opacity: 1;
     @media screen and (max-width: $screen-xs-min - 100) {
@@ -139,21 +140,6 @@
     @media screen and (max-width: $screen-xs-min - 150) {
         .media-btn-group {
             display: none;
-        }
-    }
-}
-
-.video-js {
-    &.vjs-has-started {
-        .media-header {
-            bottom: 70px;
-        }
-        &.vjs-user-inactive.vjs-playing {
-            .media-header {
-                opacity: 0;
-                visibility: hidden;
-                transition: visibility 1s, opacity 1s;
-            }
         }
     }
 }
@@ -230,12 +216,13 @@
     border: 0px solid $track-border;
     border-bottom-width: 1px;
     width: 100%;
+    height: $video-playlist-header-height;
     box-sizing: border-box;
     .pull-right {
         margin-top: -5px;
     }
     +.media-playlist__tracks {
-        top: 68px;
+        top: $video-playlist-header-height;
         bottom: 0;
         border-top-width: 0px;
     }

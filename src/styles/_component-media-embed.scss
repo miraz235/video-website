@@ -84,6 +84,22 @@
     }
 }
 
+// Header
+.video-js {
+    &.vjs-has-started {
+        .media-header {
+            bottom: 70px;
+        }
+        &.vjs-user-inactive.vjs-playing {
+            .media-header {
+                opacity: 0;
+                visibility: hidden;
+                transition: visibility 1s, opacity 1s;
+            }
+        }
+    }
+}
+
 // Share
 .media-share {
     background-color: rgba($color-black, 0.8);
