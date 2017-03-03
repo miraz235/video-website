@@ -142,7 +142,8 @@ $shade-color: lighten($primary-background-color, 50%);
         display: block;
         z-index: 1112;
     }
-    &.vjs-playing .vjs-big-play-button {
+    &.vjs-playing .vjs-big-play-button,
+    &.vjs-error .vjs-big-play-button {
         display: none;
     }
     .vjs-play-control {
