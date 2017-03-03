@@ -124,7 +124,7 @@
                     this.loadIframe();
             } else {
                 if (this.wrapper.classList.contains('em-loaded') && this.wrapper.classList.contains('em-playing')) {
-                    this.pauseVideo();
+                    //this.pauseVideo();
                 }
             }
         },
