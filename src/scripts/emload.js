@@ -109,10 +109,10 @@
             this.wrapper.classList.add("em-paused");
             var postMsg = 'em|' + JSON.stringify({ emmethod: "pause" }),
                 origin = "*";
-            if (this.iframe.src.indexOf("vimeo.com") > 0) {
+            /*if (this.iframe.src.indexOf("vimeo.com") > 0) {
                 postMsg = JSON.stringify({ method: 'pause' });
                 origin = 'https://player.vimeo.com';
-            }
+            }*/
             if (this.iframe.contentWindow)
                 this.iframe.contentWindow.postMessage(postMsg, origin);
         },
