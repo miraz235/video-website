@@ -28,26 +28,6 @@
 
             return !hasParam ? null : window.decodeURIComponent(paramValue);
         },
-        YT_ready: (function() {
-            var onReady_funcs = [],
-                api_isReady = false;
-            /* @param func function     Function to execute on ready
-             * @param func Boolean      If true, all qeued functions are executed
-             * @param b_before Boolean  If true, the func will added to the first
-                                         position in the queue*/
-            return function(func, b_before) {
-                if (func === true) {
-                    api_isReady = true;
-                    while (onReady_funcs.length) {
-                        // Removes the first func from the array, and execute func
-                        onReady_funcs.shift()();
-                    }
-                } else if (typeof func == "function") {
-                    if (api_isReady) func();
-                    else onReady_funcs[b_before ? "unshift" : "push"](func);
-                }
-            }
-        })(),
         setIFrameHeight: function(el, height, withRatio) {
             if (withRatio) {
                 var wrapper = el.parentNode;
@@ -104,17 +84,36 @@
                 }
             }).bind(this), 500);
         },
+        postMessage: function(postMsg, origin) {
+            if (this.iframe.contentWindow)
+                this.iframe.contentWindow.postMessage(postMsg, origin);
+        },
+        playVideo: function() {
+            if (this.wrapper.classList.contains("em-visible") || !this.wrapper.classList.contains('em-paused') || this.wrapper.classList.contains('em-playing'))
+                return;
+            this.wrapper.classList.add("em-visible");
+            var postMsg = 'em|' + JSON.stringify({ emmethod: "play" }),
+                origin = "*";
+            if (this.iframe.src.indexOf("vimeo.com") > 0) {
+                this.wrapper.classList.remove("em-paused");
+                this.wrapper.classList.add("em-playing");
+                postMsg = JSON.stringify({ method: 'play' });
+                origin = 'https://player.vimeo.com';
+            }
+            this.postMessage(postMsg, origin);
+        },
         pauseVideo: function() {
+            if (!this.wrapper.classList.contains('em-playing') || this.wrapper.classList.contains('em-paused'))
+                return;
             this.wrapper.classList.remove("em-playing");
             this.wrapper.classList.add("em-paused");
             var postMsg = 'em|' + JSON.stringify({ emmethod: "pause" }),
                 origin = "*";
-            /*if (this.iframe.src.indexOf("vimeo.com") > 0) {
+            if (this.iframe.src.indexOf("vimeo.com") > 0) {
                 postMsg = JSON.stringify({ method: 'pause' });
                 origin = 'https://player.vimeo.com';
-            }*/
-            if (this.iframe.contentWindow)
-                this.iframe.contentWindow.postMessage(postMsg, origin);
+            }
+            this.postMessage(postMsg, origin);
         },
         lazyload: function(event) {
             var scrollableParent = this.hasScrollbar(this.wrapper.parentNode);
@@ -122,10 +121,11 @@
             if (wrapperTop + this.wrapper.clientHeight >= 0 && wrapperTop <= scrollableParent.clientHeight) {
                 if (!this.wrapper.classList.contains('em-loaded'))
                     this.loadIframe();
+                else this.playVideo();
             } else {
-                if (this.wrapper.classList.contains('em-loaded') && this.wrapper.classList.contains('em-playing')) {
-                    //this.pauseVideo();
-                }
+                this.wrapper.classList.remove("em-visible");
+                if (this.wrapper.classList.contains('em-loaded'))
+                    this.pauseVideo();
             }
         },
         onMessage: function(event) {
@@ -211,6 +211,7 @@
     helpers.script = me;
 
     lazyload = config.lazy === null ? lazyload : true;
+
     if (lazyload) {
         helpers.lazyload();
         //var scrollableParent = helpers.hasScrollbar(wrapper.parentNode);
