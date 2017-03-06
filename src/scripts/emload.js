@@ -1,6 +1,7 @@
 (function() {
     var wrapper, iframe, lazyload = false;
     var helpers = {
+        scrollTimer: 0,
         isEMLoadScript: function(tag) {
             return tag.src !== "undefined" && tag.src && tag.src.indexOf("emload.js?url=") > -1;
         },
@@ -82,7 +83,7 @@
                         this.setIFrameHeight(this.iframe, 165);
                     window.addEventListener("resize", this.resizeAll);
                 }
-            }).bind(this), 500);
+            }).bind(this), 300);
         },
         postMessage: function(postMsg, origin) {
             if (this.iframe.contentWindow)
@@ -115,10 +116,11 @@
             }
             this.postMessage(postMsg, origin);
         },
-        lazyload: function(event) {
-            var scrollableParent = this.hasScrollbar(this.wrapper.parentNode);
-            var wrapperTop = this.getTopPosition(this.wrapper, scrollableParent);
-            if (wrapperTop + this.wrapper.clientHeight >= 0 && wrapperTop <= scrollableParent.clientHeight) {
+        scrollCalc: function() {
+            if (!this.scrollableParent)
+                this.scrollableParent = this.hasScrollbar(this.wrapper.parentNode);
+            var wrapperTop = this.getTopPosition(this.wrapper, this.scrollableParent);
+            if (wrapperTop + this.wrapper.clientHeight >= 0 && wrapperTop <= this.scrollableParent.clientHeight) {
                 if (!this.wrapper.classList.contains('em-loaded'))
                     this.loadIframe();
                 else this.playVideo();
@@ -127,6 +129,12 @@
                 if (this.wrapper.classList.contains('em-loaded'))
                     this.pauseVideo();
             }
+        },
+        lazyload: function(event) {
+            clearTimeout(this.scrollTimer);
+            this.scrollTimer = setTimeout((function() {
+                this.scrollCalc();
+            }).bind(this), 500);
         },
         onMessage: function(event) {
             message = event.data;

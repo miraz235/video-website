@@ -60,9 +60,12 @@
     padding: 15px;
 }
 
-.media-title {
+h3.media-title {
     font-size: 20px;
-    margin: 0 0 15px;
+    margin: 0;
+}
+
+.media-title {
     a {
         color: inherit;
     }
