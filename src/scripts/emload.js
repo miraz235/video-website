@@ -83,7 +83,7 @@
                         this.setIFrameHeight(this.iframe, 165);
                     window.addEventListener("resize", this.resizeAll);
                 }
-            }).bind(this), 300);
+            }).bind(this), 200);
         },
         postMessage: function(postMsg, origin) {
             if (this.iframe.contentWindow)
@@ -134,7 +134,7 @@
             clearTimeout(this.scrollTimer);
             this.scrollTimer = setTimeout((function() {
                 this.scrollCalc();
-            }).bind(this), 500);
+            }).bind(this), 300);
         },
         onMessage: function(event) {
             message = event.data;

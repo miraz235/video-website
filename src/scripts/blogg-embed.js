@@ -349,9 +349,12 @@
             _boxCloseControl(".media-share", _emLang.CLOSE_SHARE[_culture]);
             $('#inputEmbedScript, #inputEmbedIframe').on('focus', function() {
                 var $this = $(this);
+                $this.prev().hide();
                 window.setTimeout(function() {
                     $this.select();
                 });
+            }).on('blur', function() {
+                $(this).prev().removeAttr("style");
             });
         };
 
