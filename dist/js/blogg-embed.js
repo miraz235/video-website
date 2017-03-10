@@ -289,9 +289,21 @@
             return player;
         };
 
+        var _stopTimer = function() {
+            window.clearTimeout(_timeupWaitingID);
+            $('#circulerTimer').remove();
+        };
+        var _addCirculerTimer = function() {
+            var circulerTimer = '<div id="circulerTimer" class="radial-timer s-animate">' +
+                '<div class="radial-timer-half"></div>' +
+                '<div class="radial-timer-half"></div>' +
+                '</div>'
+            $(circulerTimer).appendTo(_idSelector);
+        };
+
         var onMediaPlayEvent = function(event) {
             _notifyToParent({ emmethod: "play" });
-            window.clearTimeout(_timeupWaitingID);
+            _stopTimer();
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1
                 /*&&
@@ -307,10 +319,11 @@
         };
         var onMediaEndEvent = function() {
             _notifyToParent({ emmethod: "ended" });
-            var waitTime = 5000;
+            var waitTime = 3000;
             var nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia) {
-                window.clearTimeout(_timeupWaitingID);
+                _stopTimer();
+                _addCirculerTimer();
                 _timeupWaitingID = window.setTimeout((function() {
                     window.location.href = nextMedia;
                 }).bind(this), waitTime);

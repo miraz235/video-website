@@ -149,7 +149,7 @@
                         if (targetFrame) {
                             this.wrapper.classList.add("em-playing");
                             this.wrapper.classList.remove("em-paused");
-                            console.log('Player status: ' + message.emmethod);
+                            //console.log('Player status: ' + message.emmethod);
                         } else this.pauseVideo();
                         break;
                     case "paused":
@@ -158,6 +158,7 @@
                     case "adend":
                     case "adserror":
                     default:
+                        break;
                         console.log('Player status: ' + message.emmethod);
                 };
             }
