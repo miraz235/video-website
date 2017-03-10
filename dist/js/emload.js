@@ -149,10 +149,16 @@
                         if (targetFrame) {
                             this.wrapper.classList.add("em-playing");
                             this.wrapper.classList.remove("em-paused");
+                            console.log('Player status: ' + message.emmethod);
                         } else this.pauseVideo();
                         break;
+                    case "paused":
+                    case "ended":
+                    case "adstart":
+                    case "adend":
+                    case "adserror":
                     default:
-                        console.log(message);
+                        console.log('Player status: ' + message.emmethod);
                 };
             }
         }
@@ -210,6 +216,9 @@
         lazy: helpers.searchParams(me.src, 'lazy'),
         wrapClass: helpers.searchParams(me.src, 'class')
     };
+    var isAutoplay = helpers.searchParams(config.src, 'autoplay');
+    if (isAutoplay && (isAutoplay === '1' || isAutoplay === 'true' || isAutoplay === 1 || isAutoplay === true))
+        config.lazy = null;
 
     createWrapper(config);
     createIframe(config);
