@@ -211,9 +211,11 @@
                             };
                             player.one('adsready', function() {
                                 //console.log('ads ready');
+                                _notifyToParent({ emmethod: "adsready" });
                                 player.pause();
                             });
                             player.one('contentended', function() {
+                                _notifyToParent({ emmethod: "contentended" });
                                 _removeAds(player);
                             });
                         }
@@ -334,6 +336,9 @@
         };
         var onMediaAdEndEvent = function(event) {
             _notifyToParent({ emmethod: "adend" });
+            if (_currentMedia.playsCounter === 1) {
+                _notifyToParent({ emmethod: "videostart" });
+            }
         };
         var onMediaAdErrorEvent = function(event) {
             console.log('ads error');
