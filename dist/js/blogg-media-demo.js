@@ -277,6 +277,8 @@
 
         var onMediaPlayEvent = function(event) {
             _stopTimer();
+            if (_lastEventName == 'ended')
+                _trackAPICall('replays');
             _lastEventName = 'Plays';
             for (var i = 0; i < _mediaPlayerList.length; i++) {
                 if (_mediaPlayerList[i].id() != event.target.id) {

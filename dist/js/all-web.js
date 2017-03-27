@@ -14406,7 +14406,9 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
 
         var onMediaPlayEvent = function(event) {
             _notifyToParent({ emmethod: "play" });
-            _lastEventName = 'Plays';
+            if (_lastEventName == 'ended')
+                _trackAPICall('replays');
+            _lastEventName = 'plays';
             _stopTimer();
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1
@@ -14937,6 +14939,8 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
 
         var onMediaPlayEvent = function(event) {
             _stopTimer();
+            if (_lastEventName == 'ended')
+                _trackAPICall('replays');
             _lastEventName = 'Plays';
             for (var i = 0; i < _mediaPlayerList.length; i++) {
                 if (_mediaPlayerList[i].id() != event.target.id) {

@@ -323,7 +323,9 @@
 
         var onMediaPlayEvent = function(event) {
             _notifyToParent({ emmethod: "play" });
-            _lastEventName = 'Plays';
+            if (_lastEventName == 'ended')
+                _trackAPICall('replays');
+            _lastEventName = 'plays';
             _stopTimer();
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1
