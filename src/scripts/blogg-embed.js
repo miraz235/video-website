@@ -13,6 +13,13 @@
                 id: blogId,
                 vid: mediaId
             });
+        },
+        track: function(eventName, mediaId, blogId) {
+            return $.getJSON("http://hits.blogsoft.org/track?callback=?", {
+                e: eventName,
+                id: blogId,
+                vid: mediaId
+            });
         }
     };
 
@@ -45,7 +52,8 @@
             },
             _idSelector = '#embedMedia',
             _timeupWaitingID = 0,
-            _culture = '@@__culture__';
+            _culture = '@@__culture__',
+            _lastEventName = '';
 
         var _getDefaultSetup = function() {
             var defaultOpt = {
@@ -154,6 +162,17 @@
                 _currentMedia.playsCounter++;
             });
         };
+        var _trackAPICall = function(eventName) {
+            if (eventName && _lastEventName != eventName) {
+                console.log('Track:', eventName);
+                _lastEventName = eventName;
+            } else return 0;
+            if (_isDemo || !_currentMedia.vid) return 0;
+
+            APIlist.track(eventName, _currentMedia.vid, _currentMedia.bid).done(function(msg) {
+                console.log(eventName, msg);
+            });
+        };
         var _getUrlQueries = function(queryStr) {
             var out = {};
             $.each(queryStr.split('&'), function(key, value) {
@@ -212,6 +231,7 @@
                             player.one('adsready', function() {
                                 //console.log('ads ready');
                                 _notifyToParent({ emmethod: "adsready" });
+                                _trackAPICall('adsReady');
                                 player.pause();
                             });
                             player.one('contentended', function() {
@@ -281,9 +301,7 @@
             player.on('ended', onMediaEndEvent.bind(this));
             player.on('adstart', onMediaAdStartEvent.bind(this));
             player.on('adend', onMediaAdEndEvent.bind(this));
-            player.on('ads-ad-ended', onMediaAdEndEvent.bind(this));
-            player.on('adskip', onMediaAdEndEvent.bind(this));
-            player.on('adscanceled', onMediaAdEndEvent.bind(this));
+            player.on('adskip', onMediaAdCancelEvent.bind(this));
             player.on('adserror', onMediaAdErrorEvent.bind(this));
 
             _currentMedia.player = player;
@@ -305,6 +323,7 @@
 
         var onMediaPlayEvent = function(event) {
             _notifyToParent({ emmethod: "play" });
+            _lastEventName = 'Plays';
             _stopTimer();
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1
@@ -318,9 +337,11 @@
         };
         var onMediaPauseEvent = function(event) {
             _notifyToParent({ emmethod: "paused" });
+            _trackAPICall('paused');
         };
         var onMediaEndEvent = function() {
             _notifyToParent({ emmethod: "ended" });
+            _trackAPICall('ended');
             var waitTime = 3000;
             var nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia) {
@@ -333,17 +354,22 @@
         };
         var onMediaAdStartEvent = function(event) {
             _notifyToParent({ emmethod: "adstart" });
+            _trackAPICall('adStarted');
         };
         var onMediaAdEndEvent = function(event) {
             _notifyToParent({ emmethod: "adend" });
+            _trackAPICall('adEnded');
             if (_currentMedia.playsCounter === 1) {
                 _notifyToParent({ emmethod: "videostart" });
             }
         };
+        var onMediaAdCancelEvent = function(event) {
+            _trackAPICall('adCanceled');
+        };
         var onMediaAdErrorEvent = function(event) {
-            console.log('ads error');
             _notifyToParent({ emmethod: "adserror" });
             _currentMedia.plugins.ima.error = true;
+            _trackAPICall('adsError');
             //_removeAds(_currentMedia.player);
         };
 

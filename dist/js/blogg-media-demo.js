@@ -12,6 +12,13 @@
                 id: blogId,
                 vid: mediaId
             });
+        },
+        track: function(eventName, mediaId, blogId) {
+            return $.getJSON("http://hits.blogsoft.org/track?callback=?", {
+                e: eventName,
+                id: blogId,
+                vid: mediaId
+            });
         }
     };
 
@@ -43,7 +50,8 @@
             },
             _idSelector = '#embedMedia',
             _timeupWaitingID = 0,
-            _culture = 'en';
+            _culture = 'en',
+            _lastEventName = '';
 
         var _getDefaultSetup = function() {
             var defaultOpt = {
@@ -111,7 +119,16 @@
                 _currentMedia.playsCounter++;
             });
         };
-
+        var _trackAPICall = function(eventName) {
+            if (eventName && _lastEventName != eventName) {
+                console.log('Track:', eventName);
+                _lastEventName = eventName;
+            } else return 0;
+            if (_isDemo || !_currentMedia.vid) return 0;
+            APIlist.track(eventName, _currentMedia.vid, _currentMedia.bid).done(function(msg) {
+                console.log(eventName, msg);
+            });
+        };
         var _getUrlQueries = function(queryStr) {
             var out = {};
             $.each(queryStr.split('&'), function(key, value) {
@@ -158,6 +175,7 @@
                                 }).bind(this), 100);
                             };
                             player.one('adsready', function() {
+                                _trackAPICall('adsReady');
                                 //player.pause();
                             });
                             player.one('contentended', function() {
@@ -232,33 +250,34 @@
 
             var player = videojs(_idSelector, settings, playerCallback);
             var plgOpts = _getPluginDefaultOptions(player.id());
-            player.on('play', $.proxy(onMediaPlayEvent, this));
-            player.on('ended', $.proxy(onMediaEndEvent, this));
-            player.on('adstart', $.proxy(onMediaAdStartEvent, this));
-            player.on('adserror', $.proxy(onMediaAdErrorEvent, this));
+            player.on('play', onMediaPlayEvent.bind(this));
+            player.on('pause', onMediaPauseEvent.bind(this));
+            player.on('ended', onMediaEndEvent.bind(this));
+            player.on('adstart', onMediaAdStartEvent.bind(this));
+            player.on('adend', onMediaAdEndEvent.bind(this));
+            player.on('adskip', onMediaAdCancelEvent.bind(this));
+            player.on('adserror', onMediaAdErrorEvent.bind(this));
 
             _currentMedia.player = player;
 
             return player;
         };
 
-        var onMediaAdErrorEvent = function(event) {
-            _currentMedia.plugins.ima.error = true;
-            //_removeAds(_currentMedia.player);
+        var _stopTimer = function() {
+            window.clearTimeout(_timeupWaitingID);
+            $('#circulerTimer').remove();
         };
-
-        var onMediaAdStartEvent = function(event) {
-            //this.pause();
+        var _addCirculerTimer = function() {
+            var circulerTimer = '<div id="circulerTimer" class="radial-timer s-animate">' +
+                '<div class="radial-timer-half"></div>' +
+                '<div class="radial-timer-half"></div>' +
+                '</div>'
+            $(circulerTimer).appendTo(_idSelector);
         };
-
-        /*var onMediaAdEndEvent = function(event) {
-            if (_currentMedia.playsCounter === 1) {
-                _playsAPICall();
-            }
-        };*/
 
         var onMediaPlayEvent = function(event) {
-            this.clearTimeout(_timeupWaitingID);
+            _stopTimer();
+            _lastEventName = 'Plays';
             for (var i = 0; i < _mediaPlayerList.length; i++) {
                 if (_mediaPlayerList[i].id() != event.target.id) {
                     if (!_mediaPlayerList[i].paused()) {
@@ -285,15 +304,35 @@
                     _playsAPICall();
             }
         };
-
+        var onMediaPauseEvent = function(event) {
+            _trackAPICall('paused');
+        };
         var onMediaEndEvent = function() {
+            _trackAPICall('ended');
             var waitTime = 3000,
                 nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type != 'video')) {
-                _timeupWaitingID = this.setTimeout(function() {
+                _stopTimer();
+                _addCirculerTimer();
+                _timeupWaitingID = window.setTimeout((function() {
                     window.location.href = nextMedia;
-                }, waitTime);
-            }
+                }).bind(this), waitTime);
+            } else _currentMedia.playsCounter = 0;
+        };
+        var onMediaAdStartEvent = function(event) {
+            //this.pause();
+            _trackAPICall('adStarted');
+        };
+        var onMediaAdEndEvent = function(event) {
+            _trackAPICall('adEnded');
+        };
+        var onMediaAdCancelEvent = function(event) {
+            _trackAPICall('adCanceled');
+        };
+        var onMediaAdErrorEvent = function(event) {
+            _currentMedia.plugins.ima.error = true;
+            _trackAPICall('adsError');
+            //_removeAds(_currentMedia.player);
         };
 
         var addMediaPlayer = function($elem, setup, callback) {
