@@ -57,7 +57,7 @@
             }
         },
         hasScrollbar: function(node) {
-            if (!node) return null;
+            if (!node) return document.documentElement.clientHeight;
             return node.scrollHeight > node.clientHeight ? node : this.hasScrollbar(node.parentNode);
         },
         getTopPosition: function(element, scrollableParent) {
