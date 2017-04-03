@@ -1,6 +1,6 @@
 /**
  * blogg-media
- * @version 1.1.1
+ * @version 1.2.6
  * @copyright 2017 blogg.no
  */
 (function($, videojs, window) {
@@ -31,6 +31,19 @@
         }
         var _emLang = {
             ADVERTISEMENT: { en: "Advertisement", no: "Annonse" }
+        };
+        var _tracks = {
+            ADS_READY: 'adsReady',
+            AD_STARTED: 'adStarted',
+            AD_ENDED: 'adEnded',
+            ADS_ERROR: 'adsError',
+            AD_BLOCKED: 'adBlocked',
+            AD_SKIP: 'adCanceled',
+            ADS_CRITICAL: 'adsCriticalError',
+            PLAYS: 'plays',
+            PAUSED: 'paused',
+            ENDED: 'ended',
+            REPLAYS: 'replays'
         };
         var _isDemo = JSON.parse("@@__is-demo__"),
 
@@ -164,29 +177,34 @@
                 switch (plugin) {
                     case 'ima':
                         if (plugins.ima.adTagUrl) {
-                            player.ima(plugins.ima);
-                            if (!player.autoplay()) {
-                                player.one(_startEvent, function() {
-                                    _loadAds(player);
+                            try {
+                                player.ima(plugins.ima);
+                                if (!player.autoplay()) {
+                                    player.one(_startEvent, function() {
+                                        _loadAds(player);
+                                    });
+                                } else {
+                                    setTimeout((function() {
+                                        _loadAds(player);
+                                    }).bind(this), 100);
+                                };
+                                player.one('adsready', function() {
+                                    _trackAPICall(_tracks.ADS_READY);
+                                    //player.pause();
                                 });
-                            } else {
-                                setTimeout((function() {
-                                    _loadAds(player);
-                                }).bind(this), 100);
-                            };
-                            player.one('adsready', function() {
-                                _trackAPICall('adsReady');
-                                //player.pause();
-                            });
-                            player.one('contentended', function() {
-                                _removeAds(player);
-                            });
+                                player.one('contentended', function() {
+                                    _removeAds(player);
+                                });
+                            } catch (err) {
+                                if (!window.google)
+                                    _trackAPICall(_tracks.AD_BLOCKED);
+                            }
                         }
                         break;
                     default:
                         if (typeof player[plugin] === 'function')
                             player[plugin](plugins[plugin]);
-                }
+                };
             }
         };
 
@@ -277,9 +295,18 @@
 
         var onMediaPlayEvent = function(event) {
             _stopTimer();
-            if (_lastEventName == 'ended')
-                _trackAPICall('replays');
-            _lastEventName = 'Plays';
+            switch (_lastEventName) {
+                case _tracks.ENDED:
+                    _trackAPICall(_tracks.REPLAYS);
+                    break;
+                case _tracks.ADS_READY:
+                case _tracks.AD_STARTED:
+                    _trackAPICall(_tracks.ADS_CRITICAL);
+                    break;
+            };
+            _lastEventName = _tracks.PLAYS;
+            console.log('Track:', _tracks.PLAYS);
+
             for (var i = 0; i < _mediaPlayerList.length; i++) {
                 if (_mediaPlayerList[i].id() != event.target.id) {
                     if (!_mediaPlayerList[i].paused()) {
@@ -307,10 +334,11 @@
             }
         };
         var onMediaPauseEvent = function(event) {
-            _trackAPICall('paused');
+            if (_lastEventName)
+                _trackAPICall(_tracks.PAUSED);
         };
         var onMediaEndEvent = function() {
-            _trackAPICall('ended');
+            _trackAPICall(_tracks.ENDED);
             var waitTime = 3000,
                 nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type != 'video')) {
@@ -323,17 +351,17 @@
         };
         var onMediaAdStartEvent = function(event) {
             //this.pause();
-            _trackAPICall('adStarted');
+            _trackAPICall(_tracks.AD_STARTED);
         };
         var onMediaAdEndEvent = function(event) {
-            _trackAPICall('adEnded');
+            _trackAPICall(_tracks.AD_ENDED);
         };
         var onMediaAdCancelEvent = function(event) {
-            _trackAPICall('adCanceled');
+            _trackAPICall(_tracks.AD_SKIP);
         };
         var onMediaAdErrorEvent = function(event) {
             _currentMedia.plugins.ima.error = true;
-            _trackAPICall('adsError');
+            _trackAPICall(_tracks.ADS_ERROR);
             //_removeAds(_currentMedia.player);
         };
 

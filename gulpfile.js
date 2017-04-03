@@ -335,8 +335,8 @@ gulp.task("serve", ["default"], function() {
     });
 
     gulp.watch($config.src.htmls, ["html", $reload]);
-    gulp.watch($config.src.styles, ["styles", $reload]);
-    gulp.watch($config.src.scripts, ["scripts", $reload]);
+    gulp.watch($config.src.styles, ["concate", $reload]);
+    gulp.watch($config.src.scripts, ["concate", $reload]);
     gulp.watch($config.src.images, $reload);
 });
 

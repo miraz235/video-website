@@ -1,6 +1,6 @@
 /**
  * blogg-embed
- * @version 1.2.5
+ * @version 1.2.6
  * @copyright 2017 blogg.no
  */
 (function($, videojs, window) {
@@ -36,6 +36,19 @@
             ADVERTISEMENT: { en: "Advertisement", no: "Annonse" },
             COPY_SCRIPT: { en: "Copy embed script code", no: "Kopier skriptkode" },
             COPY_EMBED: { en: "Copy embed iframe code", no: "Kopier embed iframe-koden" }
+        };
+        var _tracks = {
+            ADS_READY: 'adsReady',
+            AD_STARTED: 'adStarted',
+            AD_ENDED: 'adEnded',
+            ADS_ERROR: 'adsError',
+            AD_BLOCKED: 'adBlocked',
+            AD_SKIP: 'adCanceled',
+            ADS_CRITICAL: 'adsCriticalError',
+            PLAYS: 'plays',
+            PAUSED: 'paused',
+            ENDED: 'ended',
+            REPLAYS: 'replays'
         };
         var _isDemo = JSON.parse("@@__is-demo__"),
             _mediaPlayListUrls = [],
@@ -217,33 +230,36 @@
                 switch (plugin) {
                     case 'ima':
                         if (plugins.ima.adTagUrl) {
-                            player.ima(plugins.ima);
-
-                            if (!player.autoplay()) {
-                                player.one(_startEvent, function() {
-                                    _loadAds(player);
+                            try {
+                                player.ima(plugins.ima);
+                                if (!player.autoplay()) {
+                                    player.one(_startEvent, function() {
+                                        _loadAds(player);
+                                    });
+                                } else {
+                                    setTimeout((function() {
+                                        _loadAds(player);
+                                    }).bind(this), 100);
+                                };
+                                player.one('adsready', function() {
+                                    _notifyToParent({ emmethod: "adsready" });
+                                    _trackAPICall(_tracks.ADS_READY);
+                                    player.pause();
                                 });
-                            } else {
-                                setTimeout((function() {
-                                    _loadAds(player);
-                                }).bind(this), 100);
-                            };
-                            player.one('adsready', function() {
-                                //console.log('ads ready');
-                                _notifyToParent({ emmethod: "adsready" });
-                                _trackAPICall('adsReady');
-                                player.pause();
-                            });
-                            player.one('contentended', function() {
-                                _notifyToParent({ emmethod: "contentended" });
-                                _removeAds(player);
-                            });
+                                player.one('contentended', function() {
+                                    _notifyToParent({ emmethod: "contentended" });
+                                    _removeAds(player);
+                                });
+                            } catch (err) {
+                                if (!window.google)
+                                    _trackAPICall(_tracks.AD_BLOCKED);
+                            }
                         }
                         break;
                     default:
                         if (typeof player[plugin] === 'function')
                             player[plugin](plugins[plugin]);
-                }
+                };
             }
         };
         var _getSrc = function($player) {
@@ -322,11 +338,20 @@
         };
 
         var onMediaPlayEvent = function(event) {
-            _notifyToParent({ emmethod: "play" });
-            if (_lastEventName == 'ended')
-                _trackAPICall('replays');
-            _lastEventName = 'plays';
             _stopTimer();
+            _notifyToParent({ emmethod: "play" });
+            switch (_lastEventName) {
+                case _tracks.ENDED:
+                    _trackAPICall(_tracks.REPLAYS);
+                    break;
+                case _tracks.ADS_READY:
+                case _tracks.AD_STARTED:
+                    _trackAPICall(_tracks.ADS_CRITICAL);
+                    break;
+            };
+            _lastEventName = _tracks.PLAYS;
+            console.log('Track:', _tracks.PLAYS);
+
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1
                 /*&&
@@ -338,12 +363,14 @@
             }
         };
         var onMediaPauseEvent = function(event) {
-            _notifyToParent({ emmethod: "paused" });
-            _trackAPICall('paused');
+            if (_lastEventName) {
+                _notifyToParent({ emmethod: "paused" });
+                _trackAPICall(_tracks.PAUSED);
+            }
         };
         var onMediaEndEvent = function() {
             _notifyToParent({ emmethod: "ended" });
-            _trackAPICall('ended');
+            _trackAPICall(_tracks.ENDED);
             var waitTime = 3000;
             var nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia) {
@@ -356,22 +383,22 @@
         };
         var onMediaAdStartEvent = function(event) {
             _notifyToParent({ emmethod: "adstart" });
-            _trackAPICall('adStarted');
+            _trackAPICall(_tracks.AD_STARTED);
         };
         var onMediaAdEndEvent = function(event) {
             _notifyToParent({ emmethod: "adend" });
-            _trackAPICall('adEnded');
+            _trackAPICall(_tracks.AD_ENDED);
             if (_currentMedia.playsCounter === 1) {
                 _notifyToParent({ emmethod: "videostart" });
             }
         };
         var onMediaAdCancelEvent = function(event) {
-            _trackAPICall('adCanceled');
+            _trackAPICall(_tracks.AD_SKIP);
         };
         var onMediaAdErrorEvent = function(event) {
             _notifyToParent({ emmethod: "adserror" });
             _currentMedia.plugins.ima.error = true;
-            _trackAPICall('adsError');
+            _trackAPICall(_tracks.ADS_ERROR);
             //_removeAds(_currentMedia.player);
         };
 

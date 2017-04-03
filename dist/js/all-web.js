@@ -14083,7 +14083,7 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var n;n="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,n.videojsReplay=e()}}(function(){return function e(n,o,t){function i(f,r){if(!o[f]){if(!n[f]){var d="function"==typeof require&&require;if(!r&&d)return d(f,!0);if(l)return l(f,!0);var u=new Error("Cannot find module '"+f+"'");throw u.code="MODULE_NOT_FOUND",u}var a=o[f]={exports:{}};n[f][0].call(a.exports,function(e){var o=n[f][1][e];return i(o?o:e)},a,a.exports,e,n,o,t)}return o[f].exports}for(var l="function"==typeof require&&require,f=0;f<t.length;f++)i(t[f]);return i}({1:[function(e,n,o){(function(e){"use strict";function t(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(o,"__esModule",{value:!0});var i="undefined"!=typeof window?window.videojs:"undefined"!=typeof e?e.videojs:null,l=t(i),f={},r=function(e){e.duration()!==1/0&&e.addClass("vjs-replay").getChild("controlBar").getChild("playToggle").controlText(e.localize("Replay"))},d=function(e){var n=void 0;e.hasClass("vjs-replay")&&(n=e.paused()?e.localize("Play"):e.localize("Pause"),e.removeClass("vjs-replay").getChild("controlBar").getChild("playToggle").controlText(n))},u=function(e,n){e.on("ended",function(){r(e)}),e.on(["play","seeking"],function(){d(e)})},a=function(e){var n=this;this.ready(function(){u(n,l.default.mergeOptions(f,e))})};l.default.plugin("replayButton",a),a.VERSION="1.1.0",o.default=a,n.exports=o.default}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}]},{},[1])(1)});
 /**
  * blogg-embed
- * @version 1.2.5
+ * @version 1.2.6
  * @copyright 2017 blogg.no
  */
 (function($, videojs, window) {
@@ -14119,6 +14119,19 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             ADVERTISEMENT: { en: "Advertisement", no: "Annonse" },
             COPY_SCRIPT: { en: "Copy embed script code", no: "Kopier skriptkode" },
             COPY_EMBED: { en: "Copy embed iframe code", no: "Kopier embed iframe-koden" }
+        };
+        var _tracks = {
+            ADS_READY: 'adsReady',
+            AD_STARTED: 'adStarted',
+            AD_ENDED: 'adEnded',
+            ADS_ERROR: 'adsError',
+            AD_BLOCKED: 'adBlocked',
+            AD_SKIP: 'adCanceled',
+            ADS_CRITICAL: 'adsCriticalError',
+            PLAYS: 'plays',
+            PAUSED: 'paused',
+            ENDED: 'ended',
+            REPLAYS: 'replays'
         };
         var _isDemo = JSON.parse("false"),
             _mediaPlayListUrls = [],
@@ -14300,33 +14313,36 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                 switch (plugin) {
                     case 'ima':
                         if (plugins.ima.adTagUrl) {
-                            player.ima(plugins.ima);
-
-                            if (!player.autoplay()) {
-                                player.one(_startEvent, function() {
-                                    _loadAds(player);
+                            try {
+                                player.ima(plugins.ima);
+                                if (!player.autoplay()) {
+                                    player.one(_startEvent, function() {
+                                        _loadAds(player);
+                                    });
+                                } else {
+                                    setTimeout((function() {
+                                        _loadAds(player);
+                                    }).bind(this), 100);
+                                };
+                                player.one('adsready', function() {
+                                    _notifyToParent({ emmethod: "adsready" });
+                                    _trackAPICall(_tracks.ADS_READY);
+                                    player.pause();
                                 });
-                            } else {
-                                setTimeout((function() {
-                                    _loadAds(player);
-                                }).bind(this), 100);
-                            };
-                            player.one('adsready', function() {
-                                //console.log('ads ready');
-                                _notifyToParent({ emmethod: "adsready" });
-                                _trackAPICall('adsReady');
-                                player.pause();
-                            });
-                            player.one('contentended', function() {
-                                _notifyToParent({ emmethod: "contentended" });
-                                _removeAds(player);
-                            });
+                                player.one('contentended', function() {
+                                    _notifyToParent({ emmethod: "contentended" });
+                                    _removeAds(player);
+                                });
+                            } catch (err) {
+                                if (!window.google)
+                                    _trackAPICall(_tracks.AD_BLOCKED);
+                            }
                         }
                         break;
                     default:
                         if (typeof player[plugin] === 'function')
                             player[plugin](plugins[plugin]);
-                }
+                };
             }
         };
         var _getSrc = function($player) {
@@ -14405,11 +14421,20 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         };
 
         var onMediaPlayEvent = function(event) {
-            _notifyToParent({ emmethod: "play" });
-            if (_lastEventName == 'ended')
-                _trackAPICall('replays');
-            _lastEventName = 'plays';
             _stopTimer();
+            _notifyToParent({ emmethod: "play" });
+            switch (_lastEventName) {
+                case _tracks.ENDED:
+                    _trackAPICall(_tracks.REPLAYS);
+                    break;
+                case _tracks.ADS_READY:
+                case _tracks.AD_STARTED:
+                    _trackAPICall(_tracks.ADS_CRITICAL);
+                    break;
+            };
+            _lastEventName = _tracks.PLAYS;
+            console.log('Track:', _tracks.PLAYS);
+
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1
                 /*&&
@@ -14421,12 +14446,14 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             }
         };
         var onMediaPauseEvent = function(event) {
-            _notifyToParent({ emmethod: "paused" });
-            _trackAPICall('paused');
+            if (_lastEventName) {
+                _notifyToParent({ emmethod: "paused" });
+                _trackAPICall(_tracks.PAUSED);
+            }
         };
         var onMediaEndEvent = function() {
             _notifyToParent({ emmethod: "ended" });
-            _trackAPICall('ended');
+            _trackAPICall(_tracks.ENDED);
             var waitTime = 3000;
             var nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia) {
@@ -14439,22 +14466,22 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         };
         var onMediaAdStartEvent = function(event) {
             _notifyToParent({ emmethod: "adstart" });
-            _trackAPICall('adStarted');
+            _trackAPICall(_tracks.AD_STARTED);
         };
         var onMediaAdEndEvent = function(event) {
             _notifyToParent({ emmethod: "adend" });
-            _trackAPICall('adEnded');
+            _trackAPICall(_tracks.AD_ENDED);
             if (_currentMedia.playsCounter === 1) {
                 _notifyToParent({ emmethod: "videostart" });
             }
         };
         var onMediaAdCancelEvent = function(event) {
-            _trackAPICall('adCanceled');
+            _trackAPICall(_tracks.AD_SKIP);
         };
         var onMediaAdErrorEvent = function(event) {
             _notifyToParent({ emmethod: "adserror" });
             _currentMedia.plugins.ima.error = true;
-            _trackAPICall('adsError');
+            _trackAPICall(_tracks.ADS_ERROR);
             //_removeAds(_currentMedia.player);
         };
 
@@ -14662,7 +14689,7 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
 })(jQuery, videojs, window);
 /**
  * blogg-media
- * @version 1.1.1
+ * @version 1.2.6
  * @copyright 2017 blogg.no
  */
 (function($, videojs, window) {
@@ -14693,6 +14720,19 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         }
         var _emLang = {
             ADVERTISEMENT: { en: "Advertisement", no: "Annonse" }
+        };
+        var _tracks = {
+            ADS_READY: 'adsReady',
+            AD_STARTED: 'adStarted',
+            AD_ENDED: 'adEnded',
+            ADS_ERROR: 'adsError',
+            AD_BLOCKED: 'adBlocked',
+            AD_SKIP: 'adCanceled',
+            ADS_CRITICAL: 'adsCriticalError',
+            PLAYS: 'plays',
+            PAUSED: 'paused',
+            ENDED: 'ended',
+            REPLAYS: 'replays'
         };
         var _isDemo = JSON.parse("false"),
 
@@ -14826,29 +14866,34 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                 switch (plugin) {
                     case 'ima':
                         if (plugins.ima.adTagUrl) {
-                            player.ima(plugins.ima);
-                            if (!player.autoplay()) {
-                                player.one(_startEvent, function() {
-                                    _loadAds(player);
+                            try {
+                                player.ima(plugins.ima);
+                                if (!player.autoplay()) {
+                                    player.one(_startEvent, function() {
+                                        _loadAds(player);
+                                    });
+                                } else {
+                                    setTimeout((function() {
+                                        _loadAds(player);
+                                    }).bind(this), 100);
+                                };
+                                player.one('adsready', function() {
+                                    _trackAPICall(_tracks.ADS_READY);
+                                    //player.pause();
                                 });
-                            } else {
-                                setTimeout((function() {
-                                    _loadAds(player);
-                                }).bind(this), 100);
-                            };
-                            player.one('adsready', function() {
-                                _trackAPICall('adsReady');
-                                //player.pause();
-                            });
-                            player.one('contentended', function() {
-                                _removeAds(player);
-                            });
+                                player.one('contentended', function() {
+                                    _removeAds(player);
+                                });
+                            } catch (err) {
+                                if (!window.google)
+                                    _trackAPICall(_tracks.AD_BLOCKED);
+                            }
                         }
                         break;
                     default:
                         if (typeof player[plugin] === 'function')
                             player[plugin](plugins[plugin]);
-                }
+                };
             }
         };
 
@@ -14939,9 +14984,18 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
 
         var onMediaPlayEvent = function(event) {
             _stopTimer();
-            if (_lastEventName == 'ended')
-                _trackAPICall('replays');
-            _lastEventName = 'Plays';
+            switch (_lastEventName) {
+                case _tracks.ENDED:
+                    _trackAPICall(_tracks.REPLAYS);
+                    break;
+                case _tracks.ADS_READY:
+                case _tracks.AD_STARTED:
+                    _trackAPICall(_tracks.ADS_CRITICAL);
+                    break;
+            };
+            _lastEventName = _tracks.PLAYS;
+            console.log('Track:', _tracks.PLAYS);
+
             for (var i = 0; i < _mediaPlayerList.length; i++) {
                 if (_mediaPlayerList[i].id() != event.target.id) {
                     if (!_mediaPlayerList[i].paused()) {
@@ -14969,10 +15023,11 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             }
         };
         var onMediaPauseEvent = function(event) {
-            _trackAPICall('paused');
+            if (_lastEventName)
+                _trackAPICall(_tracks.PAUSED);
         };
         var onMediaEndEvent = function() {
-            _trackAPICall('ended');
+            _trackAPICall(_tracks.ENDED);
             var waitTime = 3000,
                 nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type != 'video')) {
@@ -14985,17 +15040,17 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         };
         var onMediaAdStartEvent = function(event) {
             //this.pause();
-            _trackAPICall('adStarted');
+            _trackAPICall(_tracks.AD_STARTED);
         };
         var onMediaAdEndEvent = function(event) {
-            _trackAPICall('adEnded');
+            _trackAPICall(_tracks.AD_ENDED);
         };
         var onMediaAdCancelEvent = function(event) {
-            _trackAPICall('adCanceled');
+            _trackAPICall(_tracks.AD_SKIP);
         };
         var onMediaAdErrorEvent = function(event) {
             _currentMedia.plugins.ima.error = true;
-            _trackAPICall('adsError');
+            _trackAPICall(_tracks.ADS_ERROR);
             //_removeAds(_currentMedia.player);
         };
 
