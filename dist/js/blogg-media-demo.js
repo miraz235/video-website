@@ -132,10 +132,13 @@
                 _currentMedia.playsCounter++;
             });
         };
+        var _trackEvents = function(eventName) {
+            console.log('Track:', eventName);
+            _lastEventName = eventName;
+        };
         var _trackAPICall = function(eventName) {
             if (eventName && _lastEventName != eventName) {
-                console.log('Track:', eventName);
-                _lastEventName = eventName;
+                _trackEvents(eventName);
             } else return 0;
             if (_isDemo || !_currentMedia.vid) return 0;
             APIlist.track(eventName, _currentMedia.vid, _currentMedia.bid).done(function(msg) {
@@ -304,8 +307,7 @@
                     _trackAPICall(_tracks.ADS_CRITICAL);
                     break;
             };
-            _lastEventName = _tracks.PLAYS;
-            console.log('Track:', _tracks.PLAYS);
+            _trackEvents(_tracks.PLAYS);
 
             for (var i = 0; i < _mediaPlayerList.length; i++) {
                 if (_mediaPlayerList[i].id() != event.target.id) {
@@ -334,8 +336,8 @@
             }
         };
         var onMediaPauseEvent = function(event) {
-            if (_lastEventName)
-                _trackAPICall(_tracks.PAUSED);
+            //_trackAPICall(_tracks.PAUSED);
+            _trackEvents(_tracks.PAUSED);
         };
         var onMediaEndEvent = function() {
             _trackAPICall(_tracks.ENDED);
