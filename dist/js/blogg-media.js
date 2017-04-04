@@ -33,17 +33,17 @@
             ADVERTISEMENT: { en: "Advertisement", no: "Annonse" }
         };
         var _tracks = {
-            ADS_READY: 'adsReady',
+            ADS_READY: 'adReady',
             AD_STARTED: 'adStarted',
             AD_ENDED: 'adEnded',
-            ADS_ERROR: 'adsError',
+            ADS_ERROR: 'adError',
             AD_BLOCKED: 'adBlocked',
             AD_SKIP: 'adCanceled',
-            ADS_CRITICAL: 'adsCriticalError',
-            PLAYS: 'plays',
+            ADS_CRITICAL: 'adCriticalError',
+            PLAYS: 'play',
             PAUSED: 'paused',
             ENDED: 'ended',
-            REPLAYS: 'replays'
+            REPLAYS: 'replay'
         };
         var _isDemo = JSON.parse("false"),
 
