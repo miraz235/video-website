@@ -175,8 +175,8 @@
                         } else this.pauseVideo();
                         break;
                     case 'adblocked':
-                        if (targetFrame)
-                            this.adBlocked();
+                        /*if (targetFrame)
+                            this.adBlocked();*/
                     case "paused":
                     case "ended":
                     case "adstart":
