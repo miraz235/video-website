@@ -89,6 +89,28 @@
             if (this.iframe.contentWindow)
                 this.iframe.contentWindow.postMessage(postMsg, origin);
         },
+        adBlocked: function() {
+            if (this.wrapper.classList.contains("em-adblocked"))
+                return;
+            var blockalert = document.createElement("div");
+            blockalert.style.backgroundColor = "#C00";
+            blockalert.style.color = "#fff";
+            blockalert.style.position = "absolute";
+            blockalert.style.top = "30px";
+            blockalert.style.left = "50%";
+            blockalert.style.transform = "translateX(-50%)";
+            blockalert.style.padding = "10px";
+            blockalert.style.cursor = "pointer";
+            blockalert.style.fontWeight = "bold";
+            blockalert.style.textAlign = "center";
+            blockalert.innerHTML = "&times; Please stop the AdBlock plugin";
+            blockalert.onclick = function() {
+                this.remove();
+                return false;
+            };
+            this.wrapper.classList.add("em-adblocked");
+            this.wrapper.appendChild(blockalert);
+        },
         playVideo: function() {
             if (this.wrapper.classList.contains("em-visible") || !this.wrapper.classList.contains('em-paused') || this.wrapper.classList.contains('em-playing'))
                 return;
@@ -152,6 +174,9 @@
                             //console.log('Player status: ' + message.emmethod);
                         } else this.pauseVideo();
                         break;
+                    case 'adblocked':
+                        if (targetFrame)
+                            this.adBlocked();
                     case "paused":
                     case "ended":
                     case "adstart":

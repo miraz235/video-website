@@ -14337,8 +14337,10 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                                     _removeAds(player);
                                 });
                             } catch (err) {
-                                if (!window.google)
+                                if (!window.google) {
                                     _trackAPICall(_tracks.AD_BLOCKED);
+                                    _notifyToParent({ emmethod: "adblocked" });
+                                }
                             }
                         }
                         break;

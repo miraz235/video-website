@@ -254,8 +254,10 @@
                                     _removeAds(player);
                                 });
                             } catch (err) {
-                                if (!window.google)
+                                if (!window.google) {
                                     _trackAPICall(_tracks.AD_BLOCKED);
+                                    _notifyToParent({ emmethod: "adblocked" });
+                                }
                             }
                         }
                         break;
