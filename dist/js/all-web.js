@@ -14149,6 +14149,7 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             REPLAYS: 'replay'
         };
         var _isDemo = JSON.parse("false"),
+            _isDebuge = _isDemo,
             _mediaPlayListUrls = [],
             _currentMedia = {
                 type: mediaType,
@@ -14209,7 +14210,8 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                         showControlsForJSAds: false,
                         adLabel: _emLang.ADVERTISEMENT[_culture],
                         adTagUrl: '',
-                        prerollTimeout: 5000
+                        prerollTimeout: 5000,
+                        debug: _isDebuge
                     },
                     contextmenuUI: {
                         content: [{
@@ -14268,23 +14270,25 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         };
 
         var _playsAPICall = function() {
+            if (_isDebuge) console.log('API: Plays Count');
             if (_isDemo || _currentMedia.type == 'audio' || !_currentMedia.vid) return 0;
-            console.log('API: Plays Count');
+
             APIlist.plays(_currentMedia.vid, _currentMedia.bid).done(function(msg) {
                 //console.log(msg);
                 _currentMedia.playsCounter++;
             });
         };
         var _trackEvents = function(eventName, msg) {
-            videojs.log('Event', eventName + ':', msg);
+            if (_isDebuge) videojs.log('Event', eventName + ':', msg);
             _lastEventName = eventName;
         };
         var _trackAPICall = function(eventName, msg) {
             if (eventName && _lastEventName != eventName) {
                 _trackEvents(eventName, msg);
             } else return 0;
+            if (_isDebuge) console.log('API: Events Track');
             if (_isDemo || !_currentMedia.vid) return 0;
-            console.log('API: Events Track');
+
             APIlist.track(eventName, _currentMedia.vid, _currentMedia.bid).done(function(msg) {
                 console.log(eventName, msg);
             });
@@ -14348,7 +14352,13 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                                 player.one('adsready', function() {
                                     _notifyToParent({ emmethod: "adsready" });
                                     _trackAPICall(_tracks.ADS_READY, 'Trigger this event after to signal that your integration is ready to play ads.');
-                                    player.pause();
+                                    player.ima.addEventListener(google.ima.AdEvent.Type.STARTED, function() {
+                                        _trackEvents('AdStarted', 'Google');
+                                    });
+
+                                    player.ima.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
+                                        _trackEvents('AdCompleted', 'Google');
+                                    });
                                 });
                                 player.one('contentended', function() {
                                     _notifyToParent({ emmethod: "contentended" });
@@ -14460,6 +14470,7 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             _notifyToParent({ emmethod: "play" });
             switch (_lastEventName) {
                 case _tracks.ENDED:
+                    _currentMedia.playsCounter = 0;
                     _trackAPICall(_tracks.REPLAYS, 'Clicked on replay button');
                     break;
                 case _tracks.ADS_READY:
@@ -14497,11 +14508,11 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                 _timeupWaitingID = window.setTimeout((function() {
                     window.location.href = nextMedia;
                 }).bind(this), waitTime);
-            } else _currentMedia.playsCounter = 0;
+            }
         };
         var onMediaAdStartEvent = function(event) {
             _notifyToParent({ emmethod: "adstart" });
-            _trackAPICall(_tracks.AD_STARTED, 'The player has entered linear ad playback mode. This event only indicates that an ad break has begun; the start and end of individual ads must be signalled through some other mechanism.');
+            //_trackAPICall(_tracks.AD_STARTED, 'The player has entered linear ad playback mode. This event only indicates that an ad break has begun; the start and end of individual ads must be signalled through some other mechanism.');
         };
         var onMediaAdEndEvent = function(event) {
             _notifyToParent({ emmethod: "adend" });
@@ -14517,7 +14528,14 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             _notifyToParent({ emmethod: "adserror" });
             _currentMedia.plugins.ima.error = true;
             _trackAPICall(_tracks.ADS_ERROR, 'Trigger this event to indicate that an error in the ad integration has ocurred and any ad states should abort so that content can resume.');
-            //_removeAds(_currentMedia.player);
+            _removeAds(_currentMedia.player);
+        };
+
+        var debug = function(isdebug) {
+            _isDebuge = isdebug === undefined ? true : !!isdebug;
+            if (_currentMedia.plugins && _currentMedia.plugins.ima)
+                _currentMedia.plugins.ima.debug = _isDebuge;
+            return this;
         };
 
         var _boxCloseControl = function(boxClass, title) {
@@ -14716,7 +14734,8 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             setMediaPlayer: setMediaPlayer,
             getMediaPlayer: getMediaPlayer,
             setPlayList: setPlayList,
-            setPlugins: setPlugins
+            setPlugins: setPlugins,
+            debug: debug
         };
     };
     window.embedMedia = embedMedia || {};
@@ -14785,7 +14804,7 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             REPLAYS: 'replay'
         };
         var _isDemo = JSON.parse("false"),
-
+            _isDebuge = _isDemo,
             _mediaPlayListUrls = [],
             _mediaPlayerList = [],
 
@@ -14848,7 +14867,8 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                     showControlsForJSAds: false,
                     adLabel: _emLang.ADVERTISEMENT[_culture],
                     adTagUrl: '',
-                    prerollTimeout: 5000
+                    prerollTimeout: 5000,
+                    debug: _isDebuge
                 },
                 replayButton: {}
             };
@@ -14867,22 +14887,22 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
 
         var _playsAPICall = function() {
             if (_isDemo || _currentMedia.type == 'audio' || !_currentMedia.vid) return 0;
-            console.log('API: Plays Count');
+            if (_isDebuge) console.log('API: Plays Count');
             APIlist.plays(_currentMedia.vid, _currentMedia.bid).done(function(msg) {
                 //console.log(msg);
                 _currentMedia.playsCounter++;
             });
         };
         var _trackEvents = function(eventName, msg) {
-            videojs.log('Event', eventName + ':', msg);
+            if (_isDebuge) videojs.log('Event', eventName + ':', msg);
             _lastEventName = eventName;
         };
         var _trackAPICall = function(eventName, msg) {
             if (eventName && _lastEventName != eventName) {
                 _trackEvents(eventName, msg);
             } else return 0;
+            if (_isDebuge) console.log('API: Events Track');
             if (_isDemo || !_currentMedia.vid) return 0;
-            console.log('API: Events Track');
             APIlist.track(eventName, _currentMedia.vid, _currentMedia.bid).done(function(msg) {
                 console.log(eventName, msg);
             });
@@ -14935,7 +14955,13 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                                 };
                                 player.one('adsready', function() {
                                     _trackAPICall(_tracks.ADS_READY);
-                                    //player.pause();
+                                    player.ima.addEventListener(google.ima.AdEvent.Type.STARTED, function() {
+                                        _trackEvents('AdStarted', 'Google');
+                                    });
+
+                                    player.ima.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
+                                        _trackEvents('AdCompleted', 'Google');
+                                    });
                                 });
                                 player.one('contentended', function() {
                                     _trackEvents('ContentEnded');
@@ -15054,6 +15080,7 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             _stopTimer();
             switch (_lastEventName) {
                 case _tracks.ENDED:
+                    _currentMedia.playsCounter = 0;
                     _trackAPICall(_tracks.REPLAYS, 'Clicked on replay button');
                     break;
                 case _tracks.ADS_READY:
@@ -15105,7 +15132,7 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                 _timeupWaitingID = window.setTimeout((function() {
                     window.location.href = nextMedia;
                 }).bind(this), waitTime);
-            } else _currentMedia.playsCounter = 0;
+            }
         };
         var onMediaAdStartEvent = function(event) {
             //this.pause();
@@ -15120,7 +15147,14 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         var onMediaAdErrorEvent = function(event) {
             _currentMedia.plugins.ima.error = true;
             _trackAPICall(_tracks.ADS_ERROR, 'Trigger this event to indicate that an error in the ad integration has ocurred and any ad states should abort so that content can resume.');
-            //_removeAds(_currentMedia.player);
+            _removeAds(_currentMedia.player);
+        };
+
+        var debug = function(isdebug) {
+            _isDebuge = isdebug === undefined ? true : !!isdebug;
+            if (_currentMedia.plugins && _currentMedia.plugins.ima)
+                _currentMedia.plugins.ima.debug = _isDebuge;
+            return this;
         };
 
         var addMediaPlayer = function($elem, setup, callback) {
@@ -15262,7 +15296,8 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             setPlugins: setPlugins,
             addMediaPlayer: addMediaPlayer,
             totalPlayers: totalPlayers,
-            removePlayer: removePlayer
+            removePlayer: removePlayer,
+            debug: debug
         };
     };
     window.bloggMedia = bloggMedia || {};

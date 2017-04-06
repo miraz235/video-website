@@ -25,8 +25,10 @@
 <body>
     <div class="media-wrap media-embed with-xinfo">
         <video id="videoSingle" class="video-js vjs-bloggmedia-skin embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png">
+            <source src="resources/videos/glacier.mp4" type="video/mp4">
             <!--<source src="http://stream.blogg.no/3e2751f533da4212add78be584b7ae5c.ism/index.m3u8" type="application/x-mpegURL" />-->
-            <source src="http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.m3u8" type="application/x-mpegURL" />
+            <!--<source src="http://stream.blogg.no/888HtkMRpxBYOQEVVKp1ag.ism/index.m3u8" type="application/x-mpegURL" />-->
+            <!--<source src="http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.m3u8" type="application/x-mpegURL" />-->
             <!--<source src="https://s3.amazonaws.com/_bc_dml/example-content/bipbop-advanced/bipbop_16x9_variant.m3u8" type="application/x-mpegURL">-->
             <p class="vjs-no-js">
                 To view this video please enable JavaScript, and consider upgrading to a web browser
@@ -108,8 +110,8 @@
     <script>
         jQuery(function() {
             var videoSingle = embedMedia('video').setMediaPlayer("#videoSingle", {
-                autoplay: true,
-                errorDisplay: false
+                autoplay: true
+                    //errorDisplay: false
             }).setPlugins({
                 watermark: {
                     image: 'resources/img/imgpsh_fullsize.png'
@@ -117,9 +119,8 @@
                 ima: {
                     prerollTimeout: 15000,
                     timeout: 15000,
-                    debug: true,
-                    /*adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2FTV2video%2Fnettavisen%2Fside3&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&description_url=http%3A%2F%2Fwww.nettavisen.no%2F&correlator=843573442472758&hl=no&dfpduration=0&sdkv=h.3.153.3&sdki=d&scor=2299575987365357&adk=3757432570&osd=2&frm=0&sdr=1&afvsz=200x200%2C250x250%2C300x250%2C336x280%2C450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fwww.nettavisen.no%2Fvideo%2F19-aring-fikk-sjokk-da-han-gikk-pa-skolens-toalett%2F3423294927.html&ged=ve4_td4_tt1_pd4_la4000_er514.-518.666.-218_vi396.0.1346.1903_vp0_eb16491'*/
-                    /*'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2FTV2video%2Fnettavisen%2Fbloggno&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&description_url=http%3A%2F%2Fwww.nettavisen.no%2F&correlator=843573442472758&hl=no&dfpduration=3&sdkv=h.3.153.3&sdki=d&scor=2299575987365357&adk=3757432570&osd=2&frm=0&sdr=1&afvsz=200x200%2C250x250%2C300x250%2C336x280%2C450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fwww.nettavisen.no%2Fvideo%2F19-aring-fikk-sjokk-da-han-gikk-pa-skolens-toalett%2F3423294927.html&ged=ve4_td4_tt1_pd4_la4000_er514.-518.666.-218_vi396.0.1346.1903_vp0_eb16491'*/
+                    //adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2FTV2video%2Fnettavisen%2Fside3&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&description_url=http%3A%2F%2Fwww.nettavisen.no%2F&correlator=843573442472758&hl=no&dfpduration=0&sdkv=h.3.153.3&sdki=d&scor=2299575987365357&adk=3757432570&osd=2&frm=0&sdr=1&afvsz=200x200%2C250x250%2C300x250%2C336x280%2C450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fwww.nettavisen.no%2Fvideo%2F19-aring-fikk-sjokk-da-han-gikk-pa-skolens-toalett%2F3423294927.html&ged=ve4_td4_tt1_pd4_la4000_er514.-518.666.-218_vi396.0.1346.1903_vp0_eb16491'
+                    /*adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2FTV2video%2Fnettavisen%2Fbloggno&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&description_url=http%3A%2F%2Fwww.nettavisen.no%2F&correlator=843573442472758&hl=no&dfpduration=3&sdkv=h.3.153.3&sdki=d&scor=2299575987365357&adk=3757432570&osd=2&frm=0&sdr=1&afvsz=200x200%2C250x250%2C300x250%2C336x280%2C450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fwww.nettavisen.no%2Fvideo%2F19-aring-fikk-sjokk-da-han-gikk-pa-skolens-toalett%2F3423294927.html&ged=ve4_td4_tt1_pd4_la4000_er514.-518.666.-218_vi396.0.1346.1903_vp0_eb16491'*/
                     adTagUrl: 'http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&' +
                         'iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&' +
                         'impl=s&gdfp_req=1&env=vp&output=xml_vmap1&unviewed_position_start=1&' +
@@ -127,7 +128,7 @@
                         'vid=short_onecue&correlator='
                         //adTagUrl: ''
                 }
-            });
+            }).debug(false);
 
             // Share
             var _openWindow = function(url, title, opt) {
