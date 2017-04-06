@@ -14106,6 +14106,21 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         }
     };
 
+    function detectmob() {
+        if (window.navigator.userAgent.match(/Android/i) ||
+            window.navigator.userAgent.match(/webOS/i) ||
+            window.navigator.userAgent.match(/iPhone/i) ||
+            window.navigator.userAgent.match(/iPad/i) ||
+            window.navigator.userAgent.match(/iPod/i) ||
+            window.navigator.userAgent.match(/BlackBerry/i) ||
+            window.navigator.userAgent.match(/Windows Phone/i)
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     var embedMedia = function(mediaType, mediaId, blogId) {
         var _startEvent = 'click';
         if (navigator.userAgent.match(/iPhone/i) ||
@@ -14149,7 +14164,8 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             _idSelector = '#embedMedia',
             _timeupWaitingID = 0,
             _culture = 'no',
-            _lastEventName = '';
+            _lastEventName = '',
+            _isMobile = detectmob();
 
         var _getDefaultSetup = function() {
             var defaultOpt = {
@@ -14243,9 +14259,9 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             try {
                 var successful = document.execCommand('copy');
                 var msg = successful ? 'successful' : 'unsuccessful';
-                console.log('Copying text command was ' + msg);
+                videojs.log('Copying text command was ' + msg);
             } catch (err) {
-                console.log('Oops, unable to copy');
+                videojs.log('Oops, unable to copy');
             }
             textArea.remove();
 
@@ -14258,13 +14274,13 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                 _currentMedia.playsCounter++;
             });
         };
-        var _trackEvents = function(eventName) {
-            console.log('Track:', eventName);
+        var _trackEvents = function(eventName, msg) {
+            videojs.log('Event', eventName + ':', msg);
             _lastEventName = eventName;
         };
-        var _trackAPICall = function(eventName) {
+        var _trackAPICall = function(eventName, msg) {
             if (eventName && _lastEventName != eventName) {
-                _trackEvents(eventName);
+                _trackEvents(eventName, msg);
             } else return 0;
             if (_isDemo || !_currentMedia.vid) return 0;
 
@@ -14323,22 +14339,24 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                                         _loadAds(player);
                                     });
                                 } else {
+                                    player.autoplay(false);
                                     setTimeout((function() {
                                         _loadAds(player);
                                     }).bind(this), 100);
                                 };
                                 player.one('adsready', function() {
                                     _notifyToParent({ emmethod: "adsready" });
-                                    _trackAPICall(_tracks.ADS_READY);
+                                    _trackAPICall(_tracks.ADS_READY, 'Trigger this event after to signal that your integration is ready to play ads.');
                                     player.pause();
                                 });
                                 player.one('contentended', function() {
                                     _notifyToParent({ emmethod: "contentended" });
+                                    _trackEvents('ContentEnded');
                                     _removeAds(player);
                                 });
                             } catch (err) {
                                 if (!window.google) {
-                                    _trackAPICall(_tracks.AD_BLOCKED);
+                                    _trackAPICall(_tracks.AD_BLOCKED, 'Ad Blocked by AdBlocker plugins');
                                     _notifyToParent({ emmethod: "adblocked" });
                                 }
                             }
@@ -14408,6 +14426,17 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             player.on('adskip', onMediaAdCancelEvent.bind(this));
             player.on('adserror', onMediaAdErrorEvent.bind(this));
 
+            player.on('adtimeout', _trackEvents.bind(this, 'AdTimeout', 'A timeout managed by the plugin has expired and regular video content has begun to play. Ad integrations have a fixed amount of time to inform the plugin of their intent during playback. If the ad integration is blocked by network conditions or an error, this event will fire and regular playback resumes rather than stalling the player indefinitely.'));
+            player.on('adplaying', _trackEvents.bind(this, 'AdPlaying', 'Trigger this event when an ads starts playing. If your integration triggers playing event when an ad begins, it will automatically be redispatched as adplaying.'));
+            player.on('ads-ad-started', _trackEvents.bind(this, 'AdsAdStarted', 'Trigger this when each individual ad begins.'));
+            player.on('contentresumed', _trackEvents.bind(this, 'ContentResumed', ' If your integration does not result in a "playing" event when resuming content after an ad, send this event to signal that content can resume. This was added to support stitched ads and is not normally necessary.'));
+            player.on('error', _trackEvents.bind(this, 'Error', 'An error occurs while fetching the media data.'));
+            player.on('loadeddata', _trackEvents.bind(this, 'LoadedData', 'The user agent can render the media data at the current playback position for the first time.'));
+            player.on('loadedmetadata', _trackEvents.bind(this, 'LoadedMetaData', 'The user agent has just determined the duration and dimensions of the media resource and the text tracks are ready.'));
+            player.on('canplay', _trackEvents.bind(this, 'CanPlay', 'The user agent can resume playback of the media data, but estimates that if playback were to be started now, the media resource could not be rendered at the current playback rate up to its end without having to stop for further buffering of content.'));
+            player.on('canplaythrough', _trackEvents.bind(this, 'CanPlayThrough', '	The user agent estimates that if playback were to be started now, the media resource could be rendered at the current playback rate all the way to its end without having to stop for further buffering.'));
+            player.on('playing', _trackEvents.bind(this, 'Playing', 'Playback is ready to start after having been paused or delayed due to lack of media data.'));
+
             _currentMedia.player = player;
 
             return player;
@@ -14430,14 +14459,16 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             _notifyToParent({ emmethod: "play" });
             switch (_lastEventName) {
                 case _tracks.ENDED:
-                    _trackAPICall(_tracks.REPLAYS);
+                    _trackAPICall(_tracks.REPLAYS, 'Clicked on replay button');
                     break;
                 case _tracks.ADS_READY:
                 case _tracks.AD_STARTED:
-                    _trackAPICall(_tracks.ADS_CRITICAL);
+                    if (!_isMobile) {
+                        _trackAPICall(_tracks.ADS_CRITICAL, 'Something error in desktop version media after AdReady or AdStarted and Ad not playing');
+                    }
                     break;
             };
-            _trackEvents(_tracks.PLAYS);
+            _trackEvents(_tracks.PLAYS, 'The media plays');
 
             _currentMedia.playsCounter++;
             if (_currentMedia.playsCounter === 1
@@ -14452,11 +14483,11 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         var onMediaPauseEvent = function(event) {
             _notifyToParent({ emmethod: "paused" });
             //_trackAPICall(_tracks.PAUSED);
-            _trackEvents(_tracks.PAUSED);
+            _trackEvents(_tracks.PAUSED, 'The element has been paused. Fired after the pause() method has returned.');
         };
         var onMediaEndEvent = function() {
             _notifyToParent({ emmethod: "ended" });
-            _trackAPICall(_tracks.ENDED);
+            _trackAPICall(_tracks.ENDED, 'Playback has stopped because the end of the media resource was reached.');
             var waitTime = 3000;
             var nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia) {
@@ -14469,22 +14500,22 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         };
         var onMediaAdStartEvent = function(event) {
             _notifyToParent({ emmethod: "adstart" });
-            _trackAPICall(_tracks.AD_STARTED);
+            _trackAPICall(_tracks.AD_STARTED, 'The player has entered linear ad playback mode. This event only indicates that an ad break has begun; the start and end of individual ads must be signalled through some other mechanism.');
         };
         var onMediaAdEndEvent = function(event) {
             _notifyToParent({ emmethod: "adend" });
-            _trackAPICall(_tracks.AD_ENDED);
+            _trackAPICall(_tracks.AD_ENDED, 'The player has returned from linear ad playback mode. Note that multiple ads may have played back between adstart and adend.');
             if (_currentMedia.playsCounter === 1) {
                 _notifyToParent({ emmethod: "videostart" });
             }
         };
         var onMediaAdCancelEvent = function(event) {
-            _trackAPICall(_tracks.AD_SKIP);
+            _trackAPICall(_tracks.AD_SKIP, 'The player is skipping a linear ad opportunity and content-playback should resume immediately.');
         };
         var onMediaAdErrorEvent = function(event) {
             _notifyToParent({ emmethod: "adserror" });
             _currentMedia.plugins.ima.error = true;
-            _trackAPICall(_tracks.ADS_ERROR);
+            _trackAPICall(_tracks.ADS_ERROR, 'Trigger this event to indicate that an error in the ad integration has ocurred and any ad states should abort so that content can resume.');
             //_removeAds(_currentMedia.player);
         };
 
@@ -14666,7 +14697,7 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
         window[eventMethod](messageEvent, function(e) {
             var message = e.data;
-            if (typeof message == "string" && message.indexOf("em|") > -1) {
+            if (_currentMedia.player && typeof message == "string" && message.indexOf("em|") > -1) {
                 message = JSON.parse(message.split("|")[1]);
                 switch (message.emmethod) {
                     case "pause":
@@ -14714,6 +14745,21 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         }
     };
 
+    function detectmob() {
+        if (window.navigator.userAgent.match(/Android/i) ||
+            window.navigator.userAgent.match(/webOS/i) ||
+            window.navigator.userAgent.match(/iPhone/i) ||
+            window.navigator.userAgent.match(/iPad/i) ||
+            window.navigator.userAgent.match(/iPod/i) ||
+            window.navigator.userAgent.match(/BlackBerry/i) ||
+            window.navigator.userAgent.match(/Windows Phone/i)
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     var bloggMedia = function(mediaType, mediaId, blogId) {
         var _startEvent = 'click';
         if (navigator.userAgent.match(/iPhone/i) ||
@@ -14756,7 +14802,8 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             _idSelector = '#embedMedia',
             _timeupWaitingID = 0,
             _culture = 'no',
-            _lastEventName = '';
+            _lastEventName = '',
+            _isMobile = detectmob();
 
         var _getDefaultSetup = function() {
             var defaultOpt = {
@@ -14824,13 +14871,13 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                 _currentMedia.playsCounter++;
             });
         };
-        var _trackEvents = function(eventName) {
-            console.log('Track:', eventName);
+        var _trackEvents = function(eventName, msg) {
+            videojs.log('Event', eventName + ':', msg);
             _lastEventName = eventName;
         };
-        var _trackAPICall = function(eventName) {
+        var _trackAPICall = function(eventName, msg) {
             if (eventName && _lastEventName != eventName) {
-                _trackEvents(eventName);
+                _trackEvents(eventName, msg);
             } else return 0;
             if (_isDemo || !_currentMedia.vid) return 0;
             APIlist.track(eventName, _currentMedia.vid, _currentMedia.bid).done(function(msg) {
@@ -14888,6 +14935,7 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                                     //player.pause();
                                 });
                                 player.one('contentended', function() {
+                                    _trackEvents('ContentEnded');
                                     _removeAds(player);
                                 });
                             } catch (err) {
@@ -14971,6 +15019,17 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             player.on('adskip', onMediaAdCancelEvent.bind(this));
             player.on('adserror', onMediaAdErrorEvent.bind(this));
 
+            player.on('adtimeout', _trackEvents.bind(this, 'AdTimeout', 'A timeout managed by the plugin has expired and regular video content has begun to play. Ad integrations have a fixed amount of time to inform the plugin of their intent during playback. If the ad integration is blocked by network conditions or an error, this event will fire and regular playback resumes rather than stalling the player indefinitely.'));
+            player.on('adplaying', _trackEvents.bind(this, 'AdPlaying', 'Trigger this event when an ads starts playing. If your integration triggers playing event when an ad begins, it will automatically be redispatched as adplaying.'));
+            player.on('ads-ad-started', _trackEvents.bind(this, 'AdsAdStarted', 'Trigger this when each individual ad begins.'));
+            player.on('contentresumed', _trackEvents.bind(this, 'ContentResumed', ' If your integration does not result in a "playing" event when resuming content after an ad, send this event to signal that content can resume. This was added to support stitched ads and is not normally necessary.'));
+            player.on('error', _trackEvents.bind(this, 'Error', 'An error occurs while fetching the media data.'));
+            player.on('loadeddata', _trackEvents.bind(this, 'LoadedData', 'The user agent can render the media data at the current playback position for the first time.'));
+            player.on('loadedmetadata', _trackEvents.bind(this, 'LoadedMetaData', 'The user agent has just determined the duration and dimensions of the media resource and the text tracks are ready.'));
+            player.on('canplay', _trackEvents.bind(this, 'CanPlay', 'The user agent can resume playback of the media data, but estimates that if playback were to be started now, the media resource could not be rendered at the current playback rate up to its end without having to stop for further buffering of content.'));
+            player.on('canplaythrough', _trackEvents.bind(this, 'CanPlayThrough', '	The user agent estimates that if playback were to be started now, the media resource could be rendered at the current playback rate all the way to its end without having to stop for further buffering.'));
+            player.on('playing', _trackEvents.bind(this, 'Playing', 'Playback is ready to start after having been paused or delayed due to lack of media data.'));
+
             _currentMedia.player = player;
 
             return player;
@@ -14992,14 +15051,16 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
             _stopTimer();
             switch (_lastEventName) {
                 case _tracks.ENDED:
-                    _trackAPICall(_tracks.REPLAYS);
+                    _trackAPICall(_tracks.REPLAYS, 'Clicked on replay button');
                     break;
                 case _tracks.ADS_READY:
                 case _tracks.AD_STARTED:
-                    _trackAPICall(_tracks.ADS_CRITICAL);
+                    if (!_isMobile) {
+                        _trackAPICall(_tracks.ADS_CRITICAL, 'Something error in desktop version media after AdReady or AdStarted and Ad not playing');
+                    }
                     break;
             };
-            _trackEvents(_tracks.PLAYS);
+            _trackEvents(_tracks.PLAYS, 'The media plays');
 
             for (var i = 0; i < _mediaPlayerList.length; i++) {
                 if (_mediaPlayerList[i].id() != event.target.id) {
@@ -15029,10 +15090,10 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         };
         var onMediaPauseEvent = function(event) {
             //_trackAPICall(_tracks.PAUSED);
-            _trackEvents(_tracks.PAUSED);
+            _trackEvents(_tracks.PAUSED, 'The element has been paused. Fired after the pause() method has returned.');
         };
         var onMediaEndEvent = function() {
-            _trackAPICall(_tracks.ENDED);
+            _trackAPICall(_tracks.ENDED, 'Playback has stopped because the end of the media resource was reached.');
             var waitTime = 3000,
                 nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type != 'video')) {
@@ -15045,17 +15106,17 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
         };
         var onMediaAdStartEvent = function(event) {
             //this.pause();
-            _trackAPICall(_tracks.AD_STARTED);
+            _trackAPICall(_tracks.AD_STARTED, 'The player has entered linear ad playback mode. This event only indicates that an ad break has begun; the start and end of individual ads must be signalled through some other mechanism.');
         };
         var onMediaAdEndEvent = function(event) {
-            _trackAPICall(_tracks.AD_ENDED);
+            _trackAPICall(_tracks.AD_ENDED, 'The player has returned from linear ad playback mode. Note that multiple ads may have played back between adstart and adend.');
         };
         var onMediaAdCancelEvent = function(event) {
-            _trackAPICall(_tracks.AD_SKIP);
+            _trackAPICall(_tracks.AD_SKIP, 'The player is skipping a linear ad opportunity and content-playback should resume immediately.');
         };
         var onMediaAdErrorEvent = function(event) {
             _currentMedia.plugins.ima.error = true;
-            _trackAPICall(_tracks.ADS_ERROR);
+            _trackAPICall(_tracks.ADS_ERROR, 'Trigger this event to indicate that an error in the ad integration has ocurred and any ad states should abort so that content can resume.');
             //_removeAds(_currentMedia.player);
         };
 
