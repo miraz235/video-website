@@ -11891,6 +11891,7 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
 
         var _playsAPICall = function() {
             if (_isDemo || _currentMedia.type == 'audio' || !_currentMedia.vid) return 0;
+            console.log('API: Plays Count');
             APIlist.plays(_currentMedia.vid, _currentMedia.bid).done(function(msg) {
                 //console.log(msg);
                 _currentMedia.playsCounter++;
@@ -11905,7 +11906,7 @@ w["default"].registerPlugin?w["default"].registerPlugin("reloadSourceOnError",D[
                 _trackEvents(eventName, msg);
             } else return 0;
             if (_isDemo || !_currentMedia.vid) return 0;
-
+            console.log('API: Events Track');
             APIlist.track(eventName, _currentMedia.vid, _currentMedia.bid).done(function(msg) {
                 console.log(eventName, msg);
             });
