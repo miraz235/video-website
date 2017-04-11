@@ -8,17 +8,23 @@
     if (window.embedMedia)
         return;
     var APIlist = {
-        plays: function(mediaId, blogId) {
+        vplays: function(mediaId, blogId) {
             return $.getJSON("http://hits.blogsoft.org?callback=?", {
                 id: blogId,
                 vid: mediaId
             });
         },
-        track: function(eventName, mediaId, blogId) {
+        vtrack: function(eventName, mediaId, blogId) {
             return $.getJSON("http://hits.blogsoft.org/track?callback=?", {
                 e: eventName,
                 id: blogId,
                 vid: mediaId
+            });
+        },
+        aplays: function(mediaId, blogId) {
+            return $.getJSON("http://hits.blogsoft.org?callback=?", {
+                id: blogId,
+                auid: mediaId
             });
         }
     };
@@ -71,8 +77,8 @@
             _currentMedia = {
                 type: mediaType,
                 id: 0,
-                bid: blogId || 0,
-                vid: mediaId || 0,
+                bId: blogId || 0,
+                mId: mediaId || 0,
                 player: null,
                 plugins: null,
                 src: '',
@@ -188,12 +194,21 @@
 
         var _playsAPICall = function() {
             if (_isDebuge) console.log('API: Plays Count');
-            if (_isDemo || _currentMedia.type == 'audio' || !_currentMedia.vid) return 0;
-
-            APIlist.plays(_currentMedia.vid, _currentMedia.bid).done(function(msg) {
-                //console.log(msg);
-                _currentMedia.playsCounter++;
-            });
+            if (_isDemo || !_currentMedia.mId) return 0;
+            switch (_currentMedia.type == 'video') {
+                case 'video':
+                    APIlist.vplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                        //console.log(msg);
+                        _currentMedia.playsCounter++;
+                    });
+                    break;
+                case 'audio':
+                    APIlist.aplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                        //console.log(msg);
+                        _currentMedia.playsCounter++;
+                    });
+                    break;
+            };
         };
         var _trackEvents = function(eventName, msg) {
             if (_isDebuge) videojs.log('Event', eventName + ':', msg);
@@ -202,13 +217,13 @@
         var _trackAPICall = function(eventName, msg) {
             if (eventName && _lastEventName != eventName) {
                 _trackEvents(eventName, msg);
+                if (_isDebuge) console.log('API: Events Track');
+                if (!_isDemo && _currentMedia.mId) {
+                    APIlist.vtrack(eventName, _currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                        console.log(eventName, msg);
+                    });
+                }
             } else return 0;
-            if (_isDebuge) console.log('API: Events Track');
-            if (_isDemo || !_currentMedia.vid) return 0;
-
-            APIlist.track(eventName, _currentMedia.vid, _currentMedia.bid).done(function(msg) {
-                console.log(eventName, msg);
-            });
         };
         var _getUrlQueries = function(queryStr) {
             var out = {};

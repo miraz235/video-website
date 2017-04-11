@@ -92,20 +92,20 @@
         <p title="Video 1" class="text-truncate"><a href="video-single.html" target="_blank">Video 1</a></p>
     </header>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
     <script src="http://vjs.zencdn.net/5.19.0/video.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.3.3/videojs-contrib-hls.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.5/videojs.ads.min.js"></script>
-    <script src="https://cdn.rawgit.com/googleads/videojs-ima/master/src/videojs.ima.js"></script>
+    <script src="https://rawcdn.githack.com/googleads/videojs-ima/master/src/videojs.ima.js"></script>
     <script src="http://static.blogg.no/blogs/media/vendors/videojs-watermark/videojs-watermark.min.js"></script>
     <script src="http://static.blogg.no/blogs/media/vendors/videojs-contextmenu/videojs-contextmenu.min.js"></script>
     <script src="http://static.blogg.no/blogs/media/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js"></script>
     <script src="http://static.blogg.no/blogs/media/vendors/videojs-replay/videojs-replay.min.js"></script>
 
-    <script src="js/blogg-embed-demo.js"></script>
-    <!--<script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <script src="http://static.blogg.no/blogs/media/js/all-embed.js"></script>-->
+    <script src="js/blogg-embed-demo.js"></script>-->
+    <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="js/all-embed.min.js"></script>
 
     <script>
         jQuery(function() {
@@ -128,7 +128,7 @@
                         'vid=short_onecue&correlator='
                         //adTagUrl: ''
                 }
-            }).debug(false);
+            }).debug(true);
 
             // Share
             var _openWindow = function(url, title, opt) {

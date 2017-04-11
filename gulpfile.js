@@ -129,7 +129,7 @@ var bootstrapjs = function() {
 };
 var videojsjs = function() {
     return request($config.concate.scripts.cdn.videojs)
-        .pipe(source('video.js'))
+        .pipe(source('video.min.js'))
 };
 var dashjs = function() {
     return request($config.concate.scripts.cdn.dash)
