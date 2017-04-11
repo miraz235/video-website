@@ -12912,9 +12912,15 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
                 _trackEvents(eventName, msg);
                 if (_isDebuge) console.log('API: Events Track');
                 if (!_isDemo && _currentMedia.mId) {
-                    APIlist.vtrack(eventName, _currentMedia.mId, _currentMedia.bId).done(function(msg) {
-                        console.log(eventName, msg);
-                    });
+                    switch (_currentMedia.type) {
+                        case 'video':
+                            APIlist.vtrack(eventName, _currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                                console.log(eventName, msg);
+                            });
+                            break;
+                        case 'audio':
+                            break;
+                    };
                 }
             } else return 0;
         };
@@ -13543,9 +13549,15 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
                 _trackEvents(eventName, msg);
                 if (_isDebuge) console.log('API: Events Track');
                 if (!_isDemo && _currentMedia.mId) {
-                    APIlist.vtrack(eventName, _currentMedia.mId, _currentMedia.bId).done(function(msg) {
-                        console.log(eventName, msg);
-                    });
+                    switch (_currentMedia.type) {
+                        case 'video':
+                            APIlist.vtrack(eventName, _currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                                console.log(eventName, msg);
+                            });
+                            break;
+                        case 'audio':
+                            break;
+                    };
                 }
             } else return 0;
         };
