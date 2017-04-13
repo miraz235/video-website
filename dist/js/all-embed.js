@@ -10339,7 +10339,7 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
         aplays: function(mediaId, blogId) {
             return $.getJSON("http://hits.blogsoft.org?callback=?", {
                 id: blogId,
-                auid: mediaId
+                aid: mediaId
             });
         }
     };
@@ -10509,8 +10509,8 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
 
         var _playsAPICall = function() {
             if (_isDebuge) console.log('API: Plays Count');
-            if (_isDemo || !_currentMedia.mId) return 0;
-            switch (_currentMedia.type == 'video') {
+            if (_isDemo || !_currentMedia.mId) return;
+            switch (_currentMedia.type) {
                 case 'video':
                     APIlist.vplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
                         //console.log(msg);
@@ -10544,7 +10544,7 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
                             break;
                     };
                 }
-            } else return 0;
+            } else return;
         };
         var _getUrlQueries = function(queryStr) {
             var out = {};
