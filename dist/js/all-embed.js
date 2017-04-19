@@ -10320,8 +10320,7 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
  */
 (function($, videojs, window) {
     'use strict';
-    if (window.embedMedia)
-        return;
+    if (window.embedMedia) { return; }
     var APIlist = {
         vplays: function(mediaId, blogId) {
             return $.getJSON("http://hits.blogsoft.org?callback=?", {
@@ -10487,8 +10486,7 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
 
 
         var _copyToClipboard = function(text) {
-            if (typeof text != "string")
-                return;
+            if (typeof text != "string") { return; }
             var textArea = $('<textarea></textarea>').css({
                 'position': 'absolute',
                 'left': '-9999px',
@@ -10508,8 +10506,8 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
         };
 
         var _playsAPICall = function() {
-            if (_isDebuge) console.log('API: Plays Count');
-            if (_isDemo || !_currentMedia.mId) return;
+            if (_isDebuge) { console.log('API: Plays Count'); }
+            if (_isDemo || !_currentMedia.mId) { return; }
             switch (_currentMedia.type) {
                 case 'video':
                     APIlist.vplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
@@ -10526,13 +10524,13 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
             };
         };
         var _trackEvents = function(eventName, msg) {
-            if (_isDebuge) videojs.log('Event', eventName + ':', msg);
+            if (_isDebuge) { videojs.log('Event', eventName + ':', msg); }
             _lastEventName = eventName;
         };
         var _trackAPICall = function(eventName, msg) {
             if (eventName && _lastEventName != eventName) {
                 _trackEvents(eventName, msg);
-                if (_isDebuge) console.log('API: Events Track');
+                if (_isDebuge) { console.log('API: Events Track'); }
                 if (!_isDemo && _currentMedia.mId) {
                     switch (_currentMedia.type) {
                         case 'video':
@@ -10550,8 +10548,9 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
             var out = {};
             $.each(queryStr.split('&'), function(key, value) {
                 var i = value.split('=');
-                if (i.length == 2)
+                if (i.length == 2) {
                     out[i[0].toString()] = i[1].toString();
+                }
             });
             return out;
         };
@@ -10627,8 +10626,9 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
                         }
                         break;
                     default:
-                        if (typeof player[plugin] === 'function')
+                        if (typeof player[plugin] === 'function') {
                             player[plugin](plugins[plugin]);
+                        }
                 };
             }
         };
@@ -10676,7 +10676,7 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
                             this.src([{ type: "audio/mp3", src: "resources/audios/" + _currentMedia.id + ".mp3" }]);
                         }
                 };
-                if (callback) callback();
+                if (callback) { callback(); }
                 _runPlugin(this, $.extend({}, plgOpts, _currentMedia.plugins));
             }
 
@@ -10786,8 +10786,9 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
 
         var debug = function(isdebug) {
             _isDebuge = isdebug === undefined ? true : !!isdebug;
-            if (_currentMedia.plugins && _currentMedia.plugins.ima)
+            if (_currentMedia.plugins && _currentMedia.plugins.ima) {
                 _currentMedia.plugins.ima.debug = _isDebuge;
+            }
             return this;
         };
 
@@ -10858,10 +10859,12 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
                 toolbar = opt.toolbar || 'no',
                 winPosY = (window.screenY || window.screenTop || 0) + window.outerHeight / 2 - height / 2,
                 winPosX = (window.screenX || window.screenLeft || 0) + window.outerWidth / 2 - width / 2;
-            if (window.chrome && window.navigator.userAgent.toLowerCase().indexOf("mac os x") !== -1)
+            if (window.chrome && window.navigator.userAgent.toLowerCase().indexOf("mac os x") !== -1) {
                 height += 27;
-            if (window.safari)
+            }
+            if (window.safari) {
                 height += 47;
+            }
             var winOpt = "width=" + width +
                 ",height=" + height +
                 ",left=" + winPosX +
@@ -10874,8 +10877,7 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
         var _setShare = function() {
             $('.media-share .buttons a').on('click', function(event) {
                 event.stopPropagation();
-                if ($(this).hasClass('email'))
-                    return true;
+                if ($(this).hasClass('email')) { return true; }
                 _openWindow(this.href,
                     this.class, {
                         width: 500,
@@ -10903,11 +10905,11 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
         };
 
         var setPlugins = function(plugins) {
-            if (!_currentMedia.player || !plugins)
-                return this;
+            if (!_currentMedia.player || !plugins) { return this; }
             var videoJsPluginOptions = _getPluginDefaultOptions();
-            if (!_currentMedia.plugins)
+            if (!_currentMedia.plugins) {
                 _currentMedia.plugins = videoJsPluginOptions;
+            }
             for (var plugin in plugins) {
                 if (plugin in _currentMedia.player) {
                     _currentMedia.plugins[plugin] = $.extend({}, videoJsPluginOptions[plugin], plugins[plugin]);
@@ -10930,8 +10932,9 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
                     if (window.location.href.indexOf(this.href) > -1) {
                         $li.addClass("currently-playing");
                         _currentMedia.index = index;
-                        if (index > 0)
+                        if (index > 0) {
                             _currentMedia.player.autoplay(true);
+                        }
                         $li.parent().animate({
                             scrollTop: index * $li.outerHeight() + 1
                         }, 500);
@@ -10952,7 +10955,7 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
         };
 
         var setPlayList = function(domList) {
-            if (!_currentMedia.player) return;
+            if (!_currentMedia.player) { return; }
             var $tracksDom = $(domList);
 
             if ($tracksDom.length > 0) {
