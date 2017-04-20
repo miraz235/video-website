@@ -13,6 +13,7 @@
     background-color: $video-playlist-bg;
     color: $color-white;
     line-height: 1.5;
+    z-index: 0;
     a {
         &:not(.btn) {
             color: $gray-lighter;
