@@ -25,8 +25,14 @@
         </div>
         <div class="media-player__content">
             <header>
-                <div class="info-content pull-right">
-                    <p class="m-b-0 text-truncate" title="John Doe">by - <a href="#">John Doe</a></p>
+                <div class="pull-right">
+                    <div class="media-author">
+                        <a href="#" target="_blank">
+                            <span>Bhaumik Patel</span>
+                            <img src="images/blank.gif" width="32" height="32" alt="Bhaumik Patel" class="bg-img" style="background-image:url(http://lorempixel.com/output/people-q-c-24-24-1.jpg)" />
+                        </a>
+                    </div>
+
                 </div>
                 <h3 class="media-title text-truncate" title="Audio 8"><a href="podcast-episode-single.html">Audio 8</a></h3>
             </header>
@@ -40,10 +46,9 @@
             <div class="pull-left">
                 <ul class="list-inline m-b-0">
                     <li>
-                        <button class="btn btn-default btn-xs">
-                            <i class="glyphicon glyphicon-cloud-download"></i>
-                            Download
-                        </button>
+                        <a title="Download" id="downloadBtn" href="" download class="btn btn-default btn-xs" data-embutton>
+                            <i class="glyphicon glyphicon-cloud-download"></i> Download
+                        </a>
                     </li>
                     <li><small class="text-muted">237 Downloads</small></li>
                 </ul>
@@ -52,9 +57,9 @@
                 <ul class="list-inline m-b-0">
                     <li>
                         <button title="Share" id="shareBtn" class="btn btn-default btn-xs" data-embutton>
-                            <i class="glyphicon glyphicon-share-alt"></i>
-                            Share
-                        </button>
+                                <i class="glyphicon glyphicon-share-alt"></i>
+                                Share
+                            </button>
                     </li>
                 </ul>
             </div>

@@ -13222,10 +13222,18 @@ player.on('readyforpreroll',readyCallback);player.ready(function(){player.on('fu
             var btnGroups = $('[data-embutton]');
             btnGroups.on('click', function(event) {
                 event.stopPropagation();
-                if (this.id && $('.drawer[data-btnid=' + this.id + ']').length > 0) {
-                    $('.drawer[data-btnid=' + this.id + ']').addClass('open');
-                    _currentMedia.player.pause();
-                }
+                switch (this.id) {
+                    case 'downloadBtn':
+                        _playsAPICall();
+                        return true;
+                        break;
+                    default:
+                        if (this.id && $('.drawer[data-btnid=' + this.id + ']').length > 0) {
+                            $('.drawer[data-btnid=' + this.id + ']').addClass('open');
+                            _currentMedia.player.pause();
+                        }
+                };
+
                 return false;
             });
         };
