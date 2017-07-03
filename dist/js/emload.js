@@ -32,11 +32,11 @@
             referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
         },
         searchParams: function(src, paramName) {
-            var srcObj = new URL(src),
-                paramValue = '',
+            var paramValue = '',
                 hasParam = false;
 
-            if (srcObj.searchParams) {
+            if (typeof URL === "function") {
+                var srcObj = new URL(src);
                 paramValue = srcObj.searchParams.get(paramName);
                 hasParam = srcObj.searchParams.has(paramName);
             } else {
