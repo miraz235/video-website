@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Embed</title>
+
+    <!-- Color the status bar on mobile devices -->
+    <meta name="theme-color" content="#0063a6">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.2.6/alt/video-js-cdn.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.8/videojs.ads.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.min.css" />
+    <link rel="stylesheet" href="vendors/videojs-watermark/videojs-watermark.css" />
+    <!-- <link rel="stylesheet" href="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.css" /> -->
+    <!-- <link rel="stylesheet" href="vendors/videojs-replay/videojs-replay.css" /> -->
+    <!-- <link rel="stylesheet" href="css/styles-embed.min.css" /> -->
+    <link rel="stylesheet" href="css/all-embed.min.css" />
+
+</head>
+
+<body>
+    <div class="media-wrap media-embed with-xinfo">
+        <video id="videoSingle" class="video-js vjs-bloggmedia-skin embed" poster="resources/videos/posters/lake.jpg">
+            <!-- <source src="https://stream.blogg.no/3e2751f533da4212add78be584b7ae5c.ism/index.m3u8" type="application/x-mpegURL" /> -->
+            <!-- <source src="https://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.m3u8" type="application/x-mpegURL" /> -->
+            <!-- <source src="https://s3.amazonaws.com/_bc_dml/example-content/bipbop-advanced/bipbop_16x9_variant.m3u8" type="application/x-mpegURL"> -->
+            <source src="resources/videos/lake.mp4" />
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a web browser
+                that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+            </p>
+        </video>
+        <header class="media-header">
+            <div class="media-btn-group pull-right">
+                <button title="Share" id="shareBtn" class="media-icon" data-embutton><span class="vjs-icon-share"></span></button>
+            </div>
+            <div class="media-title-container">
+                <h3 class="media-title" title="Video 1"><a href="video-single.html" target="_blank">Video 1</a></h3>
+                <div><span class="media-title">1234 Plays</span></div>
+            </div>
+            <div class="media-author">
+                <a href="#" target="_blank">
+                    <img src="images/blank.gif" width="32" height="32" alt="Bhaumik Patel" class="bg-img" style="background-image:url(http://lorempixel.com/output/people-q-c-24-24-1.jpg)" />
+                    <span>Bhaumik Patel</span>
+                </a>
+            </div>
+        </header>
+        <!-- Share -->
+        <aside class="media-share drawer" data-btnid="shareBtn">
+            <div class="media-share-container">
+                <h2>Share</h2>
+                <ul class="buttons">
+                    <li>
+                        <a href="https://player.vimeo.com/video/78740926/share/facebook" target="_blank" class="facebook" title="Share on Facebook" role="button" aria-label="Share on Facebook">
+                            <svg class="facebook-icon" viewBox="0 0 64 64" preserveAspectRatio="xMidYMid" tabindex="-1"><path class="fill" d="M35.992 64h-11.992v-32h-8v-11.028l8-0.004-0.013-6.497c0-8.997 2.44-14.471 13.037-14.471h8.824v11.030h-5.514c-4.127 0-4.325 1.541-4.325 4.418l-0.016 5.52h9.918l-1.169 11.028-8.741 0.004-0.008 32z"></path></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://player.vimeo.com/video/78740926/share/twitter" target="_blank" class="twitter" title="Share on Twitter" role="button" aria-label="Share on Twitter">
+                            <svg class="twitter-icon" viewBox="0 0 274 223" preserveAspectRatio="xMidYMid" tabindex="-1"><path class="fill" d="M85.98,222 C54.305,222 24.822,212.715 0,196.801 C4.388,197.319 8.853,197.584 13.38,197.584 C39.658,197.584 63.843,188.617 83.039,173.574 C58.495,173.121 37.781,156.905 30.644,134.621 C34.068,135.276 37.582,135.627 41.196,135.627 C46.312,135.627 51.267,134.942 55.974,133.66 C30.314,128.508 10.981,105.838 10.981,78.662 C10.981,78.426 10.981,78.191 10.985,77.957 C18.548,82.158 27.196,84.681 36.391,84.972 C21.341,74.914 11.438,57.746 11.438,38.287 C11.438,28.008 14.204,18.373 19.032,10.089 C46.696,44.023 88.025,66.353 134.641,68.692 C133.685,64.587 133.188,60.306 133.188,55.91 C133.188,24.935 158.302,-0.178 189.279,-0.178 C205.411,-0.178 219.988,6.634 230.22,17.535 C242.996,15.019 255,10.351 265.837,3.924 C261.649,17.021 252.756,28.013 241.175,34.955 C252.521,33.599 263.331,30.584 273.39,26.123 C265.87,37.371 256.36,47.25 245.402,55.158 C245.51,57.563 245.564,59.982 245.564,62.414 C245.564,136.533 189.148,222 85.98,222"></path></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:?subject=Check%20out%20%E2%80%9CJohn%20Lewis%20-%20The%20Bear%20%26%20The%20Hare%E2%80%9D%20from%20Blink%20on%20Vimeo&amp;body=Check%20out%20%E2%80%9CJohn%20Lewis%20-%20The%20Bear%20%26%20The%20Hare%E2%80%9D%20from%20Blink%20on%20Vimeo.%0A%0AThe%20video%20is%20available%20for%20your%20viewing%20pleasure%20at%20https%3A%2F%2Fvimeo.com%2F78740926%0A%0AIf%20you%20like%20this%20video%2C%20make%20sure%20you%20share%20it%2C%20too!%0A%0AVimeo%20is%20filled%20with%20lots%20of%20amazing%20videos.%20See%20more%20at%20https%3A%2F%2Fvimeo.com."
+                            class="email" title="Share via Email" role="button" aria-label="Share via Email">
+                            <svg class="mail-icon" viewBox="0 0 72 72" preserveAspectRatio="xMidYMid" tabindex="-1"><path class="fill" d="M71.754,57.6C71.9,57.169,72,56.718,72,56.241V16.759c0-0.453-0.092-0.881-0.225-1.291l-23.487,19.86L71.754,57.6z"></path><path class="fill" d="M35.999,40.118l6.187-4.971l3.131-2.516L68.9,12.693c-0.387-0.113-0.789-0.193-1.213-0.193H4.312c-0.424,0-0.827,0.08-1.215,0.194l23.599,19.949l3.132,2.517L35.999,40.118z"></path><path class="fill" d="M67.688,60.5c0.405,0,0.791-0.074,1.164-0.18L45.157,37.843l-9.159,7.361l-9.145-7.351L3.15,60.322C3.522,60.426,3.907,60.5,4.312,60.5H67.688z"></path><path class="fill" d="M0.226,15.468C0.092,15.878,0,16.307,0,16.759v39.482c0,0.478,0.099,0.929,0.247,1.356l23.476-22.261L0.226,15.468z"></path></svg>
+                        </a>
+                    </li>
+                </ul>
+                <div class="social-textfield-container">
+                    <label for="inputEmbedScript" class="social-textfield-label">Responsiv spiller</label>
+                    <input id="inputEmbedScript" name="script" type="text" class="social-textfield-url" placeholder="Embed Script code" value="<iframe src=&quot;http://widgets.ign.com/video/embed/content.html?url=http://www.ign.com/videos/2016/06/15/7-fans-react-to-playing-legend-of-zelda-breath-of-the-wild-ign-access&quot; width=&quot;468&quot; height=&quot;263&quot; scrolling=&quot;no&quot; frameborder=&quot;0&quot; allowfullscreen></iframe>">
+                </div>
+                <div class="social-textfield-container">
+                    <label for="inputEmbedIframe" class="social-textfield-label">Fast bredde</label>
+                    <input id="inputEmbedIframe" name="embed" type="text" class="social-textfield-url" placeholder="Embed iFrame code" value="<iframe src=&quot;http://widgets.ign.com/video/embed/content.html?url=http://www.ign.com/videos/2016/06/15/7-fans-react-to-playing-legend-of-zelda-breath-of-the-wild-ign-access&quot; width=&quot;468&quot; height=&quot;263&quot; scrolling=&quot;no&quot; frameborder=&quot;0&quot; allowfullscreen></iframe>">
+                </div>
+
+            </div>
+        </aside>
+    </div>
+    <header class="media-xinfo">
+        <div class="pull-right">
+            <small class="text-muted v-mid">1234 Plays</small>
+            <a href="share.html" id="media-share" class="btn btn-xs btn-primary" title="Share">Share</a>
+        </div>
+        <p title="Video 1" class="text-truncate"><a href="video-single.html" target="_blank">Video 1</a></p>
+    </header>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.2.6/video.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.9.0/videojs-contrib-hls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.8/videojs.ads.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.min.js"></script>
+    <!-- <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script> -->
+    <!-- <script src="vendors/videojs-contextmenu/videojs-contextmenu.min.js"></script>
+    <script src="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js"></script> -->
+    <!-- <script src="vendors/videojs-replay/videojs-replay.js"></script> -->
+
+    <!-- <script src="js/blogg-embed-demo.js"></script> -->
+    <!-- <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script> -->
+    <!-- <script src="http://static.blogg.no/blogs/media/js/all-embed.min.js?v=5.7.43"></script> -->
+
+    <script>
+        jQuery(function() {
+            /*var videoSingle = embedMedia('video').setMediaPlayer("#videoSingle", {
+                autoplay: true
+            }).setPlugins({
+                ima: {
+                    prerollTimeout: 15000,*/
+            /*adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2FTV2video%2Fnettavisen%2Fside3&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&description_url=http%3A%2F%2Fwww.nettavisen.no%2F&correlator=843573442472758&hl=no&dfpduration=0&sdkv=h.3.153.3&sdki=d&scor=2299575987365357&adk=3757432570&osd=2&frm=0&sdr=1&afvsz=200x200%2C250x250%2C300x250%2C336x280%2C450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fwww.nettavisen.no%2Fvideo%2F19-aring-fikk-sjokk-da-han-gikk-pa-skolens-toalett%2F3423294927.html&ged=ve4_td4_tt1_pd4_la4000_er514.-518.666.-218_vi396.0.1346.1903_vp0_eb16491'*/
+            /*'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2FTV2video%2Fnettavisen%2Fbloggno&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&description_url=http%3A%2F%2Fwww.nettavisen.no%2F&correlator=843573442472758&hl=no&dfpduration=3&sdkv=h.3.153.3&sdki=d&scor=2299575987365357&adk=3757432570&osd=2&frm=0&sdr=1&afvsz=200x200%2C250x250%2C300x250%2C336x280%2C450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fwww.nettavisen.no%2Fvideo%2F19-aring-fikk-sjokk-da-han-gikk-pa-skolens-toalett%2F3423294927.html&ged=ve4_td4_tt1_pd4_la4000_er514.-518.666.-218_vi396.0.1346.1903_vp0_eb16491'*/
+            /*adTagUrl: 'http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&' +
+                'iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&' +
+                'impl=s&gdfp_req=1&env=vp&output=xml_vmap1&unviewed_position_start=1&' +
+                'cust_params=sample_ar%3Dpremidpostpod%26deployment%3Dgmf-js&cmsid=496&' +
+                'vid=short_onecue&correlator='*/
+            /*adTagUrl: null
+                }
+            }).debug();*/
+            var videoElementId = "#videoSingle";
+            var _startEvent = 'click';
+            if (navigator.userAgent.match(/iPhone/i) ||
+                navigator.userAgent.match(/iPad/i) ||
+                navigator.userAgent.match(/Android/i)) {
+                _startEvent = 'touchend';
+            }
+            var player = videojs(videoElementId, {
+                controls: true,
+                autoplay: false,
+                loop: false,
+                preload: "none",
+                inactivityTimeout: 500,
+                controlBar: {
+                    volumePanel: {
+                        inline: false
+                    }
+                },
+                hls: {
+                    withCredentials: true
+                }
+            });
+            var contentPlayer = document.getElementById(player.id() + '_html5_api');
+            if ((navigator.userAgent.match(/iPad/i) ||
+                    navigator.userAgent.match(/Android/i)) &&
+                contentPlayer.hasAttribute('controls')) {
+                contentPlayer.removeAttribute('controls');
+            }
+
+            var adsManagerLoadedCallback = function() {
+                var events = [
+                    google.ima.AdEvent.Type.ALL_ADS_COMPLETED,
+                    google.ima.AdEvent.Type.CLICK,
+                    google.ima.AdEvent.Type.COMPLETE,
+                    google.ima.AdEvent.Type.FIRST_QUARTILE,
+                    google.ima.AdEvent.Type.LOADED,
+                    google.ima.AdEvent.Type.MIDPOINT,
+                    google.ima.AdEvent.Type.PAUSED,
+                    google.ima.AdEvent.Type.STARTED,
+                    google.ima.AdEvent.Type.THIRD_QUARTILE,
+
+                    google.ima.AdEvent.Type.AD_BREAK_READY,
+                    google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,
+                    google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
+                    google.ima.AdErrorEvent.Type.AD_ERROR
+                ];
+                for (var index = 0; index < events.length; index++) {
+                    player.ima.addEventListener(
+                        events[index],
+                        function(event) {
+                            console.log(':google:' + event);
+                        }.bind(this, events[index]));
+                }
+                player.ima.startFromReadyCallback();
+            };
+            player.ima({
+                id: player.id(),
+                prerollTimeout: 5000,
+                debug: true,
+                nativeControlsForTouch: false,
+                adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&' +
+                    'iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&' +
+                    'impl=s&gdfp_req=1&env=vp&output=xml_vmap1&unviewed_position_start=1&' +
+                    'cust_params=sample_ar%3Dpremidpostpod%26deployment%3Dgmf-js&cmsid=496&' +
+                    'vid=short_onecue&correlator='
+            }, adsManagerLoadedCallback);
+            player.one(_startEvent, function() {
+                player.ima.initializeAdDisplayContainer();
+                player.ima.requestAds();
+                player.play();
+            });
+            // player.watermark({
+            //     position: 'bottom-right',
+            //     url: '',
+            //     image: 'images/blogg-logo.png',
+            //     fadeTime: null
+            // });
+            player.on('play', function() {
+                console.log(':play')
+            });
+            player.on('pause', function() {
+                console.log(':pause')
+            });
+            player.on('ended', function() {
+                console.log(':ended')
+            });
+            player.on('adstart', function() {
+                console.log(':adstart')
+            });
+            player.on('adend', function() {
+                console.log(':adend')
+            });
+            player.on('adskip', function() {
+                console.log(':adskip')
+            });
+            player.on('adserror', function() {
+                console.log(':adserror')
+            });
+            player.on('nopostroll', function() {
+                console.log(':nopostroll')
+            });
+            var _boxCloseControl = function(boxClass, title) {
+                var closebtn = $('<a>', {
+                    title: title,
+                    href: "#",
+                    class: "media-icon",
+                    click: function(event) {
+                        event.stopPropagation();
+                        $(boxClass + '.drawer').removeClass("open");
+                        //_currentMedia.player.play();
+                        return false;
+                    }
+                });
+
+                closebtn.html('&times;')
+                    .wrap('<div class="media-close text-muted"></div>')
+                    .parent()
+                    .prependTo(boxClass);
+
+                $(boxClass).on('click', function(event) {
+                    event.stopPropagation();
+                });
+            };
+            var _setShareDrawer = function() {
+                $('#shareBtn').show();
+                _boxCloseControl(".media-share", 'Share Box');
+                $('#inputEmbedScript, #inputEmbedIframe').on('focus', function() {
+                    var $this = $(this);
+                    $this.prev().hide();
+                    window.setTimeout(function() {
+                        $this.select();
+                    });
+                }).on('blur', function() {
+                    $(this).prev().removeAttr("style");
+                });
+            };
+            var _setShare = function() {
+                $('.media-share .buttons a').on('click', function(event) {
+                    event.stopPropagation();
+                    if ($(this).hasClass('email')) {
+                        return true;
+                    }
+                    _openWindow(this.href,
+                        this.class, {
+                            width: 500,
+                                height: 400
+                        });
+                    return false;
+                });
+                _setShareDrawer();
+            };
+            var _setTitle = function() {
+                $('.media-title a, .media-playlist__header__title a').on('click', function(event) {
+                    event.stopPropagation();
+                    player.pause();
+                });
+            };
+            var _setHeader = function() {
+                var $emHeader = $(videoElementId).next('.media-header');
+                $emHeader.appendTo(videoElementId);
+
+                _setTitle();
+            };
+            var _setButtons = function() {
+                var btnGroups = $('[data-embutton]');
+                btnGroups.on('click', function(event) {
+                    event.stopPropagation();
+                    switch (this.id) {
+                        case 'downloadBtn':
+                            //_playsAPICall();
+                            return true;
+                        default:
+                            if (this.id && $('.drawer[data-btnid=' + this.id + ']').length > 0) {
+                                $('.drawer[data-btnid=' + this.id + ']').addClass('open');
+                                player.pause();
+                            }
+                    };
+
+                    return false;
+                });
+            };
+            _setHeader();
+            _setButtons();
+            _setShare();
+
+            // Share
+            var _openWindow = function(url, title, opt) {
+                var width = opt.width,
+                    height = opt.height,
+                    scrollbars = opt.scrollbars || 'yes',
+                    resizable = opt.resizable || 'yes',
+                    toolbar = opt.toolbar || 'no',
+                    winPosY = (window.screenY || window.screenTop || 0) + window.outerHeight / 2 - height / 2,
+                    winPosX = (window.screenX || window.screenLeft || 0) + window.outerWidth / 2 - width / 2;
+                if (window.chrome && window.navigator.userAgent.toLowerCase().indexOf("mac os x") !== -1)
+                    height += 27;
+                if (window.safari)
+                    height += 47;
+                var winOpt = "width=" + width +
+                    ",height=" + height +
+                    ",left=" + winPosX +
+                    ",top=" + winPosY +
+                    ",scrollbars=" + scrollbars +
+                    ",resizable=" + resizable +
+                    ",toolbar=" + toolbar;
+                return window.open(url, title, winOpt);
+            };
+            $('#media-share').on('click', function(event) {
+                event.preventDefault();
+                _openWindow(this.href,
+                    this.class, {
+                        width: 500,
+                            height: 356
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>

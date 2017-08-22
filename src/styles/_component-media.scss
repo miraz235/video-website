@@ -131,12 +131,12 @@ h3.media-title {
         transition: visibility 0.1s, opacity 0.1s;
         pointer-events: none;
         bottom: 10px;
-        z-index: 1112;
+        //**** z-index: 1112;
         visibility: visible;
         opacity: 1;
     }
     .vjs-ad-playing & {
-        display: none;
+        //**** display: none;
     }
     @media screen and (max-width: $screen-xs-min - 100) {
         .media-author {
@@ -479,11 +479,11 @@ h3.media-title {
 .vjs-ad-playing {
     &.vjs-ad-loading .vjs-loading-spinner,
     .vjs-big-play-button {
-        display: none !important;
+        //**** display: none !important;
     }
     &.vjs-waiting {
         .vjs-loading-spinner {
-            display: block !important;
+            //**** display: block !important;
         }
     }
 }

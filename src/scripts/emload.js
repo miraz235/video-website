@@ -1,4 +1,27 @@
 (function() {
+    if (!Array.prototype.find) {
+        Object.defineProperty(Array.prototype, "find", {
+            value: function(predicate) {
+                if (this === null) {
+                    throw new TypeError('Array.prototype.find called on null or undefined');
+                }
+                if (typeof predicate !== 'function') {
+                    throw new TypeError('predicate must be a function');
+                }
+                var list = Object(this);
+                var length = list.length >>> 0;
+                var thisArg = arguments[1];
+                var value;
+                for (var i = 0; i < length; i++) {
+                    value = list[i];
+                    if (predicate.call(thisArg, value, i, list)) {
+                        return value;
+                    }
+                }
+                return undefined;
+            }
+        });
+    }
     var wrapper, iframe, lazyload = false;
     var helpers = {
         scrollTimer: 0,
@@ -9,22 +32,22 @@
             referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
         },
         searchParams: function(src, paramName) {
-            var srcObj = new URL(src),
-                paramValue = '',
+            var paramValue = '',
                 hasParam = false;
 
-            if (srcObj.searchParams) {
+            /*if (typeof URL === "function") {
+                var srcObj = new URL(src);
                 paramValue = srcObj.searchParams.get(paramName);
                 hasParam = srcObj.searchParams.has(paramName);
-            } else {
-                paramName = paramName.replace(/[\[\]]/g, "\\$&");
-                var regex = new RegExp("[?&]" + paramName + "(=([^&#]*)|&|#|$)"),
-                    results = regex.exec(src);
-                if (results) {
-                    hasParam = true;
-                    if (results[2]) paramValue = results[2].replace(/\+/g, " ");
-                }
+            } else {*/
+            paramName = paramName.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + paramName + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(src);
+            if (results) {
+                hasParam = true;
+                if (results[2]) paramValue = results[2].replace(/\+/g, " ");
             }
+            //}
             if (paramValue === null) paramValue = '';
 
             return !hasParam ? null : window.decodeURIComponent(paramValue);

@@ -68,9 +68,9 @@
             ],
             "cdn": {
                 "bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
-                "videojs": "https://cdnjs.cloudflare.com/ajax/libs/video.js/5.19.0/alt/video-js-cdn.min.css",
-                "ima": "https://rawcdn.githack.com/googleads/videojs-ima/master/src/videojs.ima.css",
-                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.5/videojs.ads.css"
+                "videojs": "https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/alt/video-js-cdn.min.css",
+                "ima": "https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.min.css",
+                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.8/videojs.ads.min.css"
             }
         },
         "scripts": {
@@ -82,13 +82,13 @@
             ],
 
             "cdn": {
-                "jquery": "https://code.jquery.com/jquery-3.1.1.js",
+                "jquery": "https://code.jquery.com/jquery-3.2.1.min.js",
                 "bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js",
-                "videojs": "https://cdnjs.cloudflare.com/ajax/libs/video.js/5.19.0/video.min.js",
+                "videojs": "https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/video.min.js",
                 "dash": "https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js",
-                "hls": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.3.3/videojs-contrib-hls.min.js",
-                "ima": "https://rawcdn.githack.com/googleads/videojs-ima/master/src/videojs.ima.js",
-                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.5/videojs.ads.min.js"
+                "hls": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.9.0/videojs-contrib-hls.js",
+                "ima": "https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.min.js",
+                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.8/videojs.ads.js"
             }
         }
     },

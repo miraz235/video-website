@@ -140,11 +140,11 @@ $shade-color: lighten($primary-background-color, 50%);
     }
     &.vjs-paused .vjs-big-play-button {
         display: block;
-        z-index: 1112;
+        //**** z-index: 1112;
     }
     &.vjs-playing .vjs-big-play-button,
     &.vjs-error .vjs-big-play-button {
-        display: none;
+        //**** display: none;
     }
     .vjs-play-control {
         background: lighten($primary-background-color, 30%);
@@ -184,11 +184,12 @@ $shade-color: lighten($primary-background-color, 50%);
     .vjs-control-bar {
         width: auto;
         margin: 0 10px 10px;
-        z-index: 1112;
+        //**** z-index: 1112;
         //border-radius: 2em;
     }
+    .vjs-volume-panel,
     .vjs-fullscreen-control {
-        order: 2;
+        order: 1;
     }
     .vjs-volume-menu-button {
         order: 1;
@@ -278,8 +279,8 @@ $shade-color: lighten($primary-background-color, 50%);
         .vjs-control-bar {
             background-color: transparent;
         }
-        .vjs-progress-control,
-        .vjs-fullscreen-control {
+        .vjs-progress-control {
+            //**** .vjs-fullscreen-control {
             display: none;
         }
     }

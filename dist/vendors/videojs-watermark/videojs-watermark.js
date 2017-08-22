@@ -1,7 +1,7 @@
 /**
  * videojs-watermark
- * @version 0.2.0
- * @copyright 2016 Brooks Lyrette <brooks@dotsub.com>
+ * @version 2.0.0
+ * @copyright 2017 Brooks Lyrette <brooks@dotsub.com>
  * @license Apache-2.0
  */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.videojsWatermark = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -39,7 +39,6 @@ var setupWatermark = function setupWatermark(player, options) {
   var div = document.createElement('div');
   var img = document.createElement('img');
 
-  div.id = 'vjs-watermark';
   div.classList.add('vjs-watermark-content');
   div.classList.add('vjs-watermark-' + options.position);
   img.src = options.image;
@@ -73,7 +72,7 @@ var setupWatermark = function setupWatermark(player, options) {
  */
 var fadeWatermark = function fadeWatermark(options) {
   setTimeout(function () {
-    return document.getElementById('vjs-watermark').classList.add('vjs-watermark-fade');
+    return document.getElementsByClassName('vjs-watermark-content')[0].classList.add('vjs-watermark-fade');
   }, options.fadeTime);
 };
 
@@ -128,10 +127,10 @@ var watermark = function watermark(options) {
 };
 
 // Register the plugin with video.js.
-_videoJs2['default'].plugin('watermark', watermark);
+_videoJs2['default'].registerPlugin('watermark', watermark);
 
 // Include the version number.
-watermark.VERSION = '0.2.0';
+watermark.VERSION = '2.0.0';
 
 exports['default'] = watermark;
 module.exports = exports['default'];

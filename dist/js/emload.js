@@ -35,19 +35,19 @@
             var paramValue = '',
                 hasParam = false;
 
-            if (typeof URL === "function") {
+            /*if (typeof URL === "function") {
                 var srcObj = new URL(src);
                 paramValue = srcObj.searchParams.get(paramName);
                 hasParam = srcObj.searchParams.has(paramName);
-            } else {
-                paramName = paramName.replace(/[\[\]]/g, "\\$&");
-                var regex = new RegExp("[?&]" + paramName + "(=([^&#]*)|&|#|$)"),
-                    results = regex.exec(src);
-                if (results) {
-                    hasParam = true;
-                    if (results[2]) paramValue = results[2].replace(/\+/g, " ");
-                }
+            } else {*/
+            paramName = paramName.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + paramName + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(src);
+            if (results) {
+                hasParam = true;
+                if (results[2]) paramValue = results[2].replace(/\+/g, " ");
             }
+            //}
             if (paramValue === null) paramValue = '';
 
             return !hasParam ? null : window.decodeURIComponent(paramValue);

@@ -2,26 +2,27 @@
  * blogg-embed
  * @version 1.2.6
  * @copyright 2017 blogg.no
+ * @license (MIT OR Apache-2.0)
  */
 (function($, videojs, window) {
     'use strict';
     if (window.embedMedia) { return; }
     var APIlist = {
         vplays: function(mediaId, blogId) {
-            return $.getJSON("http://hits.blogsoft.org?callback=?", {
+            return $.getJSON("//hits.blogsoft.org?callback=?", {
                 id: blogId,
                 vid: mediaId
             });
         },
         vtrack: function(eventName, mediaId, blogId) {
-            return $.getJSON("http://hits.blogsoft.org/track?callback=?", {
+            return $.getJSON("//hits.blogsoft.org/track?callback=?", {
                 e: eventName,
                 id: blogId,
                 vid: mediaId
             });
         },
         aplays: function(mediaId, blogId) {
-            return $.getJSON("http://hits.blogsoft.org?callback=?", {
+            return $.getJSON("//hits.blogsoft.org?callback=?", {
                 id: blogId,
                 aid: mediaId
             });
@@ -43,7 +44,7 @@
         }
     }
 
-    var embedMedia = function(mediaType, mediaId, blogId) {
+    var embedMedia = function(mediaType, mediaOptions) {
         var _startEvent = 'click';
         if (navigator.userAgent.match(/iPhone/i) ||
             navigator.userAgent.match(/iPad/i) ||
@@ -70,14 +71,17 @@
             ENDED: 'ended',
             REPLAYS: 'replay'
         };
+        mediaOptions = $.extend({}, {
+            blogId: 0,
+            mediaId: 0,
+            adPost: true
+        }, mediaOptions);
         var _isDemo = JSON.parse("@@__is-demo__"),
             _isDebuge = _isDemo,
             _mediaPlayListUrls = [],
             _currentMedia = {
                 type: mediaType,
                 id: 0,
-                bId: blogId || 0,
-                mId: mediaId || 0,
                 player: null,
                 plugins: null,
                 src: '',
@@ -153,7 +157,7 @@
                 },
                 selectedPlugins = {},
                 plg = {
-                    video: ["watermark", "ima", "contextmenuUI", "replayButton"],
+                    video: ["watermark", "ima", "contextmenuUI"],
                     audio: ["replayButton"]
                 };
             for (var idx in plg[_currentMedia.type]) {
@@ -187,21 +191,20 @@
                 videojs.log('Oops, unable to copy');
             }
             textArea.remove();
-
         };
 
         var _playsAPICall = function() {
             if (_isDebuge) { console.log('API: Plays Count'); }
-            if (_isDemo || !_currentMedia.mId) { return; }
+            if (_isDemo || !mediaOptions.mediaId) { return; }
             switch (_currentMedia.type) {
                 case 'video':
-                    APIlist.vplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                    APIlist.vplays(mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
                         //console.log(msg);
                         _currentMedia.playsCounter++;
                     });
                     break;
                 case 'audio':
-                    APIlist.aplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                    APIlist.aplays(mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
                         //console.log(msg);
                         _currentMedia.playsCounter++;
                     });
@@ -216,10 +219,10 @@
             if (eventName && _lastEventName != eventName) {
                 _trackEvents(eventName, msg);
                 if (_isDebuge) { console.log('API: Events Track'); }
-                if (!_isDemo && _currentMedia.mId) {
+                if (!_isDemo && mediaOptions.mediaId) {
                     switch (_currentMedia.type) {
                         case 'video':
-                            APIlist.vtrack(eventName, _currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                            APIlist.vtrack(eventName, mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
                                 console.log(eventName, msg);
                             });
                             break;
@@ -264,9 +267,11 @@
         };
 
         var _removeAds = function(player) {
-            player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
-            player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
-            $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
+            if (player.ima) {
+                player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
+                player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
+                $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
+            }
         };
 
         var _runPlugin = function(player, plugins) {
@@ -297,10 +302,13 @@
                                         _trackEvents('AdCompleted', 'Google');
                                     });
                                 });
+                                //player.trigger('nopostroll');
                                 player.one('contentended', function() {
                                     _notifyToParent({ emmethod: "contentended" });
                                     _trackEvents('ContentEnded');
-                                    _removeAds(player);
+                                    if (!mediaOptions.adPost) {
+                                        _removeAds(player);
+                                    }
                                 });
                             } catch (err) {
                                 if (!window.google) {
@@ -317,21 +325,6 @@
                 };
             }
         };
-        var _getSrc = function($player) {
-            var src = null;
-            var source = $player.find("source");
-
-            if (source.length) {
-                src = source.attr("src");
-                /*if (_currentMedia.type == 'audio') {
-                    $player[0].pause();
-                    source.remove();
-                }*/
-            }
-            /*if (_currentMedia.type == 'audio')
-                $player[0].load();*/
-            return src;
-        };
 
         var _setAttrsForMobile = function() {
             var contentPlayer = $(_idSelector)[0];
@@ -346,7 +339,7 @@
             var defaultSetup = _getDefaultSetup();
             _idSelector = element || _idSelector;
             var settings = $.extend({}, defaultSetup, setup);
-            //var srcPl = _getSrc($(_idSelector));
+
             _setAttrsForMobile();
             var playerCallback = function() {
                 switch (_currentMedia.type) {
@@ -374,6 +367,7 @@
             player.on('adend', onMediaAdEndEvent.bind(this));
             player.on('adskip', onMediaAdCancelEvent.bind(this));
             player.on('adserror', onMediaAdErrorEvent.bind(this));
+            player.on('nopostroll', function() { alert('nopost'); });
 
             player.on('adtimeout', _trackEvents.bind(this, 'AdTimeout', 'A timeout managed by the plugin has expired and regular video content has begun to play. Ad integrations have a fixed amount of time to inform the plugin of their intent during playback. If the ad integration is blocked by network conditions or an error, this event will fire and regular playback resumes rather than stalling the player indefinitely.'));
             player.on('adplaying', _trackEvents.bind(this, 'AdPlaying', 'Trigger this event when an ads starts playing. If your integration triggers playing event when an ad begins, it will automatically be redispatched as adplaying.'));
@@ -441,6 +435,7 @@
             var waitTime = 3000;
             var nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia) {
+                _removeAds(_currentMedia.player);
                 _stopTimer();
                 _addCirculerTimer();
                 _timeupWaitingID = window.setTimeout((function() {
@@ -450,6 +445,7 @@
         };
         var onMediaAdStartEvent = function(event) {
             _notifyToParent({ emmethod: "adstart" });
+            //this.addClass('vjs-ad-playing');
             //_trackAPICall(_tracks.AD_STARTED, 'The player has entered linear ad playback mode. This event only indicates that an ad break has begun; the start and end of individual ads must be signalled through some other mechanism.');
         };
         var onMediaAdEndEvent = function(event) {
@@ -533,7 +529,6 @@
                     case 'downloadBtn':
                         _playsAPICall();
                         return true;
-                        break;
                     default:
                         if (this.id && $('.drawer[data-btnid=' + this.id + ']').length > 0) {
                             $('.drawer[data-btnid=' + this.id + ']').addClass('open');

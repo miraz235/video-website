@@ -2,26 +2,27 @@
  * blogg-media
  * @version 1.2.6
  * @copyright 2017 blogg.no
+ * @license (MIT OR Apache-2.0)
  */
 (function($, videojs, window) {
     'use strict';
 
     var APIlist = {
         vplays: function(mediaId, blogId) {
-            return $.getJSON("http://hits.blogsoft.org?callback=?", {
+            return $.getJSON("//hits.blogsoft.org?callback=?", {
                 id: blogId,
                 vid: mediaId
             });
         },
         vtrack: function(eventName, mediaId, blogId) {
-            return $.getJSON("http://hits.blogsoft.org/track?callback=?", {
+            return $.getJSON("//hits.blogsoft.org/track?callback=?", {
                 e: eventName,
                 id: blogId,
                 vid: mediaId
             });
         },
         aplays: function(mediaId, blogId) {
-            return $.getJSON("http://hits.blogsoft.org?callback=?", {
+            return $.getJSON("//hits.blogsoft.org?callback=?", {
                 id: blogId,
                 aid: mediaId
             });
@@ -213,9 +214,11 @@
         };
 
         var _removeAds = function(player) {
-            player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
-            player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
-            $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
+            if (player.ima) {
+                player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
+                player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
+                $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
+            }
         };
 
         var _runPlugin = function(player, plugins) {
@@ -246,7 +249,7 @@
                                 });
                                 player.one('contentended', function() {
                                     _trackEvents('ContentEnded');
-                                    _removeAds(player);
+                                    //_removeAds(player);
                                 });
                             } catch (err) {
                                 if (!window.google) {
@@ -406,6 +409,7 @@
             var waitTime = 3000,
                 nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type != 'video')) {
+                _removeAds(_currentMedia.player);
                 _stopTimer();
                 _addCirculerTimer();
                 _timeupWaitingID = window.setTimeout((function() {
