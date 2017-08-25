@@ -1,1 +1,4 @@
-.video-js.vjs-replay .vjs-play-control:before{content:""}
+.video-js.vjs-replay .vjs-big-play-button:before,
+.video-js.vjs-replay .vjs-play-control:before {
+    content: ""
+}

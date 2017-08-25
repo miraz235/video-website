@@ -22,6 +22,7 @@ if("boolean"==typeof a){var b=this.closeable_=!!a,c=this.getChild("closeButton")
 g.initTrackListeners(),a.nativeControlsForTouch||g.emitTapEvents(),g.constructor&&(g.name_=g.constructor.name||"Unknown Tech"),g}return g(c,b),c.prototype.manualProgressOn=function(){this.on("durationchange",this.onDurationChange),this.manualProgress=!0,this.one("ready",this.trackProgress)},c.prototype.manualProgressOff=function(){this.manualProgress=!1,this.stopTrackingProgress(),this.off("durationchange",this.onDurationChange)},c.prototype.trackProgress=function(a){this.stopTrackingProgress(),this.progressInterval=this.setInterval(z.bind(this,function(){var a=this.bufferedPercent();this.bufferedPercent_!==a&&this.trigger("progress"),this.bufferedPercent_=a,1===a&&this.stopTrackingProgress()}),500)},c.prototype.onDurationChange=function(a){this.duration_=this.duration()},c.prototype.buffered=function(){return(0,C.createTimeRange)(0,0)},c.prototype.bufferedPercent=function(){return(0,D.bufferedPercent)(this.buffered(),this.duration_)},c.prototype.stopTrackingProgress=function(){this.clearInterval(this.progressInterval)},c.prototype.manualTimeUpdatesOn=function(){this.manualTimeUpdates=!0,this.on("play",this.trackCurrentTime),this.on("pause",this.stopTrackingCurrentTime)},c.prototype.manualTimeUpdatesOff=function(){this.manualTimeUpdates=!1,this.stopTrackingCurrentTime(),this.off("play",this.trackCurrentTime),this.off("pause",this.stopTrackingCurrentTime)},c.prototype.trackCurrentTime=function(){this.currentTimeInterval&&this.stopTrackingCurrentTime(),this.currentTimeInterval=this.setInterval(function(){this.trigger({type:"timeupdate",target:this,manuallyTriggered:!0})},250)},c.prototype.stopTrackingCurrentTime=function(){this.clearInterval(this.currentTimeInterval),this.trigger({type:"timeupdate",target:this,manuallyTriggered:!0})},c.prototype.dispose=function(){this.clearTracks(["audio","video","text"]),this.manualProgress&&this.manualProgressOff(),this.manualTimeUpdates&&this.manualTimeUpdatesOff(),b.prototype.dispose.call(this)},c.prototype.clearTracks=function(a){var b=this;a=[].concat(a),a.forEach(function(a){for(var c=b[a+"Tracks"]()||[],d=c.length;d--;){var e=c[d];"text"===a&&b.removeRemoteTextTrack(e),c.removeTrack_(e)}})},c.prototype.cleanupAutoTextTracks=function(){for(var a=this.autoRemoteTextTracks_||[],b=a.length;b--;){var c=a[b];this.removeRemoteTextTrack(c)}},c.prototype.reset=function(){},c.prototype.error=function(a){return a!==undefined&&(this.error_=new F["default"](a),this.trigger("error")),this.error_},c.prototype.played=function(){return this.hasStarted_?(0,C.createTimeRange)(0,0):(0,C.createTimeRange)()},c.prototype.setCurrentTime=function(){this.manualTimeUpdates&&this.trigger({type:"timeupdate",target:this,manuallyTriggered:!0})},c.prototype.initTextTrackListeners=function(){var a=z.bind(this,function(){this.trigger("texttrackchange")}),b=this.textTracks();b&&(b.addEventListener("removetrack",a),b.addEventListener("addtrack",a),this.on("dispose",z.bind(this,function(){b.removeEventListener("removetrack",a),b.removeEventListener("addtrack",a)})))},c.prototype.initTrackListeners=function(){var a=this;["video","audio"].forEach(function(b){var c=function(){a.trigger(b+"trackchange")},d=a[b+"Tracks"]();d.addEventListener("removetrack",c),d.addEventListener("addtrack",c),a.on("dispose",function(){d.removeEventListener("removetrack",c),d.removeEventListener("addtrack",c)})})},c.prototype.addWebVttScript_=function(){var b=this;if(!H["default"].WebVTT)if(J["default"].body.contains(this.el())){var c=a(99);if(!this.options_["vtt.js"]&&(0,K.isPlain)(c)&&Object.keys(c).length>0)return void this.trigger("vttjsloaded");var d=J["default"].createElement("script");d.src=this.options_["vtt.js"]||"https://vjs.zencdn.net/vttjs/0.12.4/vtt.min.js",d.onload=function(){b.trigger("vttjsloaded")},d.onerror=function(){b.trigger("vttjserror")},this.on("dispose",function(){d.onload=null,d.onerror=null}),H["default"].WebVTT=!0,this.el().parentNode.appendChild(d)}else this.ready(this.addWebVttScript_)},c.prototype.emulateTextTracks=function(){var a=this,b=this.textTracks();if(b){var c=this.remoteTextTracks(),d=function(a){return b.addTrack_(a.track)},e=function(a){return b.removeTrack_(a.track)};c.on("addtrack",d),c.on("removetrack",e),this.addWebVttScript_();var f=function(){return a.trigger("texttrackchange")},g=function(){f();for(var a=0;a<b.length;a++){var c=b[a];c.removeEventListener("cuechange",f),"showing"===c.mode&&c.addEventListener("cuechange",f)}};g(),b.addEventListener("change",g),b.addEventListener("addtrack",g),b.addEventListener("removetrack",g),this.on("dispose",function(){c.off("addtrack",d),c.off("removetrack",e),b.removeEventListener("change",g),b.removeEventListener("addtrack",g),b.removeEventListener("removetrack",g);for(var a=0;a<b.length;a++){b[a].removeEventListener("cuechange",f)}})}},c.prototype.videoTracks=function(){return this.videoTracks_=this.videoTracks_||new v["default"],this.videoTracks_},c.prototype.audioTracks=function(){return this.audioTracks_=this.audioTracks_||new x["default"],this.audioTracks_},c.prototype.textTracks=function(){return this.textTracks_=this.textTracks_||new t["default"],this.textTracks_},c.prototype.remoteTextTracks=function(){return this.remoteTextTracks_=this.remoteTextTracks_||new t["default"],this.remoteTextTracks_},c.prototype.remoteTextTrackEls=function(){return this.remoteTextTrackEls_=this.remoteTextTrackEls_||new n["default"],this.remoteTextTrackEls_},c.prototype.addTextTrack=function(a,b,c){if(!a)throw new Error("TextTrack kind is required but was not provided");return h(this,a,b,c)},c.prototype.createRemoteTextTrack=function(a){var b=(0,p["default"])(a,{tech:this});return new l["default"](b)},c.prototype.addRemoteTextTrack=function(){var a=arguments.length>0&&arguments[0]!==undefined?arguments[0]:{},b=arguments[1],c=this.createRemoteTextTrack(a);return!0!==b&&!1!==b&&(B["default"].warn('Calling addRemoteTextTrack without explicitly setting the "manualCleanup" parameter to `true` is deprecated and default to `false` in future version of video.js'),b=!0),this.remoteTextTrackEls().addTrackElement_(c),this.remoteTextTracks().addTrack_(c.track),!0!==b&&this.autoRemoteTextTracks_.addTrack_(c.track),c},c.prototype.removeRemoteTextTrack=function(a){var b=this.remoteTextTrackEls().getTrackElementByTrack_(a);this.remoteTextTrackEls().removeTrackElement_(b),this.remoteTextTracks().removeTrack_(a),this.autoRemoteTextTracks_.removeTrack_(a)},c.prototype.getVideoPlaybackQuality=function(){return{}},c.prototype.setPoster=function(){},c.prototype.playsinline=function(){},c.prototype.setPlaysinline=function(){},c.prototype.canPlayType=function(){return""},c.isTech=function(a){return a.prototype instanceof c||a instanceof c||a===c},c.registerTech=function(a,b){if(c.techs_||(c.techs_={}),!c.isTech(b))throw new Error("Tech "+a+" must be a Tech");return c.techs_[a]=b,b},c.getTech=function(a){return c.techs_&&c.techs_[a]?c.techs_[a]:H["default"]&&H["default"].videojs&&H["default"].videojs[a]?(B["default"].warn("The "+a+" tech was added to the videojs object when it should be registered using videojs.registerTech(name, tech)"),H["default"].videojs[a]):void 0},c}(j["default"]);L.prototype.textTracks_,L.prototype.audioTracks_,L.prototype.videoTracks_,L.prototype.featuresVolumeControl=!0,L.prototype.featuresFullscreenResize=!1,L.prototype.featuresPlaybackRate=!1,L.prototype.featuresProgressEvents=!1,L.prototype.featuresTimeupdateEvents=!1,L.prototype.featuresNativeTextTracks=!1,L.withSourceHandlers=function(a){a.registerSourceHandler=function(b,c){var d=a.sourceHandlers;d||(d=a.sourceHandlers=[]),c===undefined&&(c=d.length),d.splice(c,0,b)},a.canPlayType=function(b){for(var c=a.sourceHandlers||[],d=void 0,e=0;e<c.length;e++)if(d=c[e].canPlayType(b))return d;return""},a.selectSourceHandler=function(b,c){for(var d=a.sourceHandlers||[],e=0;e<d.length;e++)if(d[e].canHandleSource(b,c))return d[e];return null},a.canPlaySource=function(b,c){var d=a.selectSourceHandler(b,c);return d?d.canHandleSource(b,c):""},["seekable","duration"].forEach(function(a){var b=this[a];"function"==typeof b&&(this[a]=function(){return this.sourceHandler_&&this.sourceHandler_[a]?this.sourceHandler_[a].apply(this.sourceHandler_,arguments):b.apply(this,arguments)})},a.prototype),a.prototype.setSource=function(b){var c=a.selectSourceHandler(b,this.options_);return c||(a.nativeSourceHandler?c=a.nativeSourceHandler:B["default"].error("No source hander found for the current source.")),this.disposeSourceHandler(),this.off("dispose",this.disposeSourceHandler),c!==a.nativeSourceHandler&&(this.currentSource_=b,this.off(this.el_,"loadstart",a.prototype.firstLoadStartListener_),this.off(this.el_,"loadstart",a.prototype.successiveLoadStartListener_),this.one(this.el_,"loadstart",a.prototype.firstLoadStartListener_)),this.sourceHandler_=c.handleSource(b,this,this.options_),this.on("dispose",this.disposeSourceHandler),this},a.prototype.firstLoadStartListener_=function(){this.one(this.el_,"loadstart",a.prototype.successiveLoadStartListener_)},a.prototype.successiveLoadStartListener_=function(){this.disposeSourceHandler(),this.one(this.el_,"loadstart",a.prototype.successiveLoadStartListener_)},a.prototype.disposeSourceHandler=function(){this.currentSource_&&(this.clearTracks(["audio","video"]),this.currentSource_=null),this.cleanupAutoTextTracks(),this.sourceHandler_&&(this.off(this.el_,"loadstart",a.prototype.firstLoadStartListener_),this.off(this.el_,"loadstart",a.prototype.successiveLoadStartListener_),this.sourceHandler_.dispose&&this.sourceHandler_.dispose(),this.sourceHandler_=null)}},j["default"].registerComponent("Tech",L),j["default"].registerComponent("MediaTechController",L),L.registerTech("Tech",L),c["default"]=L},{46:46,5:5,63:63,65:65,66:66,70:70,72:72,76:76,79:79,83:83,86:86,87:87,88:88,90:90,94:94,95:95,99:99}],63:[function(a,b,c){"use strict";function d(a){return a&&a.__esModule?a:{"default":a}}function e(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function f(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function g(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}c.__esModule=!0;var h=a(74),i=d(h),j=a(78),k=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}(j),l=a(94),m=d(l),n=function(a,b){for(var c=0;c<a.length;c++)b.id!==a[c].id&&(a[c].enabled=!1)},o=function(a){function b(){var c,d,g=arguments.length>0&&arguments[0]!==undefined?arguments[0]:[];e(this,b);for(var h=void 0,j=g.length-1;j>=0;j--)if(g[j].enabled){n(g,g[j]);break}if(k.IS_IE8){h=m["default"].createElement("custom");for(var l in i["default"].prototype)"constructor"!==l&&(h[l]=i["default"].prototype[l]);for(var o in b.prototype)"constructor"!==o&&(h[o]=b.prototype[o])}return h=c=f(this,a.call(this,g,h)),h.changing_=!1,d=h,f(c,d)}return g(b,a),b.prototype.addTrack_=function(b){var c=this;b.enabled&&n(this,b),a.prototype.addTrack_.call(this,b),b.addEventListener&&b.addEventListener("enabledchange",function(){c.changing_||(c.changing_=!0,n(c,b),c.changing_=!1,c.trigger("change"))})},b.prototype.addTrack=function(a){this.addTrack_(a)},b.prototype.removeTrack=function(b){a.prototype.removeTrack_.call(this,b)},b}(i["default"]);c["default"]=o},{74:74,78:78,94:94}],64:[function(a,b,c){"use strict";function d(a){return a&&a.__esModule?a:{"default":a}}function e(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function f(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function g(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}c.__esModule=!0;var h=a(73),i=a(75),j=d(i),k=a(87),l=d(k),m=a(78),n=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}(m),o=function(a){function b(){var c,d,g=arguments.length>0&&arguments[0]!==undefined?arguments[0]:{};e(this,b);var i=(0,l["default"])(g,{kind:h.AudioTrackKind[g.kind]||""}),j=c=f(this,a.call(this,i)),k=!1;if(n.IS_IE8)for(var m in b.prototype)"constructor"!==m&&(j[m]=b.prototype[m]);return Object.defineProperty(j,"enabled",{get:function(){return k},set:function(a){"boolean"==typeof a&&a!==k&&(k=a,this.trigger("enabledchange"))}}),i.enabled&&(j.enabled=i.enabled),j.loaded_=!0,d=j,f(c,d)}return g(b,a),b}(j["default"]);c["default"]=o},{73:73,75:75,78:78,87:87}],65:[function(a,b,c){"use strict";function d(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}c.__esModule=!0;var e=a(78),f=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}(e),g=a(94),h=function(a){return a&&a.__esModule?a:{"default":a}}(g),i=function(){function a(){var b=arguments.length>0&&arguments[0]!==undefined?arguments[0]:[];d(this,a);var c=this;if(f.IS_IE8){c=h["default"].createElement("custom");for(var e in a.prototype)"constructor"!==e&&(c[e]=a.prototype[e])}c.trackElements_=[],Object.defineProperty(c,"length",{get:function(){return this.trackElements_.length}});for(var g=0,i=b.length;g<i;g++)c.addTrackElement_(b[g]);if(f.IS_IE8)return c}return a.prototype.addTrackElement_=function(a){var b=this.trackElements_.length;""+b in this||Object.defineProperty(this,b,{get:function(){return this.trackElements_[b]}}),-1===this.trackElements_.indexOf(a)&&this.trackElements_.push(a)},a.prototype.getTrackElementByTrack_=function(a){for(var b=void 0,c=0,d=this.trackElements_.length;c<d;c++)if(a===this.trackElements_[c].track){b=this.trackElements_[c];break}return b},a.prototype.removeTrackElement_=function(a){for(var b=0,c=this.trackElements_.length;b<c;b++)if(a===this.trackElements_[b]){this.trackElements_.splice(b,1);break}},a}();c["default"]=i},{78:78,94:94}],66:[function(a,b,c){"use strict";function d(a){return a&&a.__esModule?a:{"default":a}}function e(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function f(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function g(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}c.__esModule=!0;var h=a(78),i=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}(h),j=a(94),k=d(j),l=a(42),m=d(l),n=a(72),o=d(n),p=0,q=2,r=function(a){function b(){var c=arguments.length>0&&arguments[0]!==undefined?arguments[0]:{};e(this,b);var d=f(this,a.call(this)),g=void 0,h=d;if(i.IS_IE8){h=k["default"].createElement("custom");for(var j in b.prototype)"constructor"!==j&&(h[j]=b.prototype[j])}var l=new o["default"](c);if(h.kind=l.kind,h.src=l.src,h.srclang=l.language,h.label=l.label,h["default"]=l["default"],Object.defineProperty(h,"readyState",{get:function(){return g}}),Object.defineProperty(h,"track",{get:function(){return l}}),g=p,l.addEventListener("loadeddata",function(){g=q,h.trigger({type:"load",target:h})}),i.IS_IE8){var m;return m=h,f(d,m)}return d}return g(b,a),b}(m["default"]);r.prototype.allowedEvents_={load:"load"},r.NONE=p,r.LOADING=1,r.LOADED=q,r.ERROR=3,c["default"]=r},{42:42,72:72,78:78,94:94}],67:[function(a,b,c){"use strict";function d(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}c.__esModule=!0;var e=a(78),f=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}(e),g=a(94),h=function(a){return a&&a.__esModule?a:{"default":a}}(g),i=function(){function a(b){d(this,a);var c=this;if(f.IS_IE8){c=h["default"].createElement("custom");for(var e in a.prototype)"constructor"!==e&&(c[e]=a.prototype[e])}if(a.prototype.setCues_.call(c,b),Object.defineProperty(c,"length",{get:function(){return this.length_}}),f.IS_IE8)return c}return a.prototype.setCues_=function(a){var b=this.length||0,c=0,d=a.length;this.cues_=a,this.length_=a.length;var e=function(a){""+a in this||Object.defineProperty(this,""+a,{get:function(){return this.cues_[a]}})};if(b<d)for(c=b;c<d;c++)e.call(this,c)},a.prototype.getCueById=function(a){for(var b=null,c=0,d=this.length;c<d;c++){var e=this[c];if(e.id===a){b=e;break}}return b},a}();c["default"]=i},{78:78,94:94}],68:[function(a,b,c){"use strict";function d(a){return a&&a.__esModule?a:{"default":a}}function e(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function f(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function g(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}function h(a,b){return"rgba("+parseInt(a[1]+a[1],16)+","+parseInt(a[2]+a[2],16)+","+parseInt(a[3]+a[3],16)+","+b+")"}function i(a,b,c){try{a.style[b]=c}catch(d){return}}c.__esModule=!0;var j=a(5),k=d(j),l=a(83),m=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}(l),n=a(95),o=d(n),p={monospace:"monospace",sansSerif:"sans-serif",serif:"serif",monospaceSansSerif:'"Andale Mono", "Lucida Console", monospace',monospaceSerif:'"Courier New", monospace',proportionalSansSerif:"sans-serif",proportionalSerif:"serif",casual:'"Comic Sans MS", Impact, fantasy',script:'"Monotype Corsiva", cursive',smallcaps:'"Andale Mono", "Lucida Console", monospace, sans-serif'},q=function(a){function b(c,d,g){e(this,b);var h=f(this,a.call(this,c,d,g));return c.on("loadstart",m.bind(h,h.toggleDisplay)),c.on("texttrackchange",m.bind(h,h.updateDisplay)),c.ready(m.bind(h,function(){if(c.tech_&&c.tech_.featuresNativeTextTracks)return void this.hide();c.on("fullscreenchange",m.bind(this,this.updateDisplay));for(var a=this.options_.playerOptions.tracks||[],b=0;b<a.length;b++)this.player_.addRemoteTextTrack(a[b],!0);var d={captions:1,subtitles:1},e=this.player_.textTracks(),f=void 0,g=void 0;if(e){for(var h=0;h<e.length;h++){var i=e[h];i["default"]&&("descriptions"!==i.kind||f?i.kind in d&&!g&&(g=i):f=i)}g?g.mode="showing":f&&(f.mode="showing")}})),h}return g(b,a),b.prototype.toggleDisplay=function(){this.player_.tech_&&this.player_.tech_.featuresNativeTextTracks?this.hide():this.show()},b.prototype.createEl=function(){return a.prototype.createEl.call(this,"div",{className:"vjs-text-track-display"},{"aria-live":"off","aria-atomic":"true"})},b.prototype.clearDisplay=function(){"function"==typeof o["default"].WebVTT&&o["default"].WebVTT.processCues(o["default"],[],this.el_)},b.prototype.updateDisplay=function(){var a=this.player_.textTracks();if(this.clearDisplay(),a){for(var b=null,c=null,d=a.length;d--;){var e=a[d];"showing"===e.mode&&("descriptions"===e.kind?b=e:c=e)}c?("off"!==this.getAttribute("aria-live")&&this.setAttribute("aria-live","off"),this.updateForTrack(c)):b&&("assertive"!==this.getAttribute("aria-live")&&this.setAttribute("aria-live","assertive"),this.updateForTrack(b))}},b.prototype.updateForTrack=function(a){if("function"==typeof o["default"].WebVTT&&a.activeCues){for(var b=this.player_.textTrackSettings.getValues(),c=[],d=0;d<a.activeCues.length;d++)c.push(a.activeCues[d]);o["default"].WebVTT.processCues(o["default"],c,this.el_);for(var e=c.length;e--;){var f=c[e];if(f){var g=f.displayState;if(b.color&&(g.firstChild.style.color=b.color),b.textOpacity&&i(g.firstChild,"color",h(b.color||"#fff",b.textOpacity)),b.backgroundColor&&(g.firstChild.style.backgroundColor=b.backgroundColor),b.backgroundOpacity&&i(g.firstChild,"backgroundColor",h(b.backgroundColor||"#000",b.backgroundOpacity)),b.windowColor&&(b.windowOpacity?i(g,"backgroundColor",h(b.windowColor,b.windowOpacity)):g.style.backgroundColor=b.windowColor),b.edgeStyle&&("dropshadow"===b.edgeStyle?g.firstChild.style.textShadow="2px 2px 3px #222, 2px 2px 4px #222, 2px 2px 5px #222":"raised"===b.edgeStyle?g.firstChild.style.textShadow="1px 1px #222, 2px 2px #222, 3px 3px #222":"depressed"===b.edgeStyle?g.firstChild.style.textShadow="1px 1px #ccc, 0 1px #ccc, -1px -1px #222, 0 -1px #222":"uniform"===b.edgeStyle&&(g.firstChild.style.textShadow="0 0 4px #222, 0 0 4px #222, 0 0 4px #222, 0 0 4px #222")),b.fontPercent&&1!==b.fontPercent){var j=o["default"].parseFloat(g.style.fontSize);g.style.fontSize=j*b.fontPercent+"px",g.style.height="auto",g.style.top="auto",g.style.bottom="2px"}b.fontFamily&&"default"!==b.fontFamily&&("small-caps"===b.fontFamily?g.firstChild.style.fontVariant="small-caps":g.firstChild.style.fontFamily=p[b.fontFamily])}}}},b}(k["default"]);k["default"].registerComponent("TextTrackDisplay",q),c["default"]=q},{5:5,83:83,95:95}],69:[function(a,b,c){"use strict";c.__esModule=!0;var d=function(a){return["kind","label","language","id","inBandMetadataTrackDispatchType","mode","src"].reduce(function(b,c,d){return a[c]&&(b[c]=a[c]),b},{cues:a.cues&&Array.prototype.map.call(a.cues,function(a){return{startTime:a.startTime,endTime:a.endTime,text:a.text,id:a.id}})})},e=function(a){var b=a.$$("track"),c=Array.prototype.map.call(b,function(a){return a.track});return Array.prototype.map.call(b,function(a){var b=d(a.track);return a.src&&(b.src=a.src),b}).concat(Array.prototype.filter.call(a.textTracks(),function(a){return-1===c.indexOf(a)}).map(d))},f=function(a,b){return a.forEach(function(a){var c=b.addRemoteTextTrack(a).track;!a.src&&a.cues&&a.cues.forEach(function(a){return c.addCue(a)})}),b.textTracks()};c["default"]={textTracksToJson:e,jsonToTextTracks:f,trackToJson_:d}},{}],70:[function(a,b,c){"use strict";function d(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}function e(a){return a&&a.__esModule?a:{"default":a}}function f(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function g(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function h(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}c.__esModule=!0;var i=a(74),j=e(i),k=a(83),l=d(k),m=a(78),n=d(m),o=a(94),p=e(o),q=function(a){function b(){var c,d,e=arguments.length>0&&arguments[0]!==undefined?arguments[0]:[];f(this,b);var h=void 0;if(n.IS_IE8){h=p["default"].createElement("custom");for(var i in j["default"].prototype)"constructor"!==i&&(h[i]=j["default"].prototype[i]);for(var k in b.prototype)"constructor"!==k&&(h[k]=b.prototype[k])}return h=c=g(this,a.call(this,e,h)),d=h,g(c,d)}return h(b,a),b.prototype.addTrack_=function(b){a.prototype.addTrack_.call(this,b),b.addEventListener("modechange",l.bind(this,function(){this.trigger("change")}))},b}(j["default"]);c["default"]=q},{74:74,78:78,83:83,94:94}],71:[function(a,b,c){"use strict";function d(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}function e(a){return a&&a.__esModule?a:{"default":a}}function f(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function g(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function h(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}function i(a,b){if(b&&(a=b(a)),a&&"none"!==a)return a}function j(a,b){return i(a.options[a.options.selectedIndex].value,b)}function k(a,b,c){if(b)for(var d=0;d<a.options.length;d++)if(i(a.options[d].value,c)===b){a.selectedIndex=d;break}}c.__esModule=!0;var l=a(95),m=e(l),n=a(5),o=e(n),p=a(81),q=a(83),r=d(q),s=a(88),t=d(s),u=a(86),v=e(u),w=["#000","Black"],x=["#00F","Blue"],y=["#0FF","Cyan"],z=["#0F0","Green"],A=["#F0F","Magenta"],B=["#F00","Red"],C=["#FFF","White"],D=["#FF0","Yellow"],E=["1","Opaque"],F=["0.5","Semi-Transparent"],G=["0","Transparent"],H={backgroundColor:{selector:".vjs-bg-color > select",id:"captions-background-color-%s",label:"Color",options:[w,C,B,z,x,D,A,y]},backgroundOpacity:{selector:".vjs-bg-opacity > select",id:"captions-background-opacity-%s",label:"Transparency",options:[E,F,G]},color:{selector:".vjs-fg-color > select",id:"captions-foreground-color-%s",label:"Color",options:[C,w,B,z,x,D,A,y]},edgeStyle:{selector:".vjs-edge-style > select",id:"%s",label:"Text Edge Style",options:[["none","None"],["raised","Raised"],["depressed","Depressed"],["uniform","Uniform"],["dropshadow","Dropshadow"]]},fontFamily:{selector:".vjs-font-family > select",id:"captions-font-family-%s",label:"Font Family",options:[["proportionalSansSerif","Proportional Sans-Serif"],["monospaceSansSerif","Monospace Sans-Serif"],["proportionalSerif","Proportional Serif"],["monospaceSerif","Monospace Serif"],["casual","Casual"],["script","Script"],["small-caps","Small Caps"]]},fontPercent:{selector:".vjs-font-percent > select",id:"captions-font-size-%s",label:"Font Size",options:[["0.50","50%"],["0.75","75%"],["1.00","100%"],["1.25","125%"],["1.50","150%"],["1.75","175%"],["2.00","200%"],["3.00","300%"],["4.00","400%"]],"default":2,parser:function(a){return"1.00"===a?null:Number(a)}},textOpacity:{selector:".vjs-text-opacity > select",id:"captions-foreground-opacity-%s",label:"Transparency",options:[E,F]},windowColor:{selector:".vjs-window-color > select",id:"captions-window-color-%s",label:"Color"},windowOpacity:{selector:".vjs-window-opacity > select",id:"captions-window-opacity-%s",label:"Transparency",options:[G,F,E]}};H.windowColor.options=H.backgroundColor.options;var I=function(a){function b(c,d){f(this,b);var e=g(this,a.call(this,c,d));return e.setDefaults(),e.hide(),e.updateDisplay=r.bind(e,e.updateDisplay),d.persistTextTrackSettings===undefined&&(e.options_.persistTextTrackSettings=e.options_.playerOptions.persistTextTrackSettings),e.on(e.$(".vjs-done-button"),"click",function(){e.saveSettings(),e.hide()}),e.on(e.$(".vjs-default-button"),"click",function(){e.setDefaults(),e.updateDisplay()}),t.each(H,function(a){e.on(e.$(a.selector),"change",e.updateDisplay)}),e.options_.persistTextTrackSettings&&e.restoreSettings(),e}return h(b,a),b.prototype.createElSelect_=function(a){var b=this,c=H[a],d=c.id.replace("%s",this.id_);return[(0,p.createEl)("label",{className:"vjs-label",textContent:c.label},{"for":d}),(0,p.createEl)("select",{id:d},undefined,c.options.map(function(a){return(0,p.createEl)("option",{textContent:b.localize(a[1]),value:a[0]})}))]},b.prototype.createElFgColor_=function(){var a=(0,p.createEl)("legend",{textContent:this.localize("Text")}),b=this.createElSelect_("color"),c=(0,p.createEl)("span",{className:"vjs-text-opacity vjs-opacity"},undefined,this.createElSelect_("textOpacity"));return(0,p.createEl)("fieldset",{className:"vjs-fg-color vjs-tracksetting"},undefined,[a].concat(b,c))},b.prototype.createElBgColor_=function(){var a=(0,p.createEl)("legend",{textContent:this.localize("Background")}),b=this.createElSelect_("backgroundColor"),c=(0,p.createEl)("span",{className:"vjs-bg-opacity vjs-opacity"},undefined,this.createElSelect_("backgroundOpacity"));return(0,p.createEl)("fieldset",{className:"vjs-bg-color vjs-tracksetting"},undefined,[a].concat(b,c))},b.prototype.createElWinColor_=function(){var a=(0,p.createEl)("legend",{textContent:this.localize("Window")}),b=this.createElSelect_("windowColor"),c=(0,p.createEl)("span",{className:"vjs-window-opacity vjs-opacity"},undefined,this.createElSelect_("windowOpacity"));return(0,p.createEl)("fieldset",{className:"vjs-window-color vjs-tracksetting"},undefined,[a].concat(b,c))},b.prototype.createElColors_=function(){return(0,p.createEl)("div",{className:"vjs-tracksettings-colors"},undefined,[this.createElFgColor_(),this.createElBgColor_(),this.createElWinColor_()])},b.prototype.createElFont_=function(){var a=(0,p.createEl)("div",{className:"vjs-font-percent vjs-tracksetting"},undefined,this.createElSelect_("fontPercent")),b=(0,p.createEl)("div",{className:"vjs-edge-style vjs-tracksetting"},undefined,this.createElSelect_("edgeStyle")),c=(0,p.createEl)("div",{className:"vjs-font-family vjs-tracksetting"},undefined,this.createElSelect_("fontFamily"));return(0,p.createEl)("div",{className:"vjs-tracksettings-font"},undefined,[a,b,c])},b.prototype.createElControls_=function(){var a=(0,p.createEl)("button",{className:"vjs-default-button",textContent:this.localize("Defaults")}),b=(0,p.createEl)("button",{className:"vjs-done-button",textContent:"Done"});return(0,p.createEl)("div",{className:"vjs-tracksettings-controls"},undefined,[a,b])},b.prototype.createEl=function(){var a=(0,p.createEl)("div",{className:"vjs-tracksettings"},undefined,[this.createElColors_(),this.createElFont_(),this.createElControls_()]),b=(0,p.createEl)("div",{className:"vjs-control-text",id:"TTsettingsDialogLabel-"+this.id_,textContent:"Caption Settings Dialog"},{"aria-level":"1",role:"heading"}),c=(0,p.createEl)("div",{className:"vjs-control-text",id:"TTsettingsDialogDescription-"+this.id_,textContent:"Beginning of dialog window. Escape will cancel and close the window."}),d=(0,p.createEl)("div",undefined,{role:"document"},[b,c,a]);return(0,p.createEl)("div",{className:"vjs-caption-settings vjs-modal-overlay",tabIndex:-1},{role:"dialog","aria-labelledby":b.id,"aria-describedby":c.id},d)},b.prototype.getValues=function(){var a=this;return t.reduce(H,function(b,c,d){var e=j(a.$(c.selector),c.parser);return e!==undefined&&(b[d]=e),b},{})},b.prototype.setValues=function(a){var b=this;t.each(H,function(c,d){k(b.$(c.selector),a[d],c.parser)})},b.prototype.setDefaults=function(){var a=this;t.each(H,function(b){var c=b.hasOwnProperty("default")?b["default"]:0;a.$(b.selector).selectedIndex=c})},b.prototype.restoreSettings=function(){var a=void 0;try{a=JSON.parse(m["default"].localStorage.getItem("vjs-text-track-settings"))}catch(b){v["default"].warn(b)}a&&this.setValues(a)},b.prototype.saveSettings=function(){if(this.options_.persistTextTrackSettings){var a=this.getValues();try{Object.keys(a).length?m["default"].localStorage.setItem("vjs-text-track-settings",JSON.stringify(a)):m["default"].localStorage.removeItem("vjs-text-track-settings")}catch(b){v["default"].warn(b)}}},b.prototype.updateDisplay=function(){var a=this.player_.getChild("textTrackDisplay");a&&a.updateDisplay()},b}(o["default"])
 ;o["default"].registerComponent("TextTrackSettings",I),c["default"]=I},{5:5,81:81,83:83,86:86,88:88,95:95}],72:[function(a,b,c){"use strict";function d(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}function e(a){return a&&a.__esModule?a:{"default":a}}function f(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function g(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function h(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}c.__esModule=!0;var i=a(67),j=e(i),k=a(83),l=d(k),m=a(73),n=a(86),o=e(n),p=a(95),q=e(p),r=a(75),s=e(r),t=a(92),u=a(104),v=e(u),w=a(87),x=e(w),y=a(78),z=d(y),A=function(a,b){var c=new q["default"].WebVTT.Parser(q["default"],q["default"].vttjs,q["default"].WebVTT.StringDecoder()),d=[];c.oncue=function(a){b.addCue(a)},c.onparsingerror=function(a){d.push(a)},c.onflush=function(){b.trigger({type:"loadeddata",target:b})},c.parse(a),d.length>0&&(q["default"].console&&q["default"].console.groupCollapsed&&q["default"].console.groupCollapsed("Text Track parsing errors for "+b.src),d.forEach(function(a){return o["default"].error(a)}),q["default"].console&&q["default"].console.groupEnd&&q["default"].console.groupEnd()),c.flush()},B=function(a,b){var c={uri:a},d=(0,t.isCrossOrigin)(a);d&&(c.cors=d),(0,v["default"])(c,l.bind(this,function(a,c,d){if(a)return o["default"].error(a,c);if(b.loaded_=!0,"function"!=typeof q["default"].WebVTT){if(b.tech_){var e=function(){return A(d,b)};b.tech_.on("vttjsloaded",e),b.tech_.on("vttjserror",function(){o["default"].error("vttjs failed to load, stopping trying to process "+b.src),b.tech_.off("vttjsloaded",e)})}}else A(d,b)}))},C=function(a){function b(){var c,d,e=arguments.length>0&&arguments[0]!==undefined?arguments[0]:{};if(f(this,b),!e.tech)throw new Error("A tech was not provided.");var h=(0,x["default"])(e,{kind:m.TextTrackKind[e.kind]||"subtitles",language:e.language||e.srclang||""}),i=m.TextTrackMode[h.mode]||"disabled",k=h["default"];"metadata"!==h.kind&&"chapters"!==h.kind||(i="hidden");var n=c=g(this,a.call(this,h));if(n.tech_=h.tech,z.IS_IE8)for(var o in b.prototype)"constructor"!==o&&(n[o]=b.prototype[o]);n.cues_=[],n.activeCues_=[];var p=new j["default"](n.cues_),q=new j["default"](n.activeCues_),r=!1,s=l.bind(n,function(){this.activeCues,r&&(this.trigger("cuechange"),r=!1)});return"disabled"!==i&&n.tech_.ready(function(){n.tech_.on("timeupdate",s)},!0),Object.defineProperty(n,"default",{get:function(){return k},set:function(){}}),Object.defineProperty(n,"mode",{get:function(){return i},set:function(a){var b=this;m.TextTrackMode[a]&&(i=a,"showing"===i&&this.tech_.ready(function(){b.tech_.on("timeupdate",s)},!0),this.trigger("modechange"))}}),Object.defineProperty(n,"cues",{get:function(){return this.loaded_?p:null},set:function(){}}),Object.defineProperty(n,"activeCues",{get:function(){if(!this.loaded_)return null;if(0===this.cues.length)return q;for(var a=this.tech_.currentTime(),b=[],c=0,d=this.cues.length;c<d;c++){var e=this.cues[c];e.startTime<=a&&e.endTime>=a?b.push(e):e.startTime===e.endTime&&e.startTime<=a&&e.startTime+.5>=a&&b.push(e)}if(r=!1,b.length!==this.activeCues_.length)r=!0;else for(var f=0;f<b.length;f++)-1===this.activeCues_.indexOf(b[f])&&(r=!0);return this.activeCues_=b,q.setCues_(this.activeCues_),q},set:function(){}}),h.src?(n.src=h.src,B(h.src,n)):n.loaded_=!0,d=n,g(c,d)}return h(b,a),b.prototype.addCue=function(a){var b=a;if(q["default"].vttjs&&!(a instanceof q["default"].vttjs.VTTCue)){b=new q["default"].vttjs.VTTCue(a.startTime,a.endTime,a.text);for(var c in a)c in b||(b[c]=a[c]);b.id=a.id,b.originalCue_=a}var d=this.tech_.textTracks();if(d)for(var e=0;e<d.length;e++)d[e]!==this&&d[e].removeCue(b);this.cues_.push(b),this.cues.setCues_(this.cues_)},b.prototype.removeCue=function(a){for(var b=this.cues_.length;b--;){var c=this.cues_[b];if(c===a||c.originalCue_&&c.originalCue_===a){this.cues_.splice(b,1),this.cues.setCues_(this.cues_);break}}},b}(s["default"]);C.prototype.allowedEvents_={cuechange:"cuechange"},c["default"]=C},{104:104,67:67,73:73,75:75,78:78,83:83,86:86,87:87,92:92,95:95}],73:[function(a,b,c){"use strict";c.__esModule=!0;c.VideoTrackKind={alternative:"alternative",captions:"captions",main:"main",sign:"sign",subtitles:"subtitles",commentary:"commentary"},c.AudioTrackKind={alternative:"alternative",descriptions:"descriptions",main:"main","main-desc":"main-desc",translation:"translation",commentary:"commentary"},c.TextTrackKind={subtitles:"subtitles",captions:"captions",descriptions:"descriptions",chapters:"chapters",metadata:"metadata"},c.TextTrackMode={disabled:"disabled",hidden:"hidden",showing:"showing"}},{}],74:[function(a,b,c){"use strict";function d(a){return a&&a.__esModule?a:{"default":a}}function e(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function f(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function g(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}c.__esModule=!0;var h=a(42),i=d(h),j=a(78),k=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}(j),l=a(94),m=d(l),n=function(a){function b(){var c,d=arguments.length>0&&arguments[0]!==undefined?arguments[0]:[],g=arguments.length>1&&arguments[1]!==undefined?arguments[1]:null;e(this,b);var h=f(this,a.call(this));if(!g&&(g=h,k.IS_IE8)){g=m["default"].createElement("custom");for(var i in b.prototype)"constructor"!==i&&(g[i]=b.prototype[i])}g.tracks_=[],Object.defineProperty(g,"length",{get:function(){return this.tracks_.length}});for(var j=0;j<d.length;j++)g.addTrack_(d[j]);return c=g,f(h,c)}return g(b,a),b.prototype.addTrack_=function(a){var b=this.tracks_.length;""+b in this||Object.defineProperty(this,b,{get:function(){return this.tracks_[b]}}),-1===this.tracks_.indexOf(a)&&(this.tracks_.push(a),this.trigger({track:a,type:"addtrack"}))},b.prototype.removeTrack_=function(a){for(var b=void 0,c=0,d=this.length;c<d;c++)if(this[c]===a){b=this[c],b.off&&b.off(),this.tracks_.splice(c,1);break}b&&this.trigger({track:b,type:"removetrack"})},b.prototype.getTrackById=function(a){for(var b=null,c=0,d=this.length;c<d;c++){var e=this[c];if(e.id===a){b=e;break}}return b},b}(i["default"]);n.prototype.allowedEvents_={change:"change",addtrack:"addtrack",removetrack:"removetrack"};for(var o in n.prototype.allowedEvents_)n.prototype["on"+o]=null;c["default"]=n},{42:42,78:78,94:94}],75:[function(a,b,c){"use strict";function d(a){return a&&a.__esModule?a:{"default":a}}function e(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}function f(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function g(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function h(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}c.__esModule=!0;var i=a(78),j=e(i),k=a(94),l=d(k),m=a(85),n=e(m),o=a(42),p=d(o),q=function(a){function b(){var c,d=arguments.length>0&&arguments[0]!==undefined?arguments[0]:{};f(this,b);var e=g(this,a.call(this)),h=e;if(j.IS_IE8){h=l["default"].createElement("custom");for(var i in b.prototype)"constructor"!==i&&(h[i]=b.prototype[i])}var k={id:d.id||"vjs_track_"+n.newGUID(),kind:d.kind||"",label:d.label||"",language:d.language||""};for(var m in k)!function(a){Object.defineProperty(h,a,{get:function(){return k[a]},set:function(){}})}(m);return c=h,g(e,c)}return h(b,a),b}(p["default"]);c["default"]=q},{42:42,78:78,85:85,94:94}],76:[function(a,b,c){"use strict";function d(a){return a&&a.__esModule?a:{"default":a}}function e(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function f(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function g(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}c.__esModule=!0;var h=a(74),i=d(h),j=a(78),k=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}(j),l=a(94),m=d(l),n=function(a,b){for(var c=0;c<a.length;c++)b.id!==a[c].id&&(a[c].selected=!1)},o=function(a){function b(){var c,d,g=arguments.length>0&&arguments[0]!==undefined?arguments[0]:[];e(this,b);for(var h=void 0,j=g.length-1;j>=0;j--)if(g[j].selected){n(g,g[j]);break}if(k.IS_IE8){h=m["default"].createElement("custom");for(var l in i["default"].prototype)"constructor"!==l&&(h[l]=i["default"].prototype[l]);for(var o in b.prototype)"constructor"!==o&&(h[o]=b.prototype[o])}return h=c=f(this,a.call(this,g,h)),h.changing_=!1,Object.defineProperty(h,"selectedIndex",{get:function(){for(var a=0;a<this.length;a++)if(this[a].selected)return a;return-1},set:function(){}}),d=h,f(c,d)}return g(b,a),b.prototype.addTrack_=function(b){var c=this;b.selected&&n(this,b),a.prototype.addTrack_.call(this,b),b.addEventListener&&b.addEventListener("selectedchange",function(){c.changing_||(c.changing_=!0,n(c,b),c.changing_=!1,c.trigger("change"))})},b.prototype.addTrack=function(a){this.addTrack_(a)},b.prototype.removeTrack=function(b){a.prototype.removeTrack_.call(this,b)},b}(i["default"]);c["default"]=o},{74:74,78:78,94:94}],77:[function(a,b,c){"use strict";function d(a){return a&&a.__esModule?a:{"default":a}}function e(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function f(a,b){if(!a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!b||"object"!=typeof b&&"function"!=typeof b?a:b}function g(a,b){if("function"!=typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function, not "+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}c.__esModule=!0;var h=a(73),i=a(75),j=d(i),k=a(87),l=d(k),m=a(78),n=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}(m),o=function(a){function b(){var c,d,g=arguments.length>0&&arguments[0]!==undefined?arguments[0]:{};e(this,b);var i=(0,l["default"])(g,{kind:h.VideoTrackKind[g.kind]||""}),j=c=f(this,a.call(this,i)),k=!1;if(n.IS_IE8)for(var m in b.prototype)"constructor"!==m&&(j[m]=b.prototype[m]);return Object.defineProperty(j,"selected",{get:function(){return k},set:function(a){"boolean"==typeof a&&a!==k&&(k=a,this.trigger("selectedchange"))}}),i.selected&&(j.selected=i.selected),d=j,f(c,d)}return g(b,a),b}(j["default"]);c["default"]=o},{73:73,75:75,78:78,87:87}],78:[function(a,b,c){"use strict";c.__esModule=!0,c.BACKGROUND_SIZE_SUPPORTED=c.TOUCH_ENABLED=c.IS_ANY_SAFARI=c.IS_SAFARI=c.IE_VERSION=c.IS_IE8=c.CHROME_VERSION=c.IS_CHROME=c.IS_EDGE=c.IS_FIREFOX=c.IS_NATIVE_ANDROID=c.IS_OLD_ANDROID=c.ANDROID_VERSION=c.IS_ANDROID=c.IOS_VERSION=c.IS_IOS=c.IS_IPOD=c.IS_IPHONE=c.IS_IPAD=undefined;var d=a(81),e=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}(d),f=a(95),g=function(a){return a&&a.__esModule?a:{"default":a}}(f),h=g["default"].navigator&&g["default"].navigator.userAgent||"",i=/AppleWebKit\/([\d.]+)/i.exec(h),j=i?parseFloat(i.pop()):null,k=c.IS_IPAD=/iPad/i.test(h),l=c.IS_IPHONE=/iPhone/i.test(h)&&!k,m=c.IS_IPOD=/iPod/i.test(h),n=c.IS_IOS=l||k||m,o=(c.IOS_VERSION=function(){var a=h.match(/OS (\d+)_/i);return a&&a[1]?a[1]:null}(),c.IS_ANDROID=/Android/i.test(h)),p=c.ANDROID_VERSION=function(){var a=h.match(/Android (\d+)(?:\.(\d+))?(?:\.(\d+))*/i);if(!a)return null;var b=a[1]&&parseFloat(a[1]),c=a[2]&&parseFloat(a[2]);return b&&c?parseFloat(a[1]+"."+a[2]):b||null}(),q=(c.IS_OLD_ANDROID=o&&/webkit/i.test(h)&&p<2.3,c.IS_NATIVE_ANDROID=o&&p<5&&j<537,c.IS_FIREFOX=/Firefox/i.test(h),c.IS_EDGE=/Edge/i.test(h)),r=c.IS_CHROME=!q&&/Chrome/i.test(h),s=(c.CHROME_VERSION=function(){var a=h.match(/Chrome\/(\d+)/);return a&&a[1]?parseFloat(a[1]):null}(),c.IS_IE8=/MSIE\s8\.0/.test(h),c.IE_VERSION=function(){var a=/MSIE\s(\d+)\.\d/.exec(h),b=a&&parseFloat(a[1]);return!b&&/Trident\/7.0/i.test(h)&&/rv:11.0/.test(h)&&(b=11),b}(),c.IS_SAFARI=/Safari/i.test(h)&&!r&&!o&&!q);c.IS_ANY_SAFARI=s||n,c.TOUCH_ENABLED=e.isReal()&&("ontouchstart"in g["default"]||g["default"].DocumentTouch&&g["default"].document instanceof g["default"].DocumentTouch),c.BACKGROUND_SIZE_SUPPORTED=e.isReal()&&"backgroundSize"in g["default"].document.createElement("video").style},{81:81,95:95}],79:[function(a,b,c){"use strict";function d(a,b){var c=0,d=void 0,f=void 0;if(!b)return 0;a&&a.length||(a=(0,e.createTimeRange)(0,0));for(var g=0;g<a.length;g++)d=a.start(g),f=a.end(g),f>b&&(f=b),c+=f-d;return c/b}c.__esModule=!0,c.bufferedPercent=d;var e=a(90)},{90:90}],80:[function(a,b,c){"use strict";function d(a,b){if(!a||!b)return"";if("function"==typeof f["default"].getComputedStyle){var c=f["default"].getComputedStyle(a);return c?c[b]:""}return a.currentStyle[b]||""}c.__esModule=!0,c["default"]=d;var e=a(95),f=function(a){return a&&a.__esModule?a:{"default":a}}(e)},{95:95}],81:[function(a,b,c){"use strict";function d(a){return a&&a.__esModule?a:{"default":a}}function e(a){return"string"==typeof a&&/\S/.test(a)}function f(a){if(/\s/.test(a))throw new Error("class has illegal whitespace characters")}function g(a){return new RegExp("(^|\\s)"+a+"($|\\s)")}function h(){return L["default"]===N["default"].document&&"undefined"!=typeof L["default"].createElement}function i(a){return(0,U.isObject)(a)&&1===a.nodeType}function j(a){return function(b,c){if(!e(b))return L["default"][a](null);e(c)&&(c=L["default"].querySelector(c));var d=i(c)?c:L["default"];return d[a]&&d[a](b)}}function k(a){return 0===a.indexOf("#")&&(a=a.slice(1)),L["default"].getElementById(a)}function l(){var a=arguments.length>0&&arguments[0]!==undefined?arguments[0]:"div",b=arguments.length>1&&arguments[1]!==undefined?arguments[1]:{},c=arguments.length>2&&arguments[2]!==undefined?arguments[2]:{},d=arguments[3],e=L["default"].createElement(a);return Object.getOwnPropertyNames(b).forEach(function(a){var c=b[a];-1!==a.indexOf("aria-")||"role"===a||"type"===a?(R["default"].warn((0,T["default"])(J,a,c)),e.setAttribute(a,c)):"textContent"===a?m(e,c):e[a]=c}),Object.getOwnPropertyNames(c).forEach(function(a){e.setAttribute(a,c[a])}),d&&H(e,d),e}function m(a,b){return"undefined"==typeof a.textContent?a.innerText=b:a.textContent=b,a}function n(a,b){b.firstChild?b.insertBefore(a,b.firstChild):b.appendChild(a)}function o(a){var b=a[W];return b||(b=a[W]=P.newGUID()),V[b]||(V[b]={}),V[b]}function p(a){var b=a[W];return!!b&&!!Object.getOwnPropertyNames(V[b]).length}function q(a){var b=a[W];if(b){delete V[b];try{delete a[W]}catch(c){a.removeAttribute?a.removeAttribute(W):a[W]=null}}}function r(a,b){return f(b),a.classList?a.classList.contains(b):g(b).test(a.className)}function s(a,b){return a.classList?a.classList.add(b):r(a,b)||(a.className=(a.className+" "+b).trim()),a}function t(a,b){return a.classList?a.classList.remove(b):(f(b),a.className=a.className.split(/\s+/).filter(function(a){return a!==b}).join(" ")),a}function u(a,b,c){var d=r(a,b);if("function"==typeof c&&(c=c(a,b)),"boolean"!=typeof c&&(c=!d),c!==d)return c?s(a,b):t(a,b),a}function v(a,b){Object.getOwnPropertyNames(b).forEach(function(c){var d=b[c];null===d||void 0===d||!1===d?a.removeAttribute(c):a.setAttribute(c,!0===d?"":d)})}function w(a){var b={};if(a&&a.attributes&&a.attributes.length>0)for(var c=a.attributes,d=c.length-1;d>=0;d--){var e=c[d].name,f=c[d].value;"boolean"!=typeof a[e]&&-1===",autoplay,controls,loop,muted,default,".indexOf(","+e+",")||(f=null!==f),b[e]=f}return b}function x(a,b){return a.getAttribute(b)}function y(a,b,c){a.setAttribute(b,c)}function z(a,b){a.removeAttribute(b)}function A(){L["default"].body.focus(),L["default"].onselectstart=function(){return!1}}function B(){L["default"].onselectstart=function(){return!0}}function C(a){var b=void 0;if(a.getBoundingClientRect&&a.parentNode&&(b=a.getBoundingClientRect()),!b)return{left:0,top:0};var c=L["default"].documentElement,d=L["default"].body,e=c.clientLeft||d.clientLeft||0,f=N["default"].pageXOffset||d.scrollLeft,g=b.left+f-e,h=c.clientTop||d.clientTop||0,i=N["default"].pageYOffset||d.scrollTop,j=b.top+i-h;return{left:Math.round(g),top:Math.round(j)}}function D(a,b){var c={},d=C(a),e=a.offsetWidth,f=a.offsetHeight,g=d.top,h=d.left,i=b.pageY,j=b.pageX;return b.changedTouches&&(j=b.changedTouches[0].pageX,i=b.changedTouches[0].pageY),c.y=Math.max(0,Math.min(1,(g-i+f)/f)),c.x=Math.max(0,Math.min(1,(j-h)/e)),c}function E(a){return(0,U.isObject)(a)&&3===a.nodeType}function F(a){for(;a.firstChild;)a.removeChild(a.firstChild);return a}function G(a){return"function"==typeof a&&(a=a()),(Array.isArray(a)?a:[a]).map(function(a){return"function"==typeof a&&(a=a()),i(a)||E(a)?a:"string"==typeof a&&/\S/.test(a)?L["default"].createTextNode(a):void 0}).filter(function(a){return a})}function H(a,b){return G(b).forEach(function(b){return a.appendChild(b)}),a}function I(a,b){return H(F(a),b)}c.__esModule=!0,c.$$=c.$=undefined;var J=function(a,b){return a.raw=b,a}(["Setting attributes in the second argument of createEl()\n                has been deprecated. Use the third argument instead.\n                createEl(type, properties, attributes). Attempting to set "," to ","."],["Setting attributes in the second argument of createEl()\n                has been deprecated. Use the third argument instead.\n                createEl(type, properties, attributes). Attempting to set "," to ","."]);c.isReal=h,c.isEl=i,c.getEl=k,c.createEl=l,c.textContent=m,c.insertElFirst=n,c.getElData=o,c.hasElData=p,c.removeElData=q,c.hasElClass=r,c.addElClass=s,c.removeElClass=t,c.toggleElClass=u,c.setElAttributes=v,c.getElAttributes=w,c.getAttribute=x,c.setAttribute=y,c.removeAttribute=z,c.blockTextSelection=A,c.unblockTextSelection=B,c.findElPosition=C,c.getPointerPosition=D,c.isTextNode=E,c.emptyEl=F,c.normalizeContent=G,c.appendContent=H,c.insertContent=I;var K=a(94),L=d(K),M=a(95),N=d(M),O=a(85),P=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}(O),Q=a(86),R=d(Q),S=a(98),T=d(S),U=a(88),V={},W="vdata"+(new Date).getTime();c.$=j("querySelector"),c.$$=j("querySelectorAll")},{85:85,86:86,88:88,94:94,95:95,98:98}],82:[function(a,b,c){"use strict";function d(a){return a&&a.__esModule?a:{"default":a}}function e(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}function f(a,b){var c=n.getElData(a);0===c.handlers[b].length&&(delete c.handlers[b],a.removeEventListener?a.removeEventListener(b,c.dispatcher,!1):a.detachEvent&&a.detachEvent("on"+b,c.dispatcher)),Object.getOwnPropertyNames(c.handlers).length<=0&&(delete c.handlers,delete c.dispatcher,delete c.disabled),0===Object.getOwnPropertyNames(c).length&&n.removeElData(a)}function g(a,b,c,d){c.forEach(function(c){a(b,c,d)})}function h(a){function b(){return!0}function c(){return!1}if(!a||!a.isPropagationStopped){var d=a||t["default"].event;a={};for(var e in d)"layerX"!==e&&"layerY"!==e&&"keyLocation"!==e&&"webkitMovementX"!==e&&"webkitMovementY"!==e&&("returnValue"===e&&d.preventDefault||(a[e]=d[e]));if(a.target||(a.target=a.srcElement||v["default"]),a.relatedTarget||(a.relatedTarget=a.fromElement===a.target?a.toElement:a.fromElement),a.preventDefault=function(){d.preventDefault&&d.preventDefault(),a.returnValue=!1,d.returnValue=!1,a.defaultPrevented=!0},a.defaultPrevented=!1,a.stopPropagation=function(){d.stopPropagation&&d.stopPropagation(),a.cancelBubble=!0,d.cancelBubble=!0,a.isPropagationStopped=b},a.isPropagationStopped=c,a.stopImmediatePropagation=function(){d.stopImmediatePropagation&&d.stopImmediatePropagation(),a.isImmediatePropagationStopped=b,a.stopPropagation()},a.isImmediatePropagationStopped=c,null!==a.clientX&&a.clientX!==undefined){var f=v["default"].documentElement,g=v["default"].body;a.pageX=a.clientX+(f&&f.scrollLeft||g&&g.scrollLeft||0)-(f&&f.clientLeft||g&&g.clientLeft||0),a.pageY=a.clientY+(f&&f.scrollTop||g&&g.scrollTop||0)-(f&&f.clientTop||g&&g.clientTop||0)}a.which=a.charCode||a.keyCode,null!==a.button&&a.button!==undefined&&(a.button=1&a.button?0:4&a.button?1:2&a.button?2:0)}return a}function i(a,b,c){if(Array.isArray(b))return g(i,a,b,c);var d=n.getElData(a);if(d.handlers||(d.handlers={}),d.handlers[b]||(d.handlers[b]=[]),c.guid||(c.guid=p.newGUID()),d.handlers[b].push(c),d.dispatcher||(d.disabled=!1,d.dispatcher=function(b,c){if(!d.disabled){b=h(b);var e=d.handlers[b.type];if(e)for(var f=e.slice(0),g=0,i=f.length;g<i&&!b.isImmediatePropagationStopped();g++)try{f[g].call(a,b,c)}catch(j){r["default"].error(j)}}}),1===d.handlers[b].length)if(a.addEventListener){var e=!1;w&&x.indexOf(b)>-1&&(e={passive:!0}),a.addEventListener(b,d.dispatcher,e)}else a.attachEvent&&a.attachEvent("on"+b,d.dispatcher)}function j(a,b,c){if(n.hasElData(a)){var d=n.getElData(a);if(d.handlers){if(Array.isArray(b))return g(j,a,b,c);var e=function(b){d.handlers[b]=[],f(a,b)};if(b){var h=d.handlers[b];if(h){if(!c)return void e(b);if(c.guid)for(var i=0;i<h.length;i++)h[i].guid===c.guid&&h.splice(i--,1);f(a,b)}}else for(var k in d.handlers)e(k)}}}function k(a,b,c){var d=n.hasElData(a)?n.getElData(a):{},e=a.parentNode||a.ownerDocument;if("string"==typeof b&&(b={type:b,target:a}),b=h(b),d.dispatcher&&d.dispatcher.call(a,b,c),e&&!b.isPropagationStopped()&&!0===b.bubbles)k.call(null,e,b,c);else if(!e&&!b.defaultPrevented){var f=n.getElData(b.target);b.target[b.type]&&(f.disabled=!0,"function"==typeof b.target[b.type]&&b.target[b.type](),f.disabled=!1)}return!b.defaultPrevented}function l(a,b,c){if(Array.isArray(b))return g(l,a,b,c);var d=function e(){j(a,b,e),c.apply(this,arguments)};d.guid=c.guid=c.guid||p.newGUID(),i(a,b,d)}c.__esModule=!0,c.fixEvent=h,c.on=i,c.off=j,c.trigger=k,c.one=l;var m=a(81),n=e(m),o=a(85),p=e(o),q=a(86),r=d(q),s=a(95),t=d(s),u=a(94),v=d(u),w=!1;!function(){try{var a=Object.defineProperty({},"passive",{get:function(){w=!0}});t["default"].addEventListener("test",null,a)}catch(b){}}();var x=["touchstart","touchmove"]},{81:81,85:85,86:86,94:94,95:95}],83:[function(a,b,c){"use strict";c.__esModule=!0,c.throttle=c.bind=undefined;var d=a(85);c.bind=function(a,b,c){b.guid||(b.guid=(0,d.newGUID)());var e=function(){return b.apply(a,arguments)};return e.guid=c?c+"_"+b.guid:b.guid,e},c.throttle=function(a,b){var c=Date.now();return function(){var d=Date.now();d-c>=b&&(a.apply(undefined,arguments),c=d)}}},{85:85}],84:[function(a,b,c){"use strict";function d(a){var b=arguments.length>1&&arguments[1]!==undefined?arguments[1]:a;a=a<0?0:a;var c=Math.floor(a%60),d=Math.floor(a/60%60),e=Math.floor(a/3600),f=Math.floor(b/60%60),g=Math.floor(b/3600);return(isNaN(a)||a===Infinity)&&(e=d=c="-"),e=e>0||g>0?e+":":"",d=((e||f>=10)&&d<10?"0"+d:d)+":",c=c<10?"0"+c:c,e+d+c}c.__esModule=!0,c["default"]=d},{}],85:[function(a,b,c){"use strict";function d(){return e++}c.__esModule=!0,c.newGUID=d;var e=1},{}],86:[function(a,b,c){"use strict";c.__esModule=!0,c.logByType=undefined;var d=a(95),e=function(a){return a&&a.__esModule?a:{"default":a}}(d),f=a(78),g=a(88),h=void 0,i=c.logByType=function(a,b){var c=arguments.length>2&&arguments[2]!==undefined?arguments[2]:!!f.IE_VERSION&&f.IE_VERSION<11;"log"!==a&&b.unshift(a.toUpperCase()+":"),h.history.push(b),b.unshift("VIDEOJS:");var d=e["default"].console&&e["default"].console[a];d&&(c&&(b=b.map(function(a){if((0,g.isObject)(a)||Array.isArray(a))try{return JSON.stringify(a)}catch(b){return String(a)}return String(a)}).join(" ")),d.apply?d[Array.isArray(b)?"apply":"call"](e["default"].console,b):d(b))};h=function(){for(var a=arguments.length,b=Array(a),c=0;c<a;c++)b[c]=arguments[c];i("log",b)},h.history=[],h.error=function(){for(var a=arguments.length,b=Array(a),c=0;c<a;c++)b[c]=arguments[c];return i("error",b)},h.warn=function(){for(var a=arguments.length,b=Array(a),c=0;c<a;c++)b[c]=arguments[c];return i("warn",b)},c["default"]=h},{78:78,88:88,95:95}],87:[function(a,b,c){"use strict";function d(){for(var a={},b=arguments.length,c=Array(b),f=0;f<b;f++)c[f]=arguments[f];return c.forEach(function(b){b&&(0,e.each)(b,function(b,c){if(!(0,e.isPlain)(b))return void(a[c]=b);(0,e.isPlain)(a[c])||(a[c]={}),a[c]=d(a[c],b)})}),a}c.__esModule=!0,c["default"]=d;var e=a(88)},{88:88}],88:[function(a,b,c){"use strict";function d(a,b){k(a).forEach(function(c){return b(a[c],c)})}function e(a,b){var c=arguments.length>2&&arguments[2]!==undefined?arguments[2]:0;return k(a).reduce(function(c,d){return b(c,a[d],d)},c)}function f(a){for(var b=arguments.length,c=Array(b>1?b-1:0),e=1;e<b;e++)c[e-1]=arguments[e];return Object.assign?Object.assign.apply(Object,[a].concat(c)):(c.forEach(function(b){b&&d(b,function(b,c){a[c]=b})}),a)}function g(a){return!!a&&"object"===(void 0===a?"undefined":i(a))}function h(a){return g(a)&&"[object Object]"===j.call(a)&&a.constructor===Object}c.__esModule=!0;var i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(a){return typeof a}:function(a){return a&&"function"==typeof Symbol&&a.constructor===Symbol&&a!==Symbol.prototype?"symbol":typeof a};c.each=d,c.reduce=e,c.assign=f,c.isObject=g,c.isPlain=h;var j=Object.prototype.toString,k=function(a){return g(a)?Object.keys(a):[]}},{}],89:[function(a,b,c){"use strict";c.__esModule=!0,c.setTextContent=c.createStyleElement=undefined;var d=a(94),e=function(a){return a&&a.__esModule?a:{"default":a}}(d);c.createStyleElement=function(a){var b=e["default"].createElement("style");return b.className=a,b},c.setTextContent=function(a,b){a.styleSheet?a.styleSheet.cssText=b:a.textContent=b}},{94:94}],90:[function(a,b,c){"use strict";function d(a,b,c){if(b<0||b>c)throw new Error("Failed to execute '"+a+"' on 'TimeRanges': The index provided ("+b+") is greater than or equal to the maximum bound ("+c+").")}function e(a,b,c,e){return e===undefined&&(i["default"].warn("DEPRECATED: Function '"+a+"' on 'TimeRanges' called without an index argument."),e=0),d(a,e,c.length-1),c[e][b]}function f(a){return a===undefined||0===a.length?{length:0,start:function(){throw new Error("This TimeRanges object is empty")},end:function(){throw new Error("This TimeRanges object is empty")}}:{length:a.length,start:e.bind(null,"start",0,a),end:e.bind(null,"end",1,a)}}function g(a,b){return Array.isArray(a)?f(a):a===undefined||b===undefined?f():f([[a,b]])}c.__esModule=!0,c.createTimeRange=undefined,c.createTimeRanges=g;var h=a(86),i=function(a){return a&&a.__esModule?a:{"default":a}}(h);c.createTimeRange=g},{86:86}],91:[function(a,b,c){"use strict";function d(a){return"string"!=typeof a?a:a.charAt(0).toUpperCase()+a.slice(1)}c.__esModule=!0,c["default"]=d},{}],92:[function(a,b,c){"use strict";function d(a){return a&&a.__esModule?a:{"default":a}}c.__esModule=!0,c.isCrossOrigin=c.getFileExtension=c.getAbsoluteURL=c.parseUrl=undefined;var e=a(94),f=d(e),g=a(95),h=d(g),i=c.parseUrl=function(a){var b=["protocol","hostname","port","pathname","search","hash","host"],c=f["default"].createElement("a");c.href=a;var d=""===c.host&&"file:"!==c.protocol,e=void 0;d&&(e=f["default"].createElement("div"),e.innerHTML='<a href="'+a+'"></a>',c=e.firstChild,e.setAttribute("style","display:none; position:absolute;"),f["default"].body.appendChild(e));for(var g={},h=0;h<b.length;h++)g[b[h]]=c[b[h]];return"http:"===g.protocol&&(g.host=g.host.replace(/:80$/,"")),"https:"===g.protocol&&(g.host=g.host.replace(/:443$/,"")),d&&f["default"].body.removeChild(e),g};c.getAbsoluteURL=function(a){if(!a.match(/^https?:\/\//)){var b=f["default"].createElement("div");b.innerHTML='<a href="'+a+'">x</a>',a=b.firstChild.href}return a},c.getFileExtension=function(a){if("string"==typeof a){var b=/^(\/?)([\s\S]*?)((?:\.{1,2}|[^\/]+?)(\.([^\.\/\?]+)))(?:[\/]*|[\?].*)$/i,c=b.exec(a);if(c)return c.pop().toLowerCase()}return""},c.isCrossOrigin=function(a){var b=h["default"].location,c=i(a);return(":"===c.protocol?b.protocol:c.protocol)+c.host!==b.protocol+b.host}},{94:94,95:95}],93:[function(b,c,d){"use strict";function e(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b["default"]=a,b}function f(a){return a&&a.__esModule?a:{"default":a}}function g(a,b,c){var d=void 0;if("string"==typeof a){if(0===a.indexOf("#")&&(a=a.slice(1)),g.getPlayers()[a])return b&&S["default"].warn('Player "'+a+'" is already initialised. Options will not be applied.'),c&&g.getPlayers()[a].ready(c),g.getPlayers()[a];d=p.getEl(a)}else d=a;if(!d||!d.nodeName)throw new TypeError("The element or ID supplied is not valid. (videojs)");if(d.player||B["default"].players[d.playerId])return d.player||B["default"].players[d.playerId];b=b||{},g.hooks("beforesetup").forEach(function(a){var c=a(d,(0,F["default"])(b));if(!(0,V.isObject)(c)||Array.isArray(c))return void S["default"].error("please return an object in beforesetup hooks");b=(0,F["default"])(b,c)});var e=v["default"].getComponent("Player"),f=new e(d,b,c);return g.hooks("setup").forEach(function(a){return a(f)}),f}d.__esModule=!0;var h="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(a){return typeof a}:function(a){return a&&"function"==typeof Symbol&&a.constructor===Symbol&&a!==Symbol.prototype?"symbol":typeof a},i=b(95),j=f(i),k=b(94),l=f(k),m=b(78),n=e(m),o=b(81),p=e(o),q=b(56),r=e(q),s=b(89),t=e(s),u=b(5),v=f(u),w=b(42),x=f(w),y=b(82),z=e(y),A=b(51),B=f(A),C=b(52),D=f(C),E=b(87),F=f(E),G=b(83),H=e(G),I=b(72),J=f(I),K=b(64),L=f(K),M=b(77),N=f(M),O=b(90),P=b(84),Q=f(P),R=b(86),S=f(R),T=b(92),U=e(T),V=b(88),W=b(80),X=f(W),Y=b(43),Z=f(Y),$=b(104),_=f($),aa=b(62),ba=f(aa);if("undefined"==typeof HTMLVideoElement&&p.isReal()&&(l["default"].createElement("video"),l["default"].createElement("audio"),l["default"].createElement("track")),g.hooks_={},g.hooks=function(a,b){return g.hooks_[a]=g.hooks_[a]||[],b&&(g.hooks_[a]=g.hooks_[a].concat(b)),g.hooks_[a]},g.hook=function(a,b){g.hooks(a,b)},g.removeHook=function(a,b){var c=g.hooks(a).indexOf(b);return!(c<=-1)&&(g.hooks_[a]=g.hooks_[a].slice(),g.hooks_[a].splice(c,1),!0)},!0!==j["default"].VIDEOJS_NO_DYNAMIC_STYLE&&p.isReal()){var ca=p.$(".vjs-styles-defaults");if(!ca){ca=t.createStyleElement("vjs-styles-defaults");var da=p.$("head");da&&da.insertBefore(ca,da.firstChild),
 t.setTextContent(ca,"\n      .video-js {\n        width: 300px;\n        height: 150px;\n      }\n\n      .vjs-fluid {\n        padding-top: 56.25%\n      }\n    ")}}r.autoSetupTimeout(1,g),g.VERSION="5.20.3",g.options=B["default"].prototype.options_,g.getPlayers=function(){return B["default"].players},g.players=B["default"].players,g.getComponent=v["default"].getComponent,g.registerComponent=function(a,b){ba["default"].isTech(b)&&S["default"].warn("The "+a+" tech was registered as a component. It should instead be registered using videojs.registerTech(name, tech)"),v["default"].registerComponent.call(v["default"],a,b)},g.getTech=ba["default"].getTech,g.registerTech=ba["default"].registerTech,g.browser=n,g.TOUCH_ENABLED=n.TOUCH_ENABLED,g.extend=Z["default"],g.mergeOptions=F["default"],g.bind=H.bind,g.plugin=D["default"],g.addLanguage=function(a,b){var c;return a=(""+a).toLowerCase(),g.options.languages=(0,F["default"])(g.options.languages,(c={},c[a]=b,c)),g.options.languages[a]},g.log=S["default"],g.createTimeRange=g.createTimeRanges=O.createTimeRanges,g.formatTime=Q["default"],g.parseUrl=U.parseUrl,g.isCrossOrigin=U.isCrossOrigin,g.EventTarget=x["default"],g.on=z.on,g.one=z.one,g.off=z.off,g.trigger=z.trigger,g.xhr=_["default"],g.TextTrack=J["default"],g.AudioTrack=L["default"],g.VideoTrack=N["default"],g.isEl=p.isEl,g.isTextNode=p.isTextNode,g.createEl=p.createEl,g.hasClass=p.hasElClass,g.addClass=p.addElClass,g.removeClass=p.removeElClass,g.toggleClass=p.toggleElClass,g.setAttributes=p.setElAttributes,g.getAttributes=p.getElAttributes,g.emptyEl=p.emptyEl,g.appendContent=p.appendContent,g.insertContent=p.insertContent,g.computedStyle=X["default"],"function"==typeof a&&a.amd?a("videojs",[],function(){return g}):"object"===(void 0===d?"undefined":h(d))&&"object"===(void 0===c?"undefined":h(c))&&(c.exports=g),d["default"]=g},{104:104,42:42,43:43,5:5,51:51,52:52,56:56,62:62,64:64,72:72,77:77,78:78,80:80,81:81,82:82,83:83,84:84,86:86,87:87,88:88,89:89,90:90,92:92,94:94,95:95}],94:[function(a,b,c){(function(c){var d=void 0!==c?c:"undefined"!=typeof window?window:{},e=a(96);if("undefined"!=typeof document)b.exports=document;else{var f=d["__GLOBAL_DOCUMENT_CACHE@4"];f||(f=d["__GLOBAL_DOCUMENT_CACHE@4"]=e),b.exports=f}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{96:96}],95:[function(a,b,c){(function(a){"undefined"!=typeof window?b.exports=window:void 0!==a?b.exports=a:"undefined"!=typeof self?b.exports=self:b.exports={}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],96:[function(a,b,c){},{}],97:[function(a,b,c){function d(a,b){var c,d=null;try{c=JSON.parse(a,b)}catch(e){d=e}return[d,c]}b.exports=d},{}],98:[function(a,b,c){function d(a){return a.replace(/\n\r?\s*/g,"")}b.exports=function(a){for(var b="",c=0;c<arguments.length;c++)b+=d(a[c])+(arguments[c+1]||"");return b}},{}],99:[function(a,b,c){var d=a(103),e=b.exports={WebVTT:a(100),VTTCue:a(101),VTTRegion:a(102)};d.vttjs=e,d.WebVTT=e.WebVTT;var f=e.VTTCue,g=e.VTTRegion,h=d.VTTCue,i=d.VTTRegion;e.shim=function(){d.VTTCue=f,d.VTTRegion=g},e.restore=function(){d.VTTCue=h,d.VTTRegion=i},d.VTTCue||e.shim()},{100:100,101:101,102:102,103:103}],100:[function(a,b,c){function d(a,b){this.name="ParsingError",this.code=a.code,this.message=b||a.message}function e(a){function b(a,b,c,d){return 3600*(0|a)+60*(0|b)+(0|c)+(0|d)/1e3}var c=a.match(/^(\d+):(\d{2})(:\d{2})?\.(\d{3})/);return c?c[3]?b(c[1],c[2],c[3].replace(":",""),c[4]):c[1]>59?b(c[1],c[2],0,c[4]):b(0,c[1],c[2],c[4]):null}function f(){this.values=r(null)}function g(a,b,c,d){var e=d?a.split(d):[a];for(var f in e)if("string"==typeof e[f]){var g=e[f].split(c);if(2===g.length){var h=g[0],i=g[1];b(h,i)}}}function h(a,b,c){function h(){var b=e(a);if(null===b)throw new d(d.Errors.BadTimeStamp,"Malformed timestamp: "+j);return a=a.replace(/^[^\sa-zA-Z-]+/,""),b}function i(){a=a.replace(/^\s+/,"")}var j=a;if(i(),b.startTime=h(),i(),"--\x3e"!==a.substr(0,3))throw new d(d.Errors.BadTimeStamp,"Malformed time stamp (time stamps must be separated by '--\x3e'): "+j);a=a.substr(3),i(),b.endTime=h(),i(),function(a,b){var d=new f;g(a,function(a,b){switch(a){case"region":for(var e=c.length-1;e>=0;e--)if(c[e].id===b){d.set(a,c[e].region);break}break;case"vertical":d.alt(a,b,["rl","lr"]);break;case"line":var f=b.split(","),g=f[0];d.integer(a,g),d.percent(a,g)&&d.set("snapToLines",!1),d.alt(a,g,["auto"]),2===f.length&&d.alt("lineAlign",f[1],["start","middle","end"]);break;case"position":f=b.split(","),d.percent(a,f[0]),2===f.length&&d.alt("positionAlign",f[1],["start","middle","end"]);break;case"size":d.percent(a,b);break;case"align":d.alt(a,b,["start","middle","end","left","right"])}},/:/,/\s/),b.region=d.get("region",null),b.vertical=d.get("vertical",""),b.line=d.get("line","auto"),b.lineAlign=d.get("lineAlign","start"),b.snapToLines=d.get("snapToLines",!0),b.size=d.get("size",100),b.align=d.get("align","middle"),b.position=d.get("position",{start:0,left:0,middle:50,end:100,right:100},b.align),b.positionAlign=d.get("positionAlign",{start:"start",left:"start",middle:"middle",end:"end",right:"end"},b.align)}(a,b)}function i(a,b){function c(a){return s[a]}for(var d,f=a.document.createElement("div"),g=f,h=[];null!==(d=function(){if(!b)return null;var a=b.match(/^([^<]*)(<[^>]+>?)?/);return function(a){return b=b.substr(a.length),a}(a[1]?a[1]:a[2])}());)if("<"!==d[0])g.appendChild(a.document.createTextNode(function(a){for(;k=a.match(/&(amp|lt|gt|lrm|rlm|nbsp);/);)a=a.replace(k[0],c);return a}(d)));else{if("/"===d[1]){h.length&&h[h.length-1]===d.substr(2).replace(">","")&&(h.pop(),g=g.parentNode);continue}var i,j=e(d.substr(1,d.length-2));if(j){i=a.document.createProcessingInstruction("timestamp",j),g.appendChild(i);continue}var k=d.match(/^<([^.\s\/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);if(!k)continue;if(!(i=function(b,c){var d=t[b];if(!d)return null;var e=a.document.createElement(d);e.localName=d;var f=u[b];return f&&c&&(e[f]=c.trim()),e}(k[1],k[3])))continue;if(!function(a,b){return!v[b.localName]||v[b.localName]===a.localName}(g,i))continue;k[2]&&(i.className=k[2].substr(1).replace("."," ")),h.push(k[1]),g.appendChild(i),g=i}return f}function j(a){for(var b=0;b<w.length;b++){var c=w[b];if(a>=c[0]&&a<=c[1])return!0}return!1}function k(a){function b(a,b){for(var c=b.childNodes.length-1;c>=0;c--)a.push(b.childNodes[c])}function c(a){if(!a||!a.length)return null;var d=a.pop(),e=d.textContent||d.innerText;if(e){var f=e.match(/^.*(\n|\r)/);return f?(a.length=0,f[0]):e}return"ruby"===d.tagName?c(a):d.childNodes?(b(a,d),c(a)):void 0}var d,e=[],f="";if(!a||!a.childNodes)return"ltr";for(b(e,a);f=c(e);)for(var g=0;g<f.length;g++)if(d=f.charCodeAt(g),j(d))return"rtl";return"ltr"}function l(a){if("number"==typeof a.line&&(a.snapToLines||a.line>=0&&a.line<=100))return a.line;if(!a.track||!a.track.textTrackList||!a.track.textTrackList.mediaElement)return-1;for(var b=a.track,c=b.textTrackList,d=0,e=0;e<c.length&&c[e]!==b;e++)"showing"===c[e].mode&&d++;return-1*++d}function m(){}function n(a,b,c){var d=/MSIE\s8\.0/.test(navigator.userAgent),e="rgba(255, 255, 255, 1)",f="rgba(0, 0, 0, 0.8)";d&&(e="rgb(255, 255, 255)",f="rgb(0, 0, 0)"),m.call(this),this.cue=b,this.cueDiv=i(a,b.text);var g={color:e,backgroundColor:f,position:"relative",left:0,right:0,top:0,bottom:0,display:"inline"};d||(g.writingMode=""===b.vertical?"horizontal-tb":"lr"===b.vertical?"vertical-lr":"vertical-rl",g.unicodeBidi="plaintext"),this.applyStyles(g,this.cueDiv),this.div=a.document.createElement("div"),g={textAlign:"middle"===b.align?"center":b.align,font:c.font,whiteSpace:"pre-line",position:"absolute"},d||(g.direction=k(this.cueDiv),g.writingMode=""===b.vertical?"horizontal-tb":"lr"===b.vertical?"vertical-lr":"vertical-rl".stylesunicodeBidi="plaintext"),this.applyStyles(g),this.div.appendChild(this.cueDiv);var h=0;switch(b.positionAlign){case"start":h=b.position;break;case"middle":h=b.position-b.size/2;break;case"end":h=b.position-b.size}""===b.vertical?this.applyStyles({left:this.formatStyle(h,"%"),width:this.formatStyle(b.size,"%")}):this.applyStyles({top:this.formatStyle(h,"%"),height:this.formatStyle(b.size,"%")}),this.move=function(a){this.applyStyles({top:this.formatStyle(a.top,"px"),bottom:this.formatStyle(a.bottom,"px"),left:this.formatStyle(a.left,"px"),right:this.formatStyle(a.right,"px"),height:this.formatStyle(a.height,"px"),width:this.formatStyle(a.width,"px")})}}function o(a){var b,c,d,e,f=/MSIE\s8\.0/.test(navigator.userAgent);if(a.div){c=a.div.offsetHeight,d=a.div.offsetWidth,e=a.div.offsetTop;var g=(g=a.div.childNodes)&&(g=g[0])&&g.getClientRects&&g.getClientRects();a=a.div.getBoundingClientRect(),b=g?Math.max(g[0]&&g[0].height||0,a.height/g.length):0}this.left=a.left,this.right=a.right,this.top=a.top||e,this.height=a.height||c,this.bottom=a.bottom||e+(a.height||c),this.width=a.width||d,this.lineHeight=b!==undefined?b:a.lineHeight,f&&!this.lineHeight&&(this.lineHeight=13)}function p(a,b,c,d){var e=new o(b),f=b.cue,g=l(f),h=[];if(f.snapToLines){var i;switch(f.vertical){case"":h=["+y","-y"],i="height";break;case"rl":h=["+x","-x"],i="width";break;case"lr":h=["-x","+x"],i="width"}var j=e.lineHeight,k=j*Math.round(g),m=c[i]+j,n=h[0];Math.abs(k)>m&&(k=k<0?-1:1,k*=Math.ceil(m/j)*j),g<0&&(k+=""===f.vertical?c.height:c.width,h=h.reverse()),e.move(n,k)}else{var p=e.lineHeight/c.height*100;switch(f.lineAlign){case"middle":g-=p/2;break;case"end":g-=p}switch(f.vertical){case"":b.applyStyles({top:b.formatStyle(g,"%")});break;case"rl":b.applyStyles({left:b.formatStyle(g,"%")});break;case"lr":b.applyStyles({right:b.formatStyle(g,"%")})}h=["+y","-x","+x","-y"],e=new o(b)}var q=function(a,b){for(var e,f=new o(a),g=1,h=0;h<b.length;h++){for(;a.overlapsOppositeAxis(c,b[h])||a.within(c)&&a.overlapsAny(d);)a.move(b[h]);if(a.within(c))return a;var i=a.intersectPercentage(c);g>i&&(e=new o(a),g=i),a=new o(f)}return e||f}(e,h);b.move(q.toCSSCompatValues(c))}function q(){}var r=Object.create||function(){function a(){}return function(b){if(1!==arguments.length)throw new Error("Object.create shim only accepts one parameter.");return a.prototype=b,new a}}();d.prototype=r(Error.prototype),d.prototype.constructor=d,d.Errors={BadSignature:{code:0,message:"Malformed WebVTT signature."},BadTimeStamp:{code:1,message:"Malformed time stamp."}},f.prototype={set:function(a,b){this.get(a)||""===b||(this.values[a]=b)},get:function(a,b,c){return c?this.has(a)?this.values[a]:b[c]:this.has(a)?this.values[a]:b},has:function(a){return a in this.values},alt:function(a,b,c){for(var d=0;d<c.length;++d)if(b===c[d]){this.set(a,b);break}},integer:function(a,b){/^-?\d+$/.test(b)&&this.set(a,parseInt(b,10))},percent:function(a,b){return!!(b.match(/^([\d]{1,3})(\.[\d]*)?%$/)&&(b=parseFloat(b))>=0&&b<=100)&&(this.set(a,b),!0)}};var s={"&amp;":"&","&lt;":"<","&gt;":">","&lrm;":"‎","&rlm;":"‏","&nbsp;":" "},t={c:"span",i:"i",b:"b",u:"u",ruby:"ruby",rt:"rt",v:"span",lang:"span"},u={v:"title",lang:"lang"},v={rt:"ruby"},w=[[1470,1470],[1472,1472],[1475,1475],[1478,1478],[1488,1514],[1520,1524],[1544,1544],[1547,1547],[1549,1549],[1563,1563],[1566,1610],[1645,1647],[1649,1749],[1765,1766],[1774,1775],[1786,1805],[1807,1808],[1810,1839],[1869,1957],[1969,1969],[1984,2026],[2036,2037],[2042,2042],[2048,2069],[2074,2074],[2084,2084],[2088,2088],[2096,2110],[2112,2136],[2142,2142],[2208,2208],[2210,2220],[8207,8207],[64285,64285],[64287,64296],[64298,64310],[64312,64316],[64318,64318],[64320,64321],[64323,64324],[64326,64449],[64467,64829],[64848,64911],[64914,64967],[65008,65020],[65136,65140],[65142,65276],[67584,67589],[67592,67592],[67594,67637],[67639,67640],[67644,67644],[67647,67669],[67671,67679],[67840,67867],[67872,67897],[67903,67903],[67968,68023],[68030,68031],[68096,68096],[68112,68115],[68117,68119],[68121,68147],[68160,68167],[68176,68184],[68192,68223],[68352,68405],[68416,68437],[68440,68466],[68472,68479],[68608,68680],[126464,126467],[126469,126495],[126497,126498],[126500,126500],[126503,126503],[126505,126514],[126516,126519],[126521,126521],[126523,126523],[126530,126530],[126535,126535],[126537,126537],[126539,126539],[126541,126543],[126545,126546],[126548,126548],[126551,126551],[126553,126553],[126555,126555],[126557,126557],[126559,126559],[126561,126562],[126564,126564],[126567,126570],[126572,126578],[126580,126583],[126585,126588],[126590,126590],[126592,126601],[126603,126619],[126625,126627],[126629,126633],[126635,126651],[1114109,1114109]];m.prototype.applyStyles=function(a,b){b=b||this.div;for(var c in a)a.hasOwnProperty(c)&&(b.style[c]=a[c])},m.prototype.formatStyle=function(a,b){return 0===a?0:a+b},n.prototype=r(m.prototype),n.prototype.constructor=n,o.prototype.move=function(a,b){switch(b=b!==undefined?b:this.lineHeight,a){case"+x":this.left+=b,this.right+=b;break;case"-x":this.left-=b,this.right-=b;break;case"+y":this.top+=b,this.bottom+=b;break;case"-y":this.top-=b,this.bottom-=b}},o.prototype.overlaps=function(a){return this.left<a.right&&this.right>a.left&&this.top<a.bottom&&this.bottom>a.top},o.prototype.overlapsAny=function(a){for(var b=0;b<a.length;b++)if(this.overlaps(a[b]))return!0;return!1},o.prototype.within=function(a){return this.top>=a.top&&this.bottom<=a.bottom&&this.left>=a.left&&this.right<=a.right},o.prototype.overlapsOppositeAxis=function(a,b){switch(b){case"+x":return this.left<a.left;case"-x":return this.right>a.right;case"+y":return this.top<a.top;case"-y":return this.bottom>a.bottom}},o.prototype.intersectPercentage=function(a){return Math.max(0,Math.min(this.right,a.right)-Math.max(this.left,a.left))*Math.max(0,Math.min(this.bottom,a.bottom)-Math.max(this.top,a.top))/(this.height*this.width)},o.prototype.toCSSCompatValues=function(a){return{top:this.top-a.top,bottom:a.bottom-this.bottom,left:this.left-a.left,right:a.right-this.right,height:this.height,width:this.width}},o.getSimpleBoxPosition=function(a){var b=a.div?a.div.offsetHeight:a.tagName?a.offsetHeight:0,c=a.div?a.div.offsetWidth:a.tagName?a.offsetWidth:0,d=a.div?a.div.offsetTop:a.tagName?a.offsetTop:0;return a=a.div?a.div.getBoundingClientRect():a.tagName?a.getBoundingClientRect():a,{left:a.left,right:a.right,top:a.top||d,height:a.height||b,bottom:a.bottom||d+(a.height||b),width:a.width||c}},q.StringDecoder=function(){return{decode:function(a){if(!a)return"";if("string"!=typeof a)throw new Error("Error - expected string data.");return decodeURIComponent(encodeURIComponent(a))}}},q.convertCueToDOMTree=function(a,b){return a&&b?i(a,b):null};q.processCues=function(a,b,c){if(!a||!b||!c)return null;for(;c.firstChild;)c.removeChild(c.firstChild);var d=a.document.createElement("div");if(d.style.position="absolute",d.style.left="0",d.style.right="0",d.style.top="0",d.style.bottom="0",d.style.margin="1.5%",c.appendChild(d),function(a){for(var b=0;b<a.length;b++)if(a[b].hasBeenReset||!a[b].displayState)return!0;return!1}(b)){var e=[],f=o.getSimpleBoxPosition(d),g=Math.round(.05*f.height*100)/100,h={font:g+"px sans-serif"};!function(){for(var c,g,i=0;i<b.length;i++)g=b[i],c=new n(a,g,h),d.appendChild(c.div),p(a,c,f,e),g.displayState=c.div,e.push(o.getSimpleBoxPosition(c))}()}else for(var i=0;i<b.length;i++)d.appendChild(b[i].displayState)},q.Parser=function(a,b,c){c||(c=b,b={}),b||(b={}),this.window=a,this.vttjs=b,this.state="INITIAL",this.buffer="",this.decoder=c||new TextDecoder("utf8"),this.regionList=[]},q.Parser.prototype={reportOrThrowError:function(a){if(!(a instanceof d))throw a;this.onparsingerror&&this.onparsingerror(a)},parse:function(a){function b(){for(var a=j.buffer,b=0;b<a.length&&"\r"!==a[b]&&"\n"!==a[b];)++b;var c=a.substr(0,b);return"\r"===a[b]&&++b,"\n"===a[b]&&++b,j.buffer=a.substr(b),c}function c(a){var b=new f;if(g(a,function(a,c){switch(a){case"id":b.set(a,c);break;case"width":b.percent(a,c);break;case"lines":b.integer(a,c);break;case"regionanchor":case"viewportanchor":var d=c.split(",");if(2!==d.length)break;var e=new f;if(e.percent("x",d[0]),e.percent("y",d[1]),!e.has("x")||!e.has("y"))break;b.set(a+"X",e.get("x")),b.set(a+"Y",e.get("y"));break;case"scroll":b.alt(a,c,["up"])}},/=/,/\s/),b.has("id")){var c=new(j.vttjs.VTTRegion||j.window.VTTRegion);c.width=b.get("width",100),c.lines=b.get("lines",3),c.regionAnchorX=b.get("regionanchorX",0),c.regionAnchorY=b.get("regionanchorY",100),c.viewportAnchorX=b.get("viewportanchorX",0),c.viewportAnchorY=b.get("viewportanchorY",100),c.scroll=b.get("scroll",""),j.onregion&&j.onregion(c),j.regionList.push({id:b.get("id"),region:c})}}function i(a){var b=new f;g(a,function(a,c){switch(a){case"MPEGT":b.integer(a+"S",c);break;case"LOCA":b.set(a+"L",e(c))}},/[^\d]:/,/,/),j.ontimestampmap&&j.ontimestampmap({MPEGTS:b.get("MPEGTS"),LOCAL:b.get("LOCAL")})}var j=this;a&&(j.buffer+=j.decoder.decode(a,{stream:!0}));try{var k;if("INITIAL"===j.state){if(!/\r\n|\n/.test(j.buffer))return this;k=b();var l=k.match(/^WEBVTT([ \t].*)?$/);if(!l||!l[0])throw new d(d.Errors.BadSignature);j.state="HEADER"}for(var m=!1;j.buffer;){if(!/\r\n|\n/.test(j.buffer))return this;switch(m?m=!1:k=b(),j.state){case"HEADER":/:/.test(k)?function(a){a.match(/X-TIMESTAMP-MAP/)?g(a,function(a,b){switch(a){case"X-TIMESTAMP-MAP":i(b)}},/=/):g(a,function(a,b){switch(a){case"Region":c(b)}},/:/)}(k):k||(j.state="ID");continue;case"NOTE":k||(j.state="ID");continue;case"ID":if(/^NOTE($|[ \t])/.test(k)){j.state="NOTE";break}if(!k)continue;if(j.cue=new(j.vttjs.VTTCue||j.window.VTTCue)(0,0,""),j.state="CUE",-1===k.indexOf("--\x3e")){j.cue.id=k;continue}case"CUE":try{h(k,j.cue,j.regionList)}catch(o){j.reportOrThrowError(o),j.cue=null,j.state="BADCUE";continue}j.state="CUETEXT";continue;case"CUETEXT":var n=-1!==k.indexOf("--\x3e");if(!k||n&&(m=!0)){j.oncue&&j.oncue(j.cue),j.cue=null,j.state="ID";continue}j.cue.text&&(j.cue.text+="\n"),j.cue.text+=k;continue;case"BADCUE":k||(j.state="ID");continue}}}catch(o){j.reportOrThrowError(o),"CUETEXT"===j.state&&j.cue&&j.oncue&&j.oncue(j.cue),j.cue=null,j.state="INITIAL"===j.state?"BADWEBVTT":"BADCUE"}return this},flush:function(){var a=this;try{if(a.buffer+=a.decoder.decode(),(a.cue||"HEADER"===a.state)&&(a.buffer+="\n\n",a.parse()),"INITIAL"===a.state)throw new d(d.Errors.BadSignature)}catch(b){a.reportOrThrowError(b)}return a.onflush&&a.onflush(),this}},b.exports=q},{}],101:[function(a,b,c){function d(a){return"string"==typeof a&&(!!i[a.toLowerCase()]&&a.toLowerCase())}function e(a){return"string"==typeof a&&(!!j[a.toLowerCase()]&&a.toLowerCase())}function f(a){for(var b=1;b<arguments.length;b++){var c=arguments[b];for(var d in c)a[d]=c[d]}return a}function g(a,b,c){var g=this,i=/MSIE\s8\.0/.test(navigator.userAgent),j={};i?g=document.createElement("custom"):j.enumerable=!0,g.hasBeenReset=!1;var k="",l=!1,m=a,n=b,o=c,p=null,q="",r=!0,s="auto",t="start",u=50,v="middle",w=50,x="middle";if(Object.defineProperty(g,"id",f({},j,{get:function(){return k},set:function(a){k=""+a}})),Object.defineProperty(g,"pauseOnExit",f({},j,{get:function(){return l},set:function(a){l=!!a}})),Object.defineProperty(g,"startTime",f({},j,{get:function(){return m},set:function(a){if("number"!=typeof a)throw new TypeError("Start time must be set to a number.");m=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"endTime",f({},j,{get:function(){return n},set:function(a){if("number"!=typeof a)throw new TypeError("End time must be set to a number.");n=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"text",f({},j,{get:function(){return o},set:function(a){o=""+a,this.hasBeenReset=!0}})),Object.defineProperty(g,"region",f({},j,{get:function(){return p},set:function(a){p=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"vertical",f({},j,{get:function(){return q},set:function(a){var b=d(a);if(!1===b)throw new SyntaxError("An invalid or illegal string was specified.");q=b,this.hasBeenReset=!0}})),Object.defineProperty(g,"snapToLines",f({},j,{get:function(){return r},set:function(a){r=!!a,this.hasBeenReset=!0}})),Object.defineProperty(g,"line",f({},j,{get:function(){return s},set:function(a){if("number"!=typeof a&&a!==h)throw new SyntaxError("An invalid number or illegal string was specified.");s=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"lineAlign",f({},j,{get:function(){return t},set:function(a){var b=e(a);if(!b)throw new SyntaxError("An invalid or illegal string was specified.");t=b,this.hasBeenReset=!0}})),Object.defineProperty(g,"position",f({},j,{get:function(){return u},set:function(a){if(a<0||a>100)throw new Error("Position must be between 0 and 100.");u=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"positionAlign",f({},j,{get:function(){return v},set:function(a){var b=e(a);if(!b)throw new SyntaxError("An invalid or illegal string was specified.");v=b,this.hasBeenReset=!0}})),Object.defineProperty(g,"size",f({},j,{get:function(){return w},set:function(a){if(a<0||a>100)throw new Error("Size must be between 0 and 100.");w=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"align",f({},j,{get:function(){return x},set:function(a){var b=e(a);if(!b)throw new SyntaxError("An invalid or illegal string was specified.");x=b,this.hasBeenReset=!0}})),g.displayState=undefined,i)return g}var h="auto",i={"":!0,lr:!0,rl:!0},j={start:!0,middle:!0,end:!0,left:!0,right:!0};g.prototype.getCueAsHTML=function(){return WebVTT.convertCueToDOMTree(window,this.text)},b.exports=g},{}],102:[function(a,b,c){function d(a){return"string"==typeof a&&(!!g[a.toLowerCase()]&&a.toLowerCase())}function e(a){return"number"==typeof a&&a>=0&&a<=100}function f(){var a=100,b=3,c=0,f=100,g=0,h=100,i="";Object.defineProperties(this,{width:{enumerable:!0,get:function(){return a},set:function(b){if(!e(b))throw new Error("Width must be between 0 and 100.");a=b}},lines:{enumerable:!0,get:function(){return b},set:function(a){if("number"!=typeof a)throw new TypeError("Lines must be set to a number.");b=a}},regionAnchorY:{enumerable:!0,get:function(){return f},set:function(a){if(!e(a))throw new Error("RegionAnchorX must be between 0 and 100.");f=a}},regionAnchorX:{enumerable:!0,get:function(){return c},set:function(a){if(!e(a))throw new Error("RegionAnchorY must be between 0 and 100.");c=a}},viewportAnchorY:{enumerable:!0,get:function(){return h},set:function(a){if(!e(a))throw new Error("ViewportAnchorY must be between 0 and 100.");h=a}},viewportAnchorX:{enumerable:!0,get:function(){return g},set:function(a){if(!e(a))throw new Error("ViewportAnchorX must be between 0 and 100.");g=a}},scroll:{enumerable:!0,get:function(){return i},set:function(a){var b=d(a);if(!1===b)throw new SyntaxError("An invalid or illegal string was specified.");i=b}}})}var g={"":!0,up:!0};b.exports=f},{}],103:[function(a,b,c){(function(a){var c;c="undefined"!=typeof window?window:void 0!==a?a:"undefined"!=typeof self?self:{},b.exports=c}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],104:[function(a,b,c){"use strict";function d(a){for(var b in a)if(a.hasOwnProperty(b))return!1;return!0}function e(a,b,c){var d=a;return k(b)?(c=b,"string"==typeof a&&(d={uri:a})):d=m(b,{uri:a}),d.callback=c,d}function f(a,b,c){return b=e(a,b,c),g(b)}function g(a){function b(){4===m.readyState&&g()}function c(){var a=undefined;if(a=m.response?m.response:m.responseText||h(m),v)try{a=JSON.parse(a)}catch(b){}return a}function e(a){return clearTimeout(p),a instanceof Error||(a=new Error(""+(a||"Unknown XMLHttpRequest Error"))),a.statusCode=0,j(a,k)}function g(){if(!o){var b;clearTimeout(p),b=a.useXDR&&m.status===undefined?200:1223===m.status?204:m.status;var d=k,e=null;return 0!==b?(d={body:c(),statusCode:b,method:r,headers:{},url:q,rawRequest:m},m.getAllResponseHeaders&&(d.headers=l(m.getAllResponseHeaders()))):e=new Error("Internal XMLHttpRequest Error"),j(e,d,d.body)}}if("undefined"==typeof a.callback)throw new Error("callback argument missing");var i=!1,j=function(b,c,d){i||(i=!0,a.callback(b,c,d))},k={body:undefined,headers:{},statusCode:0,method:r,url:q,rawRequest:m},m=a.xhr||null;m||(m=a.cors||a.useXDR?new f.XDomainRequest:new f.XMLHttpRequest);var n,o,p,q=m.url=a.uri||a.url,r=m.method=a.method||"GET",s=a.body||a.data||null,t=m.headers=a.headers||{},u=!!a.sync,v=!1;if("json"in a&&(v=!0,t.accept||t.Accept||(t.Accept="application/json"),"GET"!==r&&"HEAD"!==r&&(t["content-type"]||t["Content-Type"]||(t["Content-Type"]="application/json"),s=JSON.stringify(a.json))),m.onreadystatechange=b,m.onload=g,m.onerror=e,m.onprogress=function(){},m.ontimeout=e,m.open(r,q,!u,a.username,a.password),u||(m.withCredentials=!!a.withCredentials),!u&&a.timeout>0&&(p=setTimeout(function(){o=!0,m.abort("timeout");var a=new Error("XMLHttpRequest timeout");a.code="ETIMEDOUT",e(a)},a.timeout)),m.setRequestHeader)for(n in t)t.hasOwnProperty(n)&&m.setRequestHeader(n,t[n]);else if(a.headers&&!d(a.headers))throw new Error("Headers cannot be set on an XDomainRequest object");return"responseType"in a&&(m.responseType=a.responseType),"beforeSend"in a&&"function"==typeof a.beforeSend&&a.beforeSend(m),m.send(s),m}function h(a){if("document"===a.responseType)return a.responseXML;var b=204===a.status&&a.responseXML&&"parsererror"===a.responseXML.documentElement.nodeName;return""!==a.responseType||b?null:a.responseXML}function i(){}var j=a(95),k=a(105),l=a(108),m=a(109);b.exports=f,f.XMLHttpRequest=j.XMLHttpRequest||i,f.XDomainRequest="withCredentials"in new f.XMLHttpRequest?f.XMLHttpRequest:j.XDomainRequest,function(a,b){for(var c=0;c<a.length;c++)b(a[c])}(["get","put","post","patch","head","delete"],function(a){f["delete"===a?"del":a]=function(b,c,d){return c=e(b,c,d),c.method=a.toUpperCase(),g(c)}})},{105:105,108:108,109:109,95:95}],105:[function(a,b,c){function d(a){var b=e.call(a);return"[object Function]"===b||"function"==typeof a&&"[object RegExp]"!==b||"undefined"!=typeof window&&(a===window.setTimeout||a===window.alert||a===window.confirm||a===window.prompt)}b.exports=d;var e=Object.prototype.toString},{}],106:[function(a,b,c){function d(a,b,c){if(!h(b))throw new TypeError("iterator must be a function");arguments.length<3&&(c=this),"[object Array]"===i.call(a)?e(a,b,c):"string"==typeof a?f(a,b,c):g(a,b,c)}function e(a,b,c){for(var d=0,e=a.length;d<e;d++)j.call(a,d)&&b.call(c,a[d],d,a)}function f(a,b,c){for(var d=0,e=a.length;d<e;d++)b.call(c,a.charAt(d),d,a)}function g(a,b,c){for(var d in a)j.call(a,d)&&b.call(c,a[d],d,a)}var h=a(105);b.exports=d;var i=Object.prototype.toString,j=Object.prototype.hasOwnProperty},{105:105}],107:[function(a,b,c){function d(a){return a.replace(/^\s*|\s*$/g,"")}c=b.exports=d,c.left=function(a){return a.replace(/^\s*/,"")},c.right=function(a){return a.replace(/\s*$/,"")}},{}],108:[function(a,b,c){var d=a(107),e=a(106),f=function(a){return"[object Array]"===Object.prototype.toString.call(a)};b.exports=function(a){if(!a)return{};var b={};return e(d(a).split("\n"),function(a){var c=a.indexOf(":"),e=d(a.slice(0,c)).toLowerCase(),g=d(a.slice(c+1));"undefined"==typeof b[e]?b[e]=g:f(b[e])?b[e].push(g):b[e]=[b[e],g]}),b}},{106:106,107:107}],109:[function(a,b,c){function d(){for(var a={},b=0;b<arguments.length;b++){var c=arguments[b];for(var d in c)e.call(c,d)&&(a[d]=c[d])}return a}b.exports=d;var e=Object.prototype.hasOwnProperty},{}]},{},[93])(93)});
+!function e(t,n,a){function d(i,s){if(!n[i]){if(!t[i]){var r="function"==typeof require&&require;if(!s&&r)return r(i,!0);if(o)return o(i,!0);var u=new Error("Cannot find module '"+i+"'");throw u.code="MODULE_NOT_FOUND",u}var l=n[i]={exports:{}};t[i][0].call(l.exports,function(e){var n=t[i][1][e];return d(n||e)},l,l.exports,e,t,n,a)}return n[i].exports}for(var o="function"==typeof require&&require,i=0;i<a.length;i++)d(a[i]);return d}({1:[function(e,t,n){(function(t){"use strict";function a(e){return e&&e.__esModule?e:{"default":e}}function d(e){if(!e.ads.cancelPlayTimeout){if(l["default"].browser.IS_IOS&&l["default"].browser.IS_IPHONE&&!e.el_.hasAttribute("playsinline")){var t=e.currentWidth?e.currentWidth():e.width(),n=e.currentHeight?e.currentHeight():e.height(),a=i["default"].getComputedStyle(e.el_).position,d=i["default"].getComputedStyle(e.el_).top,o=r["default"].createElement("div");o.style.width=t+"px",o.style.height=n+"px",o.style.background="black",o.style.position=a,o.style.top=d,e.el_.parentNode.insertBefore(o,e.el_),e.el_.style.display="none",e.one(["adstart","adtimeout","adserror","adscanceled","adskip","playing"],function(){e.el_.style.display="block",o.remove()}),e.on("fullscreenchange",function(){o&&!e.isFullscreen()&&(e.el_.style.display="block",o.remove())})}e.ads.cancelPlayTimeout=i["default"].setTimeout(function(){e.ads.cancelPlayTimeout=null,e.paused()||e.pause(),e.ads.cancelledPlay=!0},1)}}n.__esModule=!0,n["default"]=d;var o=e(9),i=a(o),s=e(8),r=a(s),u="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,l=a(u)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],2:[function(e,t,n){"use strict";function a(e){e.ads.contentSrc=e.currentSrc();var t=function(){if("ad-playback"!==e.ads.state){var t=e.currentSrc();t!==e.ads.contentSrc&&(e.trigger({type:"contentupdate",oldValue:e.ads.contentSrc,newValue:t}),e.ads.contentSrc=t)}};e.on("loadstart",t),o["default"].setTimeout(t,1)}n.__esModule=!0,n["default"]=a;var d=e(9),o=function(e){return e&&e.__esModule?e:{"default":e}}(d)},{}],3:[function(e,t,n){(function(e){"use strict";function t(e,t){var n=e.textTracks(),a=function(n){"metadata"===n.kind&&(e.ads.cueTextTracks.setMetadataTrackMode(n),t(e,n))};if(n.length>0)for(var d=0;d<n.length;d++){var o=n[d];a(o)}else n.addEventListener("addtrack",function(e){var t=e.track;a(t)})}function a(e){}function d(e,t){return t}function o(e,t){return t.id}function i(e,t,n,a){e.ads.includedCues={};for(var d=0;d<t.length;d++){var o=t[d],i=this.getSupportedAdCue(e,o);if(-1===i)return void r["default"].log.warn("Skipping as this is not a supported ad cue.",o);var s=this.getCueId(e,o),c=o.startTime;if(u(e,s))return void r["default"].log("Skipping ad already seen with ID "+s);n(e,i,s,c),l(e,s),a!==undefined&&a(e,i)}}n.__esModule=!0,n.processMetadataTracks=t,n.setMetadataTrackMode=a,n.getSupportedAdCue=d,n.getCueId=o,n.processAdTrack=i;var s="undefined"!=typeof window?window.videojs:void 0!==e?e.videojs:null,r=function(e){return e&&e.__esModule?e:{"default":e}}(s),u=function(e,t){return t!==undefined&&e.ads.includedCues[t]},l=function(e,t){t!==undefined&&""!==t&&(e.ads.includedCues[t]=!0)}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],4:[function(e,t,n){(function(t){"use strict";function a(e){return e&&e.__esModule?e:{"default":e}}function d(e,t,n){t===undefined&&(t=!1);var a={};n!==undefined&&(a=n),a["{player.id}"]=this.options_["data-player"],a["{mediainfo.id}"]=this.mediainfo?this.mediainfo.id:"",a["{mediainfo.name}"]=this.mediainfo?this.mediainfo.name:"",a["{mediainfo.description}"]=this.mediainfo?this.mediainfo.description:"",a["{mediainfo.tags}"]=this.mediainfo?this.mediainfo.tags:"",a["{mediainfo.reference_id}"]=this.mediainfo?this.mediainfo.reference_id:"",a["{mediainfo.duration}"]=this.mediainfo?this.mediainfo.duration:"",a["{mediainfo.ad_keys}"]=this.mediainfo?this.mediainfo.ad_keys:"",a["{player.duration}"]=this.duration(),a["{timestamp}"]=(new Date).getTime(),a["{document.referrer}"]=u["default"].referrer,a["{window.location.href}"]=s["default"].location.href,a["{random}"]=Math.floor(1e12*Math.random()),p(this.mediainfo,a,"custom_fields"),p(this.mediainfo,a,"customFields");for(var d in a)e=e.split(d).join(f(a[d],t));return e=e.replace(/{pageVariable\.([^}]+)}/g,function(e,n){for(var a=void 0,d=s["default"],i=n.split("."),r=0;r<i.length;r++)r===i.length-1?a=d[i[r]]:d=d[i[r]];var u=void 0===a?"undefined":o(a);return null===a?"null":a===undefined?(c["default"].log.warn('Page variable "'+n+'" not found'),""):"string"!==u&&"number"!==u&&"boolean"!==u?(c["default"].log.warn('Page variable "'+n+'" is not a supported type'),""):f(String(a),t)})}n.__esModule=!0;var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};n["default"]=d;var i=e(9),s=a(i),r=e(8),u=a(r),l="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,c=a(l),f=function(e,t){return t?encodeURIComponent(e):e},p=function(e,t,n){if(e&&e[n])for(var a=e[n],d=Object.keys(a),o=0;o<d.length;o++){var i="{mediainfo."+n+"."+d[o]+"}";t[i]=a[d[o]]}}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],5:[function(e,t,n){"use strict";function a(e){if("playing"===e.type&&"preroll?"===this.ads.state)o(this,"ad",e);else if("playing"!==e.type||"ad-playback"!==this.ads.state||this.ads.videoElementRecycled())if("playing"===e.type&&"ads-ready?"===this.ads.state)o(this,"ad",e);else{if("playing"===e.type&&"ad-playback"===this.ads.state&&this.ads.videoElementRecycled())return void d(this,e);if("ad-playback"===this.ads.state)(this.ads.videoElementRecycled()||this.ads.stitchedAds())&&o(this,"ad",e);else if("content-playback"===this.ads.state&&"ended"===e.type)o(this,"content",e);else if("content-resuming"===this.ads.state){if(this.ads.snapshot&&this.currentSrc()!==this.ads.snapshot.currentSrc){if("loadstart"===e.type)return;return o(this,"content",e)}if(this.ads.snapshot&&this.ads.snapshot.ended){if("pause"===e.type||"ended"===e.type)return;return o(this,"content",e)}"playing"!==e.type&&o(this,"content",e)}}else o(this,"ad",e)}n.__esModule=!0,n["default"]=a;var d=function(e,t){t.isImmediatePropagationStopped=function(){return!0},t.cancelBubble=!0,t.isPropagationStopped=function(){return!0}},o=function(e,t,n){d(e,n),e.trigger({type:t+n.type,state:e.ads.state,originalEvent:n})}},{}],6:[function(e,t,n){(function(t){"use strict";function a(e){return e&&e.__esModule?e:{"default":e}}function d(e){var t=void 0;t=u["default"].browser.IS_IOS&&e.ads.isLive(e)&&e.seekable().length>0?e.currentTime()-e.seekable().end(0):e.currentTime();var n=e.$(".vjs-tech"),a=e.remoteTextTracks?e.remoteTextTracks():[],d=e.textTracks?e.textTracks():[],o=[],i=[],s={ended:e.ended(),currentSrc:e.currentSrc(),src:e.tech_.src(),currentTime:t,type:e.currentType()};n&&(s.nativePoster=n.poster,s.style=n.getAttribute("style"));for(var r=0;r<a.length;r++){var l=a[r];o.push({track:l,mode:l.mode}),l.mode="disabled"}s.suppressedRemoteTracks=o;for(var c=0;c<d.length;c++){var f=d[c];i.push({track:f,mode:f.mode}),f.mode="disabled"}return s.suppressedTracks=i,s}function o(e,t){if(!0===e.ads.disableNextSnapshotRestore)return void(e.ads.disableNextSnapshotRestore=!1);var n=e.$(".vjs-tech"),a=20,d=t.suppressedRemoteTracks,o=t.suppressedTracks,i=void 0,r=function(){for(var e=0;e<d.length;e++)i=d[e],i.track.mode=i.mode;for(var t=0;t<o.length;t++)i=o[t],i.track.mode=i.mode},l=function(){var n=void 0;u["default"].browser.IS_IOS&&e.ads.isLive(e)?t.currentTime<0&&(n=e.seekable().length>0?e.seekable().end(0)+t.currentTime:e.currentTime(),e.currentTime(n)):t.ended?e.currentTime(e.duration()):e.currentTime(t.currentTime),t.ended||e.play()},c=function f(){if(e.off("contentcanplay",f),e.ads.tryToResumeTimeout_&&(e.clearTimeout(e.ads.tryToResumeTimeout_),e.ads.tryToResumeTimeout_=null),n=e.el().querySelector(".vjs-tech"),n.readyState>1)return l();if(n.seekable===undefined)return l();if(n.seekable.length>0)return l();if(a--)s["default"].setTimeout(f,50);else try{l()}catch(t){u["default"].log.warn("Failed to resume the content after an advertisement",t)}};t.nativePoster&&(n.poster=t.nativePoster),"style"in t&&n.setAttribute("style",t.style||""),e.ads.videoElementRecycled()?(e.one("contentloadedmetadata",r),e.src({src:t.currentSrc,type:t.type}),e.load(),e.one("contentcanplay",c),e.ads.tryToResumeTimeout_=e.setTimeout(c,2e3)):e.ended()&&t.ended||(r(),e.play())}n.__esModule=!0,n.getPlayerSnapshot=d,n.restorePlayerSnapshot=o;var i=e(9),s=a(i),r="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,u=a(r)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],7:[function(e,t,n){},{}],8:[function(e,t,n){(function(n){var a,d=void 0!==n?n:"undefined"!=typeof window?window:{},o=e(7);"undefined"!=typeof document?a=document:(a=d["__GLOBAL_DOCUMENT_CACHE@4"])||(a=d["__GLOBAL_DOCUMENT_CACHE@4"]=o),t.exports=a}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],9:[function(e,t,n){(function(e){var n;n="undefined"!=typeof window?window:void 0!==e?e:"undefined"!=typeof self?self:{},t.exports=n}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],10:[function(e,t,n){(function(t){"use strict";function n(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&(t[n]=e[n]);return t["default"]=e,t}function a(e){return e&&e.__esModule?e:{"default":e}}var d=e(9),o=a(d),i="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,s=a(i),r=e(5),u=a(r),l=e(6),c=n(l),f=e(2),p=a(f),y=e(1),m=a(y),h=e(4),v=a(h),g=e(3),T=n(g),b=s["default"].getTech("Html5").Events,_=function(e){var t=e.$(".vjs-tech");t&&t.removeAttribute("poster")},w={timeout:5e3,prerollTimeout:100,postrollTimeout:100,debug:!1,stitchedAds:!1},k=function(e){var t=this,n=s["default"].mergeOptions(w,e),a=b.concat(["firstplay","loadedalldata","playing"]);t.on(a,u["default"]),t.on("ended",function(){t.hasClass("vjs-has-started")||t.addClass("vjs-has-started")}),t.on(["addurationchange","adcanplay"],function(){t.currentSrc()!==t.ads.snapshot.currentSrc&&t.play()}),t.on("nopreroll",function(){t.ads.nopreroll_=!0}),t.on("nopostroll",function(){t.ads.nopostroll_=!0}),t.on(["ads-ad-started","playing"],function(){t.removeClass("vjs-ad-loading")}),t.ads={state:"content-set",disableNextSnapshotRestore:!1,_contentHasEnded:!1,adType:null,VERSION:"4.2.8",reset:function(){t.ads.disableNextSnapshotRestore=!1,t.ads._contentHasEnded=!1,t.ads.snapshot=null,t.ads.adType=null},startLinearAdMode:function(){"preroll?"!==t.ads.state&&"content-playback"!==t.ads.state&&"postroll?"!==t.ads.state||t.trigger("adstart")},endLinearAdMode:function(){"ad-playback"===t.ads.state&&(t.trigger("adend"),t.removeClass("vjs-ad-loading"))},skipLinearAdMode:function(){"ad-playback"!==t.ads.state&&t.trigger("adskip")},stitchedAds:function(e){return e!==undefined&&(this._stitchedAds=!!e),this._stitchedAds},videoElementRecycled:function(){if(t.ads.shouldPlayContentBehindAd(t))return!1;if(!this.snapshot)throw new Error("You cannot use videoElementRecycled while there is no snapshot.");var e=t.tech_.src()!==this.snapshot.src,n=t.currentSrc()!==this.snapshot.currentSrc;return e||n},isLive:function(e){return e.duration()===Infinity||"8"===s["default"].browser.IOS_VERSION&&0===e.duration()},shouldPlayContentBehindAd:function(e){return!s["default"].browser.IS_IOS&&!s["default"].browser.IS_ANDROID&&e.duration()===Infinity}},t.ads.stitchedAds(n.stitchedAds),t.ads.cueTextTracks=T,t.ads.adMacroReplacement=v["default"].bind(t),(0,p["default"])(t),t.on("contentupdate",t.ads.reset);var d={"content-set":{events:{adscanceled:function(){this.state="content-playback"},adsready:function(){this.state="ads-ready"},play:function(){this.state="ads-ready?",(0,m["default"])(t),_(t)},adserror:function(){this.state="content-playback"},adskip:function(){this.state="content-playback"}}},"ads-ready":{events:{play:function(){this.state="preroll?",(0,m["default"])(t)},adskip:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"}}},"preroll?":{enter:function(){t.ads.nopreroll_?(t.trigger("readyforpreroll"),o["default"].setTimeout(function(){t.trigger("nopreroll")},1)):(t.addClass("vjs-ad-loading"),t.ads.adTimeoutTimeout=o["default"].setTimeout(function(){t.trigger("adtimeout")},n.prerollTimeout),t.trigger("readyforpreroll"))},leave:function(){o["default"].clearTimeout(t.ads.adTimeoutTimeout)},events:{play:function(){(0,m["default"])(t)},adstart:function(){this.state="ad-playback",t.ads.adType="preroll"},adskip:function(){this.state="content-playback"},adtimeout:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"},nopreroll:function(){this.state="content-playback"}}},"ads-ready?":{enter:function(){t.addClass("vjs-ad-loading"),t.ads.adTimeoutTimeout=o["default"].setTimeout(function(){t.trigger("adtimeout")},n.timeout)},leave:function(){o["default"].clearTimeout(t.ads.adTimeoutTimeout),t.removeClass("vjs-ad-loading")},events:{play:function(){(0,m["default"])(t)},adscanceled:function(){this.state="content-playback"},adsready:function(){this.state="preroll?"},adskip:function(){this.state="content-playback"},adtimeout:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"}}},"ad-playback":{enter:function(){t.ads.shouldPlayContentBehindAd(t)||(this.snapshot=c.getPlayerSnapshot(t)),t.ads.shouldPlayContentBehindAd(t)&&(this.preAdVolume_=t.volume(),t.volume(0)),t.addClass("vjs-ad-playing"),t.hasClass("vjs-live")&&t.removeClass("vjs-live"),_(t),t.ads.cancelPlayTimeout&&o["default"].setTimeout(function(){o["default"].clearTimeout(t.ads.cancelPlayTimeout),t.ads.cancelPlayTimeout=null},1)},leave:function(){t.removeClass("vjs-ad-playing"),t.ads.isLive(t)&&t.addClass("vjs-live"),t.ads.shouldPlayContentBehindAd(t)||c.restorePlayerSnapshot(t,this.snapshot),t.ads.shouldPlayContentBehindAd(t)&&t.volume(this.preAdVolume_)},events:{adend:function(){this.state="content-resuming",t.ads.adType=null},adserror:function(){this.state="content-resuming",t.trigger("adend")}}},"content-resuming":{enter:function(){this._contentHasEnded&&(o["default"].clearTimeout(t.ads._fireEndedTimeout),t.ads._fireEndedTimeout=o["default"].setTimeout(function(){t.trigger("ended")},1e3))},leave:function(){o["default"].clearTimeout(t.ads._fireEndedTimeout)},events:{contentupdate:function(){this.state="content-set"},contentresumed:function(){this.state="content-playback"},playing:function(){this.state="content-playback"},ended:function(){this.state="content-playback"}}},"postroll?":{enter:function(){this.snapshot=c.getPlayerSnapshot(t),t.ads.nopostroll_?o["default"].setTimeout(function(){t.ads.state="content-resuming",t.trigger("ended")},1):(t.addClass("vjs-ad-loading"),t.ads.adTimeoutTimeout=o["default"].setTimeout(function(){t.trigger("adtimeout")},n.postrollTimeout))},leave:function(){o["default"].clearTimeout(t.ads.adTimeoutTimeout),t.removeClass("vjs-ad-loading")},events:{adstart:function(){this.state="ad-playback",t.ads.adType="postroll"},adskip:function(){this.state="content-resuming",o["default"].setTimeout(function(){t.trigger("ended")},1)},adtimeout:function(){this.state="content-resuming",o["default"].setTimeout(function(){t.trigger("ended")},1)},adserror:function(){this.state="content-resuming",o["default"].setTimeout(function(){t.trigger("ended")},1)},contentupdate:function(){this.state="ads-ready?"}}},"content-playback":{enter:function(){t.ads.cancelPlayTimeout&&(o["default"].clearTimeout(t.ads.cancelPlayTimeout),t.ads.cancelPlayTimeout=null),t.trigger({type:"contentplayback",triggerevent:t.ads.triggerevent}),t.ads.cancelledPlay&&(t.ads.cancelledPlay=!1,t.paused()&&t.play())},events:{adsready:function(){t.trigger("readyforpreroll")},adstart:function(){this.state="ad-playback","preroll"!==t.ads.adType&&(t.ads.adType="midroll")},contentupdate:function(){t.ads.shouldPlayContentBehindAd(t)||(0,m["default"])(t),t.paused()?this.state="content-set":this.state="ads-ready?"},contentended:function(){if(this._contentHasEnded)return void(this.state="content-resuming");this._contentHasEnded=!0,this.state="postroll?"}}}},i=function(e){var a=t.ads.state,o=d[a].events;if(o){var i=o[e.type];i&&i.apply(t.ads)}if(a!==t.ads.state){var r=a,u=t.ads.state;t.ads.triggerevent=e.type,d[r].leave&&d[r].leave.apply(t.ads),d[u].enter&&d[u].enter.apply(t.ads),n.debug&&s["default"].log("ads",t.ads.triggerevent+" triggered: "+r+" -> "+u)}};t.on(b.concat(["adtimeout","contentupdate","contentplaying","contentended","contentresumed","adstart","adend","adskip","adsready","adserror","adscanceled","nopreroll"]),i),t.on("dispose",function(){t.ads.adTimeoutTimeout&&o["default"].clearTimeout(t.ads.adTimeoutTimeout),t.ads._fireEndedTimeout&&o["default"].clearTimeout(t.ads._fireEndedTimeout),t.ads.cancelPlayTimeout&&o["default"].clearTimeout(t.ads.cancelPlayTimeout),t.ads.tryToResumeTimeout_&&t.clearTimeout(t.ads.tryToResumeTimeout_)}),t.paused()||i({type:"play"})};(s["default"].registerPlugin||s["default"].plugin)("ads",k)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}]},{},[10]);
 /**
  * videojs-contrib-hls
  * @version 5.9.0
@@ -19974,1527 +19975,1452 @@ module.exports = {
 },{"./bin-utils":2,"./config":3,"./master-playlist-controller":5,"./playback-watcher":7,"./playlist":10,"./playlist-loader":8,"./playlist-selectors.js":9,"./reload-source-on-error":12,"./rendition-mixin":13,"./xhr":20,"aes-decrypter":24,"global/document":30,"global/window":31,"m3u8-parser":32,"videojs-contrib-media-sources":74}]},{},[77])(77)
 });
 /**
- * videojs-contrib-ads
- * @version 4.2.8
- * @copyright 2017 Brightcove
- * @license Apache-2.0
- */
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.videojsContribAds = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (global){
-'use strict';
-
-exports.__esModule = true;
-exports['default'] = cancelContentPlay;
-
-var _window = require('global/window');
-
-var _window2 = _interopRequireDefault(_window);
-
-var _document = require('global/document');
-
-var _document2 = _interopRequireDefault(_document);
-
-var _video = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _video2 = _interopRequireDefault(_video);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function cancelContentPlay(player) {
-  if (player.ads.cancelPlayTimeout) {
-    // another cancellation is already in flight, so do nothing
-    return;
-  }
-
-  // Avoid content flash on non-iPad iOS and iPhones on iOS10 with playsinline
-  if (_video2['default'].browser.IS_IOS && _video2['default'].browser.IS_IPHONE && !player.el_.hasAttribute('playsinline')) {
-
-    // The placeholder's styling should match the player's
-    var width = player.currentWidth ? player.currentWidth() : player.width();
-    var height = player.currentHeight ? player.currentHeight() : player.height();
-    var position = _window2['default'].getComputedStyle(player.el_).position;
-    var top = _window2['default'].getComputedStyle(player.el_).top;
-
-    // A placeholder black box will be shown in the document while the player is hidden.
-    var placeholder = _document2['default'].createElement('div');
-
-    placeholder.style.width = width + 'px';
-    placeholder.style.height = height + 'px';
-    placeholder.style.background = 'black';
-    placeholder.style.position = position;
-    placeholder.style.top = top;
-    player.el_.parentNode.insertBefore(placeholder, player.el_);
-
-    // Hide the player. While in full-screen video playback mode on iOS, this
-    // makes the player show a black screen instead of content flash.
-    player.el_.style.display = 'none';
-
-    // Unhide the player and remove the placeholder once we're ready to move on.
-    player.one(['adstart', 'adtimeout', 'adserror', 'adscanceled', 'adskip', 'playing'], function () {
-      player.el_.style.display = 'block';
-      placeholder.remove();
-    });
-
-    // Detect fullscreen change, if returning from fullscreen and placeholder exists,
-    // remove placeholder and show player whether or not playsinline was attached.
-    player.on('fullscreenchange', function () {
-      if (placeholder && !player.isFullscreen()) {
-        player.el_.style.display = 'block';
-        placeholder.remove();
-      }
-    });
-  }
-
-  // The timeout is necessary because pausing a video element while processing a `play`
-  // event on iOS can cause the video element to continuously toggle between playing and
-  // paused states.
-  player.ads.cancelPlayTimeout = _window2['default'].setTimeout(function () {
-    // deregister the cancel timeout so subsequent cancels are scheduled
-    player.ads.cancelPlayTimeout = null;
-
-    // pause playback so ads can be handled.
-    if (!player.paused()) {
-      player.pause();
-    }
-
-    // When the 'content-playback' state is entered, this will let us know to play
-    player.ads.cancelledPlay = true;
-  }, 1);
-} /*
-  This feature makes sure the player is paused during ad loading.
-  
-  It does this by pausing the player immediately after a "play" where ads will be requested,
-  then signalling that we should play after the ad is done.
-  */
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"global/document":8,"global/window":9}],2:[function(require,module,exports){
-'use strict';
-
-exports.__esModule = true;
-exports['default'] = initializeContentupdate;
-
-var _window = require('global/window');
-
-var _window2 = _interopRequireDefault(_window);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-// Start sending contentupdate events
-function initializeContentupdate(player) {
-
-  // Keep track of the current content source
-  // If you want to change the src of the video without triggering
-  // the ad workflow to restart, you can update this variable before
-  // modifying the player's source
-  player.ads.contentSrc = player.currentSrc();
-
-  // Check if a new src has been set, if so, trigger contentupdate
-  var checkSrc = function checkSrc() {
-    if (player.ads.state !== 'ad-playback') {
-      var src = player.currentSrc();
-
-      if (src !== player.ads.contentSrc) {
-        player.trigger({
-          type: 'contentupdate',
-          oldValue: player.ads.contentSrc,
-          newValue: src
-        });
-        player.ads.contentSrc = src;
-      }
-    }
-  };
-
-  // loadstart reliably indicates a new src has been set
-  player.on('loadstart', checkSrc);
-  // check immediately in case we missed the loadstart
-  _window2['default'].setTimeout(checkSrc, 1);
-} /*
-  This feature sends a `contentupdate` event when the player source changes.
-  */
-},{"global/window":9}],3:[function(require,module,exports){
-(function (global){
-'use strict';
-
-exports.__esModule = true;
-exports.processMetadataTracks = processMetadataTracks;
-exports.setMetadataTrackMode = setMetadataTrackMode;
-exports.getSupportedAdCue = getSupportedAdCue;
-exports.getCueId = getCueId;
-exports.processAdTrack = processAdTrack;
-
-var _video = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _video2 = _interopRequireDefault(_video);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-/**
-* This feature allows metadata text tracks to be manipulated once they are available,
-* usually after the 'loadstart' event is observed on the player
-* @param player A reference to a player
-* @param processMetadataTrack A callback that performs some operations on a
-* metadata text track
-**/
-function processMetadataTracks(player, processMetadataTrack) {
-  var tracks = player.textTracks();
-  var setModeAndProcess = function setModeAndProcess(track) {
-    if (track.kind === 'metadata') {
-      player.ads.cueTextTracks.setMetadataTrackMode(track);
-      processMetadataTrack(player, track);
-    }
-  };
-
-  // Text tracks are available
-  if (tracks.length > 0) {
-    for (var i = 0; i < tracks.length; i++) {
-      var track = tracks[i];
-
-      setModeAndProcess(track);
-    }
-    // Wait until text tracks are added
-    // We avoid always setting the event handler in case
-    // integrations decide to handle this separately
-    // with a different handler for the same event
-  } else {
-    tracks.addEventListener('addtrack', function (event) {
-      var track = event.track;
-
-      setModeAndProcess(track);
-    });
-  }
-}
-
-/**
-* Sets the track mode to one of 'disabled', 'hidden' or 'showing'
-* @see https://github.com/videojs/video.js/blob/master/docs/guides/text-tracks.md
-* Default behavior is to do nothing, @override if this is not desired
-* @param track The text track to set the mode on
-*/
-/**
-* This feature allows metadata text tracks to be manipulated once available
-* @see processMetadataTracks.
-* It also allows ad implementations to leverage ad cues coming through
-* text tracks, @see processAdTrack
-**/
-
-function setMetadataTrackMode(track) {
-  return;
-}
-
-/**
-* Determines whether cue is an ad cue and returns the cue data.
-* @param player A reference to the player
-* @param cue The cue to be checked
-* Returns the given cue by default @override if futher processing is required
-* @return the cueData in JSON if cue is a supported ad cue, or -1 if not
-**/
-function getSupportedAdCue(player, cue) {
-  return cue;
-}
-
-/**
-* Gets the id associated with a cue.
-* @param cue The cue to extract an ID from
-* @returns The first occurance of 'id' in the object,
-* @override if this is not the desired cue id
-**/
-function getCueId(player, cue) {
-  return cue.id;
-}
-
-/**
-* Checks whether a cue has already been used
-* @param cueId The Id associated with a cue
-**/
-var cueAlreadySeen = function cueAlreadySeen(player, cueId) {
-  return cueId !== undefined && player.ads.includedCues[cueId];
-};
-
-/**
-* Indicates that a cue has been used
-* @param cueId The Id associated with a cue
-**/
-var setCueAlreadySeen = function setCueAlreadySeen(player, cueId) {
-  if (cueId !== undefined && cueId !== '') {
-    player.ads.includedCues[cueId] = true;
-  }
-};
-
-/**
-* This feature allows ad metadata tracks to be manipulated in ad implementations
-* @param player A reference to the player
-* @param cues The set of cues to work with
-* @param processCue A method that uses a cue to make some
-* ad request in the ad implementation
-* @param [cancelAds] A method that dynamically cancels ads in the ad implementation
-**/
-function processAdTrack(player, cues, processCue, cancelAds) {
-  player.ads.includedCues = {};
-
-  // loop over set of cues
-  for (var i = 0; i < cues.length; i++) {
-    var cue = cues[i];
-    var cueData = this.getSupportedAdCue(player, cue);
-
-    // Exit if this is not a supported cue
-    if (cueData === -1) {
-      _video2['default'].log.warn('Skipping as this is not a supported ad cue.', cue);
-      return;
-    }
-
-    // Continue processing supported cue
-    var cueId = this.getCueId(player, cue);
-    var startTime = cue.startTime;
-
-    // Skip ad if cue was already used
-    if (cueAlreadySeen(player, cueId)) {
-      _video2['default'].log('Skipping ad already seen with ID ' + cueId);
-      return;
-    }
-
-    // Process cue as an ad cue
-    processCue(player, cueData, cueId, startTime);
-
-    // Indicate that this cue has been used
-    setCueAlreadySeen(player, cueId);
-
-    // Optional dynamic ad cancellation
-    if (cancelAds !== undefined) {
-      cancelAds(player, cueData);
-    }
-  }
-}
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],4:[function(require,module,exports){
-(function (global){
-'use strict';
-
-exports.__esModule = true;
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /*
-                                                                                                                                                                                                                                                                              This feature provides an optional method for ad integrations to insert run-time values
-                                                                                                                                                                                                                                                                              into an ad server URL or configuration.
-                                                                                                                                                                                                                                                                              */
-
-exports['default'] = adMacroReplacement;
-
-var _window = require('global/window');
-
-var _window2 = _interopRequireDefault(_window);
-
-var _document = require('global/document');
-
-var _document2 = _interopRequireDefault(_document);
-
-var _video = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _video2 = _interopRequireDefault(_video);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-// Return URI encoded version of value if uriEncode is true
-var uriEncodeIfNeeded = function uriEncodeIfNeeded(value, uriEncode) {
-  if (uriEncode) {
-    return encodeURIComponent(value);
-  }
-  return value;
-};
-
-// Add custom field macros to macros object
-// based on given name for custom fields property of mediainfo object.
-var customFields = function customFields(mediainfo, macros, customFieldsName) {
-  if (mediainfo && mediainfo[customFieldsName]) {
-    var fields = mediainfo[customFieldsName];
-    var fieldNames = Object.keys(fields);
-
-    for (var i = 0; i < fieldNames.length; i++) {
-      var tag = '{mediainfo.' + customFieldsName + '.' + fieldNames[i] + '}';
-
-      macros[tag] = fields[fieldNames[i]];
-    }
-  }
-};
-
-// Public method that integrations use for ad macros.
-// "string" is any string with macros to be replaced
-// "uriEncode" if true will uri encode macro values when replaced
-// "customMacros" is a object with custom macros and values to map them to
-//  - For example: {'{five}': 5}
-// Return value is is "string" with macros replaced
-//  - For example: adMacroReplacement('{player.id}') returns a string of the player id
-function adMacroReplacement(string, uriEncode, customMacros) {
-
-  if (uriEncode === undefined) {
-    uriEncode = false;
-  }
-
-  var macros = {};
-
-  if (customMacros !== undefined) {
-    macros = customMacros;
-  }
-
-  // Static macros
-  macros['{player.id}'] = this.options_['data-player'];
-  macros['{mediainfo.id}'] = this.mediainfo ? this.mediainfo.id : '';
-  macros['{mediainfo.name}'] = this.mediainfo ? this.mediainfo.name : '';
-  macros['{mediainfo.description}'] = this.mediainfo ? this.mediainfo.description : '';
-  macros['{mediainfo.tags}'] = this.mediainfo ? this.mediainfo.tags : '';
-  macros['{mediainfo.reference_id}'] = this.mediainfo ? this.mediainfo.reference_id : '';
-  macros['{mediainfo.duration}'] = this.mediainfo ? this.mediainfo.duration : '';
-  macros['{mediainfo.ad_keys}'] = this.mediainfo ? this.mediainfo.ad_keys : '';
-  macros['{player.duration}'] = this.duration();
-  macros['{timestamp}'] = new Date().getTime();
-  macros['{document.referrer}'] = _document2['default'].referrer;
-  macros['{window.location.href}'] = _window2['default'].location.href;
-  macros['{random}'] = Math.floor(Math.random() * 1000000000000);
-
-  // Custom fields in mediainfo
-  customFields(this.mediainfo, macros, 'custom_fields');
-  customFields(this.mediainfo, macros, 'customFields');
-
-  // Go through all the replacement macros and apply them to the string.
-  // This will replace all occurrences of the replacement macros.
-  for (var i in macros) {
-    string = string.split(i).join(uriEncodeIfNeeded(macros[i], uriEncode));
-  }
-
-  // Page variables
-  string = string.replace(/{pageVariable\.([^}]+)}/g, function (match, name) {
-    var value = void 0;
-    var context = _window2['default'];
-    var names = name.split('.');
-
-    // Iterate down multiple levels of selector without using eval
-    // This makes things like pageVariable.foo.bar work
-    for (var _i = 0; _i < names.length; _i++) {
-      if (_i === names.length - 1) {
-        value = context[names[_i]];
-      } else {
-        context = context[names[_i]];
-      }
-    }
-
-    var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
-
-    // Only allow certain types of values. Anything else is probably a mistake.
-    if (value === null) {
-      return 'null';
-    } else if (value === undefined) {
-      _video2['default'].log.warn('Page variable "' + name + '" not found');
-      return '';
-    } else if (type !== 'string' && type !== 'number' && type !== 'boolean') {
-      _video2['default'].log.warn('Page variable "' + name + '" is not a supported type');
-      return '';
-    }
-
-    return uriEncodeIfNeeded(String(value), uriEncode);
-  });
-
-  return string;
-}
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"global/document":8,"global/window":9}],5:[function(require,module,exports){
-'use strict';
-
-exports.__esModule = true;
-exports['default'] = redispatch;
-/*
-The goal of this feature is to make player events work as an integrator would
-expect despite the presense of ads. For example, an integrator would expect
-an `ended` event to happen once the content is ended. If an `ended` event is sent
-as a result of an ad ending, that is a bug. The `redispatch` method should recognize
-such `ended` events and prefix them so they are sent as `adended`, and so on with
-all other player events.
-*/
-
-// Stop propogation for an event
-var cancelEvent = function cancelEvent(player, event) {
-  // Pretend we called stopImmediatePropagation because we want the native
-  // element events to continue propagating
-  event.isImmediatePropagationStopped = function () {
-    return true;
-  };
-  event.cancelBubble = true;
-  event.isPropagationStopped = function () {
-    return true;
-  };
-};
-
-// Stop propogation for an event, then send a new event with the type of the original
-// event with the given prefix added.
-var prefixEvent = function prefixEvent(player, prefix, event) {
-  cancelEvent(player, event);
-  player.trigger({
-    type: prefix + event.type,
-    state: player.ads.state,
-    originalEvent: event
-  });
-};
-
-// Handle a player event, either by redispatching it with a prefix, or by
-// letting it go on its way without any meddling.
-function redispatch(event) {
-
-  // We do a quick play/pause before we check for prerolls. This creates a "playing"
-  // event. This conditional block prefixes that event so it's "adplaying" if it
-  // happens while we're in the "preroll?" state. Not every browser is in the
-  // "preroll?" state for this event, so the following browsers come through here:
-  //  * iPad
-  //  * iPhone
-  //  * Android
-  //  * Safari
-  // This is too soon to check videoElementRecycled because there is no snapshot
-  // yet. We rely on the coincidence that all browsers for which
-  // videoElementRecycled would be true also happen to send their initial playing
-  // event during "preroll?"
-  if (event.type === 'playing' && this.ads.state === 'preroll?') {
-    prefixEvent(this, 'ad', event);
-
-    // Here we send "adplaying" for browsers that send their initial "playing" event
-    // (caused by the the initial play/pause) during the "ad-playback" state.
-    // The following browsers come through here:
-    // * Chrome
-    // * IE11
-    // If the ad plays in the content tech (aka videoElementRecycled) there will be
-    // another playing event when the ad starts. We check videoElementRecycled to
-    // avoid a second adplaying event. Thankfully, at this point a snapshot exists
-    // so we can safely check videoElementRecycled.
-  } else if (event.type === 'playing' && this.ads.state === 'ad-playback' && !this.ads.videoElementRecycled()) {
-    prefixEvent(this, 'ad', event);
-
-    // If the ad takes a long time to load, "playing" caused by play/pause can happen
-    // during "ads-ready?" instead of "preroll?" or "ad-playback", skipping the
-    // other conditions that would normally catch it
-  } else if (event.type === 'playing' && this.ads.state === 'ads-ready?') {
-    prefixEvent(this, 'ad', event);
-
-    // When an ad is playing in content tech, we would normally prefix
-    // "playing" with "ad" to send "adplaying". However, when we did a play/pause
-    // before the preroll, we already sent "adplaying". This condition prevents us
-    // from sending another.
-  } else if (event.type === 'playing' && this.ads.state === 'ad-playback' && this.ads.videoElementRecycled()) {
-    cancelEvent(this, event);
-    return;
-
-    // When ad is playing in content tech, prefix everything with "ad".
-    // This block catches many events such as emptied, play, timeupdate, and ended.
-  } else if (this.ads.state === 'ad-playback') {
-    if (this.ads.videoElementRecycled() || this.ads.stitchedAds()) {
-      prefixEvent(this, 'ad', event);
-    }
-
-    // Send contentended if ended happens during content.
-    // We will make sure an ended event is sent after postrolls.
-  } else if (this.ads.state === 'content-playback' && event.type === 'ended') {
-    prefixEvent(this, 'content', event);
-
-    // Event prefixing during content resuming is complicated
-  } else if (this.ads.state === 'content-resuming') {
-
-    // This does not happen during normal circumstances. I wasn't able to reproduce
-    // it, but the working theory is that it handles cases where restoring the
-    // snapshot takes a long time, such as in iOS7 and older Firefox.
-    if (this.ads.snapshot && this.currentSrc() !== this.ads.snapshot.currentSrc) {
-
-      // Don't prefix `loadstart` event
-      if (event.type === 'loadstart') {
-        return;
-      }
-
-      // All other events get "content" prefix
-      return prefixEvent(this, 'content', event);
-
-      // Content resuming after postroll
-    } else if (this.ads.snapshot && this.ads.snapshot.ended) {
-
-      // Don't prefix `pause` and `ended` events
-      // They don't always happen during content-resuming, but they might.
-      // It seems to happen most often on iOS and Android.
-      if (event.type === 'pause' || event.type === 'ended') {
-        return;
-      }
-
-      // All other events get "content" prefix
-      return prefixEvent(this, 'content', event);
-    }
-
-    // Content resuming after preroll or midroll
-    // Events besides "playing" get "content" prefix
-    if (event.type !== 'playing') {
-      prefixEvent(this, 'content', event);
-    }
-  }
-}
-},{}],6:[function(require,module,exports){
-(function (global){
-'use strict';
-
-exports.__esModule = true;
-exports.getPlayerSnapshot = getPlayerSnapshot;
-exports.restorePlayerSnapshot = restorePlayerSnapshot;
-
-var _window = require('global/window');
-
-var _window2 = _interopRequireDefault(_window);
-
-var _video = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _video2 = _interopRequireDefault(_video);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-/**
- * Returns an object that captures the portions of player state relevant to
- * video playback. The result of this function can be passed to
- * restorePlayerSnapshot with a player to return the player to the state it
- * was in when this function was invoked.
- * @param {Object} player The videojs player object
- */
-/*
-The snapshot feature is responsible for saving the player state before an ad, then
-restoring the player state after an ad.
-*/
-
-function getPlayerSnapshot(player) {
-
-  var currentTime = void 0;
-
-  if (_video2['default'].browser.IS_IOS && player.ads.isLive(player)) {
-    // Record how far behind live we are
-    if (player.seekable().length > 0) {
-      currentTime = player.currentTime() - player.seekable().end(0);
-    } else {
-      currentTime = player.currentTime();
-    }
-  } else {
-    currentTime = player.currentTime();
-  }
-
-  var tech = player.$('.vjs-tech');
-  var remoteTracks = player.remoteTextTracks ? player.remoteTextTracks() : [];
-  var tracks = player.textTracks ? player.textTracks() : [];
-  var suppressedRemoteTracks = [];
-  var suppressedTracks = [];
-  var snapshotObject = {
-    ended: player.ended(),
-    currentSrc: player.currentSrc(),
-    src: player.tech_.src(),
-    currentTime: currentTime,
-    type: player.currentType()
-  };
-
-  if (tech) {
-    snapshotObject.nativePoster = tech.poster;
-    snapshotObject.style = tech.getAttribute('style');
-  }
-
-  for (var i = 0; i < remoteTracks.length; i++) {
-    var track = remoteTracks[i];
-
-    suppressedRemoteTracks.push({
-      track: track,
-      mode: track.mode
-    });
-    track.mode = 'disabled';
-  }
-  snapshotObject.suppressedRemoteTracks = suppressedRemoteTracks;
-
-  for (var _i = 0; _i < tracks.length; _i++) {
-    var _track = tracks[_i];
-
-    suppressedTracks.push({
-      track: _track,
-      mode: _track.mode
-    });
-    _track.mode = 'disabled';
-  }
-  snapshotObject.suppressedTracks = suppressedTracks;
-
-  return snapshotObject;
-}
-
-/**
- * Attempts to modify the specified player so that its state is equivalent to
- * the state of the snapshot.
- * @param {Object} player - the videojs player object
- * @param {Object} snapshotObject - the player state to apply
- */
-function restorePlayerSnapshot(player, snapshotObject) {
-
-  if (player.ads.disableNextSnapshotRestore === true) {
-    player.ads.disableNextSnapshotRestore = false;
-    return;
-  }
-
-  // The playback tech
-  var tech = player.$('.vjs-tech');
-
-  // the number of[ remaining attempts to restore the snapshot
-  var attempts = 20;
-
-  var suppressedRemoteTracks = snapshotObject.suppressedRemoteTracks;
-  var suppressedTracks = snapshotObject.suppressedTracks;
-  var trackSnapshot = void 0;
-  var restoreTracks = function restoreTracks() {
-    for (var i = 0; i < suppressedRemoteTracks.length; i++) {
-      trackSnapshot = suppressedRemoteTracks[i];
-      trackSnapshot.track.mode = trackSnapshot.mode;
-    }
-
-    for (var _i2 = 0; _i2 < suppressedTracks.length; _i2++) {
-      trackSnapshot = suppressedTracks[_i2];
-      trackSnapshot.track.mode = trackSnapshot.mode;
-    }
-  };
-
-  // finish restoring the playback state
-  var resume = function resume() {
-    var currentTime = void 0;
-
-    if (_video2['default'].browser.IS_IOS && player.ads.isLive(player)) {
-      if (snapshotObject.currentTime < 0) {
-        // Playback was behind real time, so seek backwards to match
-        if (player.seekable().length > 0) {
-          currentTime = player.seekable().end(0) + snapshotObject.currentTime;
-        } else {
-          currentTime = player.currentTime();
-        }
-        player.currentTime(currentTime);
-      }
-    } else if (snapshotObject.ended) {
-      player.currentTime(player.duration());
-    } else {
-      player.currentTime(snapshotObject.currentTime);
-    }
-
-    // Resume playback if this wasn't a postroll
-    if (!snapshotObject.ended) {
-      player.play();
-    }
-  };
-
-  // determine if the video element has loaded enough of the snapshot source
-  // to be ready to apply the rest of the state
-  var tryToResume = function tryToResume() {
-
-    // tryToResume can either have been called through the `contentcanplay`
-    // event or fired through setTimeout.
-    // When tryToResume is called, we should make sure to clear out the other
-    // way it could've been called by removing the listener and clearing out
-    // the timeout.
-    player.off('contentcanplay', tryToResume);
-    if (player.ads.tryToResumeTimeout_) {
-      player.clearTimeout(player.ads.tryToResumeTimeout_);
-      player.ads.tryToResumeTimeout_ = null;
-    }
-
-    // Tech may have changed depending on the differences in sources of the
-    // original video and that of the ad
-    tech = player.el().querySelector('.vjs-tech');
-
-    if (tech.readyState > 1) {
-      // some browsers and media aren't "seekable".
-      // readyState greater than 1 allows for seeking without exceptions
-      return resume();
-    }
-
-    if (tech.seekable === undefined) {
-      // if the tech doesn't expose the seekable time ranges, try to
-      // resume playback immediately
-      return resume();
-    }
-
-    if (tech.seekable.length > 0) {
-      // if some period of the video is seekable, resume playback
-      return resume();
-    }
-
-    // delay a bit and then check again unless we're out of attempts
-    if (attempts--) {
-      _window2['default'].setTimeout(tryToResume, 50);
-    } else {
-      try {
-        resume();
-      } catch (e) {
-        _video2['default'].log.warn('Failed to resume the content after an advertisement', e);
-      }
-    }
-  };
-
-  if (snapshotObject.nativePoster) {
-    tech.poster = snapshotObject.nativePoster;
-  }
-
-  if ('style' in snapshotObject) {
-    // overwrite all css style properties to restore state precisely
-    tech.setAttribute('style', snapshotObject.style || '');
-  }
-
-  // Determine whether the player needs to be restored to its state
-  // before ad playback began. With a custom ad display or burned-in
-  // ads, the content player state hasn't been modified and so no
-  // restoration is required
-
-  if (player.ads.videoElementRecycled()) {
-    // on ios7, fiddling with textTracks too early will cause safari to crash
-    player.one('contentloadedmetadata', restoreTracks);
-
-    // if the src changed for ad playback, reset it
-    player.src({ src: snapshotObject.currentSrc, type: snapshotObject.type });
-    // safari requires a call to `load` to pick up a changed source
-    player.load();
-    // and then resume from the snapshots time once the original src has loaded
-    // in some browsers (firefox) `canplay` may not fire correctly.
-    // Reace the `canplay` event with a timeout.
-    player.one('contentcanplay', tryToResume);
-    player.ads.tryToResumeTimeout_ = player.setTimeout(tryToResume, 2000);
-  } else if (!player.ended() || !snapshotObject.ended) {
-    // if we didn't change the src, just restore the tracks
-    restoreTracks();
-    // the src didn't change and this wasn't a postroll
-    // just resume playback at the current time.
-    player.play();
-  }
-}
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"global/window":9}],7:[function(require,module,exports){
-
-},{}],8:[function(require,module,exports){
-(function (global){
-var topLevel = typeof global !== 'undefined' ? global :
-    typeof window !== 'undefined' ? window : {}
-var minDoc = require('min-document');
-
-var doccy;
-
-if (typeof document !== 'undefined') {
-    doccy = document;
-} else {
-    doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
-
-    if (!doccy) {
-        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
-    }
-}
-
-module.exports = doccy;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":7}],9:[function(require,module,exports){
-(function (global){
-var win;
-
-if (typeof window !== "undefined") {
-    win = window;
-} else if (typeof global !== "undefined") {
-    win = global;
-} else if (typeof self !== "undefined"){
-    win = self;
-} else {
-    win = {};
-}
-
-module.exports = win;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],10:[function(require,module,exports){
-(function (global){
-'use strict';
-
-var _window = require('global/window');
-
-var _window2 = _interopRequireDefault(_window);
-
-var _video = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _video2 = _interopRequireDefault(_video);
-
-var _redispatch = require('./redispatch.js');
-
-var _redispatch2 = _interopRequireDefault(_redispatch);
-
-var _snapshot = require('./snapshot.js');
-
-var snapshot = _interopRequireWildcard(_snapshot);
-
-var _contentupdate = require('./contentupdate.js');
-
-var _contentupdate2 = _interopRequireDefault(_contentupdate);
-
-var _cancelContentPlay = require('./cancelContentPlay.js');
-
-var _cancelContentPlay2 = _interopRequireDefault(_cancelContentPlay);
-
-var _macros = require('./macros.js');
-
-var _macros2 = _interopRequireDefault(_macros);
-
-var _cueTextTracks = require('./cueTextTracks.js');
-
-var cueTextTracks = _interopRequireWildcard(_cueTextTracks);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-/*
-This main plugin file is responsible for integration logic and enabling the features
-that live in in separate files.
-*/
-
-var VIDEO_EVENTS = _video2['default'].getTech('Html5').Events;
-
-/**
- * Remove the poster attribute from the video element tech, if present. When
- * reusing a video element for multiple videos, the poster image will briefly
- * reappear while the new source loads. Removing the attribute ahead of time
- * prevents the poster from showing up between videos.
+ * Copyright 2014 Google Inc.
  *
- * @param {Object} player The videojs player object
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * IMA SDK integration plugin for Video.js. For more information see
+ * https://www.github.com/googleads/videojs-ima
  */
-var removeNativePoster = function removeNativePoster(player) {
-  var tech = player.$('.vjs-tech');
 
-  if (tech) {
-    tech.removeAttribute('poster');
+(function(factory) {
+  if (typeof define === 'function' && define['amd']) {
+    define(['video.js', 'videojs-contrib-ads'], function(videojs){ factory(window, document, videojs) });
+  } else if (typeof exports === 'object' && typeof module === 'object') {
+    var vjs = require('video.js');
+    require('videojs-contrib-ads');
+    factory(window, document, vjs);
+  } else {
+    factory(window, document, videojs);
   }
-};
+})(function(window, document, videojs) {
+  "use strict";
 
-// ---------------------------------------------------------------------------
-// Ad Framework
-// ---------------------------------------------------------------------------
-
-// default framework settings
-var defaults = {
-  // maximum amount of time in ms to wait to receive `adsready` from the ad
-  // implementation after play has been requested. Ad implementations are
-  // expected to load any dynamic libraries and make any requests to determine
-  // ad policies for a video during this time.
-  timeout: 5000,
-
-  // maximum amount of time in ms to wait for the ad implementation to start
-  // linear ad mode after `readyforpreroll` has fired. This is in addition to
-  // the standard timeout.
-  prerollTimeout: 100,
-
-  // maximum amount of time in ms to wait for the ad implementation to start
-  // linear ad mode after `contentended` has fired.
-  postrollTimeout: 100,
-
-  // when truthy, instructs the plugin to output additional information about
-  // plugin state to the video.js log. On most devices, the video.js log is
-  // the same as the developer console.
-  debug: false,
-
-  // set this to true when using ads that are part of the content video
-  stitchedAds: false
-};
-
-var contribAdsPlugin = function contribAdsPlugin(options) {
-
-  var player = this; // eslint-disable-line consistent-this
-
-  var settings = _video2['default'].mergeOptions(defaults, options);
-
-  // prefix all video element events during ad playback
-  // if the video element emits ad-related events directly,
-  // plugins that aren't ad-aware will break. prefixing allows
-  // plugins that wish to handle ad events to do so while
-  // avoiding the complexity for common usage
-  var videoEvents = VIDEO_EVENTS.concat(['firstplay', 'loadedalldata', 'playing']);
-
-  // Set up redispatching of player events
-  player.on(videoEvents, _redispatch2['default']);
-
-  // "vjs-has-started" should be present at the end of a video. This makes sure it's
-  // always there.
-  player.on('ended', function () {
-    if (!player.hasClass('vjs-has-started')) {
-      player.addClass('vjs-has-started');
+  var extend = function(obj) {
+    var arg;
+    var index;
+    var key;
+    for (index = 1; index < arguments.length; index++) {
+      arg = arguments[index];
+      for (key in arg) {
+        if (arg.hasOwnProperty(key)) {
+          obj[key] = arg[key];
+        }
+      }
     }
-  });
+    return obj;
+  };
 
-  // We now auto-play when an ad gets loaded if we're playing ads in the same video
-  // element as the content.
-  // The problem is that in IE11, we cannot play in addurationchange but in iOS8, we
-  // cannot play from adcanplay.
-  // This will prevent ad-integrations from needing to do this themselves.
-  player.on(['addurationchange', 'adcanplay'], function () {
-    if (player.currentSrc() === player.ads.snapshot.currentSrc) {
+  var ima_defaults = {
+    debug: false,
+    timeout: 5000,
+    prerollTimeout: 100,
+    adLabel: 'Advertisement',
+    showControlsForJSAds: true
+  };
+
+  var init = function(options, readyCallback) {
+    this.ima = new ImaPlugin(this, options, readyCallback);
+  };
+
+  var ImaPlugin = function(player, options, readyCallback) {
+    this.player = player;
+
+    /**
+     * Assigns the unique id and class names to the given element as well as the style class
+     * @param element
+     * @param controlName
+     * @private
+     */
+    var assignControlAttributes_ = function(element, controlName) {
+      element.id = this.controlPrefix + controlName;
+      element.className = this.controlPrefix + controlName + ' ' + controlName;
+    }.bind(this);
+
+    /**
+     * Returns a regular expression to test a string for the given className
+     * @param className
+     * @returns {RegExp}
+     * @private
+     */
+    var getClassRegexp_ = function(className){
+      // Matches on
+      // (beginning of string OR NOT word char)
+      // classname
+      // (negative lookahead word char OR end of string)
+      return new RegExp('(^|[^A-Za-z-])' + className + '((?![A-Za-z-])|$)', 'gi');
+    };
+
+    /**
+     * Adds a class to the given element if it doesn't already have the class
+     * @param element
+     * @param classToAdd
+     * @private
+     */
+    var addClass_ = function(element, classToAdd){
+      if(getClassRegexp_(classToAdd).test(element.className)){
+        return element;
+      }
+
+      return element.className = element.className.trim() + ' ' + classToAdd;
+    };
+
+    /**
+     * Removes a class from the given element if it has the given class
+     * @param element
+     * @param classToRemove
+     * @private
+     */
+    var removeClass_ = function(element, classToRemove){
+      var classRegexp = getClassRegexp_(classToRemove);
+
+      if(!classRegexp.test(element.className)){
+        return element;
+      }
+
+      return element.className = element.className.trim().replace(classRegexp, '');
+    };
+
+    /**
+     * Creates the ad container passed to the IMA SDK.
+     * @private
+     */
+    var createAdContainer_ = function() {
+      // The adContainerDiv is the DOM of the element that will house
+      // the ads and ad controls.
+      this.vjsControls = this.player.getChild('controlBar');
+      this.adContainerDiv =
+          this.vjsControls.el().parentNode.appendChild(
+              document.createElement('div'));
+      assignControlAttributes_(this.adContainerDiv, 'ima-ad-container');
+      this.adContainerDiv.style.position = "absolute";
+      this.adContainerDiv.style.zIndex = 1111;
+      this.adContainerDiv.addEventListener(
+          'mouseenter',
+          showAdControls_,
+          false);
+      this.adContainerDiv.addEventListener(
+          'mouseleave',
+          hideAdControls_,
+          false);
+      createControls_();
+      this.adDisplayContainer =
+          new google.ima.AdDisplayContainer(this.adContainerDiv, this.contentPlayer);
+    }.bind(this);
+
+    /**
+     * Creates the controls for the ad.
+     * @private
+     */
+    var createControls_ = function() {
+      this.controlsDiv = document.createElement('div');
+      assignControlAttributes_(this.controlsDiv, 'ima-controls-div');
+      this.controlsDiv.style.width = '100%';
+      this.countdownDiv = document.createElement('div');
+      assignControlAttributes_(this.countdownDiv, 'ima-countdown-div');
+      this.countdownDiv.innerHTML = this.settings.adLabel;
+      this.countdownDiv.style.display = this.showCountdown ? 'block' : 'none';
+      this.seekBarDiv = document.createElement('div');
+      assignControlAttributes_(this.seekBarDiv, 'ima-seek-bar-div');
+      this.seekBarDiv.style.width = '100%';
+      this.progressDiv = document.createElement('div');
+      assignControlAttributes_(this.progressDiv, 'ima-progress-div');
+      this.playPauseDiv = document.createElement('div');
+      assignControlAttributes_(this.playPauseDiv, 'ima-play-pause-div');
+      addClass_(this.playPauseDiv, 'ima-playing');
+      this.playPauseDiv.addEventListener(
+          'click',
+          onAdPlayPauseClick_,
+          false);
+      this.muteDiv = document.createElement('div');
+      assignControlAttributes_(this.muteDiv, 'ima-mute-div');
+      addClass_(this.muteDiv, 'ima-non-muted');
+      this.muteDiv.addEventListener(
+          'click',
+          onAdMuteClick_,
+          false);
+      this.sliderDiv = document.createElement('div');
+      assignControlAttributes_(this.sliderDiv, 'ima-slider-div');
+      this.sliderDiv.addEventListener(
+          'mousedown',
+          onAdVolumeSliderMouseDown_,
+          false);
+      this.sliderLevelDiv = document.createElement('div');
+      assignControlAttributes_(this.sliderLevelDiv, 'ima-slider-level-div');
+      this.fullscreenDiv = document.createElement('div');
+      assignControlAttributes_(this.fullscreenDiv, 'ima-fullscreen-div');
+      addClass_(this.fullscreenDiv, 'ima-non-fullscreen');
+      this.fullscreenDiv.addEventListener(
+          'click',
+          onAdFullscreenClick_,
+          false);
+      this.adContainerDiv.appendChild(this.controlsDiv);
+      this.controlsDiv.appendChild(this.countdownDiv);
+      this.controlsDiv.appendChild(this.seekBarDiv);
+      this.controlsDiv.appendChild(this.playPauseDiv);
+      this.controlsDiv.appendChild(this.muteDiv);
+      this.controlsDiv.appendChild(this.sliderDiv);
+      this.controlsDiv.appendChild(this.fullscreenDiv);
+      this.seekBarDiv.appendChild(this.progressDiv);
+      this.sliderDiv.appendChild(this.sliderLevelDiv);
+    }.bind(this);
+
+    /**
+     * Initializes the AdDisplayContainer. On mobile, this must be done as a
+     * result of user action.
+     */
+    this.initializeAdDisplayContainer = function() {
+      this.adDisplayContainerInitialized = true;
+      this.adDisplayContainer.initialize();
+    }.bind(this);
+
+    /**
+     * Creates the AdsRequest and request ads through the AdsLoader.
+     */
+    this.requestAds = function() {
+      if (!this.adDisplayContainerInitialized) {
+        this.adDisplayContainer.initialize();
+      }
+      var adsRequest = new google.ima.AdsRequest();
+      if (this.settings.adTagUrl) {
+        adsRequest.adTagUrl = this.settings.adTagUrl;
+      } else {
+        adsRequest.adsResponse = this.settings.adsResponse;
+      }
+      if (this.settings.forceNonLinearFullSlot) {
+        adsRequest.forceNonLinearFullSlot = true;
+      }
+
+      adsRequest.linearAdSlotWidth = this.getPlayerWidth();
+      adsRequest.linearAdSlotHeight = this.getPlayerHeight();
+      adsRequest.nonLinearAdSlotWidth =
+          this.settings.nonLinearWidth || this.getPlayerWidth();
+      adsRequest.nonLinearAdSlotHeight =
+          this.settings.nonLinearHeight || (this.getPlayerHeight() / 3);
+
+      adsRequest.setAdWillAutoPlay(this.settings.adWillAutoPlay);
+
+      this.adsLoader.requestAds(adsRequest);
+    }.bind(this);
+
+    /**
+     * Listener for the ADS_MANAGER_LOADED event. Creates the AdsManager,
+     * sets up event listeners, and triggers the 'adsready' event for
+     * videojs-ads-contrib.
+     * @private
+     */
+    var onAdsManagerLoaded_ = function(adsManagerLoadedEvent) {
+      this.adsManager = adsManagerLoadedEvent.getAdsManager(
+          this.contentPlayheadTracker, this.adsRenderingSettings);
+
+      this.adsManager.addEventListener(
+          google.ima.AdErrorEvent.Type.AD_ERROR,
+          onAdError_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.AD_BREAK_READY,
+          onAdBreakReady_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,
+          this.onContentPauseRequested_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
+          this.onContentResumeRequested_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.ALL_ADS_COMPLETED,
+          onAllAdsCompleted_);
+
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.LOADED,
+          onAdLoaded_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.STARTED,
+          onAdStarted_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.CLICK,
+          onAdPlayPauseClick_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.COMPLETE,
+          this.onAdComplete_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.SKIPPED,
+          this.onAdComplete_);
+
+      if (!this.autoPlayAdBreaks) {
+        try {
+          var initWidth = this.getPlayerWidth();
+          var initHeight = this.getPlayerHeight();
+          this.adsManagerDimensions.width = initWidth;
+          this.adsManagerDimensions.height = initHeight;
+          this.adsManager.init(
+              initWidth,
+              initHeight,
+              google.ima.ViewMode.NORMAL);
+          this.adsManager.setVolume(this.player.muted() ? 0 : this.player.volume());
+        } catch (adError) {
+          onAdError_(adError);
+        }
+      }
+
+      this.player.trigger('adsready');
+    }.bind(this);
+
+    /**
+     * DEPRECATED: Use startFromReadyCallback
+     * Start ad playback, or content video playback in the absence of a
+     * pre-roll.
+     */
+    this.start = function() {
+      window.console.log(
+          'WARNING: player.ima.start is deprecated. Use ' +
+              'player.ima.startFromReadyCallback instead.');
+    };
+
+    /**
+     * Start ad playback, or content video playback in the absence of a
+     * pre-roll. **NOTE**: This method only needs to be called if you provide
+     * your own readyCallback as the second parameter to player.ima(). If you
+     * only provide options and do not provide your own readyCallback,
+     * **DO NOT** call this method. If you do provide your own readyCallback,
+     * you should call this method in the last line of that callback. For more
+     * info, see this method's usage in our advanced and playlist examples.
+     */
+    this.startFromReadyCallback = function() {
+      if (this.autoPlayAdBreaks) {
+        try {
+          this.adsManager.init(
+              this.getPlayerWidth(),
+              this.getPlayerHeight(),
+              google.ima.ViewMode.NORMAL);
+          this.adsManager.setVolume(this.player.muted() ? 0 : this.player.volume());
+          this.adsManager.start();
+        } catch (adError) {
+          onAdError_(adError);
+        }
+      }
+    }.bind(this);
+
+    /**
+     * Listener for errors fired by the AdsLoader.
+     * @param {google.ima.AdErrorEvent} event The error event thrown by the
+     *     AdsLoader. See
+     *     https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdError.Type
+     * @private
+     */
+    var onAdsLoaderError_ = function(event) {
+      window.console.log('AdsLoader error: ' + event.getError());
+      this.adContainerDiv.style.display = 'none';
+      if (this.adsManager) {
+        this.adsManager.destroy();
+      }
+      this.player.trigger({type: 'adserror', data: { AdError: event.getError(), AdErrorEvent: event }});
+    }.bind(this);
+
+    /**
+     * Listener for errors thrown by the AdsManager.
+     * @param {google.ima.AdErrorEvent} adErrorEvent The error event thrown by
+     *     the AdsManager.
+     * @private
+     */
+    var onAdError_ = function(adErrorEvent) {
+      var errorMessage = adErrorEvent.getError !== undefined ? adErrorEvent.getError() : adErrorEvent.stack;
+      window.console.log('Ad error: ' + errorMessage);
+      this.vjsControls.show();
+      this.adsManager.destroy();
+      this.adContainerDiv.style.display = 'none';
+      this.player.trigger({ type: 'adserror', data: { AdError: errorMessage, AdErrorEvent: adErrorEvent }});
+    }.bind(this);
+
+    /**
+     * Listener for AD_BREAK_READY. Passes event on to publisher's listener.
+     * @param {google.ima.AdEvent} adEvent AdEvent thrown by the AdsManager.
+     * @private
+     */
+    var onAdBreakReady_ = function(adEvent) {
+      this.adBreakReadyListener(adEvent);
+    }.bind(this);
+
+    /**
+     * Called by publishers in manual ad break playback mode to start an ad
+     * break.
+     */
+    this.playAdBreak = function() {
+      if (!this.autoPlayAdBreaks) {
+        this.adsManager.start();
+      }
+    }.bind(this);
+
+    /**
+     * Pauses the content video and displays the ad container so ads can play.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+    this.onContentPauseRequested_ = function(adEvent) {
+      this.adsActive = true;
+      this.adPlaying = true;
+      this.contentSource = this.player.currentSrc();
+      this.player.off('ended', this.localContentEndedListener);
+      if (adEvent.getAd().getAdPodInfo().getPodIndex() != -1) {
+        // Skip this call for post-roll ads
+        this.player.ads.startLinearAdMode();
+      }
+      this.adContainerDiv.style.display = 'block';
+
+      var contentType = adEvent.getAd().getContentType();
+      if ((contentType === 'application/javascript') && !this.settings.showControlsForJSAds) {
+        this.controlsDiv.style.display = 'none';
+      } else {
+        this.controlsDiv.style.display = 'block';
+      }
+
+      this.vjsControls.hide();
+      showPlayButton();
+      this.player.pause();
+    }.bind(this);
+
+    /**
+     * Resumes content video and hides the ad container.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+    this.onContentResumeRequested_ = function(adEvent) {
+      this.adsActive = false;
+      this.adPlaying = false;
+      this.player.on('ended', this.localContentEndedListener);
+      if (this.currentAd == null || // hide for post-roll only playlist
+          this.currentAd.isLinear()) { // don't hide for non-linear ads
+        this.adContainerDiv.style.display = 'none';
+      }
+      this.vjsControls.show();
+      if (!this.currentAd) {
+        // Something went wrong playing the ad
+        this.player.ads.endLinearAdMode();
+      } else if (!this.contentComplete &&
+          // Don't exit linear mode after post-roll or content will auto-replay
+          this.currentAd.getAdPodInfo().getPodIndex() != -1 ) {
+        this.player.ads.endLinearAdMode();
+      }
+      // Hide controls in case of future non-linear ads. They'll be unhidden in
+      // content_pause_requested.
+      this.controlsDiv.style.display = 'none';
+      this.countdownDiv.innerHTML = '';
+    }.bind(this);
+
+    /**
+     * Records that ads have completed and calls contentAndAdsEndedListeners
+     * if content is also complete.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+    var onAllAdsCompleted_ = function(adEvent) {
+      this.allAdsCompleted = true;
+      this.adContainerDiv.style.display = 'none';
+      if (this.contentComplete == true) {
+        if (this.contentPlayer.src != this.contentSource) {
+          this.player.src(this.contentSource);
+        }
+        for (var index in this.contentAndAdsEndedListeners) {
+          this.contentAndAdsEndedListeners[index]();
+        }
+      }
+    }.bind(this);
+
+    /**
+     * Starts the content video when a non-linear ad is loaded.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+   var onAdLoaded_ = function(adEvent) {
+      if (!adEvent.getAd().isLinear()) {
+        this.player.play();
+      }
+    }.bind(this);
+
+    /**
+     * Starts the interval timer to check the current ad time when an ad starts
+     * playing.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+    var onAdStarted_ = function(adEvent) {
+      this.currentAd = adEvent.getAd();
+      if (this.currentAd.isLinear()) {
+        this.adTrackingTimer = setInterval(
+            onAdPlayheadTrackerInterval_, 250);
+        // Don't bump container when controls are shown
+        removeClass_(this.adContainerDiv, 'bumpable-ima-ad-container');
+      } else {
+        // Bump container when controls are shown
+       addClass_(this.adContainerDiv, 'bumpable-ima-ad-container');
+      }
+      // For non-linear ads that show after a linear ad.
+      this.adContainerDiv.style.display = 'block';
+    }.bind(this);
+
+    /**
+     * Clears the interval timer for current ad time when an ad completes.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+    this.onAdComplete_ = function(adEvent) {
+      if (this.currentAd.isLinear()) {
+        clearInterval(this.adTrackingTimer);
+      }
+    }.bind(this);
+
+    /**
+     * Gets the current time and duration of the ad and calls the method to
+     * update the ad UI.
+     * @private
+     */
+    var onAdPlayheadTrackerInterval_ = function() {
+      var remainingTime = this.adsManager.getRemainingTime();
+      var duration =  this.currentAd.getDuration();
+      var currentTime = duration - remainingTime;
+      currentTime = currentTime > 0 ? currentTime : 0;
+      var isPod = false;
+      var totalAds = 0;
+      var adPosition;
+      if (this.currentAd.getAdPodInfo()) {
+        isPod = true;
+        adPosition = this.currentAd.getAdPodInfo().getAdPosition();
+        totalAds = this.currentAd.getAdPodInfo().getTotalAds();
+      }
+
+      // Update countdown timer data
+      var remainingMinutes = Math.floor(remainingTime / 60);
+      var remainingSeconds = Math.floor(remainingTime % 60);
+      if (remainingSeconds.toString().length < 2) {
+        remainingSeconds = '0' + remainingSeconds;
+      }
+      var podCount = ': ';
+      if (isPod && (totalAds > 1)) {
+        podCount = ' (' + adPosition + ' of ' + totalAds + '): ';
+      }
+      this.countdownDiv.innerHTML =
+          this.settings.adLabel + podCount +
+          remainingMinutes + ':' + remainingSeconds;
+
+      // Update UI
+      var playProgressRatio = currentTime / duration;
+      var playProgressPercent = playProgressRatio * 100;
+      this.progressDiv.style.width = playProgressPercent + '%';
+    }.bind(this);
+
+    this.getPlayerWidth = function() {
+      var computedStyle = getComputedStyle(this.player.el()) || {};
+
+      return parseInt(computedStyle.width, 10) || this.player.width();
+    }.bind(this);
+
+    this.getPlayerHeight = function() {
+      var computedStyle = getComputedStyle(this.player.el()) || {};
+
+      return parseInt(computedStyle.height, 10) || this.player.height();
+    }.bind(this);
+
+    /**
+     * Hides the ad controls on mouseout.
+     * @private
+     */
+    var hideAdControls_ = function() {
+      this.controlsDiv.style.height = '14px';
+      this.playPauseDiv.style.display = 'none';
+      this.muteDiv.style.display = 'none';
+      this.sliderDiv.style.display = 'none';
+      this.fullscreenDiv.style.display = 'none';
+    }.bind(this);
+
+    /**
+     * Shows ad controls on mouseover.
+     * @private
+     */
+    var showAdControls_ = function() {
+      this.controlsDiv.style.height = '37px';
+      this.playPauseDiv.style.display = 'block';
+      this.muteDiv.style.display = 'block';
+      this.sliderDiv.style.display = 'block';
+      this.fullscreenDiv.style.display = 'block';
+    }.bind(this);
+
+    /**
+     * Show pause and hide play button
+     */
+    var showPauseButton = function() {
+      addClass_(this.playPauseDiv, 'ima-paused');
+      removeClass_(this.playPauseDiv, 'ima-playing');
+    }.bind(this);
+
+    /**
+     * Show play and hide pause button
+     */
+    var showPlayButton = function() {
+      addClass_(this.playPauseDiv, 'ima-playing');
+      removeClass_(this.playPauseDiv, 'ima-paused');
+    }.bind(this);
+
+    /**
+     * Listener for clicks on the play/pause button during ad playback.
+     * @private
+     */
+    var onAdPlayPauseClick_ = function() {
+      if (this.adPlaying) {
+        showPauseButton();
+        this.adsManager.pause();
+        this.adPlaying = false;
+      } else {
+        showPlayButton();
+        this.adsManager.resume();
+        this.adPlaying = true;
+      }
+    }.bind(this);
+
+    /**
+     * Listener for clicks on the mute button during ad playback.
+     * @private
+     */
+    var onAdMuteClick_ = function() {
+      if (this.adMuted) {
+        addClass_(this.muteDiv, 'ima-non-muted');
+        removeClass_(this.muteDiv, 'ima-muted');
+        this.adsManager.setVolume(1);
+        // Bubble down to content player
+        this.player.muted(false);
+        this.adMuted = false;
+        this.sliderLevelDiv.style.width = this.player.volume() * 100 + "%";
+      } else {
+        addClass_(this.muteDiv, 'ima-muted');
+        removeClass_(this.muteDiv, 'ima-non-muted');
+        this.adsManager.setVolume(0);
+        // Bubble down to content player
+        this.player.muted(true);
+        this.adMuted = true;
+        this.sliderLevelDiv.style.width = "0%";
+      }
+    }.bind(this);
+
+    /* Listener for mouse down events during ad playback. Used for volume.
+     * @private
+     */
+    var onAdVolumeSliderMouseDown_ = function() {
+       document.addEventListener('mouseup', onMouseUp_, false);
+       document.addEventListener('mousemove', onMouseMove_, false);
+    };
+
+    /* Mouse movement listener used for volume slider.
+     * @private
+     */
+    var onMouseMove_ = function(event) {
+      setVolumeSlider_(event);
+    };
+
+    /* Mouse release listener used for volume slider.
+     * @private
+     */
+    var onMouseUp_ = function(event) {
+      setVolumeSlider_(event);
+      document.removeEventListener('mousemove', onMouseMove_);
+      document.removeEventListener('mouseup', onMouseUp_);
+    };
+
+    /* Utility function to set volume and associated UI
+     * @private
+     */
+    var setVolumeSlider_ = function(event) {
+      var percent =
+          (event.clientX - this.sliderDiv.getBoundingClientRect().left) /
+              this.sliderDiv.offsetWidth;
+      percent *= 100;
+      //Bounds value 0-100 if mouse is outside slider region.
+      percent = Math.min(Math.max(percent, 0), 100);
+      this.sliderLevelDiv.style.width = percent + "%";
+      this.player.volume(percent / 100); //0-1
+      this.adsManager.setVolume(percent / 100);
+      if (this.player.volume() == 0) {
+        addClass_(this.muteDiv, 'ima-muted');
+        removeClass_(this.muteDiv, 'ima-non-muted');
+        this.player.muted(true);
+        this.adMuted = true;
+      }
+      else
+      {
+        addClass_(this.muteDiv, 'ima-non-muted');
+        removeClass_(this.muteDiv, 'ima-muted');
+        this.player.muted(false);
+        this.adMuted = false;
+      }
+    }.bind(this);
+
+    /**
+     * Listener for clicks on the fullscreen button during ad playback.
+     * @private
+     */
+    var onAdFullscreenClick_ = function() {
+      if (this.player.isFullscreen()) {
+        this.player.exitFullscreen();
+      } else {
+        this.player.requestFullscreen();
+      }
+    }.bind(this);
+
+    /**
+     * Listens for the video.js player to change its fullscreen status. This
+     * keeps the fullscreen-ness of the AdContainer in sync with the player.
+     * @private
+     */
+    var onFullscreenChange_ = function() {
+      if (this.player.isFullscreen()) {
+        addClass_(this.fullscreenDiv, 'ima-fullscreen');
+        removeClass_(this.fullscreenDiv, 'ima-non-fullscreen');
+        if (this.adsManager) {
+          this.adsManager.resize(
+              window.screen.width,
+              window.screen.height,
+              google.ima.ViewMode.FULLSCREEN);
+        }
+      } else {
+        addClass_(this.fullscreenDiv, 'ima-non-fullscreen');
+        removeClass_(this.fullscreenDiv, 'ima-fullscreen');
+        if (this.adsManager) {
+          this.adsManager.resize(
+              this.getPlayerWidth(),
+              this.getPlayerHeight(),
+              google.ima.ViewMode.NORMAL);
+        }
+      }
+    }.bind(this);
+
+    /**
+     * Listens for the video.js player to change its volume. This keeps the ad
+     * volume in sync with the content volume if the volume of the player is
+     * changed while content is playing
+     * @private
+     */
+    var onVolumeChange_ = function() {
+      var newVolume = this.player.muted() ? 0 : this.player.volume();
+      if (this.adsManager) {
+        this.adsManager.setVolume(newVolume);
+      }
+      // Update UI
+      if (newVolume == 0) {
+        this.adMuted = true;
+        addClass_(this.muteDiv, 'ima-muted');
+        removeClass_(this.muteDiv, 'ima-non-muted');
+        this.sliderLevelDiv.style.width = '0%';
+      } else {
+        this.adMuted = false;
+        addClass_(this.muteDiv, 'ima-non-muted');
+        removeClass_(this.muteDiv, 'ima-muted');
+        this.sliderLevelDiv.style.width = newVolume * 100 + '%';
+      }
+    }.bind(this);
+
+    /**
+     * Seeks content to 00:00:00. This is used as an event handler for the
+     * loadedmetadata event, since seeking is not possible until that event has
+     * fired.
+     * @private
+     */
+    var seekContentToZero_ = function() {
+      this.player.off('loadedmetadata', seekContentToZero_);
+      this.player.currentTime(0);
+    }.bind(this);
+
+    /**
+     * Seeks content to 00:00:00 and starts playback. This is used as an event
+     * handler for the loadedmetadata event, since seeking is not possible until
+     * that event has fired.
+     * @private
+     */
+    var playContentFromZero_ = function() {
+      this.player.off('loadedmetadata', playContentFromZero_);
+      this.player.currentTime(0);
+      this.player.play();
+    }.bind(this);
+
+    /**
+     * Destroys the AdsManager, sets it to null, and calls contentComplete to
+     * reset correlators. Once this is done it requests ads again to keep the
+     * inventory available.
+     * @private
+     */
+    var resetIMA_ = function() {
+      this.adsActive = false;
+      this.adPlaying = false;
+      this.player.on('ended', this.localContentEndedListener);
+      this.vjsControls.show();
+      this.player.ads.endLinearAdMode();
+      if (this.adTrackingTimer) {
+        // If this is called while an ad is playing, stop trying to get that
+        // ad's current time.
+        clearInterval(this.adTrackingTimer);
+      }
+      // Reset the content time we give the SDK. Fixes an issue where requesting
+      // VMAP followed by VMAP would play the second mid-rolls as pre-rolls if
+      // the first playthrough of the video passed the second response's
+      // mid-roll time.
+      this.contentPlayheadTracker.currentTime = 0;
+      if (this.adsManager) {
+        this.adsManager.destroy();
+        this.adsManager = null;
+      }
+      if (this.adsLoader && !this.contentComplete) {
+        this.adsLoader.contentComplete();
+      }
+      this.contentComplete = false;
+      this.allAdsCompleted = false;
+    }.bind(this);
+
+    /**
+     * Ads an EventListener to the AdsManager. For a list of available events,
+     * see
+     * https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type
+     * @param {google.ima.AdEvent.Type} event The AdEvent.Type for which to listen.
+     * @param {function} callback The method to call when the event is fired.
+     */
+    this.addEventListener = function(event, callback) {
+      if (this.adsManager) {
+        this.adsManager.addEventListener(event, callback);
+      }
+    }.bind(this);
+
+    /**
+     * Returns the instance of the AdsManager.
+     * @return {google.ima.AdsManager} The AdsManager being used by the plugin.
+     */
+    this.getAdsManager = function() {
+      return this.adsManager;
+    }.bind(this);
+
+    /**
+     * DEPRECATED: Use setContentWithAdTag.
+     * Sets the content of the video player. You should use this method instead
+     * of setting the content src directly to ensure the proper ad tag is
+     * requested when the video content is loaded.
+     * @param {?string} contentSrc The URI for the content to be played. Leave
+     *     blank to use the existing content.
+     * @param {?string} adTag The ad tag to be requested when the content loads.
+     *     Leave blank to use the existing ad tag.
+     * @param {?boolean} playOnLoad True to play the content once it has loaded,
+     *     false to only load the content but not start playback.
+     */
+    this.setContent = function(contentSrc, adTag, playOnLoad) {
+      window.console.log(
+          'WARNING: player.ima.setContent is deprecated. Use ' +
+              'player.ima.setContentWithAdTag instead.');
+      this.setContentWithAdTag(contentSrc, adTag, playOnLoad);
+    }.bind(this);
+
+    /**
+     * Sets the content of the video player. You should use this method instead
+     * of setting the content src directly to ensure the proper ad tag is
+     * requested when the video content is loaded.
+     * @param {?string} contentSrc The URI for the content to be played. Leave
+     *     blank to use the existing content.
+     * @param {?string} adTag The ad tag to be requested when the content loads.
+     *     Leave blank to use the existing ad tag.
+     * @param {?boolean} playOnLoad True to play the content once it has loaded,
+     *     false to only load the content but not start playback.
+     */
+    this.setContentWithAdTag = function(contentSrc, adTag, playOnLoad) {
+      resetIMA_();
+      this.settings.adTagUrl = adTag ? adTag : this.settings.adTagUrl;
+      changeSource_(contentSrc, playOnLoad);
+    }.bind(this);
+
+    /**
+     * Sets the content of the video player. You should use this method instead
+     * of setting the content src directly to ensure the proper ads response is
+     * used when the video content is loaded.
+     * @param {?string} contentSrc The URI for the content to be played. Leave
+     *     blank to use the existing content.
+     * @param {?string} adsResponse The ads response to be requested when the
+     *     content loads. Leave blank to use the existing ads response.
+     * @param {?boolean} playOnLoad True to play the content once it has loaded,
+     *     false to only load the content but not start playback.
+     */
+    this.setContentWithAdsResponse = function(contentSrc, adsResponse, playOnLoad) {
+      resetIMA_();
+      this.settings.adsResponse = adsResponse ? adsResponse : this.settings.adsResponse;
+      changeSource_(contentSrc, playOnLoad);
+    }.bind(this);
+
+    /**
+     * Changes the ad tag. You will need to call requestAds after this method
+     * for the new ads to be requested.
+     * @param {?string} adTag The ad tag to be requested the next time requestAds
+     *     is called.
+     */
+    this.changeAdTag = function(adTag) {
+      resetIMA_();
+      this.settings.adTagUrl = adTag;
+    }.bind(this);
+
+    /**
+     * Changes the player source.
+     * @param {?string} contentSrc The URI for the content to be played. Leave
+     *     blank to use the existing content.
+     * @param {?boolean} playOnLoad True to play the content once it has loaded,
+     *     false to only load the content but not start playback.
+     * @private
+     */
+    var changeSource_ = function(contentSrc, playOnLoad) {
+      // Only try to pause the player when initialised with a source already
+      if (!!this.player.currentSrc()) {
+        this.player.currentTime(0);
+        this.player.pause();
+      }
+      if (contentSrc) {
+        this.player.src(contentSrc);
+      }
+      if (playOnLoad) {
+        this.player.on('loadedmetadata', playContentFromZero_);
+      } else {
+        this.player.on('loadedmetadata', seekContentToZero_);
+      }
+    }.bind(this);
+
+    /**
+     * Adds a listener for the 'ended' event of the video player. This should be
+     * used instead of setting an 'ended' listener directly to ensure that the
+     * ima can do proper cleanup of the SDK before other event listeners
+     * are called.
+     * @param {function} listener The listener to be called when content completes.
+     */
+    this.addContentEndedListener = function(listener) {
+      this.contentEndedListeners.push(listener);
+    }.bind(this);
+
+    /**
+     * Adds a listener that will be called when content and all ads have
+     * finished playing.
+     * @param {function} listener The listener to be called when content and ads complete.
+     */
+    this.addContentAndAdsEndedListener = function(listener) {
+      this.contentAndAdsEndedListeners.push(listener);
+    }.bind(this);
+
+    /**
+     * Sets the listener to be called to trigger manual ad break playback.
+     * @param {function} listener The listener to be called to trigger manual ad break playback.
+     */
+    this.setAdBreakReadyListener = function(listener) {
+      this.adBreakReadyListener = listener;
+    }.bind(this);
+
+    /**
+     * Pauses the ad.
+     */
+    this.pauseAd = function() {
+      if (this.adsActive && this.adPlaying) {
+        showPauseButton();
+        this.adsManager.pause();
+        this.adPlaying = false;
+      }
+    }.bind(this);
+
+    /**
+     * Resumes the ad.
+     */
+    this.resumeAd = function() {
+      if (this.adsActive && !this.adPlaying) {
+        showPlayButton();
+        this.adsManager.resume();
+        this.adPlaying = true;
+      }
+    }.bind(this);
+
+    /**
+     * Set up intervals to check for seeking and update current video time.
+     * @private
+     */
+    var setUpPlayerIntervals_ = function() {
+      this.updateTimeIntervalHandle =
+          setInterval(updateCurrentTime_, this.seekCheckInterval);
+      this.seekCheckIntervalHandle =
+          setInterval(checkForSeeking_, this.seekCheckInterval);
+      this.resizeCheckIntervalHandle =
+          setInterval(checkForResize_, this.resizeCheckInterval);
+    }.bind(this);
+
+    /**
+     * Updates the current time of the video
+     * @private
+     */
+    var updateCurrentTime_ = function() {
+      if (!this.contentPlayheadTracker.seeking) {
+        this.contentPlayheadTracker.currentTime = this.player.currentTime();
+      }
+    }.bind(this);
+
+    /**
+     * Detects when the user is seeking through a video.
+     * This is used to prevent mid-rolls from playing while a user is seeking.
+     *
+     * There *is* a seeking property of the HTML5 video element, but it's not
+     * properly implemented on all platforms (e.g. mobile safari), so we have to
+     * check ourselves to be sure.
+     *
+     * @private
+     */
+    var checkForSeeking_ = function() {
+      var tempCurrentTime = this.player.currentTime();
+      var diff = (tempCurrentTime - this.contentPlayheadTracker.previousTime) * 1000;
+      if (Math.abs(diff) > this.seekCheckInterval + this.seekThreshold) {
+        this.contentPlayheadTracker.seeking = true;
+      } else {
+        this.contentPlayheadTracker.seeking = false;
+      }
+      this.contentPlayheadTracker.previousTime = this.player.currentTime();
+    }.bind(this);
+
+    /**
+     * Detects when the player is resized (for fluid support) and resizes the
+     * ads manager to match.
+     *
+     * @private
+     */
+    var checkForResize_ = function() {
+      var currentWidth = this.getPlayerWidth();
+      var currentHeight = this.getPlayerHeight();
+
+      if (this.adsManager && (currentWidth != this.adsManagerDimensions.width ||
+          currentHeight != this.adsManagerDimensions.height)) {
+        this.adsManagerDimensions.width = currentWidth;
+        this.adsManagerDimensions.height = currentHeight;
+        this.adsManager.resize(currentWidth, currentHeight, google.ima.ViewMode.NORMAL);
+      }
+    }.bind(this);
+
+    /**
+     * Changes the flag to show or hide the ad countdown timer.
+     *
+     * @param {boolean} showCountdownIn Show or hide the countdown timer.
+     */
+    this.setShowCountdown = function(showCountdownIn) {
+      this.showCountdown = showCountdownIn;
+      this.countdownDiv.style.display = this.showCountdown ? 'block' : 'none';
+    }.bind(this);
+
+    /**
+     * Current plugin version.
+     */
+    this.VERSION = '0.2.0';
+
+    /**
+     * Stores user-provided settings.
+     */
+    this.settings;
+
+    /**
+     * Used to prefix videojs ima
+     */
+    this.controlPrefix;
+
+    /**
+     * Video element playing content.
+     */
+    this.contentPlayer;
+
+    /**
+     * Boolean flag to show or hide the ad countdown timer.
+     */
+    this.showCountdown;
+
+    /**
+     * Boolena flag to enable manual ad break playback.
+     */
+    this.autoPlayAdBreaks;
+
+    /**
+     * Video.js control bar.
+     */
+    this.vjsControls;
+
+    /**
+     * Div used as an ad container.
+     */
+    this.adContainerDiv;
+
+    /**
+     * Div used to display ad controls.
+     */
+    this.controlsDiv;
+
+    /**
+     * Div used to display ad countdown timer.
+     */
+    this.countdownDiv;
+
+    /**
+     * Div used to display add seek bar.
+     */
+    this.seekBarDiv;
+
+    /**
+     * Div used to display ad progress (in seek bar).
+     */
+    this.progressDiv;
+
+    /**
+     * Div used to display ad play/pause button.
+     */
+    this.playPauseDiv;
+
+    /**
+     * Div used to display ad mute button.
+     */
+    this.muteDiv;
+
+    /**
+     * Div used by the volume slider.
+     */
+    this.sliderDiv;
+
+    /**
+     * Volume slider level visuals
+     */
+    this.sliderLevelDiv;
+
+    /**
+     * Div used to display ad fullscreen button.
+     */
+    this.fullscreenDiv;
+
+    /**
+     * IMA SDK AdDisplayContainer.
+     */
+    this.adDisplayContainer;
+
+    /**
+     * True if the AdDisplayContainer has been initialized. False otherwise.
+     */
+    this.adDisplayContainerInitialized = false;
+
+    /**
+     * IMA SDK AdsLoader
+     */
+    this.adsLoader;
+
+    /**
+     * IMA SDK AdsManager
+     */
+    this.adsManager;
+
+    /**
+     * IMA SDK AdsRenderingSettings.
+     */
+    this.adsRenderingSettings = null;
+
+    /**
+     * Ad tag URL. Should return VAST, VMAP, or ad rules.
+     */
+    this.adTagUrl;
+
+    /**
+     * VAST, VMAP, or ad rules response. Used in lieu of fetching a response
+     * from an ad tag URL.
+     */
+    this.adsResponse;
+
+    /**
+     * Current IMA SDK Ad.
+     */
+    this.currentAd;
+
+    /**
+     * Timer used to track content progress.
+     */
+    this.contentTrackingTimer;
+
+    /**
+     * Timer used to track ad progress.
+     */
+    this.adTrackingTimer;
+
+    /**
+     * True if ads are currently displayed, false otherwise.
+     * True regardless of ad pause state if an ad is currently being displayed.
+     */
+    this.adsActive = false;
+
+    /**
+     * True if ad is currently playing, false if ad is paused or ads are not
+     * currently displayed.
+     */
+    this.adPlaying = false;
+
+    /**
+     * True if the ad is muted, false otherwise.
+     */
+    this.adMuted = false;
+
+    /**
+     * True if our content video has completed, false otherwise.
+     */
+    this.contentComplete = false;
+
+    /**
+     * True if ALL_ADS_COMPLETED has fired, false until then.
+     */
+     this.allAdsCompleted = false;
+
+    /**
+     * Handle to interval that repeatedly updates current time.
+     */
+    this.updateTimeIntervalHandle;
+
+    /**
+     * Handle to interval that repeatedly checks for seeking.
+     */
+    this.seekCheckIntervalHandle;
+
+    /**
+     * Interval (ms) on which to check if the user is seeking through the
+     * content.
+     */
+    this.seekCheckInterval = 1000;
+
+    /**
+     * Handle to interval that repeatedly checks for player resize.
+     */
+    this.resizeCheckIntervalHandle;
+
+    /**
+     * Interval (ms) to check for player resize for fluid support.
+     */
+    this.resizeCheckInterval = 250;
+
+    /**
+     * Threshold by which to judge user seeking. We check every 1000 ms to see
+     * if the user is seeking. In order for us to decide that they are *not*
+     * seeking, the content video playhead must only change by 900-1100 ms
+     * between checks. Any greater change and we assume the user is seeking
+     * through the video.
+     */
+    this.seekThreshold = 100;
+
+    /**
+     * Stores data for the content playhead tracker.
+     */
+    this.contentPlayheadTracker = {
+      currentTime: 0,
+      previousTime: 0,
+      seeking: false,
+      duration: 0
+    };
+
+    /**
+     * Stores data for the ad playhead tracker.
+     */
+    this.adPlayheadTracker = {
+      currentTime: 0,
+      duration: 0,
+      isPod: false,
+      adPosition: 0,
+      totalAds: 0
+    };
+
+    /**
+     * Stores the dimensions for the ads manager.
+     */
+    this.adsManagerDimensions = {
+      width: 0,
+      height: 0
+    };
+
+    /**
+     * Content ended listeners passed by the publisher to the plugin. Publishers
+     * should allow the plugin to handle content ended to ensure proper support
+     * of custom ad playback.
+     */
+    this.contentEndedListeners = [];
+
+    /**
+     * Content and ads ended listeners passed by the publisher to the plugin.
+     * These will be called when the plugin detects that content *and all
+     * ads* have completed. This differs from the contentEndedListeners in that
+     * contentEndedListeners will fire between content ending and a post-roll
+     * playing, whereas the contentAndAdsEndedListeners will fire after the
+     * post-roll completes.
+     */
+    this.contentAndAdsEndedListeners = [];
+
+     /**
+      * Listener to be called to trigger manual ad break playback.
+      */
+    this.adBreakReadyListener = undefined;
+
+    /**
+     * Stores the content source so we can re-populate it manually after a
+     * post-roll on iOS.
+     */
+    this.contentSource = '';
+
+    /**
+     * Local content ended listener for contentComplete.
+     */
+    this.localContentEndedListener = function() {
+      if (this.adsLoader && !this.contentComplete) {
+        this.adsLoader.contentComplete();
+        this.contentComplete = true;
+      }
+      for (var index in this.contentEndedListeners) {
+        this.contentEndedListeners[index]();
+      }
+      if (this.allAdsCompleted) {
+        for (var index in this.contentAndAdsEndedListeners) {
+          this.contentAndAdsEndedListeners[index]();
+        }
+      }
+      clearInterval(this.updateTimeIntervalHandle);
+      clearInterval(this.seekCheckIntervalHandle);
+      clearInterval(this.resizeCheckIntervalHandle);
+      if(this.player.el()) {
+        this.player.one('play', setUpPlayerIntervals_);
+      }
+    }.bind(this);
+
+    this.playerDisposedListener = function(){
+      this.contentEndedListeners, this.contentAndAdsEndedListeners = [], [];
+      this.contentComplete = true;
+      this.player.off('ended', this.localContentEndedListener);
+
+      // Bug fix: https://github.com/googleads/videojs-ima/issues/306
+      if (this.player.ads.adTimeoutTimeout) {
+        clearTimeout(this.player.ads.adTimeoutTimeout);
+      }
+
+      var intervalsToClear = [this.updateTimeIntervalHandle, this.seekCheckIntervalHandle,
+        this.adTrackingTimer, this.resizeCheckIntervalHandle];
+      for (var index in intervalsToClear) {
+        var interval = intervalsToClear[index];
+        if (interval) {
+          clearInterval(interval);
+        }
+      }
+      if (this.adsManager) {
+        this.adsManager.destroy();
+        this.adsManager = null;
+      }
+    }.bind(this);
+
+    this.settings = extend({}, ima_defaults, options || {});
+
+    // Currently this isn't used but I can see it being needed in the future, so
+    // to avoid implementation problems with later updates I'm requiring it.
+    if (!this.settings['id']) {
+      window.console.log('Error: must provide id of video.js div');
       return;
     }
 
-    player.play();
-  });
+    this.controlPrefix = (this.settings.id + '_') || '';
 
-  player.on('nopreroll', function () {
-    player.ads.nopreroll_ = true;
-  });
+    this.contentPlayer = document.getElementById(this.settings['id'] + '_html5_api');
 
-  player.on('nopostroll', function () {
-    player.ads.nopostroll_ = true;
-  });
-
-  // Remove ad-loading class when ad plays or when content plays (in case there was no ad)
-  // If you remove this class too soon you can get a flash of content!
-  player.on(['ads-ad-started', 'playing'], function () {
-    player.removeClass('vjs-ad-loading');
-  });
-
-  // Replace the plugin constructor with the ad namespace
-  player.ads = {
-    state: 'content-set',
-    disableNextSnapshotRestore: false,
-
-    // This is set to true if the content has ended once. After that, the user can
-    // seek backwards and replay content, but _contentHasEnded remains true.
-    _contentHasEnded: false,
-
-    // This is an estimation of the current ad type being played
-    // This is experimental currently. Do not rely on its presence or behavior!
-    adType: null,
-
-    VERSION: '4.2.8',
-
-    reset: function reset() {
-      player.ads.disableNextSnapshotRestore = false;
-      player.ads._contentHasEnded = false;
-      player.ads.snapshot = null;
-      player.ads.adType = null;
-    },
-
-
-    // Call this when an ad response has been received and there are
-    // linear ads ready to be played.
-    startLinearAdMode: function startLinearAdMode() {
-      if (player.ads.state === 'preroll?' || player.ads.state === 'content-playback' || player.ads.state === 'postroll?') {
-        player.trigger('adstart');
-      }
-    },
-
-
-    // Call this when a linear ad pod has finished playing.
-    endLinearAdMode: function endLinearAdMode() {
-      if (player.ads.state === 'ad-playback') {
-        player.trigger('adend');
-        // In the case of an empty ad response, we want to make sure that
-        // the vjs-ad-loading class is always removed. We could probably check for
-        // duration on adPlayer for an empty ad but we remove it here just to make sure
-        player.removeClass('vjs-ad-loading');
-      }
-    },
-
-
-    // Call this when an ad response has been received but there are no
-    // linear ads to be played (i.e. no ads available, or overlays).
-    // This has no effect if we are already in a linear ad mode.  Always
-    // use endLinearAdMode() to exit from linear ad-playback state.
-    skipLinearAdMode: function skipLinearAdMode() {
-      if (player.ads.state !== 'ad-playback') {
-        player.trigger('adskip');
-      }
-    },
-    stitchedAds: function stitchedAds(arg) {
-      if (arg !== undefined) {
-        this._stitchedAds = !!arg;
-      }
-      return this._stitchedAds;
-    },
-
-
-    // Returns whether the video element has been modified since the
-    // snapshot was taken.
-    // We test both src and currentSrc because changing the src attribute to a URL that
-    // AdBlocker is intercepting doesn't update currentSrc.
-    videoElementRecycled: function videoElementRecycled() {
-      if (player.ads.shouldPlayContentBehindAd(player)) {
-        return false;
-      }
-
-      if (!this.snapshot) {
-        throw new Error('You cannot use videoElementRecycled while there is no snapshot.');
-      }
-
-      var srcChanged = player.tech_.src() !== this.snapshot.src;
-      var currentSrcChanged = player.currentSrc() !== this.snapshot.currentSrc;
-
-      return srcChanged || currentSrcChanged;
-    },
-
-
-    // Returns a boolean indicating if given player is in live mode.
-    // Can be replaced when this is fixed: https://github.com/videojs/video.js/issues/3262
-    isLive: function isLive(somePlayer) {
-      if (somePlayer.duration() === Infinity) {
-        return true;
-      } else if (_video2['default'].browser.IOS_VERSION === '8' && somePlayer.duration() === 0) {
-        return true;
-      }
-      return false;
-    },
-
-
-    // Return true if content playback should mute and continue during ad breaks.
-    // This is only done during live streams on platforms where it's supported.
-    // This improves speed and accuracy when returning from an ad break.
-    shouldPlayContentBehindAd: function shouldPlayContentBehindAd(somePlayer) {
-      return !_video2['default'].browser.IS_IOS && !_video2['default'].browser.IS_ANDROID && somePlayer.duration() === Infinity;
+    // Detect inline options
+    if(this.contentPlayer.hasAttribute('autoplay')){
+      this.settings['adWillAutoPlay'] = this.settings['adWillAutoPlay'] || true;
     }
+
+    // Default showing countdown timer to true.
+    this.showCountdown = true;
+    if (this.settings['showCountdown'] == false) {
+      this.showCountdown = false;
+    }
+
+    this.autoPlayAdBreaks = true;
+    if (this.settings['autoPlayAdBreaks'] == false) {
+      this.autoPlayAdBreaks = false;
+    }
+
+    player.one('play', setUpPlayerIntervals_);
+
+    player.on('ended', this.localContentEndedListener);
+    player.on('dispose', this.playerDisposedListener);
+
+    var contrib_ads_defaults = {
+      debug: this.settings.debug,
+      timeout: this.settings.timeout,
+      prerollTimeout: this.settings.prerollTimeout
+    };
+
+    var ads_plugin_settings =
+        extend({}, contrib_ads_defaults, options['contribAdsSettings'] || {});
+
+    player.ads(ads_plugin_settings);
+
+    this.adsRenderingSettings = new google.ima.AdsRenderingSettings();
+    this.adsRenderingSettings.restoreCustomPlaybackStateOnAdBreakComplete = true;
+    if (this.settings['adsRenderingSettings']) {
+      for (var setting in this.settings['adsRenderingSettings']) {
+        this.adsRenderingSettings[setting] =
+            this.settings['adsRenderingSettings'][setting];
+      }
+    }
+
+    if (this.settings['locale']) {
+      google.ima.settings.setLocale(this.settings['locale']);
+    }
+
+    createAdContainer_();
+    this.adsLoader = new google.ima.AdsLoader(this.adDisplayContainer);
+
+    this.adsLoader.getSettings().setVpaidMode(
+        google.ima.ImaSdkSettings.VpaidMode.ENABLED);
+    if (this.settings.vpaidAllowed == false) {
+      this.adsLoader.getSettings().setVpaidMode(
+          google.ima.ImaSdkSettings.VpaidMode.DISABLED);
+    }
+    if (this.settings.vpaidMode) {
+      this.adsLoader.getSettings().setVpaidMode(this.settings.vpaidMode);
+    }
+
+    if (this.settings.locale) {
+      this.adsLoader.getSettings().setLocale(this.settings.locale);
+    }
+
+    if (this.settings.numRedirects) {
+      this.adsLoader.getSettings().setNumRedirects(this.settings.numRedirects);
+    }
+
+    this.adsLoader.getSettings().setPlayerType('videojs-ima');
+    this.adsLoader.getSettings().setPlayerVersion(this.VERSION);
+    this.adsLoader.getSettings().setAutoPlayAdBreaks(this.autoPlayAdBreaks);
+
+    this.adsLoader.addEventListener(
+      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+      onAdsManagerLoaded_,
+      false);
+    this.adsLoader.addEventListener(
+      google.ima.AdErrorEvent.Type.AD_ERROR,
+      onAdsLoaderError_,
+      false);
+
+    if (!readyCallback) {
+      readyCallback = this.startFromReadyCallback;
+    }
+    player.on('readyforpreroll', readyCallback);
+    player.ready(function() {
+      onVolumeChange_();
+      player.on('fullscreenchange', onFullscreenChange_);
+      player.on('volumechange', onVolumeChange_);
+    });
   };
 
-  player.ads.stitchedAds(settings.stitchedAds);
-
-  player.ads.cueTextTracks = cueTextTracks;
-  player.ads.adMacroReplacement = _macros2['default'].bind(player);
-
-  // Start sending contentupdate events for this player
-  (0, _contentupdate2['default'])(player);
-
-  // Global contentupdate handler for resetting plugin state
-  player.on('contentupdate', player.ads.reset);
-
-  // Ad Playback State Machine
-  var states = {
-    'content-set': {
-      events: {
-        adscanceled: function adscanceled() {
-          this.state = 'content-playback';
-        },
-        adsready: function adsready() {
-          this.state = 'ads-ready';
-        },
-        play: function play() {
-          this.state = 'ads-ready?';
-          (0, _cancelContentPlay2['default'])(player);
-          // remove the poster so it doesn't flash between videos
-          removeNativePoster(player);
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'ads-ready': {
-      events: {
-        play: function play() {
-          this.state = 'preroll?';
-          (0, _cancelContentPlay2['default'])(player);
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'preroll?': {
-      enter: function enter() {
-        if (player.ads.nopreroll_) {
-          // This will start the ads manager in case there are later ads
-          player.trigger('readyforpreroll');
-
-          // If we don't wait a tick, entering content-playback will cancel
-          // cancelPlayTimeout, causing the video to not pause for the ad
-          _window2['default'].setTimeout(function () {
-            // Don't wait for a preroll
-            player.trigger('nopreroll');
-          }, 1);
-        } else {
-          // change class to show that we're waiting on ads
-          player.addClass('vjs-ad-loading');
-          // schedule an adtimeout event to fire if we waited too long
-          player.ads.adTimeoutTimeout = _window2['default'].setTimeout(function () {
-            player.trigger('adtimeout');
-          }, settings.prerollTimeout);
-          // signal to ad plugin that it's their opportunity to play a preroll
-          player.trigger('readyforpreroll');
-        }
-      },
-      leave: function leave() {
-        _window2['default'].clearTimeout(player.ads.adTimeoutTimeout);
-      },
-
-      events: {
-        play: function play() {
-          (0, _cancelContentPlay2['default'])(player);
-        },
-        adstart: function adstart() {
-          this.state = 'ad-playback';
-          player.ads.adType = 'preroll';
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        },
-        adtimeout: function adtimeout() {
-          this.state = 'content-playback';
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        },
-        nopreroll: function nopreroll() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'ads-ready?': {
-      enter: function enter() {
-        player.addClass('vjs-ad-loading');
-        player.ads.adTimeoutTimeout = _window2['default'].setTimeout(function () {
-          player.trigger('adtimeout');
-        }, settings.timeout);
-      },
-      leave: function leave() {
-        _window2['default'].clearTimeout(player.ads.adTimeoutTimeout);
-        player.removeClass('vjs-ad-loading');
-      },
-
-      events: {
-        play: function play() {
-          (0, _cancelContentPlay2['default'])(player);
-        },
-        adscanceled: function adscanceled() {
-          this.state = 'content-playback';
-        },
-        adsready: function adsready() {
-          this.state = 'preroll?';
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        },
-        adtimeout: function adtimeout() {
-          this.state = 'content-playback';
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'ad-playback': {
-      enter: function enter() {
-        // capture current player state snapshot (playing, currentTime, src)
-        if (!player.ads.shouldPlayContentBehindAd(player)) {
-          this.snapshot = snapshot.getPlayerSnapshot(player);
-        }
-
-        // Mute the player behind the ad
-        if (player.ads.shouldPlayContentBehindAd(player)) {
-          this.preAdVolume_ = player.volume();
-          player.volume(0);
-        }
-
-        // add css to the element to indicate and ad is playing.
-        player.addClass('vjs-ad-playing');
-
-        // We should remove the vjs-live class if it has been added in order to
-        // show the adprogress control bar on Android devices for falsely
-        // determined LIVE videos due to the duration incorrectly reported as Infinity
-        if (player.hasClass('vjs-live')) {
-          player.removeClass('vjs-live');
-        }
-
-        // remove the poster so it doesn't flash between ads
-        removeNativePoster(player);
-
-        // We no longer need to supress play events once an ad is playing.
-        // Clear it if we were.
-        if (player.ads.cancelPlayTimeout) {
-          // If we don't wait a tick, we could cancel the pause for cancelContentPlay,
-          // resulting in content playback behind the ad
-          _window2['default'].setTimeout(function () {
-            _window2['default'].clearTimeout(player.ads.cancelPlayTimeout);
-            player.ads.cancelPlayTimeout = null;
-          }, 1);
-        }
-      },
-      leave: function leave() {
-        player.removeClass('vjs-ad-playing');
-
-        // We should add the vjs-live class back if the video is a LIVE video
-        // If we dont do this, then for a LIVE Video, we will get an incorrect
-        // styled control, which displays the time for the video
-        if (player.ads.isLive(player)) {
-          player.addClass('vjs-live');
-        }
-        if (!player.ads.shouldPlayContentBehindAd(player)) {
-          snapshot.restorePlayerSnapshot(player, this.snapshot);
-        }
-
-        // Reset the volume to pre-ad levels
-        if (player.ads.shouldPlayContentBehindAd(player)) {
-          player.volume(this.preAdVolume_);
-        }
-      },
-
-      events: {
-        adend: function adend() {
-          this.state = 'content-resuming';
-          player.ads.adType = null;
-        },
-        adserror: function adserror() {
-          this.state = 'content-resuming';
-          // Trigger 'adend' to notify that we are exiting 'ad-playback'
-          player.trigger('adend');
-        }
-      }
-    },
-    'content-resuming': {
-      enter: function enter() {
-        if (this._contentHasEnded) {
-          _window2['default'].clearTimeout(player.ads._fireEndedTimeout);
-          // in some cases, ads are played in a swf or another video element
-          // so we do not get an ended event in this state automatically.
-          // If we don't get an ended event we can use, we need to trigger
-          // one ourselves or else we won't actually ever end the current video.
-          player.ads._fireEndedTimeout = _window2['default'].setTimeout(function () {
-            player.trigger('ended');
-          }, 1000);
-        }
-      },
-      leave: function leave() {
-        _window2['default'].clearTimeout(player.ads._fireEndedTimeout);
-      },
-
-      events: {
-        contentupdate: function contentupdate() {
-          this.state = 'content-set';
-        },
-
-
-        // This is for stitched ads only.
-        contentresumed: function contentresumed() {
-          this.state = 'content-playback';
-        },
-        playing: function playing() {
-          this.state = 'content-playback';
-        },
-        ended: function ended() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'postroll?': {
-      enter: function enter() {
-        this.snapshot = snapshot.getPlayerSnapshot(player);
-        if (player.ads.nopostroll_) {
-          _window2['default'].setTimeout(function () {
-            // content-resuming happens after the timeout for backward-compatibility
-            // with plugins that relied on a postrollTimeout before nopostroll was
-            // implemented
-            player.ads.state = 'content-resuming';
-            player.trigger('ended');
-          }, 1);
-        } else {
-          player.addClass('vjs-ad-loading');
-
-          player.ads.adTimeoutTimeout = _window2['default'].setTimeout(function () {
-            player.trigger('adtimeout');
-          }, settings.postrollTimeout);
-        }
-      },
-      leave: function leave() {
-        _window2['default'].clearTimeout(player.ads.adTimeoutTimeout);
-        player.removeClass('vjs-ad-loading');
-      },
-
-      events: {
-        adstart: function adstart() {
-          this.state = 'ad-playback';
-          player.ads.adType = 'postroll';
-        },
-        adskip: function adskip() {
-          this.state = 'content-resuming';
-          _window2['default'].setTimeout(function () {
-            player.trigger('ended');
-          }, 1);
-        },
-        adtimeout: function adtimeout() {
-          this.state = 'content-resuming';
-          _window2['default'].setTimeout(function () {
-            player.trigger('ended');
-          }, 1);
-        },
-        adserror: function adserror() {
-          this.state = 'content-resuming';
-          _window2['default'].setTimeout(function () {
-            player.trigger('ended');
-          }, 1);
-        },
-        contentupdate: function contentupdate() {
-          this.state = 'ads-ready?';
-        }
-      }
-    },
-    'content-playback': {
-      enter: function enter() {
-        // make sure that any cancelPlayTimeout is cleared
-        if (player.ads.cancelPlayTimeout) {
-          _window2['default'].clearTimeout(player.ads.cancelPlayTimeout);
-          player.ads.cancelPlayTimeout = null;
-        }
-
-        // This was removed because now that "playing" is fixed to only play after
-        // preroll, any integration should just use the "playing" event. However,
-        // we found out some 3rd party code relied on this event, so we've temporarily
-        // added it back in to give people more time to update their code.
-        player.trigger({
-          type: 'contentplayback',
-          triggerevent: player.ads.triggerevent
-        });
-
-        // Play the content
-        if (player.ads.cancelledPlay) {
-          player.ads.cancelledPlay = false;
-          if (player.paused()) {
-            player.play();
-          }
-        }
-      },
-
-      events: {
-        // In the case of a timeout, adsready might come in late.
-        // This assumes the behavior that if an ad times out, it could still
-        // interrupt the content and start playing. An integration could
-        // still decide to behave otherwise.
-        adsready: function adsready() {
-          player.trigger('readyforpreroll');
-        },
-        adstart: function adstart() {
-          this.state = 'ad-playback';
-          // This is a special case in which preroll is specifically set
-          if (player.ads.adType !== 'preroll') {
-            player.ads.adType = 'midroll';
-          }
-        },
-        contentupdate: function contentupdate() {
-          // We know sources have changed, so we call CancelContentPlay
-          // to avoid playback of video in the background of an ad. Playback Occurs on
-          // Android devices if we do not call cancelContentPlay. This is because
-          // the sources do not get updated in time on Android due to timing issues.
-          // So instead of checking if the sources have changed in the play handler
-          // and calling cancelContentPlay() there we call it here.
-          // This does not happen on Desktop as the sources do get updated in time.
-          if (!player.ads.shouldPlayContentBehindAd(player)) {
-            (0, _cancelContentPlay2['default'])(player);
-          }
-          if (player.paused()) {
-            this.state = 'content-set';
-          } else {
-            this.state = 'ads-ready?';
-          }
-        },
-        contentended: function contentended() {
-
-          // If _contentHasEnded is true it means we already checked for postrolls and
-          // played postrolls if needed, so now we're ready to send an ended event
-          if (this._contentHasEnded) {
-            // Causes ended event to trigger in content-resuming.enter.
-            // From there, the ended event event is not redispatched.
-            // Then we end up back in content-playback state.
-            this.state = 'content-resuming';
-            return;
-          }
-
-          this._contentHasEnded = true;
-          this.state = 'postroll?';
-        }
-      }
-    }
-  };
-
-  var processEvent = function processEvent(event) {
-
-    var state = player.ads.state;
-
-    // Execute the current state's handler for this event
-    var eventHandlers = states[state].events;
-
-    if (eventHandlers) {
-      var handler = eventHandlers[event.type];
-
-      if (handler) {
-        handler.apply(player.ads);
-      }
-    }
-
-    // If the state has changed...
-    if (state !== player.ads.state) {
-      var previousState = state;
-      var newState = player.ads.state;
-
-      // Record the event that caused the state transition
-      player.ads.triggerevent = event.type;
-
-      // Execute "leave" method for the previous state
-      if (states[previousState].leave) {
-        states[previousState].leave.apply(player.ads);
-      }
-
-      // Execute "enter" method for the new state
-      if (states[newState].enter) {
-        states[newState].enter.apply(player.ads);
-      }
-
-      // Debug log message for state changes
-      if (settings.debug) {
-        _video2['default'].log('ads', player.ads.triggerevent + ' triggered: ' + previousState + ' -> ' + newState);
-      }
-    }
-  };
-
-  // Register our handler for the events that the state machine will process
-  player.on(VIDEO_EVENTS.concat([
-  // Events emitted by this plugin
-  'adtimeout', 'contentupdate', 'contentplaying', 'contentended', 'contentresumed',
-  // Triggered by startLinearAdMode()
-  'adstart',
-  // Triggered by endLinearAdMode()
-  'adend',
-  // Triggered by skipLinearAdMode()
-  'adskip',
-
-  // Events emitted by integrations
-  'adsready', 'adserror', 'adscanceled', 'nopreroll']), processEvent);
-
-  // Clear timeouts when player is disposed
-  player.on('dispose', function () {
-    if (player.ads.adTimeoutTimeout) {
-      _window2['default'].clearTimeout(player.ads.adTimeoutTimeout);
-    }
-
-    if (player.ads._fireEndedTimeout) {
-      _window2['default'].clearTimeout(player.ads._fireEndedTimeout);
-    }
-
-    if (player.ads.cancelPlayTimeout) {
-      _window2['default'].clearTimeout(player.ads.cancelPlayTimeout);
-    }
-
-    if (player.ads.tryToResumeTimeout_) {
-      player.clearTimeout(player.ads.tryToResumeTimeout_);
-    }
-  });
-
-  // If we're autoplaying, the state machine will immidiately process
-  // a synthetic play event
-  if (!player.paused()) {
-    processEvent({ type: 'play' });
-  }
-};
-
-var registerPlugin = _video2['default'].registerPlugin || _video2['default'].plugin;
-
-// Register this plugin with videojs
-registerPlugin('ads', contribAdsPlugin);
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./cancelContentPlay.js":1,"./contentupdate.js":2,"./cueTextTracks.js":3,"./macros.js":4,"./redispatch.js":5,"./snapshot.js":6,"global/window":9}]},{},[10])(10)
+  videojs.plugin('ima', init);
 });
-!function(t){if("function"==typeof define&&define.amd)define(["video.js","videojs-contrib-ads"],function(e){t(window,document,e)});else if("object"==typeof exports&&"object"==typeof module){var e=require("video.js");require("videojs-contrib-ads"),t(window,document,e)}else t(window,document,videojs)}(function(t,e,i){"use strict";var s=function(t){var e,i,s;for(i=1;i<arguments.length;i++){e=arguments[i];for(s in e)e.hasOwnProperty(s)&&(t[s]=e[s])}return t},n={debug:!1,timeout:5e3,prerollTimeout:100,adLabel:"Advertisement",showControlsForJSAds:!0},a=function(t,e){this.ima=new d(this,t,e)},d=function(i,a,d){this.player=i;var r=function(t,e){t.id=this.controlPrefix+e,t.className=this.controlPrefix+e+" "+e}.bind(this),h=function(t){return new RegExp("(^|[^A-Za-z-])"+t+"((?![A-Za-z-])|$)","gi")},o=function(t,e){return h(e).test(t.className)?t:t.className=t.className.trim()+" "+e},l=function(t,e){var i=h(e);return i.test(t.className)?t.className=t.className.trim().replace(i,""):t},c=function(){this.vjsControls=this.player.getChild("controlBar"),this.adContainerDiv=this.vjsControls.el().parentNode.appendChild(e.createElement("div")),r(this.adContainerDiv,"ima-ad-container"),this.adContainerDiv.style.position="absolute",this.adContainerDiv.style.zIndex=1111,this.adContainerDiv.addEventListener("mouseenter",L,!1),this.adContainerDiv.addEventListener("mouseleave",C,!1),u(),this.adDisplayContainer=new google.ima.AdDisplayContainer(this.adContainerDiv,this.contentPlayer)}.bind(this),u=function(){this.controlsDiv=e.createElement("div"),r(this.controlsDiv,"ima-controls-div"),this.controlsDiv.style.width="100%",this.countdownDiv=e.createElement("div"),r(this.countdownDiv,"ima-countdown-div"),this.countdownDiv.innerHTML=this.settings.adLabel,this.countdownDiv.style.display=this.showCountdown?"block":"none",this.seekBarDiv=e.createElement("div"),r(this.seekBarDiv,"ima-seek-bar-div"),this.seekBarDiv.style.width="100%",this.progressDiv=e.createElement("div"),r(this.progressDiv,"ima-progress-div"),this.playPauseDiv=e.createElement("div"),r(this.playPauseDiv,"ima-play-pause-div"),o(this.playPauseDiv,"ima-playing"),this.playPauseDiv.addEventListener("click",T,!1),this.muteDiv=e.createElement("div"),r(this.muteDiv,"ima-mute-div"),o(this.muteDiv,"ima-non-muted"),this.muteDiv.addEventListener("click",P,!1),this.sliderDiv=e.createElement("div"),r(this.sliderDiv,"ima-slider-div"),this.sliderDiv.addEventListener("mousedown",k,!1),this.sliderLevelDiv=e.createElement("div"),r(this.sliderLevelDiv,"ima-slider-level-div"),this.fullscreenDiv=e.createElement("div"),r(this.fullscreenDiv,"ima-fullscreen-div"),o(this.fullscreenDiv,"ima-non-fullscreen"),this.fullscreenDiv.addEventListener("click",S,!1),this.adContainerDiv.appendChild(this.controlsDiv),this.controlsDiv.appendChild(this.countdownDiv),this.controlsDiv.appendChild(this.seekBarDiv),this.controlsDiv.appendChild(this.playPauseDiv),this.controlsDiv.appendChild(this.muteDiv),this.controlsDiv.appendChild(this.sliderDiv),this.controlsDiv.appendChild(this.fullscreenDiv),this.seekBarDiv.appendChild(this.progressDiv),this.sliderDiv.appendChild(this.sliderLevelDiv)}.bind(this);this.initializeAdDisplayContainer=function(){this.adDisplayContainerInitialized=!0,this.adDisplayContainer.initialize()}.bind(this),this.requestAds=function(){this.adDisplayContainerInitialized||this.adDisplayContainer.initialize();var t=new google.ima.AdsRequest;this.settings.adTagUrl?t.adTagUrl=this.settings.adTagUrl:t.adsResponse=this.settings.adsResponse,this.settings.forceNonLinearFullSlot&&(t.forceNonLinearFullSlot=!0),t.linearAdSlotWidth=this.getPlayerWidth(),t.linearAdSlotHeight=this.getPlayerHeight(),t.nonLinearAdSlotWidth=this.settings.nonLinearWidth||this.getPlayerWidth(),t.nonLinearAdSlotHeight=this.settings.nonLinearHeight||this.getPlayerHeight()/3,t.setAdWillAutoPlay(this.settings.adWillAutoPlay),this.adsLoader.requestAds(t)}.bind(this);var g=function(t){if(this.adsManager=t.getAdsManager(this.contentPlayheadTracker,this.adsRenderingSettings),this.adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR,m),this.adsManager.addEventListener(google.ima.AdEvent.Type.AD_BREAK_READY,y),this.adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,this.onContentPauseRequested_),this.adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,this.onContentResumeRequested_),this.adsManager.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED,p),this.adsManager.addEventListener(google.ima.AdEvent.Type.LOADED,D),this.adsManager.addEventListener(google.ima.AdEvent.Type.STARTED,A),this.adsManager.addEventListener(google.ima.AdEvent.Type.CLICK,T),this.adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE,this.onAdComplete_),this.adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED,this.onAdComplete_),!this.autoPlayAdBreaks)try{var e=this.getPlayerWidth(),i=this.getPlayerHeight();this.adsManagerDimensions.width=e,this.adsManagerDimensions.height=i,this.adsManager.init(e,i,google.ima.ViewMode.NORMAL),this.adsManager.setVolume(this.player.muted()?0:this.player.volume())}catch(t){m(t)}this.player.trigger("adsready")}.bind(this);this.start=function(){t.console.log("WARNING: player.ima.start is deprecated. Use player.ima.startFromReadyCallback instead.")},this.startFromReadyCallback=function(){if(this.autoPlayAdBreaks)try{this.adsManager.init(this.getPlayerWidth(),this.getPlayerHeight(),google.ima.ViewMode.NORMAL),this.adsManager.setVolume(this.player.muted()?0:this.player.volume()),this.adsManager.start()}catch(t){m(t)}}.bind(this);var v=function(e){t.console.log("AdsLoader error: "+e.getError()),this.adContainerDiv.style.display="none",this.adsManager&&this.adsManager.destroy(),this.player.trigger({type:"adserror",data:{AdError:e.getError(),AdErrorEvent:e}})}.bind(this),m=function(e){var i=void 0!==e.getError?e.getError():e.stack;t.console.log("Ad error: "+i),this.vjsControls.show(),this.adsManager.destroy(),this.adContainerDiv.style.display="none",this.player.trigger({type:"adserror",data:{AdError:i,AdErrorEvent:e}})}.bind(this),y=function(t){this.adBreakReadyListener(t)}.bind(this);this.playAdBreak=function(){this.autoPlayAdBreaks||this.adsManager.start()}.bind(this),this.onContentPauseRequested_=function(t){this.adsActive=!0,this.adPlaying=!0,this.contentSource=this.player.currentSrc(),this.player.off("ended",this.localContentEndedListener),t.getAd().getAdPodInfo().getPodIndex()!=-1&&this.player.ads.startLinearAdMode(),this.adContainerDiv.style.display="block";var e=t.getAd().getContentType();"application/javascript"!==e||this.settings.showControlsForJSAds?this.controlsDiv.style.display="block":this.controlsDiv.style.display="none",this.vjsControls.hide(),M(),this.player.pause()}.bind(this),this.onContentResumeRequested_=function(t){this.adsActive=!1,this.adPlaying=!1,this.player.on("ended",this.localContentEndedListener),(null==this.currentAd||this.currentAd.isLinear())&&(this.adContainerDiv.style.display="none"),this.vjsControls.show(),this.currentAd?this.contentComplete||this.currentAd.getAdPodInfo().getPodIndex()==-1||this.player.ads.endLinearAdMode():this.player.ads.endLinearAdMode(),this.controlsDiv.style.display="none",this.countdownDiv.innerHTML=""}.bind(this);var p=function(t){if(this.allAdsCompleted=!0,this.adContainerDiv.style.display="none",1==this.contentComplete){this.contentPlayer.src!=this.contentSource&&this.player.src(this.contentSource);for(var e in this.contentAndAdsEndedListeners)this.contentAndAdsEndedListeners[e]()}}.bind(this),D=function(t){t.getAd().isLinear()||this.player.play()}.bind(this),A=function(t){this.currentAd=t.getAd(),this.currentAd.isLinear()?(this.adTrackingTimer=setInterval(f,250),l(this.adContainerDiv,"bumpable-ima-ad-container")):o(this.adContainerDiv,"bumpable-ima-ad-container"),this.adContainerDiv.style.display="block"}.bind(this);this.onAdComplete_=function(t){this.currentAd.isLinear()&&clearInterval(this.adTrackingTimer)}.bind(this);var f=function(){var t=this.adsManager.getRemainingTime(),e=this.currentAd.getDuration(),i=e-t;i=i>0?i:0;var s,n=!1,a=0;this.currentAd.getAdPodInfo()&&(n=!0,s=this.currentAd.getAdPodInfo().getAdPosition(),a=this.currentAd.getAdPodInfo().getTotalAds());var d=Math.floor(t/60),r=Math.floor(t%60);r.toString().length<2&&(r="0"+r);var h=": ";n&&a>1&&(h=" ("+s+" of "+a+"): "),this.countdownDiv.innerHTML=this.settings.adLabel+h+d+":"+r;var o=i/e,l=100*o;this.progressDiv.style.width=l+"%"}.bind(this);this.getPlayerWidth=function(){var t=getComputedStyle(this.player.el())||{};return parseInt(t.width,10)||this.player.width()}.bind(this),this.getPlayerHeight=function(){var t=getComputedStyle(this.player.el())||{};return parseInt(t.height,10)||this.player.height()}.bind(this);var C=function(){this.controlsDiv.style.height="14px",this.playPauseDiv.style.display="none",this.muteDiv.style.display="none",this.sliderDiv.style.display="none",this.fullscreenDiv.style.display="none"}.bind(this),L=function(){this.controlsDiv.style.height="37px",this.playPauseDiv.style.display="block",this.muteDiv.style.display="block",this.sliderDiv.style.display="block",this.fullscreenDiv.style.display="block"}.bind(this),E=function(){o(this.playPauseDiv,"ima-paused"),l(this.playPauseDiv,"ima-playing")}.bind(this),M=function(){o(this.playPauseDiv,"ima-playing"),l(this.playPauseDiv,"ima-paused")}.bind(this),T=function(){this.adPlaying?(E(),this.adsManager.pause(),this.adPlaying=!1):(M(),this.adsManager.resume(),this.adPlaying=!0)}.bind(this),P=function(){this.adMuted?(o(this.muteDiv,"ima-non-muted"),l(this.muteDiv,"ima-muted"),this.adsManager.setVolume(1),this.player.muted(!1),this.adMuted=!1,this.sliderLevelDiv.style.width=100*this.player.volume()+"%"):(o(this.muteDiv,"ima-muted"),l(this.muteDiv,"ima-non-muted"),this.adsManager.setVolume(0),this.player.muted(!0),this.adMuted=!0,this.sliderLevelDiv.style.width="0%")}.bind(this),k=function(){e.addEventListener("mouseup",w,!1),e.addEventListener("mousemove",b,!1)},b=function(t){R(t)},w=function(t){R(t),e.removeEventListener("mousemove",b),e.removeEventListener("mouseup",w)},R=function(t){var e=(t.clientX-this.sliderDiv.getBoundingClientRect().left)/this.sliderDiv.offsetWidth;e*=100,e=Math.min(Math.max(e,0),100),this.sliderLevelDiv.style.width=e+"%",this.player.volume(e/100),this.adsManager.setVolume(e/100),0==this.player.volume()?(o(this.muteDiv,"ima-muted"),l(this.muteDiv,"ima-non-muted"),this.player.muted(!0),this.adMuted=!0):(o(this.muteDiv,"ima-non-muted"),l(this.muteDiv,"ima-muted"),this.player.muted(!1),this.adMuted=!1)}.bind(this),S=function(){this.player.isFullscreen()?this.player.exitFullscreen():this.player.requestFullscreen()}.bind(this),I=function(){this.player.isFullscreen()?(o(this.fullscreenDiv,"ima-fullscreen"),l(this.fullscreenDiv,"ima-non-fullscreen"),this.adsManager&&this.adsManager.resize(t.screen.width,t.screen.height,google.ima.ViewMode.FULLSCREEN)):(o(this.fullscreenDiv,"ima-non-fullscreen"),l(this.fullscreenDiv,"ima-fullscreen"),this.adsManager&&this.adsManager.resize(this.getPlayerWidth(),this.getPlayerHeight(),google.ima.ViewMode.NORMAL))}.bind(this),N=function(){var t=this.player.muted()?0:this.player.volume();this.adsManager&&this.adsManager.setVolume(t),0==t?(this.adMuted=!0,o(this.muteDiv,"ima-muted"),l(this.muteDiv,"ima-non-muted"),this.sliderLevelDiv.style.width="0%"):(this.adMuted=!1,o(this.muteDiv,"ima-non-muted"),l(this.muteDiv,"ima-muted"),this.sliderLevelDiv.style.width=100*t+"%")}.bind(this),B=function(){this.player.off("loadedmetadata",B),this.player.currentTime(0)}.bind(this),H=function(){this.player.off("loadedmetadata",H),this.player.currentTime(0),this.player.play()}.bind(this),_=function(){this.adsActive=!1,this.adPlaying=!1,this.player.on("ended",this.localContentEndedListener),this.vjsControls.show(),this.player.ads.endLinearAdMode(),this.adTrackingTimer&&clearInterval(this.adTrackingTimer),this.contentPlayheadTracker.currentTime=0,this.adsManager&&(this.adsManager.destroy(),this.adsManager=null),this.adsLoader&&!this.contentComplete&&this.adsLoader.contentComplete(),this.contentComplete=!1,this.allAdsCompleted=!1}.bind(this);this.addEventListener=function(t,e){this.adsManager&&this.adsManager.addEventListener(t,e)}.bind(this),this.getAdsManager=function(){return this.adsManager}.bind(this),this.setContent=function(e,i,s){t.console.log("WARNING: player.ima.setContent is deprecated. Use player.ima.setContentWithAdTag instead."),this.setContentWithAdTag(e,i,s)}.bind(this),this.setContentWithAdTag=function(t,e,i){_(),this.settings.adTagUrl=e?e:this.settings.adTagUrl,W(t,i)}.bind(this),this.setContentWithAdsResponse=function(t,e,i){_(),this.settings.adsResponse=e?e:this.settings.adsResponse,W(t,i)}.bind(this),this.changeAdTag=function(t){_(),this.settings.adTagUrl=t}.bind(this);var W=function(t,e){this.player.currentSrc()&&(this.player.currentTime(0),this.player.pause()),t&&this.player.src(t),e?this.player.on("loadedmetadata",H):this.player.on("loadedmetadata",B)}.bind(this);this.addContentEndedListener=function(t){this.contentEndedListeners.push(t)}.bind(this),this.addContentAndAdsEndedListener=function(t){this.contentAndAdsEndedListeners.push(t)}.bind(this),this.setAdBreakReadyListener=function(t){this.adBreakReadyListener=t}.bind(this),this.pauseAd=function(){this.adsActive&&this.adPlaying&&(E(),this.adsManager.pause(),this.adPlaying=!1)}.bind(this),this.resumeAd=function(){this.adsActive&&!this.adPlaying&&(M(),this.adsManager.resume(),this.adPlaying=!0)}.bind(this);var V=function(){this.updateTimeIntervalHandle=setInterval(z,this.seekCheckInterval),this.seekCheckIntervalHandle=setInterval(j,this.seekCheckInterval),this.resizeCheckIntervalHandle=setInterval(O,this.resizeCheckInterval)}.bind(this),z=function(){this.contentPlayheadTracker.seeking||(this.contentPlayheadTracker.currentTime=this.player.currentTime())}.bind(this),j=function(){var t=this.player.currentTime(),e=1e3*(t-this.contentPlayheadTracker.previousTime);Math.abs(e)>this.seekCheckInterval+this.seekThreshold?this.contentPlayheadTracker.seeking=!0:this.contentPlayheadTracker.seeking=!1,this.contentPlayheadTracker.previousTime=this.player.currentTime()}.bind(this),O=function(){var t=this.getPlayerWidth(),e=this.getPlayerHeight();!this.adsManager||t==this.adsManagerDimensions.width&&e==this.adsManagerDimensions.height||(this.adsManagerDimensions.width=t,this.adsManagerDimensions.height=e,this.adsManager.resize(t,e,google.ima.ViewMode.NORMAL))}.bind(this);if(this.setShowCountdown=function(t){this.showCountdown=t,this.countdownDiv.style.display=this.showCountdown?"block":"none"}.bind(this),this.VERSION="0.2.0",this.settings,this.controlPrefix,this.contentPlayer,this.showCountdown,this.autoPlayAdBreaks,this.vjsControls,this.adContainerDiv,this.controlsDiv,this.countdownDiv,this.seekBarDiv,this.progressDiv,this.playPauseDiv,this.muteDiv,this.sliderDiv,this.sliderLevelDiv,this.fullscreenDiv,this.adDisplayContainer,this.adDisplayContainerInitialized=!1,this.adsLoader,this.adsManager,this.adsRenderingSettings=null,this.adTagUrl,this.adsResponse,this.currentAd,this.contentTrackingTimer,this.adTrackingTimer,this.adsActive=!1,this.adPlaying=!1,this.adMuted=!1,this.contentComplete=!1,this.allAdsCompleted=!1,this.updateTimeIntervalHandle,this.seekCheckIntervalHandle,this.seekCheckInterval=1e3,this.resizeCheckIntervalHandle,this.resizeCheckInterval=250,this.seekThreshold=100,this.contentPlayheadTracker={currentTime:0,previousTime:0,seeking:!1,duration:0},this.adPlayheadTracker={currentTime:0,duration:0,isPod:!1,adPosition:0,totalAds:0},this.adsManagerDimensions={width:0,height:0},this.contentEndedListeners=[],this.contentAndAdsEndedListeners=[],this.adBreakReadyListener=void 0,this.contentSource="",this.localContentEndedListener=function(){this.adsLoader&&!this.contentComplete&&(this.adsLoader.contentComplete(),this.contentComplete=!0);for(var t in this.contentEndedListeners)this.contentEndedListeners[t]();if(this.allAdsCompleted)for(var t in this.contentAndAdsEndedListeners)this.contentAndAdsEndedListeners[t]();clearInterval(this.updateTimeIntervalHandle),clearInterval(this.seekCheckIntervalHandle),clearInterval(this.resizeCheckIntervalHandle),this.player.el()&&this.player.one("play",V)}.bind(this),this.playerDisposedListener=function(){this.contentEndedListeners,this.contentAndAdsEndedListeners=[],[],this.contentComplete=!0,this.player.off("ended",this.localContentEndedListener),this.player.ads.adTimeoutTimeout&&clearTimeout(this.player.ads.adTimeoutTimeout);var t=[this.updateTimeIntervalHandle,this.seekCheckIntervalHandle,this.adTrackingTimer,this.resizeCheckIntervalHandle];for(var e in t){var i=t[e];i&&clearInterval(i)}this.adsManager&&(this.adsManager.destroy(),this.adsManager=null)}.bind(this),this.settings=s({},n,a||{}),!this.settings.id)return void t.console.log("Error: must provide id of video.js div");this.controlPrefix=this.settings.id+"_"||"",this.contentPlayer=e.getElementById(this.settings.id+"_html5_api"),this.contentPlayer.hasAttribute("autoplay")&&(this.settings.adWillAutoPlay=this.settings.adWillAutoPlay||!0),this.showCountdown=!0,0==this.settings.showCountdown&&(this.showCountdown=!1),this.autoPlayAdBreaks=!0,0==this.settings.autoPlayAdBreaks&&(this.autoPlayAdBreaks=!1),i.one("play",V),i.on("ended",this.localContentEndedListener),i.on("dispose",this.playerDisposedListener);var U={debug:this.settings.debug,timeout:this.settings.timeout,prerollTimeout:this.settings.prerollTimeout},x=s({},U,a.contribAdsSettings||{});if(i.ads(x),this.adsRenderingSettings=new google.ima.AdsRenderingSettings,this.adsRenderingSettings.restoreCustomPlaybackStateOnAdBreakComplete=!0,this.settings.adsRenderingSettings)for(var F in this.settings.adsRenderingSettings)this.adsRenderingSettings[F]=this.settings.adsRenderingSettings[F];this.settings.locale&&google.ima.settings.setLocale(this.settings.locale),c(),this.adsLoader=new google.ima.AdsLoader(this.adDisplayContainer),this.adsLoader.getSettings().setVpaidMode(google.ima.ImaSdkSettings.VpaidMode.ENABLED),0==this.settings.vpaidAllowed&&this.adsLoader.getSettings().setVpaidMode(google.ima.ImaSdkSettings.VpaidMode.DISABLED),this.settings.vpaidMode&&this.adsLoader.getSettings().setVpaidMode(this.settings.vpaidMode),this.settings.locale&&this.adsLoader.getSettings().setLocale(this.settings.locale),this.settings.numRedirects&&this.adsLoader.getSettings().setNumRedirects(this.settings.numRedirects),this.adsLoader.getSettings().setPlayerType("videojs-ima"),this.adsLoader.getSettings().setPlayerVersion(this.VERSION),this.adsLoader.getSettings().setAutoPlayAdBreaks(this.autoPlayAdBreaks),this.adsLoader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,g,!1),this.adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR,v,!1),d||(d=this.startFromReadyCallback),i.on("readyforpreroll",d),i.ready(function(){N(),i.on("fullscreenchange",I),i.on("volumechange",N)})};i.plugin("ima",a)});
-//# sourceMappingURL=videojs.ima.min.js.map
+
+
 /**
  * videojs-contextmenu
  * @version 1.2.0
@@ -21592,7 +21518,7 @@ registerPlugin('ads', contribAdsPlugin);
         mediaOptions = $.extend({}, {
             blogId: 0,
             mediaId: 0,
-            adPost: true
+            postAd: true
         }, mediaOptions);
         var _isDemo = JSON.parse("false"),
             _isDebuge = _isDemo,
@@ -21604,7 +21530,8 @@ registerPlugin('ads', contribAdsPlugin);
                 plugins: null,
                 src: '',
                 playsCounter: 0,
-                index: -1
+                index: -1,
+                ads: false
             },
             _idSelector = '#embedMedia',
             _timeupWaitingID = 0,
@@ -21643,12 +21570,6 @@ registerPlugin('ads', contribAdsPlugin);
 
         var _getPluginDefaultOptions = function() {
             var vjPlgOpt = {
-                    watermark: {
-                        position: 'bottom-right',
-                        url: '',
-                        image: '',
-                        fadeTime: null
-                    },
                     ima: {
                         id: _idSelector.replace('#', ''),
                         showControlsForJSAds: false,
@@ -21675,7 +21596,7 @@ registerPlugin('ads', contribAdsPlugin);
                 },
                 selectedPlugins = {},
                 plg = {
-                    video: ["watermark", "ima", "contextmenuUI"],
+                    video: ["ima", "contextmenuUI", "replayButton"],
                     audio: ["replayButton"]
                 };
             for (var idx in plg[_currentMedia.type]) {
@@ -21779,13 +21700,15 @@ registerPlugin('ads', contribAdsPlugin);
 
         var _loadAds = function(player) {
             //console.log('ads load', 'autoplay: ' + player.autoplay());
+            _currentMedia.ads = true;
             player.ima.initializeAdDisplayContainer();
             player.ima.requestAds();
             player.play();
         };
 
         var _removeAds = function(player) {
-            if (player.ima) {
+            if (_currentMedia.ads) {
+                _currentMedia.ads = false;
                 player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
                 player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
                 $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
@@ -21824,13 +21747,13 @@ registerPlugin('ads', contribAdsPlugin);
                                 player.one('contentended', function() {
                                     _notifyToParent({ emmethod: "contentended" });
                                     _trackEvents('ContentEnded');
-                                    if (!mediaOptions.adPost) {
+                                    if (!mediaOptions.postAd) {
                                         _removeAds(player);
                                     }
                                 });
                             } catch (err) {
                                 if (!window.google) {
-                                    _trackAPICall(_tracks.AD_BLOCKED, 'Ad Blocked by AdBlocker plugins');
+                                    _trackAPICall(_tracks.AD_BLOCKED, 'Ad Blocked by AdBlocker plugins or Google ima not loaded');
                                     _notifyToParent({ emmethod: "adblocked" });
                                 }
                             }
@@ -21906,6 +21829,7 @@ registerPlugin('ads', contribAdsPlugin);
         var _stopTimer = function() {
             window.clearTimeout(_timeupWaitingID);
             $('#circulerTimer').remove();
+            $('.vjs-big-play-button').removeAttr('style');
         };
         var _addCirculerTimer = function() {
             var circulerTimer = '<div id="circulerTimer" class="radial-timer s-animate">' +
@@ -21913,6 +21837,7 @@ registerPlugin('ads', contribAdsPlugin);
                 '<div class="radial-timer-half"></div>' +
                 '</div>'
             $(circulerTimer).appendTo(_idSelector);
+            $('.vjs-big-play-button').css({ 'z-index': 1112, 'background-color': 'transparent' });
         };
 
         var onMediaPlayEvent = function(event) {
@@ -21950,15 +21875,19 @@ registerPlugin('ads', contribAdsPlugin);
         var onMediaEndEvent = function() {
             _notifyToParent({ emmethod: "ended" });
             _trackAPICall(_tracks.ENDED, 'Playback has stopped because the end of the media resource was reached.');
+            _stopTimer();
             var waitTime = 3000;
             var nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia) {
-                _removeAds(_currentMedia.player);
-                _stopTimer();
-                _addCirculerTimer();
-                _timeupWaitingID = window.setTimeout((function() {
-                    window.location.href = nextMedia;
-                }).bind(this), waitTime);
+                if (_currentMedia.type == 'video' && !_isMobile) {
+                    _removeAds(_currentMedia.player);
+                    _addCirculerTimer();
+                }
+                if (_currentMedia.type == 'audio' || !_isMobile) {
+                    _timeupWaitingID = window.setTimeout((function() {
+                        window.location.href = nextMedia;
+                    }).bind(this), waitTime);
+                }
             }
         };
         var onMediaAdStartEvent = function(event) {
@@ -22201,599 +22130,5 @@ registerPlugin('ads', contribAdsPlugin);
         };
     };
     window.embedMedia = embedMedia || {};
-
-})(jQuery, videojs, window);
-/**
- * blogg-media
- * @version 1.2.6
- * @copyright 2017 blogg.no
- * @license (MIT OR Apache-2.0)
- */
-(function($, videojs, window) {
-    'use strict';
-
-    var APIlist = {
-        vplays: function(mediaId, blogId) {
-            return $.getJSON("//hits.blogsoft.org?callback=?", {
-                id: blogId,
-                vid: mediaId
-            });
-        },
-        vtrack: function(eventName, mediaId, blogId) {
-            return $.getJSON("//hits.blogsoft.org/track?callback=?", {
-                e: eventName,
-                id: blogId,
-                vid: mediaId
-            });
-        },
-        aplays: function(mediaId, blogId) {
-            return $.getJSON("//hits.blogsoft.org?callback=?", {
-                id: blogId,
-                aid: mediaId
-            });
-        }
-    };
-
-    function detectmob() {
-        if (window.navigator.userAgent.match(/Android/i) ||
-            window.navigator.userAgent.match(/webOS/i) ||
-            window.navigator.userAgent.match(/iPhone/i) ||
-            window.navigator.userAgent.match(/iPad/i) ||
-            window.navigator.userAgent.match(/iPod/i) ||
-            window.navigator.userAgent.match(/BlackBerry/i) ||
-            window.navigator.userAgent.match(/Windows Phone/i)
-        ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    var bloggMedia = function(mediaType, mediaId, blogId) {
-        var _startEvent = 'click';
-        if (navigator.userAgent.match(/iPhone/i) ||
-            navigator.userAgent.match(/iPad/i) ||
-            navigator.userAgent.match(/Android/i)) {
-            _startEvent = 'touchend';
-        }
-        var _emLang = {
-            ADVERTISEMENT: { en: "Advertisement", no: "Annonse" }
-        };
-        var _tracks = {
-            ADS_READY: 'adReady',
-            AD_STARTED: 'adStarted',
-            AD_ENDED: 'adEnded',
-            ADS_ERROR: 'adError',
-            AD_BLOCKED: 'adBlocked',
-            AD_SKIP: 'adCanceled',
-            ADS_CRITICAL: 'adCriticalError',
-            PLAYS: 'play',
-            PAUSED: 'paused',
-            ENDED: 'ended',
-            REPLAYS: 'replay'
-        };
-        var _isDemo = JSON.parse("false"),
-            _isDebuge = _isDemo,
-            _mediaPlayListUrls = [],
-            _mediaPlayerList = [],
-
-            _currentMedia = {
-                type: mediaType,
-                id: 0,
-                bId: blogId || 0,
-                mId: mediaId || 0,
-                player: null,
-                plugins: null,
-                src: '',
-                playsCounter: 0,
-                index: -1
-            },
-            _idSelector = '#embedMedia',
-            _timeupWaitingID = 0,
-            _culture = 'no',
-            _lastEventName = '',
-            _isMobile = detectmob();
-
-        var _getDefaultSetup = function() {
-            var defaultOpt = {
-                controls: true,
-                autoplay: false,
-                loop: false,
-                preload: "none",
-                html5: {
-                    hlsjsConfig: {}
-                },
-                inactivityTimeout: 500,
-                controlBar: {
-                    fullscreenToggle: true
-                }
-            };
-
-            switch (_currentMedia.type) {
-                case 'audio':
-                    defaultOpt.height = 100;
-                    defaultOpt.controlBar.fullscreenToggle = false;
-                    break;
-                default:
-                    defaultOpt.controlBar.volumeMenuButton = {
-                        inline: false,
-                        vertical: true
-                    };
-            };
-            return defaultOpt;
-        };
-
-        var _getPluginDefaultOptions = function(vId) {
-            var vjPlgOpt = {
-                watermark: {
-                    position: 'bottom-right',
-                    url: '',
-                    image: '',
-                    fadeTime: null
-                },
-                ima: {
-                    id: vId,
-                    showControlsForJSAds: false,
-                    adLabel: _emLang.ADVERTISEMENT[_culture],
-                    adTagUrl: '',
-                    prerollTimeout: 5000,
-                    debug: _isDebuge
-                },
-                replayButton: {}
-            };
-            var selectedPlugins = {},
-                plg = {
-                    video: ["watermark", "ima", "replayButton"],
-                    audio: ["replayButton"]
-                };
-            for (var idx in plg[_currentMedia.type]) {
-                var plugin = plg[_currentMedia.type][idx];
-                selectedPlugins[plugin] = vjPlgOpt[plugin];
-            }
-
-            return selectedPlugins;
-        };
-
-        var _playsAPICall = function() {
-            if (_isDebuge) { console.log('API: Plays Count'); }
-            if (_isDemo || !_currentMedia.mId) { return; }
-            switch (_currentMedia.type) {
-                case 'video':
-                    APIlist.vplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
-                        //console.log(msg);
-                        _currentMedia.playsCounter++;
-                    });
-                    break;
-                case 'audio':
-                    APIlist.aplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
-                        //console.log(msg);
-                        _currentMedia.playsCounter++;
-                    });
-                    break;
-            };
-        };
-        var _trackEvents = function(eventName, msg) {
-            if (_isDebuge) { videojs.log('Event', eventName + ':', msg); }
-            _lastEventName = eventName;
-        };
-        var _trackAPICall = function(eventName, msg) {
-            if (eventName && _lastEventName != eventName) {
-                _trackEvents(eventName, msg);
-                if (_isDebuge) { console.log('API: Events Track'); }
-                if (!_isDemo && _currentMedia.mId) {
-                    switch (_currentMedia.type) {
-                        case 'video':
-                            APIlist.vtrack(eventName, _currentMedia.mId, _currentMedia.bId).done(function(msg) {
-                                console.log(eventName, msg);
-                            });
-                            break;
-                        case 'audio':
-                            break;
-                    };
-                }
-            } else return;
-        };
-        var _getUrlQueries = function(queryStr) {
-            var out = {};
-            $.each(queryStr.split('&'), function(key, value) {
-                var i = value.split('=');
-                if (i.length == 2) {
-                    out[i[0].toString()] = i[1].toString();
-                }
-            });
-            return out;
-        };
-
-        var _setMediaUrlId = function() {
-            _mediaPlayListUrls = [window.location.href];
-            _currentMedia.index = 0;
-            var queries = _getUrlQueries(document.location.search.substr(1));
-            _currentMedia.id = _currentMedia.type == 'video' ? queries.v : queries.id;
-        };
-
-        var _loadAds = function(player) {
-            //console.log('ads load', 'autoplay: ' + player.autoplay());
-            player.ima.initializeAdDisplayContainer();
-            player.ima.requestAds();
-            player.play();
-        };
-
-        var _removeAds = function(player) {
-            if (player.ima) {
-                player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
-                player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
-                $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
-            }
-        };
-
-        var _runPlugin = function(player, plugins) {
-            for (var plugin in plugins) {
-                switch (plugin) {
-                    case 'ima':
-                        if (plugins.ima.adTagUrl) {
-                            try {
-                                player.ima(plugins.ima);
-                                if (!player.autoplay()) {
-                                    player.one(_startEvent, function() {
-                                        _loadAds(player);
-                                    });
-                                } else {
-                                    setTimeout((function() {
-                                        _loadAds(player);
-                                    }).bind(this), 100);
-                                };
-                                player.one('adsready', function() {
-                                    _trackAPICall(_tracks.ADS_READY);
-                                    player.ima.addEventListener(google.ima.AdEvent.Type.STARTED, function() {
-                                        _trackEvents('AdStarted', 'Google');
-                                    });
-
-                                    player.ima.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
-                                        _trackEvents('AdCompleted', 'Google');
-                                    });
-                                });
-                                player.one('contentended', function() {
-                                    _trackEvents('ContentEnded');
-                                    //_removeAds(player);
-                                });
-                            } catch (err) {
-                                if (!window.google) {
-                                    _trackAPICall(_tracks.AD_BLOCKED);
-                                }
-                            }
-                        }
-                        break;
-                    default:
-                        if (typeof player[plugin] === 'function') {
-                            player[plugin](plugins[plugin]);
-                        }
-                };
-            }
-        };
-
-        var _getSrc = function($player) {
-            var src = null;
-            var source = $player.find("source");
-
-            if (source.length) {
-                src = source.attr("src");
-                /*if (_currentMedia.type == 'audio') {
-                    $player[0].pause();
-                    source.remove();
-                }*/
-            }
-            /*if (_currentMedia.type == 'audio')
-                $player[0].load();*/
-            return src;
-        };
-
-        var _setAttrsForMobile = function() {
-            var contentPlayer = $(_idSelector)[0];
-            if ((navigator.userAgent.match(/iPad/i) ||
-                    navigator.userAgent.match(/Android/i)) &&
-                contentPlayer.hasAttribute('controls')) {
-                contentPlayer.removeAttribute('controls');
-            }
-        };
-
-        var createPlayer = function(element, setup, callback) {
-            var defaultSetup = _getDefaultSetup();
-            _idSelector = element || _idSelector;
-            var settings = $.extend({}, defaultSetup, setup);
-
-            var srcPl = _getSrc($(_idSelector));
-            _setAttrsForMobile();
-            var playerCallback = function() {
-                switch (_currentMedia.type) {
-                    case 'video':
-                        if (_isDemo && _currentMedia.id) {
-                            this.src([{ type: "video/mp4", src: "resources/videos/" + _currentMedia.id + ".mp4" }]);
-                            this.poster('resources/videos/posters/' + _currentMedia.id + '.jpg');
-                        }
-                        break;
-                    case 'audio':
-                        if (_isDemo && _currentMedia.id) {
-                            this.src([{ type: "audio/mp3", src: "resources/audios/" + _currentMedia.id + ".mp3" }]);
-                        }
-                };
-                if (callback) callback();
-                _runPlugin(this, $.extend({}, plgOpts, _currentMedia.plugins));
-            }
-
-            var player = videojs(_idSelector, settings, playerCallback);
-            var plgOpts = _getPluginDefaultOptions(player.id());
-            player.on('play', onMediaPlayEvent.bind(this));
-            player.on('pause', onMediaPauseEvent.bind(this));
-            player.on('ended', onMediaEndEvent.bind(this));
-            player.on('adstart', onMediaAdStartEvent.bind(this));
-            player.on('adend', onMediaAdEndEvent.bind(this));
-            player.on('adskip', onMediaAdCancelEvent.bind(this));
-            player.on('adserror', onMediaAdErrorEvent.bind(this));
-
-            player.on('adtimeout', _trackEvents.bind(this, 'AdTimeout', 'A timeout managed by the plugin has expired and regular video content has begun to play. Ad integrations have a fixed amount of time to inform the plugin of their intent during playback. If the ad integration is blocked by network conditions or an error, this event will fire and regular playback resumes rather than stalling the player indefinitely.'));
-            player.on('adplaying', _trackEvents.bind(this, 'AdPlaying', 'Trigger this event when an ads starts playing. If your integration triggers playing event when an ad begins, it will automatically be redispatched as adplaying.'));
-            player.on('ads-ad-started', _trackEvents.bind(this, 'AdsAdStarted', 'Trigger this when each individual ad begins.'));
-            player.on('contentresumed', _trackEvents.bind(this, 'ContentResumed', ' If your integration does not result in a "playing" event when resuming content after an ad, send this event to signal that content can resume. This was added to support stitched ads and is not normally necessary.'));
-            player.on('error', _trackEvents.bind(this, 'Error', 'An error occurs while fetching the media data.'));
-            player.on('loadeddata', _trackEvents.bind(this, 'LoadedData', 'The user agent can render the media data at the current playback position for the first time.'));
-            player.on('loadedmetadata', _trackEvents.bind(this, 'LoadedMetaData', 'The user agent has just determined the duration and dimensions of the media resource and the text tracks are ready.'));
-            player.on('canplay', _trackEvents.bind(this, 'CanPlay', 'The user agent can resume playback of the media data, but estimates that if playback were to be started now, the media resource could not be rendered at the current playback rate up to its end without having to stop for further buffering of content.'));
-            player.on('canplaythrough', _trackEvents.bind(this, 'CanPlayThrough', '	The user agent estimates that if playback were to be started now, the media resource could be rendered at the current playback rate all the way to its end without having to stop for further buffering.'));
-            player.on('playing', _trackEvents.bind(this, 'Playing', 'Playback is ready to start after having been paused or delayed due to lack of media data.'));
-
-            _currentMedia.player = player;
-
-            return player;
-        };
-
-        var _stopTimer = function() {
-            window.clearTimeout(_timeupWaitingID);
-            $('#circulerTimer').remove();
-        };
-        var _addCirculerTimer = function() {
-            var circulerTimer = '<div id="circulerTimer" class="radial-timer s-animate">' +
-                '<div class="radial-timer-half"></div>' +
-                '<div class="radial-timer-half"></div>' +
-                '</div>'
-            $(circulerTimer).appendTo(_idSelector);
-        };
-
-        var onMediaPlayEvent = function(event) {
-            _stopTimer();
-            switch (_lastEventName) {
-                case _tracks.ENDED:
-                    _currentMedia.playsCounter = 0;
-                    _trackAPICall(_tracks.REPLAYS, 'Clicked on replay button');
-                    break;
-                case _tracks.ADS_READY:
-                case _tracks.AD_STARTED:
-                    if (!_isMobile) {
-                        _trackAPICall(_tracks.ADS_CRITICAL, 'Something error in desktop version media after AdReady or AdStarted and Ad not playing');
-                    }
-                    break;
-            };
-            _trackEvents(_tracks.PLAYS, 'The media plays');
-
-            for (var i = 0; i < _mediaPlayerList.length; i++) {
-                if (_mediaPlayerList[i].id() != event.target.id) {
-                    if (!_mediaPlayerList[i].paused()) {
-                        _mediaPlayerList[i].pause();
-                        _mediaPlayerList[i].currentTime(0);
-                        _currentMedia.playsCounter = 0;
-                    }
-                }
-            }
-            _currentMedia.playsCounter++;
-            if (_currentMedia.playsCounter === 1
-                /*&&
-                               !(_currentMedia.plugins.ima &&
-                                   (_currentMedia.plugins.ima.adTagUrl &&
-                                       !_currentMedia.plugins.ima.error))*/
-            ) {
-                var $targetDom = $('#' + event.target.id);
-                var mediaUrlId = $targetDom.attr("data-" + _currentMedia.type + "-id");
-                if (mediaUrlId) {
-                    _currentMedia.id = mediaUrlId;
-                    $targetDom.attr("data-" + _currentMedia.type + "-id", '');
-                }
-                var mediaApiId = $targetDom.attr("data-" + _currentMedia.type + "-api-id");
-                if (mediaApiId) {
-                    _currentMedia.mId = mediaApiId;
-                }
-                if (_currentMedia.id) {
-                    _playsAPICall();
-                }
-            }
-        };
-        var onMediaPauseEvent = function(event) {
-            //_trackAPICall(_tracks.PAUSED);
-            _trackEvents(_tracks.PAUSED, 'The element has been paused. Fired after the pause() method has returned.');
-        };
-        var onMediaEndEvent = function() {
-            _trackAPICall(_tracks.ENDED, 'Playback has stopped because the end of the media resource was reached.');
-            var waitTime = 3000,
-                nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
-            if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type != 'video')) {
-                _removeAds(_currentMedia.player);
-                _stopTimer();
-                _addCirculerTimer();
-                _timeupWaitingID = window.setTimeout((function() {
-                    window.location.href = nextMedia;
-                }).bind(this), waitTime);
-            }
-        };
-        var onMediaAdStartEvent = function(event) {
-            //this.pause();
-            _trackAPICall(_tracks.AD_STARTED, 'The player has entered linear ad playback mode. This event only indicates that an ad break has begun; the start and end of individual ads must be signalled through some other mechanism.');
-        };
-        var onMediaAdEndEvent = function(event) {
-            _trackAPICall(_tracks.AD_ENDED, 'The player has returned from linear ad playback mode. Note that multiple ads may have played back between adstart and adend.');
-        };
-        var onMediaAdCancelEvent = function(event) {
-            _trackAPICall(_tracks.AD_SKIP, 'The player is skipping a linear ad opportunity and content-playback should resume immediately.');
-        };
-        var onMediaAdErrorEvent = function(event) {
-            _currentMedia.plugins.ima.error = true;
-            _trackAPICall(_tracks.ADS_ERROR, 'Trigger this event to indicate that an error in the ad integration has ocurred and any ad states should abort so that content can resume.');
-            _removeAds(_currentMedia.player);
-        };
-
-        var debug = function(isdebug) {
-            _isDebuge = isdebug === undefined ? true : !!isdebug;
-            if (_currentMedia.plugins && _currentMedia.plugins.ima) {
-                _currentMedia.plugins.ima.debug = _isDebuge;
-            }
-            return this;
-        };
-
-        var addMediaPlayer = function($elem, setup, callback) {
-            if (!($elem && $($elem).length)) {
-                console.log('No Player');
-                return this;
-            }
-
-            var player = createPlayer($elem, setup, callback);
-            _mediaPlayerList.push(player);
-            return this;
-        };
-
-        var setMediaPlayer = function(domId, setup, callback) {
-            if (typeof domId != 'undefined' && !(domId && $(domId).length)) {
-                console.log('Not found');
-                return this;
-            } else if (_mediaPlayerList.length) {
-                console.log('Already Initialize');
-                return this;
-            }
-            _setMediaUrlId();
-
-            addMediaPlayer(domId, setup, callback);
-            _currentMedia.player = _mediaPlayerList[0];
-            _currentMedia.playsCounter = 0;
-
-            return this;
-        };
-
-        var setPlugins = function(plugins) {
-            if (!_currentMedia.player || !plugins) {
-                return this;
-            }
-            var videoJsPluginOptions = _getPluginDefaultOptions(_currentMedia.player.id());
-            if (!_currentMedia.plugins) {
-                _currentMedia.plugins = videoJsPluginOptions;
-            }
-            for (var plugin in plugins) {
-                if (plugin in _currentMedia.player) {
-                    _currentMedia.plugins[plugin] = $.extend({}, videoJsPluginOptions[plugin], plugins[plugin]);
-                }
-            }
-            return this;
-        };
-
-        var getMediaPlayer = function() {
-            return _currentMedia.player;
-        };
-
-        var totalPlayers = function() {
-            return _mediaPlayerList.length;
-        };
-
-        var _remove = function(player) {
-            player.dispose();
-        };
-
-        var removePlayer = function(id) {
-            if (!id && _currentMedia.player) {
-                id = _currentMedia.player.id();
-            }
-            for (var i = 0; i < _totalPlayers(); i++) {
-                if (id == 'all' || id == _mediaPlayerList[i].id()) {
-                    _remove(_mediaPlayerList[i]);
-                }
-            }
-        };
-
-        var getList = function($tracksDom) {
-            var mediaLinkList = [];
-            $tracksDom.each(function(index) {
-                var queries = _getUrlQueries(this.href.split('?')[1]);
-                var $li = $(this).parent();
-                if (queries) {
-                    mediaLinkList[index] = this.href;
-                    if (window.location.href.indexOf(this.href) > -1) {
-                        $li.addClass("currently-playing");
-                        _currentMedia.index = index;
-                        if (index > 0) {
-                            _currentMedia.player.autoplay(true);
-                        }
-                        $li.parent().animate({
-                            scrollTop: index * $li.outerHeight() + 1
-                        }, 500);
-                    }
-                }
-            });
-            return mediaLinkList;
-        };
-
-        var _setTrackNumber = function() {
-            var $trackNum = $(".media-playlist__header__info span");
-            $trackNum.text((_currentMedia.index + 1) + '/' + _mediaPlayListUrls.length);
-        };
-
-        var _setAutoChangeValue = function(isAutoplay) {
-            if (typeof(localStorage) !== undefined) {
-                localStorage.setItem("autoplayPlaylist", isAutoplay);
-            } else {
-                console.log("Sorry! No Web Storage support..");
-            }
-        };
-
-        var _getAutoChangeValue = function() {
-            if (typeof(localStorage) !== undefined && localStorage.autoplayPlaylist !== undefined) {
-                var out = JSON.parse(localStorage.autoplayPlaylist);
-                $("#mediaAutoplay").prop("checked", out);
-                return out;
-            } else {
-                console.log("Sorry! No Web Storage support..");
-                return $("#mediaAutoplay").is(":checked");
-            }
-        };
-
-        var _setAutoChange = function() {
-            var is_autoplay = _getAutoChangeValue();
-            _setAutoChangeValue(is_autoplay);
-            $("#mediaAutoplay").change(function(event) {
-                _setAutoChangeValue($(this).is(":checked"));
-            });
-        };
-
-        var setPlayList = function(domList) {
-            if (!_currentMedia.player) { return; }
-
-            var $tracksDom = $(domList);
-
-            if ($tracksDom.length > 0) {
-                _mediaPlayListUrls = getList($tracksDom);
-                _setTrackNumber();
-                if (_currentMedia.type == 'video') {
-                    _setAutoChange();
-                }
-            }
-            return this;
-        };
-
-        return {
-            createPlayer: createPlayer,
-            setMediaPlayer: setMediaPlayer,
-            getMediaPlayer: getMediaPlayer,
-            setPlayList: setPlayList,
-            setPlugins: setPlugins,
-            addMediaPlayer: addMediaPlayer,
-            totalPlayers: totalPlayers,
-            removePlayer: removePlayer,
-            debug: debug
-        };
-    };
-    window.bloggMedia = bloggMedia || {};
 
 })(jQuery, videojs, window);

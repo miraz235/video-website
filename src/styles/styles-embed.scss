@@ -1,10 +1,9 @@
 /**
  * styles
- * @version 1.1.0
+ * @version 1.1.1
  * @copyright 2017 blogg.no
  */
 
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700');
 @import "variables";
 $embed-style: true;
 //@import "../vendors/bootstrap/stylesheets/bootstrap/glyphicons";
@@ -112,9 +111,7 @@ ol {
 
 @import "../vendors/bootstrap/stylesheets/bootstrap/buttons";
 .btn-primary {
-    @include button-variant($btn-primary-color,
-    $video-color,
-    $video-color);
+    @include button-variant($btn-primary-color, $video-color, $video-color);
 }
 
 //@import "../vendors/bootstrap/stylesheets/bootstrap/utilities";

@@ -479,7 +479,7 @@ h3.media-title {
 .vjs-ad-playing {
     &.vjs-ad-loading .vjs-loading-spinner,
     .vjs-big-play-button {
-        //**** display: none !important;
+        display: none !important;
     }
     &.vjs-waiting {
         .vjs-loading-spinner {

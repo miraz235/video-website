@@ -22351,1528 +22351,1454 @@ module.exports = {
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./bin-utils":2,"./config":3,"./master-playlist-controller":5,"./playback-watcher":7,"./playlist":10,"./playlist-loader":8,"./playlist-selectors.js":9,"./reload-source-on-error":12,"./rendition-mixin":13,"./xhr":20,"aes-decrypter":24,"global/document":30,"global/window":31,"m3u8-parser":32,"videojs-contrib-media-sources":74}]},{},[77])(77)
 });
+!function e(t,n,a){function d(i,s){if(!n[i]){if(!t[i]){var r="function"==typeof require&&require;if(!s&&r)return r(i,!0);if(o)return o(i,!0);var u=new Error("Cannot find module '"+i+"'");throw u.code="MODULE_NOT_FOUND",u}var l=n[i]={exports:{}};t[i][0].call(l.exports,function(e){var n=t[i][1][e];return d(n||e)},l,l.exports,e,t,n,a)}return n[i].exports}for(var o="function"==typeof require&&require,i=0;i<a.length;i++)d(a[i]);return d}({1:[function(e,t,n){(function(t){"use strict";function a(e){return e&&e.__esModule?e:{"default":e}}function d(e){if(!e.ads.cancelPlayTimeout){if(l["default"].browser.IS_IOS&&l["default"].browser.IS_IPHONE&&!e.el_.hasAttribute("playsinline")){var t=e.currentWidth?e.currentWidth():e.width(),n=e.currentHeight?e.currentHeight():e.height(),a=i["default"].getComputedStyle(e.el_).position,d=i["default"].getComputedStyle(e.el_).top,o=r["default"].createElement("div");o.style.width=t+"px",o.style.height=n+"px",o.style.background="black",o.style.position=a,o.style.top=d,e.el_.parentNode.insertBefore(o,e.el_),e.el_.style.display="none",e.one(["adstart","adtimeout","adserror","adscanceled","adskip","playing"],function(){e.el_.style.display="block",o.remove()}),e.on("fullscreenchange",function(){o&&!e.isFullscreen()&&(e.el_.style.display="block",o.remove())})}e.ads.cancelPlayTimeout=i["default"].setTimeout(function(){e.ads.cancelPlayTimeout=null,e.paused()||e.pause(),e.ads.cancelledPlay=!0},1)}}n.__esModule=!0,n["default"]=d;var o=e(9),i=a(o),s=e(8),r=a(s),u="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,l=a(u)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],2:[function(e,t,n){"use strict";function a(e){e.ads.contentSrc=e.currentSrc();var t=function(){if("ad-playback"!==e.ads.state){var t=e.currentSrc();t!==e.ads.contentSrc&&(e.trigger({type:"contentupdate",oldValue:e.ads.contentSrc,newValue:t}),e.ads.contentSrc=t)}};e.on("loadstart",t),o["default"].setTimeout(t,1)}n.__esModule=!0,n["default"]=a;var d=e(9),o=function(e){return e&&e.__esModule?e:{"default":e}}(d)},{}],3:[function(e,t,n){(function(e){"use strict";function t(e,t){var n=e.textTracks(),a=function(n){"metadata"===n.kind&&(e.ads.cueTextTracks.setMetadataTrackMode(n),t(e,n))};if(n.length>0)for(var d=0;d<n.length;d++){var o=n[d];a(o)}else n.addEventListener("addtrack",function(e){var t=e.track;a(t)})}function a(e){}function d(e,t){return t}function o(e,t){return t.id}function i(e,t,n,a){e.ads.includedCues={};for(var d=0;d<t.length;d++){var o=t[d],i=this.getSupportedAdCue(e,o);if(-1===i)return void r["default"].log.warn("Skipping as this is not a supported ad cue.",o);var s=this.getCueId(e,o),c=o.startTime;if(u(e,s))return void r["default"].log("Skipping ad already seen with ID "+s);n(e,i,s,c),l(e,s),a!==undefined&&a(e,i)}}n.__esModule=!0,n.processMetadataTracks=t,n.setMetadataTrackMode=a,n.getSupportedAdCue=d,n.getCueId=o,n.processAdTrack=i;var s="undefined"!=typeof window?window.videojs:void 0!==e?e.videojs:null,r=function(e){return e&&e.__esModule?e:{"default":e}}(s),u=function(e,t){return t!==undefined&&e.ads.includedCues[t]},l=function(e,t){t!==undefined&&""!==t&&(e.ads.includedCues[t]=!0)}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],4:[function(e,t,n){(function(t){"use strict";function a(e){return e&&e.__esModule?e:{"default":e}}function d(e,t,n){t===undefined&&(t=!1);var a={};n!==undefined&&(a=n),a["{player.id}"]=this.options_["data-player"],a["{mediainfo.id}"]=this.mediainfo?this.mediainfo.id:"",a["{mediainfo.name}"]=this.mediainfo?this.mediainfo.name:"",a["{mediainfo.description}"]=this.mediainfo?this.mediainfo.description:"",a["{mediainfo.tags}"]=this.mediainfo?this.mediainfo.tags:"",a["{mediainfo.reference_id}"]=this.mediainfo?this.mediainfo.reference_id:"",a["{mediainfo.duration}"]=this.mediainfo?this.mediainfo.duration:"",a["{mediainfo.ad_keys}"]=this.mediainfo?this.mediainfo.ad_keys:"",a["{player.duration}"]=this.duration(),a["{timestamp}"]=(new Date).getTime(),a["{document.referrer}"]=u["default"].referrer,a["{window.location.href}"]=s["default"].location.href,a["{random}"]=Math.floor(1e12*Math.random()),p(this.mediainfo,a,"custom_fields"),p(this.mediainfo,a,"customFields");for(var d in a)e=e.split(d).join(f(a[d],t));return e=e.replace(/{pageVariable\.([^}]+)}/g,function(e,n){for(var a=void 0,d=s["default"],i=n.split("."),r=0;r<i.length;r++)r===i.length-1?a=d[i[r]]:d=d[i[r]];var u=void 0===a?"undefined":o(a);return null===a?"null":a===undefined?(c["default"].log.warn('Page variable "'+n+'" not found'),""):"string"!==u&&"number"!==u&&"boolean"!==u?(c["default"].log.warn('Page variable "'+n+'" is not a supported type'),""):f(String(a),t)})}n.__esModule=!0;var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};n["default"]=d;var i=e(9),s=a(i),r=e(8),u=a(r),l="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,c=a(l),f=function(e,t){return t?encodeURIComponent(e):e},p=function(e,t,n){if(e&&e[n])for(var a=e[n],d=Object.keys(a),o=0;o<d.length;o++){var i="{mediainfo."+n+"."+d[o]+"}";t[i]=a[d[o]]}}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],5:[function(e,t,n){"use strict";function a(e){if("playing"===e.type&&"preroll?"===this.ads.state)o(this,"ad",e);else if("playing"!==e.type||"ad-playback"!==this.ads.state||this.ads.videoElementRecycled())if("playing"===e.type&&"ads-ready?"===this.ads.state)o(this,"ad",e);else{if("playing"===e.type&&"ad-playback"===this.ads.state&&this.ads.videoElementRecycled())return void d(this,e);if("ad-playback"===this.ads.state)(this.ads.videoElementRecycled()||this.ads.stitchedAds())&&o(this,"ad",e);else if("content-playback"===this.ads.state&&"ended"===e.type)o(this,"content",e);else if("content-resuming"===this.ads.state){if(this.ads.snapshot&&this.currentSrc()!==this.ads.snapshot.currentSrc){if("loadstart"===e.type)return;return o(this,"content",e)}if(this.ads.snapshot&&this.ads.snapshot.ended){if("pause"===e.type||"ended"===e.type)return;return o(this,"content",e)}"playing"!==e.type&&o(this,"content",e)}}else o(this,"ad",e)}n.__esModule=!0,n["default"]=a;var d=function(e,t){t.isImmediatePropagationStopped=function(){return!0},t.cancelBubble=!0,t.isPropagationStopped=function(){return!0}},o=function(e,t,n){d(e,n),e.trigger({type:t+n.type,state:e.ads.state,originalEvent:n})}},{}],6:[function(e,t,n){(function(t){"use strict";function a(e){return e&&e.__esModule?e:{"default":e}}function d(e){var t=void 0;t=u["default"].browser.IS_IOS&&e.ads.isLive(e)&&e.seekable().length>0?e.currentTime()-e.seekable().end(0):e.currentTime();var n=e.$(".vjs-tech"),a=e.remoteTextTracks?e.remoteTextTracks():[],d=e.textTracks?e.textTracks():[],o=[],i=[],s={ended:e.ended(),currentSrc:e.currentSrc(),src:e.tech_.src(),currentTime:t,type:e.currentType()};n&&(s.nativePoster=n.poster,s.style=n.getAttribute("style"));for(var r=0;r<a.length;r++){var l=a[r];o.push({track:l,mode:l.mode}),l.mode="disabled"}s.suppressedRemoteTracks=o;for(var c=0;c<d.length;c++){var f=d[c];i.push({track:f,mode:f.mode}),f.mode="disabled"}return s.suppressedTracks=i,s}function o(e,t){if(!0===e.ads.disableNextSnapshotRestore)return void(e.ads.disableNextSnapshotRestore=!1);var n=e.$(".vjs-tech"),a=20,d=t.suppressedRemoteTracks,o=t.suppressedTracks,i=void 0,r=function(){for(var e=0;e<d.length;e++)i=d[e],i.track.mode=i.mode;for(var t=0;t<o.length;t++)i=o[t],i.track.mode=i.mode},l=function(){var n=void 0;u["default"].browser.IS_IOS&&e.ads.isLive(e)?t.currentTime<0&&(n=e.seekable().length>0?e.seekable().end(0)+t.currentTime:e.currentTime(),e.currentTime(n)):t.ended?e.currentTime(e.duration()):e.currentTime(t.currentTime),t.ended||e.play()},c=function f(){if(e.off("contentcanplay",f),e.ads.tryToResumeTimeout_&&(e.clearTimeout(e.ads.tryToResumeTimeout_),e.ads.tryToResumeTimeout_=null),n=e.el().querySelector(".vjs-tech"),n.readyState>1)return l();if(n.seekable===undefined)return l();if(n.seekable.length>0)return l();if(a--)s["default"].setTimeout(f,50);else try{l()}catch(t){u["default"].log.warn("Failed to resume the content after an advertisement",t)}};t.nativePoster&&(n.poster=t.nativePoster),"style"in t&&n.setAttribute("style",t.style||""),e.ads.videoElementRecycled()?(e.one("contentloadedmetadata",r),e.src({src:t.currentSrc,type:t.type}),e.load(),e.one("contentcanplay",c),e.ads.tryToResumeTimeout_=e.setTimeout(c,2e3)):e.ended()&&t.ended||(r(),e.play())}n.__esModule=!0,n.getPlayerSnapshot=d,n.restorePlayerSnapshot=o;var i=e(9),s=a(i),r="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,u=a(r)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],7:[function(e,t,n){},{}],8:[function(e,t,n){(function(n){var a,d=void 0!==n?n:"undefined"!=typeof window?window:{},o=e(7);"undefined"!=typeof document?a=document:(a=d["__GLOBAL_DOCUMENT_CACHE@4"])||(a=d["__GLOBAL_DOCUMENT_CACHE@4"]=o),t.exports=a}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],9:[function(e,t,n){(function(e){var n;n="undefined"!=typeof window?window:void 0!==e?e:"undefined"!=typeof self?self:{},t.exports=n}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],10:[function(e,t,n){(function(t){"use strict";function n(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&(t[n]=e[n]);return t["default"]=e,t}function a(e){return e&&e.__esModule?e:{"default":e}}var d=e(9),o=a(d),i="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,s=a(i),r=e(5),u=a(r),l=e(6),c=n(l),f=e(2),p=a(f),y=e(1),m=a(y),h=e(4),v=a(h),g=e(3),T=n(g),b=s["default"].getTech("Html5").Events,_=function(e){var t=e.$(".vjs-tech");t&&t.removeAttribute("poster")},w={timeout:5e3,prerollTimeout:100,postrollTimeout:100,debug:!1,stitchedAds:!1},k=function(e){var t=this,n=s["default"].mergeOptions(w,e),a=b.concat(["firstplay","loadedalldata","playing"]);t.on(a,u["default"]),t.on("ended",function(){t.hasClass("vjs-has-started")||t.addClass("vjs-has-started")}),t.on(["addurationchange","adcanplay"],function(){t.currentSrc()!==t.ads.snapshot.currentSrc&&t.play()}),t.on("nopreroll",function(){t.ads.nopreroll_=!0}),t.on("nopostroll",function(){t.ads.nopostroll_=!0}),t.on(["ads-ad-started","playing"],function(){t.removeClass("vjs-ad-loading")}),t.ads={state:"content-set",disableNextSnapshotRestore:!1,_contentHasEnded:!1,adType:null,VERSION:"4.2.8",reset:function(){t.ads.disableNextSnapshotRestore=!1,t.ads._contentHasEnded=!1,t.ads.snapshot=null,t.ads.adType=null},startLinearAdMode:function(){"preroll?"!==t.ads.state&&"content-playback"!==t.ads.state&&"postroll?"!==t.ads.state||t.trigger("adstart")},endLinearAdMode:function(){"ad-playback"===t.ads.state&&(t.trigger("adend"),t.removeClass("vjs-ad-loading"))},skipLinearAdMode:function(){"ad-playback"!==t.ads.state&&t.trigger("adskip")},stitchedAds:function(e){return e!==undefined&&(this._stitchedAds=!!e),this._stitchedAds},videoElementRecycled:function(){if(t.ads.shouldPlayContentBehindAd(t))return!1;if(!this.snapshot)throw new Error("You cannot use videoElementRecycled while there is no snapshot.");var e=t.tech_.src()!==this.snapshot.src,n=t.currentSrc()!==this.snapshot.currentSrc;return e||n},isLive:function(e){return e.duration()===Infinity||"8"===s["default"].browser.IOS_VERSION&&0===e.duration()},shouldPlayContentBehindAd:function(e){return!s["default"].browser.IS_IOS&&!s["default"].browser.IS_ANDROID&&e.duration()===Infinity}},t.ads.stitchedAds(n.stitchedAds),t.ads.cueTextTracks=T,t.ads.adMacroReplacement=v["default"].bind(t),(0,p["default"])(t),t.on("contentupdate",t.ads.reset);var d={"content-set":{events:{adscanceled:function(){this.state="content-playback"},adsready:function(){this.state="ads-ready"},play:function(){this.state="ads-ready?",(0,m["default"])(t),_(t)},adserror:function(){this.state="content-playback"},adskip:function(){this.state="content-playback"}}},"ads-ready":{events:{play:function(){this.state="preroll?",(0,m["default"])(t)},adskip:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"}}},"preroll?":{enter:function(){t.ads.nopreroll_?(t.trigger("readyforpreroll"),o["default"].setTimeout(function(){t.trigger("nopreroll")},1)):(t.addClass("vjs-ad-loading"),t.ads.adTimeoutTimeout=o["default"].setTimeout(function(){t.trigger("adtimeout")},n.prerollTimeout),t.trigger("readyforpreroll"))},leave:function(){o["default"].clearTimeout(t.ads.adTimeoutTimeout)},events:{play:function(){(0,m["default"])(t)},adstart:function(){this.state="ad-playback",t.ads.adType="preroll"},adskip:function(){this.state="content-playback"},adtimeout:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"},nopreroll:function(){this.state="content-playback"}}},"ads-ready?":{enter:function(){t.addClass("vjs-ad-loading"),t.ads.adTimeoutTimeout=o["default"].setTimeout(function(){t.trigger("adtimeout")},n.timeout)},leave:function(){o["default"].clearTimeout(t.ads.adTimeoutTimeout),t.removeClass("vjs-ad-loading")},events:{play:function(){(0,m["default"])(t)},adscanceled:function(){this.state="content-playback"},adsready:function(){this.state="preroll?"},adskip:function(){this.state="content-playback"},adtimeout:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"}}},"ad-playback":{enter:function(){t.ads.shouldPlayContentBehindAd(t)||(this.snapshot=c.getPlayerSnapshot(t)),t.ads.shouldPlayContentBehindAd(t)&&(this.preAdVolume_=t.volume(),t.volume(0)),t.addClass("vjs-ad-playing"),t.hasClass("vjs-live")&&t.removeClass("vjs-live"),_(t),t.ads.cancelPlayTimeout&&o["default"].setTimeout(function(){o["default"].clearTimeout(t.ads.cancelPlayTimeout),t.ads.cancelPlayTimeout=null},1)},leave:function(){t.removeClass("vjs-ad-playing"),t.ads.isLive(t)&&t.addClass("vjs-live"),t.ads.shouldPlayContentBehindAd(t)||c.restorePlayerSnapshot(t,this.snapshot),t.ads.shouldPlayContentBehindAd(t)&&t.volume(this.preAdVolume_)},events:{adend:function(){this.state="content-resuming",t.ads.adType=null},adserror:function(){this.state="content-resuming",t.trigger("adend")}}},"content-resuming":{enter:function(){this._contentHasEnded&&(o["default"].clearTimeout(t.ads._fireEndedTimeout),t.ads._fireEndedTimeout=o["default"].setTimeout(function(){t.trigger("ended")},1e3))},leave:function(){o["default"].clearTimeout(t.ads._fireEndedTimeout)},events:{contentupdate:function(){this.state="content-set"},contentresumed:function(){this.state="content-playback"},playing:function(){this.state="content-playback"},ended:function(){this.state="content-playback"}}},"postroll?":{enter:function(){this.snapshot=c.getPlayerSnapshot(t),t.ads.nopostroll_?o["default"].setTimeout(function(){t.ads.state="content-resuming",t.trigger("ended")},1):(t.addClass("vjs-ad-loading"),t.ads.adTimeoutTimeout=o["default"].setTimeout(function(){t.trigger("adtimeout")},n.postrollTimeout))},leave:function(){o["default"].clearTimeout(t.ads.adTimeoutTimeout),t.removeClass("vjs-ad-loading")},events:{adstart:function(){this.state="ad-playback",t.ads.adType="postroll"},adskip:function(){this.state="content-resuming",o["default"].setTimeout(function(){t.trigger("ended")},1)},adtimeout:function(){this.state="content-resuming",o["default"].setTimeout(function(){t.trigger("ended")},1)},adserror:function(){this.state="content-resuming",o["default"].setTimeout(function(){t.trigger("ended")},1)},contentupdate:function(){this.state="ads-ready?"}}},"content-playback":{enter:function(){t.ads.cancelPlayTimeout&&(o["default"].clearTimeout(t.ads.cancelPlayTimeout),t.ads.cancelPlayTimeout=null),t.trigger({type:"contentplayback",triggerevent:t.ads.triggerevent}),t.ads.cancelledPlay&&(t.ads.cancelledPlay=!1,t.paused()&&t.play())},events:{adsready:function(){t.trigger("readyforpreroll")},adstart:function(){this.state="ad-playback","preroll"!==t.ads.adType&&(t.ads.adType="midroll")},contentupdate:function(){t.ads.shouldPlayContentBehindAd(t)||(0,m["default"])(t),t.paused()?this.state="content-set":this.state="ads-ready?"},contentended:function(){if(this._contentHasEnded)return void(this.state="content-resuming");this._contentHasEnded=!0,this.state="postroll?"}}}},i=function(e){var a=t.ads.state,o=d[a].events;if(o){var i=o[e.type];i&&i.apply(t.ads)}if(a!==t.ads.state){var r=a,u=t.ads.state;t.ads.triggerevent=e.type,d[r].leave&&d[r].leave.apply(t.ads),d[u].enter&&d[u].enter.apply(t.ads),n.debug&&s["default"].log("ads",t.ads.triggerevent+" triggered: "+r+" -> "+u)}};t.on(b.concat(["adtimeout","contentupdate","contentplaying","contentended","contentresumed","adstart","adend","adskip","adsready","adserror","adscanceled","nopreroll"]),i),t.on("dispose",function(){t.ads.adTimeoutTimeout&&o["default"].clearTimeout(t.ads.adTimeoutTimeout),t.ads._fireEndedTimeout&&o["default"].clearTimeout(t.ads._fireEndedTimeout),t.ads.cancelPlayTimeout&&o["default"].clearTimeout(t.ads.cancelPlayTimeout),t.ads.tryToResumeTimeout_&&t.clearTimeout(t.ads.tryToResumeTimeout_)}),t.paused()||i({type:"play"})};(s["default"].registerPlugin||s["default"].plugin)("ads",k)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}]},{},[10]);
 /**
- * videojs-contrib-ads
- * @version 4.2.8
- * @copyright 2017 Brightcove
- * @license Apache-2.0
- */
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.videojsContribAds = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (global){
-'use strict';
-
-exports.__esModule = true;
-exports['default'] = cancelContentPlay;
-
-var _window = require('global/window');
-
-var _window2 = _interopRequireDefault(_window);
-
-var _document = require('global/document');
-
-var _document2 = _interopRequireDefault(_document);
-
-var _video = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _video2 = _interopRequireDefault(_video);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function cancelContentPlay(player) {
-  if (player.ads.cancelPlayTimeout) {
-    // another cancellation is already in flight, so do nothing
-    return;
-  }
-
-  // Avoid content flash on non-iPad iOS and iPhones on iOS10 with playsinline
-  if (_video2['default'].browser.IS_IOS && _video2['default'].browser.IS_IPHONE && !player.el_.hasAttribute('playsinline')) {
-
-    // The placeholder's styling should match the player's
-    var width = player.currentWidth ? player.currentWidth() : player.width();
-    var height = player.currentHeight ? player.currentHeight() : player.height();
-    var position = _window2['default'].getComputedStyle(player.el_).position;
-    var top = _window2['default'].getComputedStyle(player.el_).top;
-
-    // A placeholder black box will be shown in the document while the player is hidden.
-    var placeholder = _document2['default'].createElement('div');
-
-    placeholder.style.width = width + 'px';
-    placeholder.style.height = height + 'px';
-    placeholder.style.background = 'black';
-    placeholder.style.position = position;
-    placeholder.style.top = top;
-    player.el_.parentNode.insertBefore(placeholder, player.el_);
-
-    // Hide the player. While in full-screen video playback mode on iOS, this
-    // makes the player show a black screen instead of content flash.
-    player.el_.style.display = 'none';
-
-    // Unhide the player and remove the placeholder once we're ready to move on.
-    player.one(['adstart', 'adtimeout', 'adserror', 'adscanceled', 'adskip', 'playing'], function () {
-      player.el_.style.display = 'block';
-      placeholder.remove();
-    });
-
-    // Detect fullscreen change, if returning from fullscreen and placeholder exists,
-    // remove placeholder and show player whether or not playsinline was attached.
-    player.on('fullscreenchange', function () {
-      if (placeholder && !player.isFullscreen()) {
-        player.el_.style.display = 'block';
-        placeholder.remove();
-      }
-    });
-  }
-
-  // The timeout is necessary because pausing a video element while processing a `play`
-  // event on iOS can cause the video element to continuously toggle between playing and
-  // paused states.
-  player.ads.cancelPlayTimeout = _window2['default'].setTimeout(function () {
-    // deregister the cancel timeout so subsequent cancels are scheduled
-    player.ads.cancelPlayTimeout = null;
-
-    // pause playback so ads can be handled.
-    if (!player.paused()) {
-      player.pause();
-    }
-
-    // When the 'content-playback' state is entered, this will let us know to play
-    player.ads.cancelledPlay = true;
-  }, 1);
-} /*
-  This feature makes sure the player is paused during ad loading.
-  
-  It does this by pausing the player immediately after a "play" where ads will be requested,
-  then signalling that we should play after the ad is done.
-  */
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"global/document":8,"global/window":9}],2:[function(require,module,exports){
-'use strict';
-
-exports.__esModule = true;
-exports['default'] = initializeContentupdate;
-
-var _window = require('global/window');
-
-var _window2 = _interopRequireDefault(_window);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-// Start sending contentupdate events
-function initializeContentupdate(player) {
-
-  // Keep track of the current content source
-  // If you want to change the src of the video without triggering
-  // the ad workflow to restart, you can update this variable before
-  // modifying the player's source
-  player.ads.contentSrc = player.currentSrc();
-
-  // Check if a new src has been set, if so, trigger contentupdate
-  var checkSrc = function checkSrc() {
-    if (player.ads.state !== 'ad-playback') {
-      var src = player.currentSrc();
-
-      if (src !== player.ads.contentSrc) {
-        player.trigger({
-          type: 'contentupdate',
-          oldValue: player.ads.contentSrc,
-          newValue: src
-        });
-        player.ads.contentSrc = src;
-      }
-    }
-  };
-
-  // loadstart reliably indicates a new src has been set
-  player.on('loadstart', checkSrc);
-  // check immediately in case we missed the loadstart
-  _window2['default'].setTimeout(checkSrc, 1);
-} /*
-  This feature sends a `contentupdate` event when the player source changes.
-  */
-},{"global/window":9}],3:[function(require,module,exports){
-(function (global){
-'use strict';
-
-exports.__esModule = true;
-exports.processMetadataTracks = processMetadataTracks;
-exports.setMetadataTrackMode = setMetadataTrackMode;
-exports.getSupportedAdCue = getSupportedAdCue;
-exports.getCueId = getCueId;
-exports.processAdTrack = processAdTrack;
-
-var _video = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _video2 = _interopRequireDefault(_video);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-/**
-* This feature allows metadata text tracks to be manipulated once they are available,
-* usually after the 'loadstart' event is observed on the player
-* @param player A reference to a player
-* @param processMetadataTrack A callback that performs some operations on a
-* metadata text track
-**/
-function processMetadataTracks(player, processMetadataTrack) {
-  var tracks = player.textTracks();
-  var setModeAndProcess = function setModeAndProcess(track) {
-    if (track.kind === 'metadata') {
-      player.ads.cueTextTracks.setMetadataTrackMode(track);
-      processMetadataTrack(player, track);
-    }
-  };
-
-  // Text tracks are available
-  if (tracks.length > 0) {
-    for (var i = 0; i < tracks.length; i++) {
-      var track = tracks[i];
-
-      setModeAndProcess(track);
-    }
-    // Wait until text tracks are added
-    // We avoid always setting the event handler in case
-    // integrations decide to handle this separately
-    // with a different handler for the same event
-  } else {
-    tracks.addEventListener('addtrack', function (event) {
-      var track = event.track;
-
-      setModeAndProcess(track);
-    });
-  }
-}
-
-/**
-* Sets the track mode to one of 'disabled', 'hidden' or 'showing'
-* @see https://github.com/videojs/video.js/blob/master/docs/guides/text-tracks.md
-* Default behavior is to do nothing, @override if this is not desired
-* @param track The text track to set the mode on
-*/
-/**
-* This feature allows metadata text tracks to be manipulated once available
-* @see processMetadataTracks.
-* It also allows ad implementations to leverage ad cues coming through
-* text tracks, @see processAdTrack
-**/
-
-function setMetadataTrackMode(track) {
-  return;
-}
-
-/**
-* Determines whether cue is an ad cue and returns the cue data.
-* @param player A reference to the player
-* @param cue The cue to be checked
-* Returns the given cue by default @override if futher processing is required
-* @return the cueData in JSON if cue is a supported ad cue, or -1 if not
-**/
-function getSupportedAdCue(player, cue) {
-  return cue;
-}
-
-/**
-* Gets the id associated with a cue.
-* @param cue The cue to extract an ID from
-* @returns The first occurance of 'id' in the object,
-* @override if this is not the desired cue id
-**/
-function getCueId(player, cue) {
-  return cue.id;
-}
-
-/**
-* Checks whether a cue has already been used
-* @param cueId The Id associated with a cue
-**/
-var cueAlreadySeen = function cueAlreadySeen(player, cueId) {
-  return cueId !== undefined && player.ads.includedCues[cueId];
-};
-
-/**
-* Indicates that a cue has been used
-* @param cueId The Id associated with a cue
-**/
-var setCueAlreadySeen = function setCueAlreadySeen(player, cueId) {
-  if (cueId !== undefined && cueId !== '') {
-    player.ads.includedCues[cueId] = true;
-  }
-};
-
-/**
-* This feature allows ad metadata tracks to be manipulated in ad implementations
-* @param player A reference to the player
-* @param cues The set of cues to work with
-* @param processCue A method that uses a cue to make some
-* ad request in the ad implementation
-* @param [cancelAds] A method that dynamically cancels ads in the ad implementation
-**/
-function processAdTrack(player, cues, processCue, cancelAds) {
-  player.ads.includedCues = {};
-
-  // loop over set of cues
-  for (var i = 0; i < cues.length; i++) {
-    var cue = cues[i];
-    var cueData = this.getSupportedAdCue(player, cue);
-
-    // Exit if this is not a supported cue
-    if (cueData === -1) {
-      _video2['default'].log.warn('Skipping as this is not a supported ad cue.', cue);
-      return;
-    }
-
-    // Continue processing supported cue
-    var cueId = this.getCueId(player, cue);
-    var startTime = cue.startTime;
-
-    // Skip ad if cue was already used
-    if (cueAlreadySeen(player, cueId)) {
-      _video2['default'].log('Skipping ad already seen with ID ' + cueId);
-      return;
-    }
-
-    // Process cue as an ad cue
-    processCue(player, cueData, cueId, startTime);
-
-    // Indicate that this cue has been used
-    setCueAlreadySeen(player, cueId);
-
-    // Optional dynamic ad cancellation
-    if (cancelAds !== undefined) {
-      cancelAds(player, cueData);
-    }
-  }
-}
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],4:[function(require,module,exports){
-(function (global){
-'use strict';
-
-exports.__esModule = true;
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /*
-                                                                                                                                                                                                                                                                              This feature provides an optional method for ad integrations to insert run-time values
-                                                                                                                                                                                                                                                                              into an ad server URL or configuration.
-                                                                                                                                                                                                                                                                              */
-
-exports['default'] = adMacroReplacement;
-
-var _window = require('global/window');
-
-var _window2 = _interopRequireDefault(_window);
-
-var _document = require('global/document');
-
-var _document2 = _interopRequireDefault(_document);
-
-var _video = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _video2 = _interopRequireDefault(_video);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-// Return URI encoded version of value if uriEncode is true
-var uriEncodeIfNeeded = function uriEncodeIfNeeded(value, uriEncode) {
-  if (uriEncode) {
-    return encodeURIComponent(value);
-  }
-  return value;
-};
-
-// Add custom field macros to macros object
-// based on given name for custom fields property of mediainfo object.
-var customFields = function customFields(mediainfo, macros, customFieldsName) {
-  if (mediainfo && mediainfo[customFieldsName]) {
-    var fields = mediainfo[customFieldsName];
-    var fieldNames = Object.keys(fields);
-
-    for (var i = 0; i < fieldNames.length; i++) {
-      var tag = '{mediainfo.' + customFieldsName + '.' + fieldNames[i] + '}';
-
-      macros[tag] = fields[fieldNames[i]];
-    }
-  }
-};
-
-// Public method that integrations use for ad macros.
-// "string" is any string with macros to be replaced
-// "uriEncode" if true will uri encode macro values when replaced
-// "customMacros" is a object with custom macros and values to map them to
-//  - For example: {'{five}': 5}
-// Return value is is "string" with macros replaced
-//  - For example: adMacroReplacement('{player.id}') returns a string of the player id
-function adMacroReplacement(string, uriEncode, customMacros) {
-
-  if (uriEncode === undefined) {
-    uriEncode = false;
-  }
-
-  var macros = {};
-
-  if (customMacros !== undefined) {
-    macros = customMacros;
-  }
-
-  // Static macros
-  macros['{player.id}'] = this.options_['data-player'];
-  macros['{mediainfo.id}'] = this.mediainfo ? this.mediainfo.id : '';
-  macros['{mediainfo.name}'] = this.mediainfo ? this.mediainfo.name : '';
-  macros['{mediainfo.description}'] = this.mediainfo ? this.mediainfo.description : '';
-  macros['{mediainfo.tags}'] = this.mediainfo ? this.mediainfo.tags : '';
-  macros['{mediainfo.reference_id}'] = this.mediainfo ? this.mediainfo.reference_id : '';
-  macros['{mediainfo.duration}'] = this.mediainfo ? this.mediainfo.duration : '';
-  macros['{mediainfo.ad_keys}'] = this.mediainfo ? this.mediainfo.ad_keys : '';
-  macros['{player.duration}'] = this.duration();
-  macros['{timestamp}'] = new Date().getTime();
-  macros['{document.referrer}'] = _document2['default'].referrer;
-  macros['{window.location.href}'] = _window2['default'].location.href;
-  macros['{random}'] = Math.floor(Math.random() * 1000000000000);
-
-  // Custom fields in mediainfo
-  customFields(this.mediainfo, macros, 'custom_fields');
-  customFields(this.mediainfo, macros, 'customFields');
-
-  // Go through all the replacement macros and apply them to the string.
-  // This will replace all occurrences of the replacement macros.
-  for (var i in macros) {
-    string = string.split(i).join(uriEncodeIfNeeded(macros[i], uriEncode));
-  }
-
-  // Page variables
-  string = string.replace(/{pageVariable\.([^}]+)}/g, function (match, name) {
-    var value = void 0;
-    var context = _window2['default'];
-    var names = name.split('.');
-
-    // Iterate down multiple levels of selector without using eval
-    // This makes things like pageVariable.foo.bar work
-    for (var _i = 0; _i < names.length; _i++) {
-      if (_i === names.length - 1) {
-        value = context[names[_i]];
-      } else {
-        context = context[names[_i]];
-      }
-    }
-
-    var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
-
-    // Only allow certain types of values. Anything else is probably a mistake.
-    if (value === null) {
-      return 'null';
-    } else if (value === undefined) {
-      _video2['default'].log.warn('Page variable "' + name + '" not found');
-      return '';
-    } else if (type !== 'string' && type !== 'number' && type !== 'boolean') {
-      _video2['default'].log.warn('Page variable "' + name + '" is not a supported type');
-      return '';
-    }
-
-    return uriEncodeIfNeeded(String(value), uriEncode);
-  });
-
-  return string;
-}
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"global/document":8,"global/window":9}],5:[function(require,module,exports){
-'use strict';
-
-exports.__esModule = true;
-exports['default'] = redispatch;
-/*
-The goal of this feature is to make player events work as an integrator would
-expect despite the presense of ads. For example, an integrator would expect
-an `ended` event to happen once the content is ended. If an `ended` event is sent
-as a result of an ad ending, that is a bug. The `redispatch` method should recognize
-such `ended` events and prefix them so they are sent as `adended`, and so on with
-all other player events.
-*/
-
-// Stop propogation for an event
-var cancelEvent = function cancelEvent(player, event) {
-  // Pretend we called stopImmediatePropagation because we want the native
-  // element events to continue propagating
-  event.isImmediatePropagationStopped = function () {
-    return true;
-  };
-  event.cancelBubble = true;
-  event.isPropagationStopped = function () {
-    return true;
-  };
-};
-
-// Stop propogation for an event, then send a new event with the type of the original
-// event with the given prefix added.
-var prefixEvent = function prefixEvent(player, prefix, event) {
-  cancelEvent(player, event);
-  player.trigger({
-    type: prefix + event.type,
-    state: player.ads.state,
-    originalEvent: event
-  });
-};
-
-// Handle a player event, either by redispatching it with a prefix, or by
-// letting it go on its way without any meddling.
-function redispatch(event) {
-
-  // We do a quick play/pause before we check for prerolls. This creates a "playing"
-  // event. This conditional block prefixes that event so it's "adplaying" if it
-  // happens while we're in the "preroll?" state. Not every browser is in the
-  // "preroll?" state for this event, so the following browsers come through here:
-  //  * iPad
-  //  * iPhone
-  //  * Android
-  //  * Safari
-  // This is too soon to check videoElementRecycled because there is no snapshot
-  // yet. We rely on the coincidence that all browsers for which
-  // videoElementRecycled would be true also happen to send their initial playing
-  // event during "preroll?"
-  if (event.type === 'playing' && this.ads.state === 'preroll?') {
-    prefixEvent(this, 'ad', event);
-
-    // Here we send "adplaying" for browsers that send their initial "playing" event
-    // (caused by the the initial play/pause) during the "ad-playback" state.
-    // The following browsers come through here:
-    // * Chrome
-    // * IE11
-    // If the ad plays in the content tech (aka videoElementRecycled) there will be
-    // another playing event when the ad starts. We check videoElementRecycled to
-    // avoid a second adplaying event. Thankfully, at this point a snapshot exists
-    // so we can safely check videoElementRecycled.
-  } else if (event.type === 'playing' && this.ads.state === 'ad-playback' && !this.ads.videoElementRecycled()) {
-    prefixEvent(this, 'ad', event);
-
-    // If the ad takes a long time to load, "playing" caused by play/pause can happen
-    // during "ads-ready?" instead of "preroll?" or "ad-playback", skipping the
-    // other conditions that would normally catch it
-  } else if (event.type === 'playing' && this.ads.state === 'ads-ready?') {
-    prefixEvent(this, 'ad', event);
-
-    // When an ad is playing in content tech, we would normally prefix
-    // "playing" with "ad" to send "adplaying". However, when we did a play/pause
-    // before the preroll, we already sent "adplaying". This condition prevents us
-    // from sending another.
-  } else if (event.type === 'playing' && this.ads.state === 'ad-playback' && this.ads.videoElementRecycled()) {
-    cancelEvent(this, event);
-    return;
-
-    // When ad is playing in content tech, prefix everything with "ad".
-    // This block catches many events such as emptied, play, timeupdate, and ended.
-  } else if (this.ads.state === 'ad-playback') {
-    if (this.ads.videoElementRecycled() || this.ads.stitchedAds()) {
-      prefixEvent(this, 'ad', event);
-    }
-
-    // Send contentended if ended happens during content.
-    // We will make sure an ended event is sent after postrolls.
-  } else if (this.ads.state === 'content-playback' && event.type === 'ended') {
-    prefixEvent(this, 'content', event);
-
-    // Event prefixing during content resuming is complicated
-  } else if (this.ads.state === 'content-resuming') {
-
-    // This does not happen during normal circumstances. I wasn't able to reproduce
-    // it, but the working theory is that it handles cases where restoring the
-    // snapshot takes a long time, such as in iOS7 and older Firefox.
-    if (this.ads.snapshot && this.currentSrc() !== this.ads.snapshot.currentSrc) {
-
-      // Don't prefix `loadstart` event
-      if (event.type === 'loadstart') {
-        return;
-      }
-
-      // All other events get "content" prefix
-      return prefixEvent(this, 'content', event);
-
-      // Content resuming after postroll
-    } else if (this.ads.snapshot && this.ads.snapshot.ended) {
-
-      // Don't prefix `pause` and `ended` events
-      // They don't always happen during content-resuming, but they might.
-      // It seems to happen most often on iOS and Android.
-      if (event.type === 'pause' || event.type === 'ended') {
-        return;
-      }
-
-      // All other events get "content" prefix
-      return prefixEvent(this, 'content', event);
-    }
-
-    // Content resuming after preroll or midroll
-    // Events besides "playing" get "content" prefix
-    if (event.type !== 'playing') {
-      prefixEvent(this, 'content', event);
-    }
-  }
-}
-},{}],6:[function(require,module,exports){
-(function (global){
-'use strict';
-
-exports.__esModule = true;
-exports.getPlayerSnapshot = getPlayerSnapshot;
-exports.restorePlayerSnapshot = restorePlayerSnapshot;
-
-var _window = require('global/window');
-
-var _window2 = _interopRequireDefault(_window);
-
-var _video = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _video2 = _interopRequireDefault(_video);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-/**
- * Returns an object that captures the portions of player state relevant to
- * video playback. The result of this function can be passed to
- * restorePlayerSnapshot with a player to return the player to the state it
- * was in when this function was invoked.
- * @param {Object} player The videojs player object
- */
-/*
-The snapshot feature is responsible for saving the player state before an ad, then
-restoring the player state after an ad.
-*/
-
-function getPlayerSnapshot(player) {
-
-  var currentTime = void 0;
-
-  if (_video2['default'].browser.IS_IOS && player.ads.isLive(player)) {
-    // Record how far behind live we are
-    if (player.seekable().length > 0) {
-      currentTime = player.currentTime() - player.seekable().end(0);
-    } else {
-      currentTime = player.currentTime();
-    }
-  } else {
-    currentTime = player.currentTime();
-  }
-
-  var tech = player.$('.vjs-tech');
-  var remoteTracks = player.remoteTextTracks ? player.remoteTextTracks() : [];
-  var tracks = player.textTracks ? player.textTracks() : [];
-  var suppressedRemoteTracks = [];
-  var suppressedTracks = [];
-  var snapshotObject = {
-    ended: player.ended(),
-    currentSrc: player.currentSrc(),
-    src: player.tech_.src(),
-    currentTime: currentTime,
-    type: player.currentType()
-  };
-
-  if (tech) {
-    snapshotObject.nativePoster = tech.poster;
-    snapshotObject.style = tech.getAttribute('style');
-  }
-
-  for (var i = 0; i < remoteTracks.length; i++) {
-    var track = remoteTracks[i];
-
-    suppressedRemoteTracks.push({
-      track: track,
-      mode: track.mode
-    });
-    track.mode = 'disabled';
-  }
-  snapshotObject.suppressedRemoteTracks = suppressedRemoteTracks;
-
-  for (var _i = 0; _i < tracks.length; _i++) {
-    var _track = tracks[_i];
-
-    suppressedTracks.push({
-      track: _track,
-      mode: _track.mode
-    });
-    _track.mode = 'disabled';
-  }
-  snapshotObject.suppressedTracks = suppressedTracks;
-
-  return snapshotObject;
-}
-
-/**
- * Attempts to modify the specified player so that its state is equivalent to
- * the state of the snapshot.
- * @param {Object} player - the videojs player object
- * @param {Object} snapshotObject - the player state to apply
- */
-function restorePlayerSnapshot(player, snapshotObject) {
-
-  if (player.ads.disableNextSnapshotRestore === true) {
-    player.ads.disableNextSnapshotRestore = false;
-    return;
-  }
-
-  // The playback tech
-  var tech = player.$('.vjs-tech');
-
-  // the number of[ remaining attempts to restore the snapshot
-  var attempts = 20;
-
-  var suppressedRemoteTracks = snapshotObject.suppressedRemoteTracks;
-  var suppressedTracks = snapshotObject.suppressedTracks;
-  var trackSnapshot = void 0;
-  var restoreTracks = function restoreTracks() {
-    for (var i = 0; i < suppressedRemoteTracks.length; i++) {
-      trackSnapshot = suppressedRemoteTracks[i];
-      trackSnapshot.track.mode = trackSnapshot.mode;
-    }
-
-    for (var _i2 = 0; _i2 < suppressedTracks.length; _i2++) {
-      trackSnapshot = suppressedTracks[_i2];
-      trackSnapshot.track.mode = trackSnapshot.mode;
-    }
-  };
-
-  // finish restoring the playback state
-  var resume = function resume() {
-    var currentTime = void 0;
-
-    if (_video2['default'].browser.IS_IOS && player.ads.isLive(player)) {
-      if (snapshotObject.currentTime < 0) {
-        // Playback was behind real time, so seek backwards to match
-        if (player.seekable().length > 0) {
-          currentTime = player.seekable().end(0) + snapshotObject.currentTime;
-        } else {
-          currentTime = player.currentTime();
-        }
-        player.currentTime(currentTime);
-      }
-    } else if (snapshotObject.ended) {
-      player.currentTime(player.duration());
-    } else {
-      player.currentTime(snapshotObject.currentTime);
-    }
-
-    // Resume playback if this wasn't a postroll
-    if (!snapshotObject.ended) {
-      player.play();
-    }
-  };
-
-  // determine if the video element has loaded enough of the snapshot source
-  // to be ready to apply the rest of the state
-  var tryToResume = function tryToResume() {
-
-    // tryToResume can either have been called through the `contentcanplay`
-    // event or fired through setTimeout.
-    // When tryToResume is called, we should make sure to clear out the other
-    // way it could've been called by removing the listener and clearing out
-    // the timeout.
-    player.off('contentcanplay', tryToResume);
-    if (player.ads.tryToResumeTimeout_) {
-      player.clearTimeout(player.ads.tryToResumeTimeout_);
-      player.ads.tryToResumeTimeout_ = null;
-    }
-
-    // Tech may have changed depending on the differences in sources of the
-    // original video and that of the ad
-    tech = player.el().querySelector('.vjs-tech');
-
-    if (tech.readyState > 1) {
-      // some browsers and media aren't "seekable".
-      // readyState greater than 1 allows for seeking without exceptions
-      return resume();
-    }
-
-    if (tech.seekable === undefined) {
-      // if the tech doesn't expose the seekable time ranges, try to
-      // resume playback immediately
-      return resume();
-    }
-
-    if (tech.seekable.length > 0) {
-      // if some period of the video is seekable, resume playback
-      return resume();
-    }
-
-    // delay a bit and then check again unless we're out of attempts
-    if (attempts--) {
-      _window2['default'].setTimeout(tryToResume, 50);
-    } else {
-      try {
-        resume();
-      } catch (e) {
-        _video2['default'].log.warn('Failed to resume the content after an advertisement', e);
-      }
-    }
-  };
-
-  if (snapshotObject.nativePoster) {
-    tech.poster = snapshotObject.nativePoster;
-  }
-
-  if ('style' in snapshotObject) {
-    // overwrite all css style properties to restore state precisely
-    tech.setAttribute('style', snapshotObject.style || '');
-  }
-
-  // Determine whether the player needs to be restored to its state
-  // before ad playback began. With a custom ad display or burned-in
-  // ads, the content player state hasn't been modified and so no
-  // restoration is required
-
-  if (player.ads.videoElementRecycled()) {
-    // on ios7, fiddling with textTracks too early will cause safari to crash
-    player.one('contentloadedmetadata', restoreTracks);
-
-    // if the src changed for ad playback, reset it
-    player.src({ src: snapshotObject.currentSrc, type: snapshotObject.type });
-    // safari requires a call to `load` to pick up a changed source
-    player.load();
-    // and then resume from the snapshots time once the original src has loaded
-    // in some browsers (firefox) `canplay` may not fire correctly.
-    // Reace the `canplay` event with a timeout.
-    player.one('contentcanplay', tryToResume);
-    player.ads.tryToResumeTimeout_ = player.setTimeout(tryToResume, 2000);
-  } else if (!player.ended() || !snapshotObject.ended) {
-    // if we didn't change the src, just restore the tracks
-    restoreTracks();
-    // the src didn't change and this wasn't a postroll
-    // just resume playback at the current time.
-    player.play();
-  }
-}
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"global/window":9}],7:[function(require,module,exports){
-
-},{}],8:[function(require,module,exports){
-(function (global){
-var topLevel = typeof global !== 'undefined' ? global :
-    typeof window !== 'undefined' ? window : {}
-var minDoc = require('min-document');
-
-var doccy;
-
-if (typeof document !== 'undefined') {
-    doccy = document;
-} else {
-    doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
-
-    if (!doccy) {
-        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
-    }
-}
-
-module.exports = doccy;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":7}],9:[function(require,module,exports){
-(function (global){
-var win;
-
-if (typeof window !== "undefined") {
-    win = window;
-} else if (typeof global !== "undefined") {
-    win = global;
-} else if (typeof self !== "undefined"){
-    win = self;
-} else {
-    win = {};
-}
-
-module.exports = win;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],10:[function(require,module,exports){
-(function (global){
-'use strict';
-
-var _window = require('global/window');
-
-var _window2 = _interopRequireDefault(_window);
-
-var _video = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
-
-var _video2 = _interopRequireDefault(_video);
-
-var _redispatch = require('./redispatch.js');
-
-var _redispatch2 = _interopRequireDefault(_redispatch);
-
-var _snapshot = require('./snapshot.js');
-
-var snapshot = _interopRequireWildcard(_snapshot);
-
-var _contentupdate = require('./contentupdate.js');
-
-var _contentupdate2 = _interopRequireDefault(_contentupdate);
-
-var _cancelContentPlay = require('./cancelContentPlay.js');
-
-var _cancelContentPlay2 = _interopRequireDefault(_cancelContentPlay);
-
-var _macros = require('./macros.js');
-
-var _macros2 = _interopRequireDefault(_macros);
-
-var _cueTextTracks = require('./cueTextTracks.js');
-
-var cueTextTracks = _interopRequireWildcard(_cueTextTracks);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-/*
-This main plugin file is responsible for integration logic and enabling the features
-that live in in separate files.
-*/
-
-var VIDEO_EVENTS = _video2['default'].getTech('Html5').Events;
-
-/**
- * Remove the poster attribute from the video element tech, if present. When
- * reusing a video element for multiple videos, the poster image will briefly
- * reappear while the new source loads. Removing the attribute ahead of time
- * prevents the poster from showing up between videos.
+ * Copyright 2014 Google Inc.
  *
- * @param {Object} player The videojs player object
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * IMA SDK integration plugin for Video.js. For more information see
+ * https://www.github.com/googleads/videojs-ima
  */
-var removeNativePoster = function removeNativePoster(player) {
-  var tech = player.$('.vjs-tech');
 
-  if (tech) {
-    tech.removeAttribute('poster');
+(function(factory) {
+  if (typeof define === 'function' && define['amd']) {
+    define(['video.js', 'videojs-contrib-ads'], function(videojs){ factory(window, document, videojs) });
+  } else if (typeof exports === 'object' && typeof module === 'object') {
+    var vjs = require('video.js');
+    require('videojs-contrib-ads');
+    factory(window, document, vjs);
+  } else {
+    factory(window, document, videojs);
   }
-};
+})(function(window, document, videojs) {
+  "use strict";
 
-// ---------------------------------------------------------------------------
-// Ad Framework
-// ---------------------------------------------------------------------------
-
-// default framework settings
-var defaults = {
-  // maximum amount of time in ms to wait to receive `adsready` from the ad
-  // implementation after play has been requested. Ad implementations are
-  // expected to load any dynamic libraries and make any requests to determine
-  // ad policies for a video during this time.
-  timeout: 5000,
-
-  // maximum amount of time in ms to wait for the ad implementation to start
-  // linear ad mode after `readyforpreroll` has fired. This is in addition to
-  // the standard timeout.
-  prerollTimeout: 100,
-
-  // maximum amount of time in ms to wait for the ad implementation to start
-  // linear ad mode after `contentended` has fired.
-  postrollTimeout: 100,
-
-  // when truthy, instructs the plugin to output additional information about
-  // plugin state to the video.js log. On most devices, the video.js log is
-  // the same as the developer console.
-  debug: false,
-
-  // set this to true when using ads that are part of the content video
-  stitchedAds: false
-};
-
-var contribAdsPlugin = function contribAdsPlugin(options) {
-
-  var player = this; // eslint-disable-line consistent-this
-
-  var settings = _video2['default'].mergeOptions(defaults, options);
-
-  // prefix all video element events during ad playback
-  // if the video element emits ad-related events directly,
-  // plugins that aren't ad-aware will break. prefixing allows
-  // plugins that wish to handle ad events to do so while
-  // avoiding the complexity for common usage
-  var videoEvents = VIDEO_EVENTS.concat(['firstplay', 'loadedalldata', 'playing']);
-
-  // Set up redispatching of player events
-  player.on(videoEvents, _redispatch2['default']);
-
-  // "vjs-has-started" should be present at the end of a video. This makes sure it's
-  // always there.
-  player.on('ended', function () {
-    if (!player.hasClass('vjs-has-started')) {
-      player.addClass('vjs-has-started');
+  var extend = function(obj) {
+    var arg;
+    var index;
+    var key;
+    for (index = 1; index < arguments.length; index++) {
+      arg = arguments[index];
+      for (key in arg) {
+        if (arg.hasOwnProperty(key)) {
+          obj[key] = arg[key];
+        }
+      }
     }
-  });
+    return obj;
+  };
 
-  // We now auto-play when an ad gets loaded if we're playing ads in the same video
-  // element as the content.
-  // The problem is that in IE11, we cannot play in addurationchange but in iOS8, we
-  // cannot play from adcanplay.
-  // This will prevent ad-integrations from needing to do this themselves.
-  player.on(['addurationchange', 'adcanplay'], function () {
-    if (player.currentSrc() === player.ads.snapshot.currentSrc) {
+  var ima_defaults = {
+    debug: false,
+    timeout: 5000,
+    prerollTimeout: 100,
+    adLabel: 'Advertisement',
+    showControlsForJSAds: true
+  };
+
+  var init = function(options, readyCallback) {
+    this.ima = new ImaPlugin(this, options, readyCallback);
+  };
+
+  var ImaPlugin = function(player, options, readyCallback) {
+    this.player = player;
+
+    /**
+     * Assigns the unique id and class names to the given element as well as the style class
+     * @param element
+     * @param controlName
+     * @private
+     */
+    var assignControlAttributes_ = function(element, controlName) {
+      element.id = this.controlPrefix + controlName;
+      element.className = this.controlPrefix + controlName + ' ' + controlName;
+    }.bind(this);
+
+    /**
+     * Returns a regular expression to test a string for the given className
+     * @param className
+     * @returns {RegExp}
+     * @private
+     */
+    var getClassRegexp_ = function(className){
+      // Matches on
+      // (beginning of string OR NOT word char)
+      // classname
+      // (negative lookahead word char OR end of string)
+      return new RegExp('(^|[^A-Za-z-])' + className + '((?![A-Za-z-])|$)', 'gi');
+    };
+
+    /**
+     * Adds a class to the given element if it doesn't already have the class
+     * @param element
+     * @param classToAdd
+     * @private
+     */
+    var addClass_ = function(element, classToAdd){
+      if(getClassRegexp_(classToAdd).test(element.className)){
+        return element;
+      }
+
+      return element.className = element.className.trim() + ' ' + classToAdd;
+    };
+
+    /**
+     * Removes a class from the given element if it has the given class
+     * @param element
+     * @param classToRemove
+     * @private
+     */
+    var removeClass_ = function(element, classToRemove){
+      var classRegexp = getClassRegexp_(classToRemove);
+
+      if(!classRegexp.test(element.className)){
+        return element;
+      }
+
+      return element.className = element.className.trim().replace(classRegexp, '');
+    };
+
+    /**
+     * Creates the ad container passed to the IMA SDK.
+     * @private
+     */
+    var createAdContainer_ = function() {
+      // The adContainerDiv is the DOM of the element that will house
+      // the ads and ad controls.
+      this.vjsControls = this.player.getChild('controlBar');
+      this.adContainerDiv =
+          this.vjsControls.el().parentNode.appendChild(
+              document.createElement('div'));
+      assignControlAttributes_(this.adContainerDiv, 'ima-ad-container');
+      this.adContainerDiv.style.position = "absolute";
+      this.adContainerDiv.style.zIndex = 1111;
+      this.adContainerDiv.addEventListener(
+          'mouseenter',
+          showAdControls_,
+          false);
+      this.adContainerDiv.addEventListener(
+          'mouseleave',
+          hideAdControls_,
+          false);
+      createControls_();
+      this.adDisplayContainer =
+          new google.ima.AdDisplayContainer(this.adContainerDiv, this.contentPlayer);
+    }.bind(this);
+
+    /**
+     * Creates the controls for the ad.
+     * @private
+     */
+    var createControls_ = function() {
+      this.controlsDiv = document.createElement('div');
+      assignControlAttributes_(this.controlsDiv, 'ima-controls-div');
+      this.controlsDiv.style.width = '100%';
+      this.countdownDiv = document.createElement('div');
+      assignControlAttributes_(this.countdownDiv, 'ima-countdown-div');
+      this.countdownDiv.innerHTML = this.settings.adLabel;
+      this.countdownDiv.style.display = this.showCountdown ? 'block' : 'none';
+      this.seekBarDiv = document.createElement('div');
+      assignControlAttributes_(this.seekBarDiv, 'ima-seek-bar-div');
+      this.seekBarDiv.style.width = '100%';
+      this.progressDiv = document.createElement('div');
+      assignControlAttributes_(this.progressDiv, 'ima-progress-div');
+      this.playPauseDiv = document.createElement('div');
+      assignControlAttributes_(this.playPauseDiv, 'ima-play-pause-div');
+      addClass_(this.playPauseDiv, 'ima-playing');
+      this.playPauseDiv.addEventListener(
+          'click',
+          onAdPlayPauseClick_,
+          false);
+      this.muteDiv = document.createElement('div');
+      assignControlAttributes_(this.muteDiv, 'ima-mute-div');
+      addClass_(this.muteDiv, 'ima-non-muted');
+      this.muteDiv.addEventListener(
+          'click',
+          onAdMuteClick_,
+          false);
+      this.sliderDiv = document.createElement('div');
+      assignControlAttributes_(this.sliderDiv, 'ima-slider-div');
+      this.sliderDiv.addEventListener(
+          'mousedown',
+          onAdVolumeSliderMouseDown_,
+          false);
+      this.sliderLevelDiv = document.createElement('div');
+      assignControlAttributes_(this.sliderLevelDiv, 'ima-slider-level-div');
+      this.fullscreenDiv = document.createElement('div');
+      assignControlAttributes_(this.fullscreenDiv, 'ima-fullscreen-div');
+      addClass_(this.fullscreenDiv, 'ima-non-fullscreen');
+      this.fullscreenDiv.addEventListener(
+          'click',
+          onAdFullscreenClick_,
+          false);
+      this.adContainerDiv.appendChild(this.controlsDiv);
+      this.controlsDiv.appendChild(this.countdownDiv);
+      this.controlsDiv.appendChild(this.seekBarDiv);
+      this.controlsDiv.appendChild(this.playPauseDiv);
+      this.controlsDiv.appendChild(this.muteDiv);
+      this.controlsDiv.appendChild(this.sliderDiv);
+      this.controlsDiv.appendChild(this.fullscreenDiv);
+      this.seekBarDiv.appendChild(this.progressDiv);
+      this.sliderDiv.appendChild(this.sliderLevelDiv);
+    }.bind(this);
+
+    /**
+     * Initializes the AdDisplayContainer. On mobile, this must be done as a
+     * result of user action.
+     */
+    this.initializeAdDisplayContainer = function() {
+      this.adDisplayContainerInitialized = true;
+      this.adDisplayContainer.initialize();
+    }.bind(this);
+
+    /**
+     * Creates the AdsRequest and request ads through the AdsLoader.
+     */
+    this.requestAds = function() {
+      if (!this.adDisplayContainerInitialized) {
+        this.adDisplayContainer.initialize();
+      }
+      var adsRequest = new google.ima.AdsRequest();
+      if (this.settings.adTagUrl) {
+        adsRequest.adTagUrl = this.settings.adTagUrl;
+      } else {
+        adsRequest.adsResponse = this.settings.adsResponse;
+      }
+      if (this.settings.forceNonLinearFullSlot) {
+        adsRequest.forceNonLinearFullSlot = true;
+      }
+
+      adsRequest.linearAdSlotWidth = this.getPlayerWidth();
+      adsRequest.linearAdSlotHeight = this.getPlayerHeight();
+      adsRequest.nonLinearAdSlotWidth =
+          this.settings.nonLinearWidth || this.getPlayerWidth();
+      adsRequest.nonLinearAdSlotHeight =
+          this.settings.nonLinearHeight || (this.getPlayerHeight() / 3);
+
+      adsRequest.setAdWillAutoPlay(this.settings.adWillAutoPlay);
+
+      this.adsLoader.requestAds(adsRequest);
+    }.bind(this);
+
+    /**
+     * Listener for the ADS_MANAGER_LOADED event. Creates the AdsManager,
+     * sets up event listeners, and triggers the 'adsready' event for
+     * videojs-ads-contrib.
+     * @private
+     */
+    var onAdsManagerLoaded_ = function(adsManagerLoadedEvent) {
+      this.adsManager = adsManagerLoadedEvent.getAdsManager(
+          this.contentPlayheadTracker, this.adsRenderingSettings);
+
+      this.adsManager.addEventListener(
+          google.ima.AdErrorEvent.Type.AD_ERROR,
+          onAdError_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.AD_BREAK_READY,
+          onAdBreakReady_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,
+          this.onContentPauseRequested_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
+          this.onContentResumeRequested_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.ALL_ADS_COMPLETED,
+          onAllAdsCompleted_);
+
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.LOADED,
+          onAdLoaded_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.STARTED,
+          onAdStarted_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.CLICK,
+          onAdPlayPauseClick_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.COMPLETE,
+          this.onAdComplete_);
+      this.adsManager.addEventListener(
+          google.ima.AdEvent.Type.SKIPPED,
+          this.onAdComplete_);
+
+      if (!this.autoPlayAdBreaks) {
+        try {
+          var initWidth = this.getPlayerWidth();
+          var initHeight = this.getPlayerHeight();
+          this.adsManagerDimensions.width = initWidth;
+          this.adsManagerDimensions.height = initHeight;
+          this.adsManager.init(
+              initWidth,
+              initHeight,
+              google.ima.ViewMode.NORMAL);
+          this.adsManager.setVolume(this.player.muted() ? 0 : this.player.volume());
+        } catch (adError) {
+          onAdError_(adError);
+        }
+      }
+
+      this.player.trigger('adsready');
+    }.bind(this);
+
+    /**
+     * DEPRECATED: Use startFromReadyCallback
+     * Start ad playback, or content video playback in the absence of a
+     * pre-roll.
+     */
+    this.start = function() {
+      window.console.log(
+          'WARNING: player.ima.start is deprecated. Use ' +
+              'player.ima.startFromReadyCallback instead.');
+    };
+
+    /**
+     * Start ad playback, or content video playback in the absence of a
+     * pre-roll. **NOTE**: This method only needs to be called if you provide
+     * your own readyCallback as the second parameter to player.ima(). If you
+     * only provide options and do not provide your own readyCallback,
+     * **DO NOT** call this method. If you do provide your own readyCallback,
+     * you should call this method in the last line of that callback. For more
+     * info, see this method's usage in our advanced and playlist examples.
+     */
+    this.startFromReadyCallback = function() {
+      if (this.autoPlayAdBreaks) {
+        try {
+          this.adsManager.init(
+              this.getPlayerWidth(),
+              this.getPlayerHeight(),
+              google.ima.ViewMode.NORMAL);
+          this.adsManager.setVolume(this.player.muted() ? 0 : this.player.volume());
+          this.adsManager.start();
+        } catch (adError) {
+          onAdError_(adError);
+        }
+      }
+    }.bind(this);
+
+    /**
+     * Listener for errors fired by the AdsLoader.
+     * @param {google.ima.AdErrorEvent} event The error event thrown by the
+     *     AdsLoader. See
+     *     https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdError.Type
+     * @private
+     */
+    var onAdsLoaderError_ = function(event) {
+      window.console.log('AdsLoader error: ' + event.getError());
+      this.adContainerDiv.style.display = 'none';
+      if (this.adsManager) {
+        this.adsManager.destroy();
+      }
+      this.player.trigger({type: 'adserror', data: { AdError: event.getError(), AdErrorEvent: event }});
+    }.bind(this);
+
+    /**
+     * Listener for errors thrown by the AdsManager.
+     * @param {google.ima.AdErrorEvent} adErrorEvent The error event thrown by
+     *     the AdsManager.
+     * @private
+     */
+    var onAdError_ = function(adErrorEvent) {
+      var errorMessage = adErrorEvent.getError !== undefined ? adErrorEvent.getError() : adErrorEvent.stack;
+      window.console.log('Ad error: ' + errorMessage);
+      this.vjsControls.show();
+      this.adsManager.destroy();
+      this.adContainerDiv.style.display = 'none';
+      this.player.trigger({ type: 'adserror', data: { AdError: errorMessage, AdErrorEvent: adErrorEvent }});
+    }.bind(this);
+
+    /**
+     * Listener for AD_BREAK_READY. Passes event on to publisher's listener.
+     * @param {google.ima.AdEvent} adEvent AdEvent thrown by the AdsManager.
+     * @private
+     */
+    var onAdBreakReady_ = function(adEvent) {
+      this.adBreakReadyListener(adEvent);
+    }.bind(this);
+
+    /**
+     * Called by publishers in manual ad break playback mode to start an ad
+     * break.
+     */
+    this.playAdBreak = function() {
+      if (!this.autoPlayAdBreaks) {
+        this.adsManager.start();
+      }
+    }.bind(this);
+
+    /**
+     * Pauses the content video and displays the ad container so ads can play.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+    this.onContentPauseRequested_ = function(adEvent) {
+      this.adsActive = true;
+      this.adPlaying = true;
+      this.contentSource = this.player.currentSrc();
+      this.player.off('ended', this.localContentEndedListener);
+      if (adEvent.getAd().getAdPodInfo().getPodIndex() != -1) {
+        // Skip this call for post-roll ads
+        this.player.ads.startLinearAdMode();
+      }
+      this.adContainerDiv.style.display = 'block';
+
+      var contentType = adEvent.getAd().getContentType();
+      if ((contentType === 'application/javascript') && !this.settings.showControlsForJSAds) {
+        this.controlsDiv.style.display = 'none';
+      } else {
+        this.controlsDiv.style.display = 'block';
+      }
+
+      this.vjsControls.hide();
+      showPlayButton();
+      this.player.pause();
+    }.bind(this);
+
+    /**
+     * Resumes content video and hides the ad container.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+    this.onContentResumeRequested_ = function(adEvent) {
+      this.adsActive = false;
+      this.adPlaying = false;
+      this.player.on('ended', this.localContentEndedListener);
+      if (this.currentAd == null || // hide for post-roll only playlist
+          this.currentAd.isLinear()) { // don't hide for non-linear ads
+        this.adContainerDiv.style.display = 'none';
+      }
+      this.vjsControls.show();
+      if (!this.currentAd) {
+        // Something went wrong playing the ad
+        this.player.ads.endLinearAdMode();
+      } else if (!this.contentComplete &&
+          // Don't exit linear mode after post-roll or content will auto-replay
+          this.currentAd.getAdPodInfo().getPodIndex() != -1 ) {
+        this.player.ads.endLinearAdMode();
+      }
+      // Hide controls in case of future non-linear ads. They'll be unhidden in
+      // content_pause_requested.
+      this.controlsDiv.style.display = 'none';
+      this.countdownDiv.innerHTML = '';
+    }.bind(this);
+
+    /**
+     * Records that ads have completed and calls contentAndAdsEndedListeners
+     * if content is also complete.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+    var onAllAdsCompleted_ = function(adEvent) {
+      this.allAdsCompleted = true;
+      this.adContainerDiv.style.display = 'none';
+      if (this.contentComplete == true) {
+        if (this.contentPlayer.src != this.contentSource) {
+          this.player.src(this.contentSource);
+        }
+        for (var index in this.contentAndAdsEndedListeners) {
+          this.contentAndAdsEndedListeners[index]();
+        }
+      }
+    }.bind(this);
+
+    /**
+     * Starts the content video when a non-linear ad is loaded.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+   var onAdLoaded_ = function(adEvent) {
+      if (!adEvent.getAd().isLinear()) {
+        this.player.play();
+      }
+    }.bind(this);
+
+    /**
+     * Starts the interval timer to check the current ad time when an ad starts
+     * playing.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+    var onAdStarted_ = function(adEvent) {
+      this.currentAd = adEvent.getAd();
+      if (this.currentAd.isLinear()) {
+        this.adTrackingTimer = setInterval(
+            onAdPlayheadTrackerInterval_, 250);
+        // Don't bump container when controls are shown
+        removeClass_(this.adContainerDiv, 'bumpable-ima-ad-container');
+      } else {
+        // Bump container when controls are shown
+       addClass_(this.adContainerDiv, 'bumpable-ima-ad-container');
+      }
+      // For non-linear ads that show after a linear ad.
+      this.adContainerDiv.style.display = 'block';
+    }.bind(this);
+
+    /**
+     * Clears the interval timer for current ad time when an ad completes.
+     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+     * @private
+     */
+    this.onAdComplete_ = function(adEvent) {
+      if (this.currentAd.isLinear()) {
+        clearInterval(this.adTrackingTimer);
+      }
+    }.bind(this);
+
+    /**
+     * Gets the current time and duration of the ad and calls the method to
+     * update the ad UI.
+     * @private
+     */
+    var onAdPlayheadTrackerInterval_ = function() {
+      var remainingTime = this.adsManager.getRemainingTime();
+      var duration =  this.currentAd.getDuration();
+      var currentTime = duration - remainingTime;
+      currentTime = currentTime > 0 ? currentTime : 0;
+      var isPod = false;
+      var totalAds = 0;
+      var adPosition;
+      if (this.currentAd.getAdPodInfo()) {
+        isPod = true;
+        adPosition = this.currentAd.getAdPodInfo().getAdPosition();
+        totalAds = this.currentAd.getAdPodInfo().getTotalAds();
+      }
+
+      // Update countdown timer data
+      var remainingMinutes = Math.floor(remainingTime / 60);
+      var remainingSeconds = Math.floor(remainingTime % 60);
+      if (remainingSeconds.toString().length < 2) {
+        remainingSeconds = '0' + remainingSeconds;
+      }
+      var podCount = ': ';
+      if (isPod && (totalAds > 1)) {
+        podCount = ' (' + adPosition + ' of ' + totalAds + '): ';
+      }
+      this.countdownDiv.innerHTML =
+          this.settings.adLabel + podCount +
+          remainingMinutes + ':' + remainingSeconds;
+
+      // Update UI
+      var playProgressRatio = currentTime / duration;
+      var playProgressPercent = playProgressRatio * 100;
+      this.progressDiv.style.width = playProgressPercent + '%';
+    }.bind(this);
+
+    this.getPlayerWidth = function() {
+      var computedStyle = getComputedStyle(this.player.el()) || {};
+
+      return parseInt(computedStyle.width, 10) || this.player.width();
+    }.bind(this);
+
+    this.getPlayerHeight = function() {
+      var computedStyle = getComputedStyle(this.player.el()) || {};
+
+      return parseInt(computedStyle.height, 10) || this.player.height();
+    }.bind(this);
+
+    /**
+     * Hides the ad controls on mouseout.
+     * @private
+     */
+    var hideAdControls_ = function() {
+      this.controlsDiv.style.height = '14px';
+      this.playPauseDiv.style.display = 'none';
+      this.muteDiv.style.display = 'none';
+      this.sliderDiv.style.display = 'none';
+      this.fullscreenDiv.style.display = 'none';
+    }.bind(this);
+
+    /**
+     * Shows ad controls on mouseover.
+     * @private
+     */
+    var showAdControls_ = function() {
+      this.controlsDiv.style.height = '37px';
+      this.playPauseDiv.style.display = 'block';
+      this.muteDiv.style.display = 'block';
+      this.sliderDiv.style.display = 'block';
+      this.fullscreenDiv.style.display = 'block';
+    }.bind(this);
+
+    /**
+     * Show pause and hide play button
+     */
+    var showPauseButton = function() {
+      addClass_(this.playPauseDiv, 'ima-paused');
+      removeClass_(this.playPauseDiv, 'ima-playing');
+    }.bind(this);
+
+    /**
+     * Show play and hide pause button
+     */
+    var showPlayButton = function() {
+      addClass_(this.playPauseDiv, 'ima-playing');
+      removeClass_(this.playPauseDiv, 'ima-paused');
+    }.bind(this);
+
+    /**
+     * Listener for clicks on the play/pause button during ad playback.
+     * @private
+     */
+    var onAdPlayPauseClick_ = function() {
+      if (this.adPlaying) {
+        showPauseButton();
+        this.adsManager.pause();
+        this.adPlaying = false;
+      } else {
+        showPlayButton();
+        this.adsManager.resume();
+        this.adPlaying = true;
+      }
+    }.bind(this);
+
+    /**
+     * Listener for clicks on the mute button during ad playback.
+     * @private
+     */
+    var onAdMuteClick_ = function() {
+      if (this.adMuted) {
+        addClass_(this.muteDiv, 'ima-non-muted');
+        removeClass_(this.muteDiv, 'ima-muted');
+        this.adsManager.setVolume(1);
+        // Bubble down to content player
+        this.player.muted(false);
+        this.adMuted = false;
+        this.sliderLevelDiv.style.width = this.player.volume() * 100 + "%";
+      } else {
+        addClass_(this.muteDiv, 'ima-muted');
+        removeClass_(this.muteDiv, 'ima-non-muted');
+        this.adsManager.setVolume(0);
+        // Bubble down to content player
+        this.player.muted(true);
+        this.adMuted = true;
+        this.sliderLevelDiv.style.width = "0%";
+      }
+    }.bind(this);
+
+    /* Listener for mouse down events during ad playback. Used for volume.
+     * @private
+     */
+    var onAdVolumeSliderMouseDown_ = function() {
+       document.addEventListener('mouseup', onMouseUp_, false);
+       document.addEventListener('mousemove', onMouseMove_, false);
+    };
+
+    /* Mouse movement listener used for volume slider.
+     * @private
+     */
+    var onMouseMove_ = function(event) {
+      setVolumeSlider_(event);
+    };
+
+    /* Mouse release listener used for volume slider.
+     * @private
+     */
+    var onMouseUp_ = function(event) {
+      setVolumeSlider_(event);
+      document.removeEventListener('mousemove', onMouseMove_);
+      document.removeEventListener('mouseup', onMouseUp_);
+    };
+
+    /* Utility function to set volume and associated UI
+     * @private
+     */
+    var setVolumeSlider_ = function(event) {
+      var percent =
+          (event.clientX - this.sliderDiv.getBoundingClientRect().left) /
+              this.sliderDiv.offsetWidth;
+      percent *= 100;
+      //Bounds value 0-100 if mouse is outside slider region.
+      percent = Math.min(Math.max(percent, 0), 100);
+      this.sliderLevelDiv.style.width = percent + "%";
+      this.player.volume(percent / 100); //0-1
+      this.adsManager.setVolume(percent / 100);
+      if (this.player.volume() == 0) {
+        addClass_(this.muteDiv, 'ima-muted');
+        removeClass_(this.muteDiv, 'ima-non-muted');
+        this.player.muted(true);
+        this.adMuted = true;
+      }
+      else
+      {
+        addClass_(this.muteDiv, 'ima-non-muted');
+        removeClass_(this.muteDiv, 'ima-muted');
+        this.player.muted(false);
+        this.adMuted = false;
+      }
+    }.bind(this);
+
+    /**
+     * Listener for clicks on the fullscreen button during ad playback.
+     * @private
+     */
+    var onAdFullscreenClick_ = function() {
+      if (this.player.isFullscreen()) {
+        this.player.exitFullscreen();
+      } else {
+        this.player.requestFullscreen();
+      }
+    }.bind(this);
+
+    /**
+     * Listens for the video.js player to change its fullscreen status. This
+     * keeps the fullscreen-ness of the AdContainer in sync with the player.
+     * @private
+     */
+    var onFullscreenChange_ = function() {
+      if (this.player.isFullscreen()) {
+        addClass_(this.fullscreenDiv, 'ima-fullscreen');
+        removeClass_(this.fullscreenDiv, 'ima-non-fullscreen');
+        if (this.adsManager) {
+          this.adsManager.resize(
+              window.screen.width,
+              window.screen.height,
+              google.ima.ViewMode.FULLSCREEN);
+        }
+      } else {
+        addClass_(this.fullscreenDiv, 'ima-non-fullscreen');
+        removeClass_(this.fullscreenDiv, 'ima-fullscreen');
+        if (this.adsManager) {
+          this.adsManager.resize(
+              this.getPlayerWidth(),
+              this.getPlayerHeight(),
+              google.ima.ViewMode.NORMAL);
+        }
+      }
+    }.bind(this);
+
+    /**
+     * Listens for the video.js player to change its volume. This keeps the ad
+     * volume in sync with the content volume if the volume of the player is
+     * changed while content is playing
+     * @private
+     */
+    var onVolumeChange_ = function() {
+      var newVolume = this.player.muted() ? 0 : this.player.volume();
+      if (this.adsManager) {
+        this.adsManager.setVolume(newVolume);
+      }
+      // Update UI
+      if (newVolume == 0) {
+        this.adMuted = true;
+        addClass_(this.muteDiv, 'ima-muted');
+        removeClass_(this.muteDiv, 'ima-non-muted');
+        this.sliderLevelDiv.style.width = '0%';
+      } else {
+        this.adMuted = false;
+        addClass_(this.muteDiv, 'ima-non-muted');
+        removeClass_(this.muteDiv, 'ima-muted');
+        this.sliderLevelDiv.style.width = newVolume * 100 + '%';
+      }
+    }.bind(this);
+
+    /**
+     * Seeks content to 00:00:00. This is used as an event handler for the
+     * loadedmetadata event, since seeking is not possible until that event has
+     * fired.
+     * @private
+     */
+    var seekContentToZero_ = function() {
+      this.player.off('loadedmetadata', seekContentToZero_);
+      this.player.currentTime(0);
+    }.bind(this);
+
+    /**
+     * Seeks content to 00:00:00 and starts playback. This is used as an event
+     * handler for the loadedmetadata event, since seeking is not possible until
+     * that event has fired.
+     * @private
+     */
+    var playContentFromZero_ = function() {
+      this.player.off('loadedmetadata', playContentFromZero_);
+      this.player.currentTime(0);
+      this.player.play();
+    }.bind(this);
+
+    /**
+     * Destroys the AdsManager, sets it to null, and calls contentComplete to
+     * reset correlators. Once this is done it requests ads again to keep the
+     * inventory available.
+     * @private
+     */
+    var resetIMA_ = function() {
+      this.adsActive = false;
+      this.adPlaying = false;
+      this.player.on('ended', this.localContentEndedListener);
+      this.vjsControls.show();
+      this.player.ads.endLinearAdMode();
+      if (this.adTrackingTimer) {
+        // If this is called while an ad is playing, stop trying to get that
+        // ad's current time.
+        clearInterval(this.adTrackingTimer);
+      }
+      // Reset the content time we give the SDK. Fixes an issue where requesting
+      // VMAP followed by VMAP would play the second mid-rolls as pre-rolls if
+      // the first playthrough of the video passed the second response's
+      // mid-roll time.
+      this.contentPlayheadTracker.currentTime = 0;
+      if (this.adsManager) {
+        this.adsManager.destroy();
+        this.adsManager = null;
+      }
+      if (this.adsLoader && !this.contentComplete) {
+        this.adsLoader.contentComplete();
+      }
+      this.contentComplete = false;
+      this.allAdsCompleted = false;
+    }.bind(this);
+
+    /**
+     * Ads an EventListener to the AdsManager. For a list of available events,
+     * see
+     * https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type
+     * @param {google.ima.AdEvent.Type} event The AdEvent.Type for which to listen.
+     * @param {function} callback The method to call when the event is fired.
+     */
+    this.addEventListener = function(event, callback) {
+      if (this.adsManager) {
+        this.adsManager.addEventListener(event, callback);
+      }
+    }.bind(this);
+
+    /**
+     * Returns the instance of the AdsManager.
+     * @return {google.ima.AdsManager} The AdsManager being used by the plugin.
+     */
+    this.getAdsManager = function() {
+      return this.adsManager;
+    }.bind(this);
+
+    /**
+     * DEPRECATED: Use setContentWithAdTag.
+     * Sets the content of the video player. You should use this method instead
+     * of setting the content src directly to ensure the proper ad tag is
+     * requested when the video content is loaded.
+     * @param {?string} contentSrc The URI for the content to be played. Leave
+     *     blank to use the existing content.
+     * @param {?string} adTag The ad tag to be requested when the content loads.
+     *     Leave blank to use the existing ad tag.
+     * @param {?boolean} playOnLoad True to play the content once it has loaded,
+     *     false to only load the content but not start playback.
+     */
+    this.setContent = function(contentSrc, adTag, playOnLoad) {
+      window.console.log(
+          'WARNING: player.ima.setContent is deprecated. Use ' +
+              'player.ima.setContentWithAdTag instead.');
+      this.setContentWithAdTag(contentSrc, adTag, playOnLoad);
+    }.bind(this);
+
+    /**
+     * Sets the content of the video player. You should use this method instead
+     * of setting the content src directly to ensure the proper ad tag is
+     * requested when the video content is loaded.
+     * @param {?string} contentSrc The URI for the content to be played. Leave
+     *     blank to use the existing content.
+     * @param {?string} adTag The ad tag to be requested when the content loads.
+     *     Leave blank to use the existing ad tag.
+     * @param {?boolean} playOnLoad True to play the content once it has loaded,
+     *     false to only load the content but not start playback.
+     */
+    this.setContentWithAdTag = function(contentSrc, adTag, playOnLoad) {
+      resetIMA_();
+      this.settings.adTagUrl = adTag ? adTag : this.settings.adTagUrl;
+      changeSource_(contentSrc, playOnLoad);
+    }.bind(this);
+
+    /**
+     * Sets the content of the video player. You should use this method instead
+     * of setting the content src directly to ensure the proper ads response is
+     * used when the video content is loaded.
+     * @param {?string} contentSrc The URI for the content to be played. Leave
+     *     blank to use the existing content.
+     * @param {?string} adsResponse The ads response to be requested when the
+     *     content loads. Leave blank to use the existing ads response.
+     * @param {?boolean} playOnLoad True to play the content once it has loaded,
+     *     false to only load the content but not start playback.
+     */
+    this.setContentWithAdsResponse = function(contentSrc, adsResponse, playOnLoad) {
+      resetIMA_();
+      this.settings.adsResponse = adsResponse ? adsResponse : this.settings.adsResponse;
+      changeSource_(contentSrc, playOnLoad);
+    }.bind(this);
+
+    /**
+     * Changes the ad tag. You will need to call requestAds after this method
+     * for the new ads to be requested.
+     * @param {?string} adTag The ad tag to be requested the next time requestAds
+     *     is called.
+     */
+    this.changeAdTag = function(adTag) {
+      resetIMA_();
+      this.settings.adTagUrl = adTag;
+    }.bind(this);
+
+    /**
+     * Changes the player source.
+     * @param {?string} contentSrc The URI for the content to be played. Leave
+     *     blank to use the existing content.
+     * @param {?boolean} playOnLoad True to play the content once it has loaded,
+     *     false to only load the content but not start playback.
+     * @private
+     */
+    var changeSource_ = function(contentSrc, playOnLoad) {
+      // Only try to pause the player when initialised with a source already
+      if (!!this.player.currentSrc()) {
+        this.player.currentTime(0);
+        this.player.pause();
+      }
+      if (contentSrc) {
+        this.player.src(contentSrc);
+      }
+      if (playOnLoad) {
+        this.player.on('loadedmetadata', playContentFromZero_);
+      } else {
+        this.player.on('loadedmetadata', seekContentToZero_);
+      }
+    }.bind(this);
+
+    /**
+     * Adds a listener for the 'ended' event of the video player. This should be
+     * used instead of setting an 'ended' listener directly to ensure that the
+     * ima can do proper cleanup of the SDK before other event listeners
+     * are called.
+     * @param {function} listener The listener to be called when content completes.
+     */
+    this.addContentEndedListener = function(listener) {
+      this.contentEndedListeners.push(listener);
+    }.bind(this);
+
+    /**
+     * Adds a listener that will be called when content and all ads have
+     * finished playing.
+     * @param {function} listener The listener to be called when content and ads complete.
+     */
+    this.addContentAndAdsEndedListener = function(listener) {
+      this.contentAndAdsEndedListeners.push(listener);
+    }.bind(this);
+
+    /**
+     * Sets the listener to be called to trigger manual ad break playback.
+     * @param {function} listener The listener to be called to trigger manual ad break playback.
+     */
+    this.setAdBreakReadyListener = function(listener) {
+      this.adBreakReadyListener = listener;
+    }.bind(this);
+
+    /**
+     * Pauses the ad.
+     */
+    this.pauseAd = function() {
+      if (this.adsActive && this.adPlaying) {
+        showPauseButton();
+        this.adsManager.pause();
+        this.adPlaying = false;
+      }
+    }.bind(this);
+
+    /**
+     * Resumes the ad.
+     */
+    this.resumeAd = function() {
+      if (this.adsActive && !this.adPlaying) {
+        showPlayButton();
+        this.adsManager.resume();
+        this.adPlaying = true;
+      }
+    }.bind(this);
+
+    /**
+     * Set up intervals to check for seeking and update current video time.
+     * @private
+     */
+    var setUpPlayerIntervals_ = function() {
+      this.updateTimeIntervalHandle =
+          setInterval(updateCurrentTime_, this.seekCheckInterval);
+      this.seekCheckIntervalHandle =
+          setInterval(checkForSeeking_, this.seekCheckInterval);
+      this.resizeCheckIntervalHandle =
+          setInterval(checkForResize_, this.resizeCheckInterval);
+    }.bind(this);
+
+    /**
+     * Updates the current time of the video
+     * @private
+     */
+    var updateCurrentTime_ = function() {
+      if (!this.contentPlayheadTracker.seeking) {
+        this.contentPlayheadTracker.currentTime = this.player.currentTime();
+      }
+    }.bind(this);
+
+    /**
+     * Detects when the user is seeking through a video.
+     * This is used to prevent mid-rolls from playing while a user is seeking.
+     *
+     * There *is* a seeking property of the HTML5 video element, but it's not
+     * properly implemented on all platforms (e.g. mobile safari), so we have to
+     * check ourselves to be sure.
+     *
+     * @private
+     */
+    var checkForSeeking_ = function() {
+      var tempCurrentTime = this.player.currentTime();
+      var diff = (tempCurrentTime - this.contentPlayheadTracker.previousTime) * 1000;
+      if (Math.abs(diff) > this.seekCheckInterval + this.seekThreshold) {
+        this.contentPlayheadTracker.seeking = true;
+      } else {
+        this.contentPlayheadTracker.seeking = false;
+      }
+      this.contentPlayheadTracker.previousTime = this.player.currentTime();
+    }.bind(this);
+
+    /**
+     * Detects when the player is resized (for fluid support) and resizes the
+     * ads manager to match.
+     *
+     * @private
+     */
+    var checkForResize_ = function() {
+      var currentWidth = this.getPlayerWidth();
+      var currentHeight = this.getPlayerHeight();
+
+      if (this.adsManager && (currentWidth != this.adsManagerDimensions.width ||
+          currentHeight != this.adsManagerDimensions.height)) {
+        this.adsManagerDimensions.width = currentWidth;
+        this.adsManagerDimensions.height = currentHeight;
+        this.adsManager.resize(currentWidth, currentHeight, google.ima.ViewMode.NORMAL);
+      }
+    }.bind(this);
+
+    /**
+     * Changes the flag to show or hide the ad countdown timer.
+     *
+     * @param {boolean} showCountdownIn Show or hide the countdown timer.
+     */
+    this.setShowCountdown = function(showCountdownIn) {
+      this.showCountdown = showCountdownIn;
+      this.countdownDiv.style.display = this.showCountdown ? 'block' : 'none';
+    }.bind(this);
+
+    /**
+     * Current plugin version.
+     */
+    this.VERSION = '0.2.0';
+
+    /**
+     * Stores user-provided settings.
+     */
+    this.settings;
+
+    /**
+     * Used to prefix videojs ima
+     */
+    this.controlPrefix;
+
+    /**
+     * Video element playing content.
+     */
+    this.contentPlayer;
+
+    /**
+     * Boolean flag to show or hide the ad countdown timer.
+     */
+    this.showCountdown;
+
+    /**
+     * Boolena flag to enable manual ad break playback.
+     */
+    this.autoPlayAdBreaks;
+
+    /**
+     * Video.js control bar.
+     */
+    this.vjsControls;
+
+    /**
+     * Div used as an ad container.
+     */
+    this.adContainerDiv;
+
+    /**
+     * Div used to display ad controls.
+     */
+    this.controlsDiv;
+
+    /**
+     * Div used to display ad countdown timer.
+     */
+    this.countdownDiv;
+
+    /**
+     * Div used to display add seek bar.
+     */
+    this.seekBarDiv;
+
+    /**
+     * Div used to display ad progress (in seek bar).
+     */
+    this.progressDiv;
+
+    /**
+     * Div used to display ad play/pause button.
+     */
+    this.playPauseDiv;
+
+    /**
+     * Div used to display ad mute button.
+     */
+    this.muteDiv;
+
+    /**
+     * Div used by the volume slider.
+     */
+    this.sliderDiv;
+
+    /**
+     * Volume slider level visuals
+     */
+    this.sliderLevelDiv;
+
+    /**
+     * Div used to display ad fullscreen button.
+     */
+    this.fullscreenDiv;
+
+    /**
+     * IMA SDK AdDisplayContainer.
+     */
+    this.adDisplayContainer;
+
+    /**
+     * True if the AdDisplayContainer has been initialized. False otherwise.
+     */
+    this.adDisplayContainerInitialized = false;
+
+    /**
+     * IMA SDK AdsLoader
+     */
+    this.adsLoader;
+
+    /**
+     * IMA SDK AdsManager
+     */
+    this.adsManager;
+
+    /**
+     * IMA SDK AdsRenderingSettings.
+     */
+    this.adsRenderingSettings = null;
+
+    /**
+     * Ad tag URL. Should return VAST, VMAP, or ad rules.
+     */
+    this.adTagUrl;
+
+    /**
+     * VAST, VMAP, or ad rules response. Used in lieu of fetching a response
+     * from an ad tag URL.
+     */
+    this.adsResponse;
+
+    /**
+     * Current IMA SDK Ad.
+     */
+    this.currentAd;
+
+    /**
+     * Timer used to track content progress.
+     */
+    this.contentTrackingTimer;
+
+    /**
+     * Timer used to track ad progress.
+     */
+    this.adTrackingTimer;
+
+    /**
+     * True if ads are currently displayed, false otherwise.
+     * True regardless of ad pause state if an ad is currently being displayed.
+     */
+    this.adsActive = false;
+
+    /**
+     * True if ad is currently playing, false if ad is paused or ads are not
+     * currently displayed.
+     */
+    this.adPlaying = false;
+
+    /**
+     * True if the ad is muted, false otherwise.
+     */
+    this.adMuted = false;
+
+    /**
+     * True if our content video has completed, false otherwise.
+     */
+    this.contentComplete = false;
+
+    /**
+     * True if ALL_ADS_COMPLETED has fired, false until then.
+     */
+     this.allAdsCompleted = false;
+
+    /**
+     * Handle to interval that repeatedly updates current time.
+     */
+    this.updateTimeIntervalHandle;
+
+    /**
+     * Handle to interval that repeatedly checks for seeking.
+     */
+    this.seekCheckIntervalHandle;
+
+    /**
+     * Interval (ms) on which to check if the user is seeking through the
+     * content.
+     */
+    this.seekCheckInterval = 1000;
+
+    /**
+     * Handle to interval that repeatedly checks for player resize.
+     */
+    this.resizeCheckIntervalHandle;
+
+    /**
+     * Interval (ms) to check for player resize for fluid support.
+     */
+    this.resizeCheckInterval = 250;
+
+    /**
+     * Threshold by which to judge user seeking. We check every 1000 ms to see
+     * if the user is seeking. In order for us to decide that they are *not*
+     * seeking, the content video playhead must only change by 900-1100 ms
+     * between checks. Any greater change and we assume the user is seeking
+     * through the video.
+     */
+    this.seekThreshold = 100;
+
+    /**
+     * Stores data for the content playhead tracker.
+     */
+    this.contentPlayheadTracker = {
+      currentTime: 0,
+      previousTime: 0,
+      seeking: false,
+      duration: 0
+    };
+
+    /**
+     * Stores data for the ad playhead tracker.
+     */
+    this.adPlayheadTracker = {
+      currentTime: 0,
+      duration: 0,
+      isPod: false,
+      adPosition: 0,
+      totalAds: 0
+    };
+
+    /**
+     * Stores the dimensions for the ads manager.
+     */
+    this.adsManagerDimensions = {
+      width: 0,
+      height: 0
+    };
+
+    /**
+     * Content ended listeners passed by the publisher to the plugin. Publishers
+     * should allow the plugin to handle content ended to ensure proper support
+     * of custom ad playback.
+     */
+    this.contentEndedListeners = [];
+
+    /**
+     * Content and ads ended listeners passed by the publisher to the plugin.
+     * These will be called when the plugin detects that content *and all
+     * ads* have completed. This differs from the contentEndedListeners in that
+     * contentEndedListeners will fire between content ending and a post-roll
+     * playing, whereas the contentAndAdsEndedListeners will fire after the
+     * post-roll completes.
+     */
+    this.contentAndAdsEndedListeners = [];
+
+     /**
+      * Listener to be called to trigger manual ad break playback.
+      */
+    this.adBreakReadyListener = undefined;
+
+    /**
+     * Stores the content source so we can re-populate it manually after a
+     * post-roll on iOS.
+     */
+    this.contentSource = '';
+
+    /**
+     * Local content ended listener for contentComplete.
+     */
+    this.localContentEndedListener = function() {
+      if (this.adsLoader && !this.contentComplete) {
+        this.adsLoader.contentComplete();
+        this.contentComplete = true;
+      }
+      for (var index in this.contentEndedListeners) {
+        this.contentEndedListeners[index]();
+      }
+      if (this.allAdsCompleted) {
+        for (var index in this.contentAndAdsEndedListeners) {
+          this.contentAndAdsEndedListeners[index]();
+        }
+      }
+      clearInterval(this.updateTimeIntervalHandle);
+      clearInterval(this.seekCheckIntervalHandle);
+      clearInterval(this.resizeCheckIntervalHandle);
+      if(this.player.el()) {
+        this.player.one('play', setUpPlayerIntervals_);
+      }
+    }.bind(this);
+
+    this.playerDisposedListener = function(){
+      this.contentEndedListeners, this.contentAndAdsEndedListeners = [], [];
+      this.contentComplete = true;
+      this.player.off('ended', this.localContentEndedListener);
+
+      // Bug fix: https://github.com/googleads/videojs-ima/issues/306
+      if (this.player.ads.adTimeoutTimeout) {
+        clearTimeout(this.player.ads.adTimeoutTimeout);
+      }
+
+      var intervalsToClear = [this.updateTimeIntervalHandle, this.seekCheckIntervalHandle,
+        this.adTrackingTimer, this.resizeCheckIntervalHandle];
+      for (var index in intervalsToClear) {
+        var interval = intervalsToClear[index];
+        if (interval) {
+          clearInterval(interval);
+        }
+      }
+      if (this.adsManager) {
+        this.adsManager.destroy();
+        this.adsManager = null;
+      }
+    }.bind(this);
+
+    this.settings = extend({}, ima_defaults, options || {});
+
+    // Currently this isn't used but I can see it being needed in the future, so
+    // to avoid implementation problems with later updates I'm requiring it.
+    if (!this.settings['id']) {
+      window.console.log('Error: must provide id of video.js div');
       return;
     }
 
-    player.play();
-  });
+    this.controlPrefix = (this.settings.id + '_') || '';
 
-  player.on('nopreroll', function () {
-    player.ads.nopreroll_ = true;
-  });
+    this.contentPlayer = document.getElementById(this.settings['id'] + '_html5_api');
 
-  player.on('nopostroll', function () {
-    player.ads.nopostroll_ = true;
-  });
-
-  // Remove ad-loading class when ad plays or when content plays (in case there was no ad)
-  // If you remove this class too soon you can get a flash of content!
-  player.on(['ads-ad-started', 'playing'], function () {
-    player.removeClass('vjs-ad-loading');
-  });
-
-  // Replace the plugin constructor with the ad namespace
-  player.ads = {
-    state: 'content-set',
-    disableNextSnapshotRestore: false,
-
-    // This is set to true if the content has ended once. After that, the user can
-    // seek backwards and replay content, but _contentHasEnded remains true.
-    _contentHasEnded: false,
-
-    // This is an estimation of the current ad type being played
-    // This is experimental currently. Do not rely on its presence or behavior!
-    adType: null,
-
-    VERSION: '4.2.8',
-
-    reset: function reset() {
-      player.ads.disableNextSnapshotRestore = false;
-      player.ads._contentHasEnded = false;
-      player.ads.snapshot = null;
-      player.ads.adType = null;
-    },
-
-
-    // Call this when an ad response has been received and there are
-    // linear ads ready to be played.
-    startLinearAdMode: function startLinearAdMode() {
-      if (player.ads.state === 'preroll?' || player.ads.state === 'content-playback' || player.ads.state === 'postroll?') {
-        player.trigger('adstart');
-      }
-    },
-
-
-    // Call this when a linear ad pod has finished playing.
-    endLinearAdMode: function endLinearAdMode() {
-      if (player.ads.state === 'ad-playback') {
-        player.trigger('adend');
-        // In the case of an empty ad response, we want to make sure that
-        // the vjs-ad-loading class is always removed. We could probably check for
-        // duration on adPlayer for an empty ad but we remove it here just to make sure
-        player.removeClass('vjs-ad-loading');
-      }
-    },
-
-
-    // Call this when an ad response has been received but there are no
-    // linear ads to be played (i.e. no ads available, or overlays).
-    // This has no effect if we are already in a linear ad mode.  Always
-    // use endLinearAdMode() to exit from linear ad-playback state.
-    skipLinearAdMode: function skipLinearAdMode() {
-      if (player.ads.state !== 'ad-playback') {
-        player.trigger('adskip');
-      }
-    },
-    stitchedAds: function stitchedAds(arg) {
-      if (arg !== undefined) {
-        this._stitchedAds = !!arg;
-      }
-      return this._stitchedAds;
-    },
-
-
-    // Returns whether the video element has been modified since the
-    // snapshot was taken.
-    // We test both src and currentSrc because changing the src attribute to a URL that
-    // AdBlocker is intercepting doesn't update currentSrc.
-    videoElementRecycled: function videoElementRecycled() {
-      if (player.ads.shouldPlayContentBehindAd(player)) {
-        return false;
-      }
-
-      if (!this.snapshot) {
-        throw new Error('You cannot use videoElementRecycled while there is no snapshot.');
-      }
-
-      var srcChanged = player.tech_.src() !== this.snapshot.src;
-      var currentSrcChanged = player.currentSrc() !== this.snapshot.currentSrc;
-
-      return srcChanged || currentSrcChanged;
-    },
-
-
-    // Returns a boolean indicating if given player is in live mode.
-    // Can be replaced when this is fixed: https://github.com/videojs/video.js/issues/3262
-    isLive: function isLive(somePlayer) {
-      if (somePlayer.duration() === Infinity) {
-        return true;
-      } else if (_video2['default'].browser.IOS_VERSION === '8' && somePlayer.duration() === 0) {
-        return true;
-      }
-      return false;
-    },
-
-
-    // Return true if content playback should mute and continue during ad breaks.
-    // This is only done during live streams on platforms where it's supported.
-    // This improves speed and accuracy when returning from an ad break.
-    shouldPlayContentBehindAd: function shouldPlayContentBehindAd(somePlayer) {
-      return !_video2['default'].browser.IS_IOS && !_video2['default'].browser.IS_ANDROID && somePlayer.duration() === Infinity;
+    // Detect inline options
+    if(this.contentPlayer.hasAttribute('autoplay')){
+      this.settings['adWillAutoPlay'] = this.settings['adWillAutoPlay'] || true;
     }
+
+    // Default showing countdown timer to true.
+    this.showCountdown = true;
+    if (this.settings['showCountdown'] == false) {
+      this.showCountdown = false;
+    }
+
+    this.autoPlayAdBreaks = true;
+    if (this.settings['autoPlayAdBreaks'] == false) {
+      this.autoPlayAdBreaks = false;
+    }
+
+    player.one('play', setUpPlayerIntervals_);
+
+    player.on('ended', this.localContentEndedListener);
+    player.on('dispose', this.playerDisposedListener);
+
+    var contrib_ads_defaults = {
+      debug: this.settings.debug,
+      timeout: this.settings.timeout,
+      prerollTimeout: this.settings.prerollTimeout
+    };
+
+    var ads_plugin_settings =
+        extend({}, contrib_ads_defaults, options['contribAdsSettings'] || {});
+
+    player.ads(ads_plugin_settings);
+
+    this.adsRenderingSettings = new google.ima.AdsRenderingSettings();
+    this.adsRenderingSettings.restoreCustomPlaybackStateOnAdBreakComplete = true;
+    if (this.settings['adsRenderingSettings']) {
+      for (var setting in this.settings['adsRenderingSettings']) {
+        this.adsRenderingSettings[setting] =
+            this.settings['adsRenderingSettings'][setting];
+      }
+    }
+
+    if (this.settings['locale']) {
+      google.ima.settings.setLocale(this.settings['locale']);
+    }
+
+    createAdContainer_();
+    this.adsLoader = new google.ima.AdsLoader(this.adDisplayContainer);
+
+    this.adsLoader.getSettings().setVpaidMode(
+        google.ima.ImaSdkSettings.VpaidMode.ENABLED);
+    if (this.settings.vpaidAllowed == false) {
+      this.adsLoader.getSettings().setVpaidMode(
+          google.ima.ImaSdkSettings.VpaidMode.DISABLED);
+    }
+    if (this.settings.vpaidMode) {
+      this.adsLoader.getSettings().setVpaidMode(this.settings.vpaidMode);
+    }
+
+    if (this.settings.locale) {
+      this.adsLoader.getSettings().setLocale(this.settings.locale);
+    }
+
+    if (this.settings.numRedirects) {
+      this.adsLoader.getSettings().setNumRedirects(this.settings.numRedirects);
+    }
+
+    this.adsLoader.getSettings().setPlayerType('videojs-ima');
+    this.adsLoader.getSettings().setPlayerVersion(this.VERSION);
+    this.adsLoader.getSettings().setAutoPlayAdBreaks(this.autoPlayAdBreaks);
+
+    this.adsLoader.addEventListener(
+      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+      onAdsManagerLoaded_,
+      false);
+    this.adsLoader.addEventListener(
+      google.ima.AdErrorEvent.Type.AD_ERROR,
+      onAdsLoaderError_,
+      false);
+
+    if (!readyCallback) {
+      readyCallback = this.startFromReadyCallback;
+    }
+    player.on('readyforpreroll', readyCallback);
+    player.ready(function() {
+      onVolumeChange_();
+      player.on('fullscreenchange', onFullscreenChange_);
+      player.on('volumechange', onVolumeChange_);
+    });
   };
 
-  player.ads.stitchedAds(settings.stitchedAds);
-
-  player.ads.cueTextTracks = cueTextTracks;
-  player.ads.adMacroReplacement = _macros2['default'].bind(player);
-
-  // Start sending contentupdate events for this player
-  (0, _contentupdate2['default'])(player);
-
-  // Global contentupdate handler for resetting plugin state
-  player.on('contentupdate', player.ads.reset);
-
-  // Ad Playback State Machine
-  var states = {
-    'content-set': {
-      events: {
-        adscanceled: function adscanceled() {
-          this.state = 'content-playback';
-        },
-        adsready: function adsready() {
-          this.state = 'ads-ready';
-        },
-        play: function play() {
-          this.state = 'ads-ready?';
-          (0, _cancelContentPlay2['default'])(player);
-          // remove the poster so it doesn't flash between videos
-          removeNativePoster(player);
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'ads-ready': {
-      events: {
-        play: function play() {
-          this.state = 'preroll?';
-          (0, _cancelContentPlay2['default'])(player);
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'preroll?': {
-      enter: function enter() {
-        if (player.ads.nopreroll_) {
-          // This will start the ads manager in case there are later ads
-          player.trigger('readyforpreroll');
-
-          // If we don't wait a tick, entering content-playback will cancel
-          // cancelPlayTimeout, causing the video to not pause for the ad
-          _window2['default'].setTimeout(function () {
-            // Don't wait for a preroll
-            player.trigger('nopreroll');
-          }, 1);
-        } else {
-          // change class to show that we're waiting on ads
-          player.addClass('vjs-ad-loading');
-          // schedule an adtimeout event to fire if we waited too long
-          player.ads.adTimeoutTimeout = _window2['default'].setTimeout(function () {
-            player.trigger('adtimeout');
-          }, settings.prerollTimeout);
-          // signal to ad plugin that it's their opportunity to play a preroll
-          player.trigger('readyforpreroll');
-        }
-      },
-      leave: function leave() {
-        _window2['default'].clearTimeout(player.ads.adTimeoutTimeout);
-      },
-
-      events: {
-        play: function play() {
-          (0, _cancelContentPlay2['default'])(player);
-        },
-        adstart: function adstart() {
-          this.state = 'ad-playback';
-          player.ads.adType = 'preroll';
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        },
-        adtimeout: function adtimeout() {
-          this.state = 'content-playback';
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        },
-        nopreroll: function nopreroll() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'ads-ready?': {
-      enter: function enter() {
-        player.addClass('vjs-ad-loading');
-        player.ads.adTimeoutTimeout = _window2['default'].setTimeout(function () {
-          player.trigger('adtimeout');
-        }, settings.timeout);
-      },
-      leave: function leave() {
-        _window2['default'].clearTimeout(player.ads.adTimeoutTimeout);
-        player.removeClass('vjs-ad-loading');
-      },
-
-      events: {
-        play: function play() {
-          (0, _cancelContentPlay2['default'])(player);
-        },
-        adscanceled: function adscanceled() {
-          this.state = 'content-playback';
-        },
-        adsready: function adsready() {
-          this.state = 'preroll?';
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        },
-        adtimeout: function adtimeout() {
-          this.state = 'content-playback';
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'ad-playback': {
-      enter: function enter() {
-        // capture current player state snapshot (playing, currentTime, src)
-        if (!player.ads.shouldPlayContentBehindAd(player)) {
-          this.snapshot = snapshot.getPlayerSnapshot(player);
-        }
-
-        // Mute the player behind the ad
-        if (player.ads.shouldPlayContentBehindAd(player)) {
-          this.preAdVolume_ = player.volume();
-          player.volume(0);
-        }
-
-        // add css to the element to indicate and ad is playing.
-        player.addClass('vjs-ad-playing');
-
-        // We should remove the vjs-live class if it has been added in order to
-        // show the adprogress control bar on Android devices for falsely
-        // determined LIVE videos due to the duration incorrectly reported as Infinity
-        if (player.hasClass('vjs-live')) {
-          player.removeClass('vjs-live');
-        }
-
-        // remove the poster so it doesn't flash between ads
-        removeNativePoster(player);
-
-        // We no longer need to supress play events once an ad is playing.
-        // Clear it if we were.
-        if (player.ads.cancelPlayTimeout) {
-          // If we don't wait a tick, we could cancel the pause for cancelContentPlay,
-          // resulting in content playback behind the ad
-          _window2['default'].setTimeout(function () {
-            _window2['default'].clearTimeout(player.ads.cancelPlayTimeout);
-            player.ads.cancelPlayTimeout = null;
-          }, 1);
-        }
-      },
-      leave: function leave() {
-        player.removeClass('vjs-ad-playing');
-
-        // We should add the vjs-live class back if the video is a LIVE video
-        // If we dont do this, then for a LIVE Video, we will get an incorrect
-        // styled control, which displays the time for the video
-        if (player.ads.isLive(player)) {
-          player.addClass('vjs-live');
-        }
-        if (!player.ads.shouldPlayContentBehindAd(player)) {
-          snapshot.restorePlayerSnapshot(player, this.snapshot);
-        }
-
-        // Reset the volume to pre-ad levels
-        if (player.ads.shouldPlayContentBehindAd(player)) {
-          player.volume(this.preAdVolume_);
-        }
-      },
-
-      events: {
-        adend: function adend() {
-          this.state = 'content-resuming';
-          player.ads.adType = null;
-        },
-        adserror: function adserror() {
-          this.state = 'content-resuming';
-          // Trigger 'adend' to notify that we are exiting 'ad-playback'
-          player.trigger('adend');
-        }
-      }
-    },
-    'content-resuming': {
-      enter: function enter() {
-        if (this._contentHasEnded) {
-          _window2['default'].clearTimeout(player.ads._fireEndedTimeout);
-          // in some cases, ads are played in a swf or another video element
-          // so we do not get an ended event in this state automatically.
-          // If we don't get an ended event we can use, we need to trigger
-          // one ourselves or else we won't actually ever end the current video.
-          player.ads._fireEndedTimeout = _window2['default'].setTimeout(function () {
-            player.trigger('ended');
-          }, 1000);
-        }
-      },
-      leave: function leave() {
-        _window2['default'].clearTimeout(player.ads._fireEndedTimeout);
-      },
-
-      events: {
-        contentupdate: function contentupdate() {
-          this.state = 'content-set';
-        },
-
-
-        // This is for stitched ads only.
-        contentresumed: function contentresumed() {
-          this.state = 'content-playback';
-        },
-        playing: function playing() {
-          this.state = 'content-playback';
-        },
-        ended: function ended() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'postroll?': {
-      enter: function enter() {
-        this.snapshot = snapshot.getPlayerSnapshot(player);
-        if (player.ads.nopostroll_) {
-          _window2['default'].setTimeout(function () {
-            // content-resuming happens after the timeout for backward-compatibility
-            // with plugins that relied on a postrollTimeout before nopostroll was
-            // implemented
-            player.ads.state = 'content-resuming';
-            player.trigger('ended');
-          }, 1);
-        } else {
-          player.addClass('vjs-ad-loading');
-
-          player.ads.adTimeoutTimeout = _window2['default'].setTimeout(function () {
-            player.trigger('adtimeout');
-          }, settings.postrollTimeout);
-        }
-      },
-      leave: function leave() {
-        _window2['default'].clearTimeout(player.ads.adTimeoutTimeout);
-        player.removeClass('vjs-ad-loading');
-      },
-
-      events: {
-        adstart: function adstart() {
-          this.state = 'ad-playback';
-          player.ads.adType = 'postroll';
-        },
-        adskip: function adskip() {
-          this.state = 'content-resuming';
-          _window2['default'].setTimeout(function () {
-            player.trigger('ended');
-          }, 1);
-        },
-        adtimeout: function adtimeout() {
-          this.state = 'content-resuming';
-          _window2['default'].setTimeout(function () {
-            player.trigger('ended');
-          }, 1);
-        },
-        adserror: function adserror() {
-          this.state = 'content-resuming';
-          _window2['default'].setTimeout(function () {
-            player.trigger('ended');
-          }, 1);
-        },
-        contentupdate: function contentupdate() {
-          this.state = 'ads-ready?';
-        }
-      }
-    },
-    'content-playback': {
-      enter: function enter() {
-        // make sure that any cancelPlayTimeout is cleared
-        if (player.ads.cancelPlayTimeout) {
-          _window2['default'].clearTimeout(player.ads.cancelPlayTimeout);
-          player.ads.cancelPlayTimeout = null;
-        }
-
-        // This was removed because now that "playing" is fixed to only play after
-        // preroll, any integration should just use the "playing" event. However,
-        // we found out some 3rd party code relied on this event, so we've temporarily
-        // added it back in to give people more time to update their code.
-        player.trigger({
-          type: 'contentplayback',
-          triggerevent: player.ads.triggerevent
-        });
-
-        // Play the content
-        if (player.ads.cancelledPlay) {
-          player.ads.cancelledPlay = false;
-          if (player.paused()) {
-            player.play();
-          }
-        }
-      },
-
-      events: {
-        // In the case of a timeout, adsready might come in late.
-        // This assumes the behavior that if an ad times out, it could still
-        // interrupt the content and start playing. An integration could
-        // still decide to behave otherwise.
-        adsready: function adsready() {
-          player.trigger('readyforpreroll');
-        },
-        adstart: function adstart() {
-          this.state = 'ad-playback';
-          // This is a special case in which preroll is specifically set
-          if (player.ads.adType !== 'preroll') {
-            player.ads.adType = 'midroll';
-          }
-        },
-        contentupdate: function contentupdate() {
-          // We know sources have changed, so we call CancelContentPlay
-          // to avoid playback of video in the background of an ad. Playback Occurs on
-          // Android devices if we do not call cancelContentPlay. This is because
-          // the sources do not get updated in time on Android due to timing issues.
-          // So instead of checking if the sources have changed in the play handler
-          // and calling cancelContentPlay() there we call it here.
-          // This does not happen on Desktop as the sources do get updated in time.
-          if (!player.ads.shouldPlayContentBehindAd(player)) {
-            (0, _cancelContentPlay2['default'])(player);
-          }
-          if (player.paused()) {
-            this.state = 'content-set';
-          } else {
-            this.state = 'ads-ready?';
-          }
-        },
-        contentended: function contentended() {
-
-          // If _contentHasEnded is true it means we already checked for postrolls and
-          // played postrolls if needed, so now we're ready to send an ended event
-          if (this._contentHasEnded) {
-            // Causes ended event to trigger in content-resuming.enter.
-            // From there, the ended event event is not redispatched.
-            // Then we end up back in content-playback state.
-            this.state = 'content-resuming';
-            return;
-          }
-
-          this._contentHasEnded = true;
-          this.state = 'postroll?';
-        }
-      }
-    }
-  };
-
-  var processEvent = function processEvent(event) {
-
-    var state = player.ads.state;
-
-    // Execute the current state's handler for this event
-    var eventHandlers = states[state].events;
-
-    if (eventHandlers) {
-      var handler = eventHandlers[event.type];
-
-      if (handler) {
-        handler.apply(player.ads);
-      }
-    }
-
-    // If the state has changed...
-    if (state !== player.ads.state) {
-      var previousState = state;
-      var newState = player.ads.state;
-
-      // Record the event that caused the state transition
-      player.ads.triggerevent = event.type;
-
-      // Execute "leave" method for the previous state
-      if (states[previousState].leave) {
-        states[previousState].leave.apply(player.ads);
-      }
-
-      // Execute "enter" method for the new state
-      if (states[newState].enter) {
-        states[newState].enter.apply(player.ads);
-      }
-
-      // Debug log message for state changes
-      if (settings.debug) {
-        _video2['default'].log('ads', player.ads.triggerevent + ' triggered: ' + previousState + ' -> ' + newState);
-      }
-    }
-  };
-
-  // Register our handler for the events that the state machine will process
-  player.on(VIDEO_EVENTS.concat([
-  // Events emitted by this plugin
-  'adtimeout', 'contentupdate', 'contentplaying', 'contentended', 'contentresumed',
-  // Triggered by startLinearAdMode()
-  'adstart',
-  // Triggered by endLinearAdMode()
-  'adend',
-  // Triggered by skipLinearAdMode()
-  'adskip',
-
-  // Events emitted by integrations
-  'adsready', 'adserror', 'adscanceled', 'nopreroll']), processEvent);
-
-  // Clear timeouts when player is disposed
-  player.on('dispose', function () {
-    if (player.ads.adTimeoutTimeout) {
-      _window2['default'].clearTimeout(player.ads.adTimeoutTimeout);
-    }
-
-    if (player.ads._fireEndedTimeout) {
-      _window2['default'].clearTimeout(player.ads._fireEndedTimeout);
-    }
-
-    if (player.ads.cancelPlayTimeout) {
-      _window2['default'].clearTimeout(player.ads.cancelPlayTimeout);
-    }
-
-    if (player.ads.tryToResumeTimeout_) {
-      player.clearTimeout(player.ads.tryToResumeTimeout_);
-    }
-  });
-
-  // If we're autoplaying, the state machine will immidiately process
-  // a synthetic play event
-  if (!player.paused()) {
-    processEvent({ type: 'play' });
-  }
-};
-
-var registerPlugin = _video2['default'].registerPlugin || _video2['default'].plugin;
-
-// Register this plugin with videojs
-registerPlugin('ads', contribAdsPlugin);
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./cancelContentPlay.js":1,"./contentupdate.js":2,"./cueTextTracks.js":3,"./macros.js":4,"./redispatch.js":5,"./snapshot.js":6,"global/window":9}]},{},[10])(10)
+  videojs.plugin('ima', init);
 });
-!function(t){if("function"==typeof define&&define.amd)define(["video.js","videojs-contrib-ads"],function(e){t(window,document,e)});else if("object"==typeof exports&&"object"==typeof module){var e=require("video.js");require("videojs-contrib-ads"),t(window,document,e)}else t(window,document,videojs)}(function(t,e,i){"use strict";var s=function(t){var e,i,s;for(i=1;i<arguments.length;i++){e=arguments[i];for(s in e)e.hasOwnProperty(s)&&(t[s]=e[s])}return t},n={debug:!1,timeout:5e3,prerollTimeout:100,adLabel:"Advertisement",showControlsForJSAds:!0},a=function(t,e){this.ima=new d(this,t,e)},d=function(i,a,d){this.player=i;var r=function(t,e){t.id=this.controlPrefix+e,t.className=this.controlPrefix+e+" "+e}.bind(this),h=function(t){return new RegExp("(^|[^A-Za-z-])"+t+"((?![A-Za-z-])|$)","gi")},o=function(t,e){return h(e).test(t.className)?t:t.className=t.className.trim()+" "+e},l=function(t,e){var i=h(e);return i.test(t.className)?t.className=t.className.trim().replace(i,""):t},c=function(){this.vjsControls=this.player.getChild("controlBar"),this.adContainerDiv=this.vjsControls.el().parentNode.appendChild(e.createElement("div")),r(this.adContainerDiv,"ima-ad-container"),this.adContainerDiv.style.position="absolute",this.adContainerDiv.style.zIndex=1111,this.adContainerDiv.addEventListener("mouseenter",L,!1),this.adContainerDiv.addEventListener("mouseleave",C,!1),u(),this.adDisplayContainer=new google.ima.AdDisplayContainer(this.adContainerDiv,this.contentPlayer)}.bind(this),u=function(){this.controlsDiv=e.createElement("div"),r(this.controlsDiv,"ima-controls-div"),this.controlsDiv.style.width="100%",this.countdownDiv=e.createElement("div"),r(this.countdownDiv,"ima-countdown-div"),this.countdownDiv.innerHTML=this.settings.adLabel,this.countdownDiv.style.display=this.showCountdown?"block":"none",this.seekBarDiv=e.createElement("div"),r(this.seekBarDiv,"ima-seek-bar-div"),this.seekBarDiv.style.width="100%",this.progressDiv=e.createElement("div"),r(this.progressDiv,"ima-progress-div"),this.playPauseDiv=e.createElement("div"),r(this.playPauseDiv,"ima-play-pause-div"),o(this.playPauseDiv,"ima-playing"),this.playPauseDiv.addEventListener("click",T,!1),this.muteDiv=e.createElement("div"),r(this.muteDiv,"ima-mute-div"),o(this.muteDiv,"ima-non-muted"),this.muteDiv.addEventListener("click",P,!1),this.sliderDiv=e.createElement("div"),r(this.sliderDiv,"ima-slider-div"),this.sliderDiv.addEventListener("mousedown",k,!1),this.sliderLevelDiv=e.createElement("div"),r(this.sliderLevelDiv,"ima-slider-level-div"),this.fullscreenDiv=e.createElement("div"),r(this.fullscreenDiv,"ima-fullscreen-div"),o(this.fullscreenDiv,"ima-non-fullscreen"),this.fullscreenDiv.addEventListener("click",S,!1),this.adContainerDiv.appendChild(this.controlsDiv),this.controlsDiv.appendChild(this.countdownDiv),this.controlsDiv.appendChild(this.seekBarDiv),this.controlsDiv.appendChild(this.playPauseDiv),this.controlsDiv.appendChild(this.muteDiv),this.controlsDiv.appendChild(this.sliderDiv),this.controlsDiv.appendChild(this.fullscreenDiv),this.seekBarDiv.appendChild(this.progressDiv),this.sliderDiv.appendChild(this.sliderLevelDiv)}.bind(this);this.initializeAdDisplayContainer=function(){this.adDisplayContainerInitialized=!0,this.adDisplayContainer.initialize()}.bind(this),this.requestAds=function(){this.adDisplayContainerInitialized||this.adDisplayContainer.initialize();var t=new google.ima.AdsRequest;this.settings.adTagUrl?t.adTagUrl=this.settings.adTagUrl:t.adsResponse=this.settings.adsResponse,this.settings.forceNonLinearFullSlot&&(t.forceNonLinearFullSlot=!0),t.linearAdSlotWidth=this.getPlayerWidth(),t.linearAdSlotHeight=this.getPlayerHeight(),t.nonLinearAdSlotWidth=this.settings.nonLinearWidth||this.getPlayerWidth(),t.nonLinearAdSlotHeight=this.settings.nonLinearHeight||this.getPlayerHeight()/3,t.setAdWillAutoPlay(this.settings.adWillAutoPlay),this.adsLoader.requestAds(t)}.bind(this);var g=function(t){if(this.adsManager=t.getAdsManager(this.contentPlayheadTracker,this.adsRenderingSettings),this.adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR,m),this.adsManager.addEventListener(google.ima.AdEvent.Type.AD_BREAK_READY,y),this.adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,this.onContentPauseRequested_),this.adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,this.onContentResumeRequested_),this.adsManager.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED,p),this.adsManager.addEventListener(google.ima.AdEvent.Type.LOADED,D),this.adsManager.addEventListener(google.ima.AdEvent.Type.STARTED,A),this.adsManager.addEventListener(google.ima.AdEvent.Type.CLICK,T),this.adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE,this.onAdComplete_),this.adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED,this.onAdComplete_),!this.autoPlayAdBreaks)try{var e=this.getPlayerWidth(),i=this.getPlayerHeight();this.adsManagerDimensions.width=e,this.adsManagerDimensions.height=i,this.adsManager.init(e,i,google.ima.ViewMode.NORMAL),this.adsManager.setVolume(this.player.muted()?0:this.player.volume())}catch(t){m(t)}this.player.trigger("adsready")}.bind(this);this.start=function(){t.console.log("WARNING: player.ima.start is deprecated. Use player.ima.startFromReadyCallback instead.")},this.startFromReadyCallback=function(){if(this.autoPlayAdBreaks)try{this.adsManager.init(this.getPlayerWidth(),this.getPlayerHeight(),google.ima.ViewMode.NORMAL),this.adsManager.setVolume(this.player.muted()?0:this.player.volume()),this.adsManager.start()}catch(t){m(t)}}.bind(this);var v=function(e){t.console.log("AdsLoader error: "+e.getError()),this.adContainerDiv.style.display="none",this.adsManager&&this.adsManager.destroy(),this.player.trigger({type:"adserror",data:{AdError:e.getError(),AdErrorEvent:e}})}.bind(this),m=function(e){var i=void 0!==e.getError?e.getError():e.stack;t.console.log("Ad error: "+i),this.vjsControls.show(),this.adsManager.destroy(),this.adContainerDiv.style.display="none",this.player.trigger({type:"adserror",data:{AdError:i,AdErrorEvent:e}})}.bind(this),y=function(t){this.adBreakReadyListener(t)}.bind(this);this.playAdBreak=function(){this.autoPlayAdBreaks||this.adsManager.start()}.bind(this),this.onContentPauseRequested_=function(t){this.adsActive=!0,this.adPlaying=!0,this.contentSource=this.player.currentSrc(),this.player.off("ended",this.localContentEndedListener),t.getAd().getAdPodInfo().getPodIndex()!=-1&&this.player.ads.startLinearAdMode(),this.adContainerDiv.style.display="block";var e=t.getAd().getContentType();"application/javascript"!==e||this.settings.showControlsForJSAds?this.controlsDiv.style.display="block":this.controlsDiv.style.display="none",this.vjsControls.hide(),M(),this.player.pause()}.bind(this),this.onContentResumeRequested_=function(t){this.adsActive=!1,this.adPlaying=!1,this.player.on("ended",this.localContentEndedListener),(null==this.currentAd||this.currentAd.isLinear())&&(this.adContainerDiv.style.display="none"),this.vjsControls.show(),this.currentAd?this.contentComplete||this.currentAd.getAdPodInfo().getPodIndex()==-1||this.player.ads.endLinearAdMode():this.player.ads.endLinearAdMode(),this.controlsDiv.style.display="none",this.countdownDiv.innerHTML=""}.bind(this);var p=function(t){if(this.allAdsCompleted=!0,this.adContainerDiv.style.display="none",1==this.contentComplete){this.contentPlayer.src!=this.contentSource&&this.player.src(this.contentSource);for(var e in this.contentAndAdsEndedListeners)this.contentAndAdsEndedListeners[e]()}}.bind(this),D=function(t){t.getAd().isLinear()||this.player.play()}.bind(this),A=function(t){this.currentAd=t.getAd(),this.currentAd.isLinear()?(this.adTrackingTimer=setInterval(f,250),l(this.adContainerDiv,"bumpable-ima-ad-container")):o(this.adContainerDiv,"bumpable-ima-ad-container"),this.adContainerDiv.style.display="block"}.bind(this);this.onAdComplete_=function(t){this.currentAd.isLinear()&&clearInterval(this.adTrackingTimer)}.bind(this);var f=function(){var t=this.adsManager.getRemainingTime(),e=this.currentAd.getDuration(),i=e-t;i=i>0?i:0;var s,n=!1,a=0;this.currentAd.getAdPodInfo()&&(n=!0,s=this.currentAd.getAdPodInfo().getAdPosition(),a=this.currentAd.getAdPodInfo().getTotalAds());var d=Math.floor(t/60),r=Math.floor(t%60);r.toString().length<2&&(r="0"+r);var h=": ";n&&a>1&&(h=" ("+s+" of "+a+"): "),this.countdownDiv.innerHTML=this.settings.adLabel+h+d+":"+r;var o=i/e,l=100*o;this.progressDiv.style.width=l+"%"}.bind(this);this.getPlayerWidth=function(){var t=getComputedStyle(this.player.el())||{};return parseInt(t.width,10)||this.player.width()}.bind(this),this.getPlayerHeight=function(){var t=getComputedStyle(this.player.el())||{};return parseInt(t.height,10)||this.player.height()}.bind(this);var C=function(){this.controlsDiv.style.height="14px",this.playPauseDiv.style.display="none",this.muteDiv.style.display="none",this.sliderDiv.style.display="none",this.fullscreenDiv.style.display="none"}.bind(this),L=function(){this.controlsDiv.style.height="37px",this.playPauseDiv.style.display="block",this.muteDiv.style.display="block",this.sliderDiv.style.display="block",this.fullscreenDiv.style.display="block"}.bind(this),E=function(){o(this.playPauseDiv,"ima-paused"),l(this.playPauseDiv,"ima-playing")}.bind(this),M=function(){o(this.playPauseDiv,"ima-playing"),l(this.playPauseDiv,"ima-paused")}.bind(this),T=function(){this.adPlaying?(E(),this.adsManager.pause(),this.adPlaying=!1):(M(),this.adsManager.resume(),this.adPlaying=!0)}.bind(this),P=function(){this.adMuted?(o(this.muteDiv,"ima-non-muted"),l(this.muteDiv,"ima-muted"),this.adsManager.setVolume(1),this.player.muted(!1),this.adMuted=!1,this.sliderLevelDiv.style.width=100*this.player.volume()+"%"):(o(this.muteDiv,"ima-muted"),l(this.muteDiv,"ima-non-muted"),this.adsManager.setVolume(0),this.player.muted(!0),this.adMuted=!0,this.sliderLevelDiv.style.width="0%")}.bind(this),k=function(){e.addEventListener("mouseup",w,!1),e.addEventListener("mousemove",b,!1)},b=function(t){R(t)},w=function(t){R(t),e.removeEventListener("mousemove",b),e.removeEventListener("mouseup",w)},R=function(t){var e=(t.clientX-this.sliderDiv.getBoundingClientRect().left)/this.sliderDiv.offsetWidth;e*=100,e=Math.min(Math.max(e,0),100),this.sliderLevelDiv.style.width=e+"%",this.player.volume(e/100),this.adsManager.setVolume(e/100),0==this.player.volume()?(o(this.muteDiv,"ima-muted"),l(this.muteDiv,"ima-non-muted"),this.player.muted(!0),this.adMuted=!0):(o(this.muteDiv,"ima-non-muted"),l(this.muteDiv,"ima-muted"),this.player.muted(!1),this.adMuted=!1)}.bind(this),S=function(){this.player.isFullscreen()?this.player.exitFullscreen():this.player.requestFullscreen()}.bind(this),I=function(){this.player.isFullscreen()?(o(this.fullscreenDiv,"ima-fullscreen"),l(this.fullscreenDiv,"ima-non-fullscreen"),this.adsManager&&this.adsManager.resize(t.screen.width,t.screen.height,google.ima.ViewMode.FULLSCREEN)):(o(this.fullscreenDiv,"ima-non-fullscreen"),l(this.fullscreenDiv,"ima-fullscreen"),this.adsManager&&this.adsManager.resize(this.getPlayerWidth(),this.getPlayerHeight(),google.ima.ViewMode.NORMAL))}.bind(this),N=function(){var t=this.player.muted()?0:this.player.volume();this.adsManager&&this.adsManager.setVolume(t),0==t?(this.adMuted=!0,o(this.muteDiv,"ima-muted"),l(this.muteDiv,"ima-non-muted"),this.sliderLevelDiv.style.width="0%"):(this.adMuted=!1,o(this.muteDiv,"ima-non-muted"),l(this.muteDiv,"ima-muted"),this.sliderLevelDiv.style.width=100*t+"%")}.bind(this),B=function(){this.player.off("loadedmetadata",B),this.player.currentTime(0)}.bind(this),H=function(){this.player.off("loadedmetadata",H),this.player.currentTime(0),this.player.play()}.bind(this),_=function(){this.adsActive=!1,this.adPlaying=!1,this.player.on("ended",this.localContentEndedListener),this.vjsControls.show(),this.player.ads.endLinearAdMode(),this.adTrackingTimer&&clearInterval(this.adTrackingTimer),this.contentPlayheadTracker.currentTime=0,this.adsManager&&(this.adsManager.destroy(),this.adsManager=null),this.adsLoader&&!this.contentComplete&&this.adsLoader.contentComplete(),this.contentComplete=!1,this.allAdsCompleted=!1}.bind(this);this.addEventListener=function(t,e){this.adsManager&&this.adsManager.addEventListener(t,e)}.bind(this),this.getAdsManager=function(){return this.adsManager}.bind(this),this.setContent=function(e,i,s){t.console.log("WARNING: player.ima.setContent is deprecated. Use player.ima.setContentWithAdTag instead."),this.setContentWithAdTag(e,i,s)}.bind(this),this.setContentWithAdTag=function(t,e,i){_(),this.settings.adTagUrl=e?e:this.settings.adTagUrl,W(t,i)}.bind(this),this.setContentWithAdsResponse=function(t,e,i){_(),this.settings.adsResponse=e?e:this.settings.adsResponse,W(t,i)}.bind(this),this.changeAdTag=function(t){_(),this.settings.adTagUrl=t}.bind(this);var W=function(t,e){this.player.currentSrc()&&(this.player.currentTime(0),this.player.pause()),t&&this.player.src(t),e?this.player.on("loadedmetadata",H):this.player.on("loadedmetadata",B)}.bind(this);this.addContentEndedListener=function(t){this.contentEndedListeners.push(t)}.bind(this),this.addContentAndAdsEndedListener=function(t){this.contentAndAdsEndedListeners.push(t)}.bind(this),this.setAdBreakReadyListener=function(t){this.adBreakReadyListener=t}.bind(this),this.pauseAd=function(){this.adsActive&&this.adPlaying&&(E(),this.adsManager.pause(),this.adPlaying=!1)}.bind(this),this.resumeAd=function(){this.adsActive&&!this.adPlaying&&(M(),this.adsManager.resume(),this.adPlaying=!0)}.bind(this);var V=function(){this.updateTimeIntervalHandle=setInterval(z,this.seekCheckInterval),this.seekCheckIntervalHandle=setInterval(j,this.seekCheckInterval),this.resizeCheckIntervalHandle=setInterval(O,this.resizeCheckInterval)}.bind(this),z=function(){this.contentPlayheadTracker.seeking||(this.contentPlayheadTracker.currentTime=this.player.currentTime())}.bind(this),j=function(){var t=this.player.currentTime(),e=1e3*(t-this.contentPlayheadTracker.previousTime);Math.abs(e)>this.seekCheckInterval+this.seekThreshold?this.contentPlayheadTracker.seeking=!0:this.contentPlayheadTracker.seeking=!1,this.contentPlayheadTracker.previousTime=this.player.currentTime()}.bind(this),O=function(){var t=this.getPlayerWidth(),e=this.getPlayerHeight();!this.adsManager||t==this.adsManagerDimensions.width&&e==this.adsManagerDimensions.height||(this.adsManagerDimensions.width=t,this.adsManagerDimensions.height=e,this.adsManager.resize(t,e,google.ima.ViewMode.NORMAL))}.bind(this);if(this.setShowCountdown=function(t){this.showCountdown=t,this.countdownDiv.style.display=this.showCountdown?"block":"none"}.bind(this),this.VERSION="0.2.0",this.settings,this.controlPrefix,this.contentPlayer,this.showCountdown,this.autoPlayAdBreaks,this.vjsControls,this.adContainerDiv,this.controlsDiv,this.countdownDiv,this.seekBarDiv,this.progressDiv,this.playPauseDiv,this.muteDiv,this.sliderDiv,this.sliderLevelDiv,this.fullscreenDiv,this.adDisplayContainer,this.adDisplayContainerInitialized=!1,this.adsLoader,this.adsManager,this.adsRenderingSettings=null,this.adTagUrl,this.adsResponse,this.currentAd,this.contentTrackingTimer,this.adTrackingTimer,this.adsActive=!1,this.adPlaying=!1,this.adMuted=!1,this.contentComplete=!1,this.allAdsCompleted=!1,this.updateTimeIntervalHandle,this.seekCheckIntervalHandle,this.seekCheckInterval=1e3,this.resizeCheckIntervalHandle,this.resizeCheckInterval=250,this.seekThreshold=100,this.contentPlayheadTracker={currentTime:0,previousTime:0,seeking:!1,duration:0},this.adPlayheadTracker={currentTime:0,duration:0,isPod:!1,adPosition:0,totalAds:0},this.adsManagerDimensions={width:0,height:0},this.contentEndedListeners=[],this.contentAndAdsEndedListeners=[],this.adBreakReadyListener=void 0,this.contentSource="",this.localContentEndedListener=function(){this.adsLoader&&!this.contentComplete&&(this.adsLoader.contentComplete(),this.contentComplete=!0);for(var t in this.contentEndedListeners)this.contentEndedListeners[t]();if(this.allAdsCompleted)for(var t in this.contentAndAdsEndedListeners)this.contentAndAdsEndedListeners[t]();clearInterval(this.updateTimeIntervalHandle),clearInterval(this.seekCheckIntervalHandle),clearInterval(this.resizeCheckIntervalHandle),this.player.el()&&this.player.one("play",V)}.bind(this),this.playerDisposedListener=function(){this.contentEndedListeners,this.contentAndAdsEndedListeners=[],[],this.contentComplete=!0,this.player.off("ended",this.localContentEndedListener),this.player.ads.adTimeoutTimeout&&clearTimeout(this.player.ads.adTimeoutTimeout);var t=[this.updateTimeIntervalHandle,this.seekCheckIntervalHandle,this.adTrackingTimer,this.resizeCheckIntervalHandle];for(var e in t){var i=t[e];i&&clearInterval(i)}this.adsManager&&(this.adsManager.destroy(),this.adsManager=null)}.bind(this),this.settings=s({},n,a||{}),!this.settings.id)return void t.console.log("Error: must provide id of video.js div");this.controlPrefix=this.settings.id+"_"||"",this.contentPlayer=e.getElementById(this.settings.id+"_html5_api"),this.contentPlayer.hasAttribute("autoplay")&&(this.settings.adWillAutoPlay=this.settings.adWillAutoPlay||!0),this.showCountdown=!0,0==this.settings.showCountdown&&(this.showCountdown=!1),this.autoPlayAdBreaks=!0,0==this.settings.autoPlayAdBreaks&&(this.autoPlayAdBreaks=!1),i.one("play",V),i.on("ended",this.localContentEndedListener),i.on("dispose",this.playerDisposedListener);var U={debug:this.settings.debug,timeout:this.settings.timeout,prerollTimeout:this.settings.prerollTimeout},x=s({},U,a.contribAdsSettings||{});if(i.ads(x),this.adsRenderingSettings=new google.ima.AdsRenderingSettings,this.adsRenderingSettings.restoreCustomPlaybackStateOnAdBreakComplete=!0,this.settings.adsRenderingSettings)for(var F in this.settings.adsRenderingSettings)this.adsRenderingSettings[F]=this.settings.adsRenderingSettings[F];this.settings.locale&&google.ima.settings.setLocale(this.settings.locale),c(),this.adsLoader=new google.ima.AdsLoader(this.adDisplayContainer),this.adsLoader.getSettings().setVpaidMode(google.ima.ImaSdkSettings.VpaidMode.ENABLED),0==this.settings.vpaidAllowed&&this.adsLoader.getSettings().setVpaidMode(google.ima.ImaSdkSettings.VpaidMode.DISABLED),this.settings.vpaidMode&&this.adsLoader.getSettings().setVpaidMode(this.settings.vpaidMode),this.settings.locale&&this.adsLoader.getSettings().setLocale(this.settings.locale),this.settings.numRedirects&&this.adsLoader.getSettings().setNumRedirects(this.settings.numRedirects),this.adsLoader.getSettings().setPlayerType("videojs-ima"),this.adsLoader.getSettings().setPlayerVersion(this.VERSION),this.adsLoader.getSettings().setAutoPlayAdBreaks(this.autoPlayAdBreaks),this.adsLoader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,g,!1),this.adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR,v,!1),d||(d=this.startFromReadyCallback),i.on("readyforpreroll",d),i.ready(function(){N(),i.on("fullscreenchange",I),i.on("volumechange",N)})};i.plugin("ima",a)});
-//# sourceMappingURL=videojs.ima.min.js.map
+
+
 /**
  * videojs-contextmenu
  * @version 1.2.0
@@ -23970,7 +23896,7 @@ registerPlugin('ads', contribAdsPlugin);
         mediaOptions = $.extend({}, {
             blogId: 0,
             mediaId: 0,
-            adPost: true
+            postAd: true
         }, mediaOptions);
         var _isDemo = JSON.parse("false"),
             _isDebuge = _isDemo,
@@ -23982,7 +23908,8 @@ registerPlugin('ads', contribAdsPlugin);
                 plugins: null,
                 src: '',
                 playsCounter: 0,
-                index: -1
+                index: -1,
+                ads: false
             },
             _idSelector = '#embedMedia',
             _timeupWaitingID = 0,
@@ -24021,12 +23948,6 @@ registerPlugin('ads', contribAdsPlugin);
 
         var _getPluginDefaultOptions = function() {
             var vjPlgOpt = {
-                    watermark: {
-                        position: 'bottom-right',
-                        url: '',
-                        image: '',
-                        fadeTime: null
-                    },
                     ima: {
                         id: _idSelector.replace('#', ''),
                         showControlsForJSAds: false,
@@ -24053,7 +23974,7 @@ registerPlugin('ads', contribAdsPlugin);
                 },
                 selectedPlugins = {},
                 plg = {
-                    video: ["watermark", "ima", "contextmenuUI"],
+                    video: ["ima", "contextmenuUI", "replayButton"],
                     audio: ["replayButton"]
                 };
             for (var idx in plg[_currentMedia.type]) {
@@ -24157,13 +24078,15 @@ registerPlugin('ads', contribAdsPlugin);
 
         var _loadAds = function(player) {
             //console.log('ads load', 'autoplay: ' + player.autoplay());
+            _currentMedia.ads = true;
             player.ima.initializeAdDisplayContainer();
             player.ima.requestAds();
             player.play();
         };
 
         var _removeAds = function(player) {
-            if (player.ima) {
+            if (_currentMedia.ads) {
+                _currentMedia.ads = false;
                 player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
                 player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
                 $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
@@ -24202,13 +24125,13 @@ registerPlugin('ads', contribAdsPlugin);
                                 player.one('contentended', function() {
                                     _notifyToParent({ emmethod: "contentended" });
                                     _trackEvents('ContentEnded');
-                                    if (!mediaOptions.adPost) {
+                                    if (!mediaOptions.postAd) {
                                         _removeAds(player);
                                     }
                                 });
                             } catch (err) {
                                 if (!window.google) {
-                                    _trackAPICall(_tracks.AD_BLOCKED, 'Ad Blocked by AdBlocker plugins');
+                                    _trackAPICall(_tracks.AD_BLOCKED, 'Ad Blocked by AdBlocker plugins or Google ima not loaded');
                                     _notifyToParent({ emmethod: "adblocked" });
                                 }
                             }
@@ -24284,6 +24207,7 @@ registerPlugin('ads', contribAdsPlugin);
         var _stopTimer = function() {
             window.clearTimeout(_timeupWaitingID);
             $('#circulerTimer').remove();
+            $('.vjs-big-play-button').removeAttr('style');
         };
         var _addCirculerTimer = function() {
             var circulerTimer = '<div id="circulerTimer" class="radial-timer s-animate">' +
@@ -24291,6 +24215,7 @@ registerPlugin('ads', contribAdsPlugin);
                 '<div class="radial-timer-half"></div>' +
                 '</div>'
             $(circulerTimer).appendTo(_idSelector);
+            $('.vjs-big-play-button').css({ 'z-index': 1112, 'background-color': 'transparent' });
         };
 
         var onMediaPlayEvent = function(event) {
@@ -24328,15 +24253,19 @@ registerPlugin('ads', contribAdsPlugin);
         var onMediaEndEvent = function() {
             _notifyToParent({ emmethod: "ended" });
             _trackAPICall(_tracks.ENDED, 'Playback has stopped because the end of the media resource was reached.');
+            _stopTimer();
             var waitTime = 3000;
             var nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia) {
-                _removeAds(_currentMedia.player);
-                _stopTimer();
-                _addCirculerTimer();
-                _timeupWaitingID = window.setTimeout((function() {
-                    window.location.href = nextMedia;
-                }).bind(this), waitTime);
+                if (_currentMedia.type == 'video' && !_isMobile) {
+                    _removeAds(_currentMedia.player);
+                    _addCirculerTimer();
+                }
+                if (_currentMedia.type == 'audio' || !_isMobile) {
+                    _timeupWaitingID = window.setTimeout((function() {
+                        window.location.href = nextMedia;
+                    }).bind(this), waitTime);
+                }
             }
         };
         var onMediaAdStartEvent = function(event) {
@@ -24627,7 +24556,7 @@ registerPlugin('ads', contribAdsPlugin);
         }
     }
 
-    var bloggMedia = function(mediaType, mediaId, blogId) {
+    var bloggMedia = function(mediaType, mediaOptions) {
         var _startEvent = 'click';
         if (navigator.userAgent.match(/iPhone/i) ||
             navigator.userAgent.match(/iPad/i) ||
@@ -24650,6 +24579,11 @@ registerPlugin('ads', contribAdsPlugin);
             ENDED: 'ended',
             REPLAYS: 'replay'
         };
+        mediaOptions = $.extend({}, {
+            blogId: 0,
+            mediaId: 0,
+            postAd: true
+        }, mediaOptions);
         var _isDemo = JSON.parse("false"),
             _isDebuge = _isDemo,
             _mediaPlayListUrls = [],
@@ -24658,13 +24592,12 @@ registerPlugin('ads', contribAdsPlugin);
             _currentMedia = {
                 type: mediaType,
                 id: 0,
-                bId: blogId || 0,
-                mId: mediaId || 0,
                 player: null,
                 plugins: null,
                 src: '',
                 playsCounter: 0,
-                index: -1
+                index: -1,
+                ads: false
             },
             _idSelector = '#embedMedia',
             _timeupWaitingID = 0,
@@ -24703,25 +24636,19 @@ registerPlugin('ads', contribAdsPlugin);
 
         var _getPluginDefaultOptions = function(vId) {
             var vjPlgOpt = {
-                watermark: {
-                    position: 'bottom-right',
-                    url: '',
-                    image: '',
-                    fadeTime: null
+                    ima: {
+                        id: vId,
+                        showControlsForJSAds: false,
+                        adLabel: _emLang.ADVERTISEMENT[_culture],
+                        adTagUrl: '',
+                        prerollTimeout: 5000,
+                        debug: _isDebuge
+                    },
+                    replayButton: {}
                 },
-                ima: {
-                    id: vId,
-                    showControlsForJSAds: false,
-                    adLabel: _emLang.ADVERTISEMENT[_culture],
-                    adTagUrl: '',
-                    prerollTimeout: 5000,
-                    debug: _isDebuge
-                },
-                replayButton: {}
-            };
-            var selectedPlugins = {},
+                selectedPlugins = {},
                 plg = {
-                    video: ["watermark", "ima", "replayButton"],
+                    video: ["ima", "replayButton"],
                     audio: ["replayButton"]
                 };
             for (var idx in plg[_currentMedia.type]) {
@@ -24734,16 +24661,16 @@ registerPlugin('ads', contribAdsPlugin);
 
         var _playsAPICall = function() {
             if (_isDebuge) { console.log('API: Plays Count'); }
-            if (_isDemo || !_currentMedia.mId) { return; }
+            if (_isDemo || !mediaOptions.mediaId) { return; }
             switch (_currentMedia.type) {
                 case 'video':
-                    APIlist.vplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                    APIlist.vplays(mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
                         //console.log(msg);
                         _currentMedia.playsCounter++;
                     });
                     break;
                 case 'audio':
-                    APIlist.aplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                    APIlist.aplays(mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
                         //console.log(msg);
                         _currentMedia.playsCounter++;
                     });
@@ -24758,10 +24685,10 @@ registerPlugin('ads', contribAdsPlugin);
             if (eventName && _lastEventName != eventName) {
                 _trackEvents(eventName, msg);
                 if (_isDebuge) { console.log('API: Events Track'); }
-                if (!_isDemo && _currentMedia.mId) {
+                if (!_isDemo && mediaOptions.mediaId) {
                     switch (_currentMedia.type) {
                         case 'video':
-                            APIlist.vtrack(eventName, _currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                            APIlist.vtrack(eventName, mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
                                 console.log(eventName, msg);
                             });
                             break;
@@ -24791,13 +24718,15 @@ registerPlugin('ads', contribAdsPlugin);
 
         var _loadAds = function(player) {
             //console.log('ads load', 'autoplay: ' + player.autoplay());
+            _currentMedia.ads = true;
             player.ima.initializeAdDisplayContainer();
             player.ima.requestAds();
             player.play();
         };
 
         var _removeAds = function(player) {
-            if (player.ima) {
+            if (_currentMedia.ads) {
+                _currentMedia.ads = false;
                 player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
                 player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
                 $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
@@ -24934,6 +24863,7 @@ registerPlugin('ads', contribAdsPlugin);
                 '<div class="radial-timer-half"></div>' +
                 '</div>'
             $(circulerTimer).appendTo(_idSelector);
+            $('.vjs-big-play-button').css({ 'z-index': 1112, 'background-color': 'transparent' });
         };
 
         var onMediaPlayEvent = function(event) {
@@ -24976,7 +24906,7 @@ registerPlugin('ads', contribAdsPlugin);
                 }
                 var mediaApiId = $targetDom.attr("data-" + _currentMedia.type + "-api-id");
                 if (mediaApiId) {
-                    _currentMedia.mId = mediaApiId;
+                    mediaOptions.mediaId = mediaApiId;
                 }
                 if (_currentMedia.id) {
                     _playsAPICall();
@@ -24989,15 +24919,19 @@ registerPlugin('ads', contribAdsPlugin);
         };
         var onMediaEndEvent = function() {
             _trackAPICall(_tracks.ENDED, 'Playback has stopped because the end of the media resource was reached.');
+            _stopTimer();
             var waitTime = 3000,
                 nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
-            if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type != 'video')) {
-                _removeAds(_currentMedia.player);
-                _stopTimer();
-                _addCirculerTimer();
-                _timeupWaitingID = window.setTimeout((function() {
-                    window.location.href = nextMedia;
-                }).bind(this), waitTime);
+            if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type == 'audio')) {
+                if (_currentMedia.type == 'video' && !_isMobile) {
+                    _removeAds(_currentMedia.player);
+                    _addCirculerTimer();
+                }
+                if (_currentMedia.type == 'audio' || !_isMobile) {
+                    _timeupWaitingID = window.setTimeout((function() {
+                        window.location.href = nextMedia;
+                    }).bind(this), waitTime);
+                }
             }
         };
         var onMediaAdStartEvent = function(event) {

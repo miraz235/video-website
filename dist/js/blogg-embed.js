@@ -74,7 +74,7 @@
         mediaOptions = $.extend({}, {
             blogId: 0,
             mediaId: 0,
-            adPost: true
+            postAd: true
         }, mediaOptions);
         var _isDemo = JSON.parse("false"),
             _isDebuge = _isDemo,
@@ -86,7 +86,8 @@
                 plugins: null,
                 src: '',
                 playsCounter: 0,
-                index: -1
+                index: -1,
+                ads: false
             },
             _idSelector = '#embedMedia',
             _timeupWaitingID = 0,
@@ -125,12 +126,6 @@
 
         var _getPluginDefaultOptions = function() {
             var vjPlgOpt = {
-                    watermark: {
-                        position: 'bottom-right',
-                        url: '',
-                        image: '',
-                        fadeTime: null
-                    },
                     ima: {
                         id: _idSelector.replace('#', ''),
                         showControlsForJSAds: false,
@@ -157,7 +152,7 @@
                 },
                 selectedPlugins = {},
                 plg = {
-                    video: ["watermark", "ima", "contextmenuUI"],
+                    video: ["ima", "contextmenuUI", "replayButton"],
                     audio: ["replayButton"]
                 };
             for (var idx in plg[_currentMedia.type]) {
@@ -261,13 +256,15 @@
 
         var _loadAds = function(player) {
             //console.log('ads load', 'autoplay: ' + player.autoplay());
+            _currentMedia.ads = true;
             player.ima.initializeAdDisplayContainer();
             player.ima.requestAds();
             player.play();
         };
 
         var _removeAds = function(player) {
-            if (player.ima) {
+            if (_currentMedia.ads) {
+                _currentMedia.ads = false;
                 player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
                 player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
                 $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
@@ -306,13 +303,13 @@
                                 player.one('contentended', function() {
                                     _notifyToParent({ emmethod: "contentended" });
                                     _trackEvents('ContentEnded');
-                                    if (!mediaOptions.adPost) {
+                                    if (!mediaOptions.postAd) {
                                         _removeAds(player);
                                     }
                                 });
                             } catch (err) {
                                 if (!window.google) {
-                                    _trackAPICall(_tracks.AD_BLOCKED, 'Ad Blocked by AdBlocker plugins');
+                                    _trackAPICall(_tracks.AD_BLOCKED, 'Ad Blocked by AdBlocker plugins or Google ima not loaded');
                                     _notifyToParent({ emmethod: "adblocked" });
                                 }
                             }
@@ -388,6 +385,7 @@
         var _stopTimer = function() {
             window.clearTimeout(_timeupWaitingID);
             $('#circulerTimer').remove();
+            $('.vjs-big-play-button').removeAttr('style');
         };
         var _addCirculerTimer = function() {
             var circulerTimer = '<div id="circulerTimer" class="radial-timer s-animate">' +
@@ -395,6 +393,7 @@
                 '<div class="radial-timer-half"></div>' +
                 '</div>'
             $(circulerTimer).appendTo(_idSelector);
+            $('.vjs-big-play-button').css({ 'z-index': 1112, 'background-color': 'transparent' });
         };
 
         var onMediaPlayEvent = function(event) {
@@ -432,15 +431,19 @@
         var onMediaEndEvent = function() {
             _notifyToParent({ emmethod: "ended" });
             _trackAPICall(_tracks.ENDED, 'Playback has stopped because the end of the media resource was reached.');
+            _stopTimer();
             var waitTime = 3000;
             var nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
             if (nextMedia) {
-                _removeAds(_currentMedia.player);
-                _stopTimer();
-                _addCirculerTimer();
-                _timeupWaitingID = window.setTimeout((function() {
-                    window.location.href = nextMedia;
-                }).bind(this), waitTime);
+                if (_currentMedia.type == 'video' && !_isMobile) {
+                    _removeAds(_currentMedia.player);
+                    _addCirculerTimer();
+                }
+                if (_currentMedia.type == 'audio' || !_isMobile) {
+                    _timeupWaitingID = window.setTimeout((function() {
+                        window.location.href = nextMedia;
+                    }).bind(this), waitTime);
+                }
             }
         };
         var onMediaAdStartEvent = function(event) {

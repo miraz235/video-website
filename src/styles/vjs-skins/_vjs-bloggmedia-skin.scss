@@ -115,7 +115,7 @@ $highlight-color: #29c3ff;
 
 .video-js .vjs-load-progress {
     /* For IE8 we'll lighten the color */
-    background: ligthen($slider-bg-color, 25%);
+    background: lighten($slider-bg-color, 25%);
     /* Otherwise we'll rely on stacked opacities */
     background: rgba($slider-bg-color, 0.5);
 }
@@ -126,7 +126,7 @@ $highlight-color: #29c3ff;
 
 .video-js .vjs-load-progress div {
     /* For IE8 we'll lighten the color */
-    background: ligthen($slider-bg-color, 50%);
+    background: lighten($slider-bg-color, 50%);
     /* Otherwise we'll rely on stacked opacities */
     background: rgba($slider-bg-color, 0.75);
 }
@@ -136,7 +136,7 @@ $shade-color: lighten($primary-background-color, 50%);
 .vjs-bloggmedia-skin {
     &:hover .vjs-big-play-button,
     .vjs-big-play-button:focus {
-        background-color: darken($highlight-color, 10%);
+        background-color: $highlight-color;
     }
     &.vjs-paused .vjs-big-play-button {
         display: block;
@@ -145,6 +145,15 @@ $shade-color: lighten($primary-background-color, 50%);
     &.vjs-playing .vjs-big-play-button,
     &.vjs-error .vjs-big-play-button {
         //**** display: none;
+    }
+    &.vjs-seeking,
+    &.vjs-waiting {
+        .vjs-loading-spinner {
+            &:after,
+            &:before {
+                animation: spinturn 1.1s cubic-bezier(.6, .2, 0, .8) infinite, spincolor 1.1s linear infinite;
+            }
+        }
     }
     .vjs-play-control {
         background: lighten($primary-background-color, 30%);
@@ -283,5 +292,23 @@ $shade-color: lighten($primary-background-color, 50%);
             //**** .vjs-fullscreen-control {
             display: none;
         }
+    }
+}
+
+@keyframes spinturn {
+    to {
+        transform: rotate(1turn)
+    }
+}
+
+@keyframes spincolor {
+    0%,
+    20%,
+    60%,
+    to {
+        border-top-color: darken($highlight-color, 10%);
+    }
+    35% {
+        border-top-color: #fff
     }
 }

@@ -44,7 +44,7 @@
         }
     }
 
-    var bloggMedia = function(mediaType, mediaId, blogId) {
+    var bloggMedia = function(mediaType, mediaOptions) {
         var _startEvent = 'click';
         if (navigator.userAgent.match(/iPhone/i) ||
             navigator.userAgent.match(/iPad/i) ||
@@ -67,6 +67,11 @@
             ENDED: 'ended',
             REPLAYS: 'replay'
         };
+        mediaOptions = $.extend({}, {
+            blogId: 0,
+            mediaId: 0,
+            postAd: true
+        }, mediaOptions);
         var _isDemo = JSON.parse("false"),
             _isDebuge = _isDemo,
             _mediaPlayListUrls = [],
@@ -75,13 +80,12 @@
             _currentMedia = {
                 type: mediaType,
                 id: 0,
-                bId: blogId || 0,
-                mId: mediaId || 0,
                 player: null,
                 plugins: null,
                 src: '',
                 playsCounter: 0,
-                index: -1
+                index: -1,
+                ads: false
             },
             _idSelector = '#embedMedia',
             _timeupWaitingID = 0,
@@ -120,25 +124,19 @@
 
         var _getPluginDefaultOptions = function(vId) {
             var vjPlgOpt = {
-                watermark: {
-                    position: 'bottom-right',
-                    url: '',
-                    image: '',
-                    fadeTime: null
+                    ima: {
+                        id: vId,
+                        showControlsForJSAds: false,
+                        adLabel: _emLang.ADVERTISEMENT[_culture],
+                        adTagUrl: '',
+                        prerollTimeout: 5000,
+                        debug: _isDebuge
+                    },
+                    replayButton: {}
                 },
-                ima: {
-                    id: vId,
-                    showControlsForJSAds: false,
-                    adLabel: _emLang.ADVERTISEMENT[_culture],
-                    adTagUrl: '',
-                    prerollTimeout: 5000,
-                    debug: _isDebuge
-                },
-                replayButton: {}
-            };
-            var selectedPlugins = {},
+                selectedPlugins = {},
                 plg = {
-                    video: ["watermark", "ima", "replayButton"],
+                    video: ["ima", "replayButton"],
                     audio: ["replayButton"]
                 };
             for (var idx in plg[_currentMedia.type]) {
@@ -151,16 +149,16 @@
 
         var _playsAPICall = function() {
             if (_isDebuge) { console.log('API: Plays Count'); }
-            if (_isDemo || !_currentMedia.mId) { return; }
+            if (_isDemo || !mediaOptions.mediaId) { return; }
             switch (_currentMedia.type) {
                 case 'video':
-                    APIlist.vplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                    APIlist.vplays(mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
                         //console.log(msg);
                         _currentMedia.playsCounter++;
                     });
                     break;
                 case 'audio':
-                    APIlist.aplays(_currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                    APIlist.aplays(mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
                         //console.log(msg);
                         _currentMedia.playsCounter++;
                     });
@@ -175,10 +173,10 @@
             if (eventName && _lastEventName != eventName) {
                 _trackEvents(eventName, msg);
                 if (_isDebuge) { console.log('API: Events Track'); }
-                if (!_isDemo && _currentMedia.mId) {
+                if (!_isDemo && mediaOptions.mediaId) {
                     switch (_currentMedia.type) {
                         case 'video':
-                            APIlist.vtrack(eventName, _currentMedia.mId, _currentMedia.bId).done(function(msg) {
+                            APIlist.vtrack(eventName, mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
                                 console.log(eventName, msg);
                             });
                             break;
@@ -208,13 +206,15 @@
 
         var _loadAds = function(player) {
             //console.log('ads load', 'autoplay: ' + player.autoplay());
+            _currentMedia.ads = true;
             player.ima.initializeAdDisplayContainer();
             player.ima.requestAds();
             player.play();
         };
 
         var _removeAds = function(player) {
-            if (player.ima) {
+            if (_currentMedia.ads) {
+                _currentMedia.ads = false;
                 player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
                 player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
                 $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
@@ -351,6 +351,7 @@
                 '<div class="radial-timer-half"></div>' +
                 '</div>'
             $(circulerTimer).appendTo(_idSelector);
+            $('.vjs-big-play-button').css({ 'z-index': 1112, 'background-color': 'transparent' });
         };
 
         var onMediaPlayEvent = function(event) {
@@ -393,7 +394,7 @@
                 }
                 var mediaApiId = $targetDom.attr("data-" + _currentMedia.type + "-api-id");
                 if (mediaApiId) {
-                    _currentMedia.mId = mediaApiId;
+                    mediaOptions.mediaId = mediaApiId;
                 }
                 if (_currentMedia.id) {
                     _playsAPICall();
@@ -406,15 +407,19 @@
         };
         var onMediaEndEvent = function() {
             _trackAPICall(_tracks.ENDED, 'Playback has stopped because the end of the media resource was reached.');
+            _stopTimer();
             var waitTime = 3000,
                 nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
-            if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type != 'video')) {
-                _removeAds(_currentMedia.player);
-                _stopTimer();
-                _addCirculerTimer();
-                _timeupWaitingID = window.setTimeout((function() {
-                    window.location.href = nextMedia;
-                }).bind(this), waitTime);
+            if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type == 'audio')) {
+                if (_currentMedia.type == 'video' && !_isMobile) {
+                    _removeAds(_currentMedia.player);
+                    _addCirculerTimer();
+                }
+                if (_currentMedia.type == 'audio' || !_isMobile) {
+                    _timeupWaitingID = window.setTimeout((function() {
+                        window.location.href = nextMedia;
+                    }).bind(this), waitTime);
+                }
             }
         };
         var onMediaAdStartEvent = function(event) {

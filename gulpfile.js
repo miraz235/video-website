@@ -120,32 +120,67 @@ gulp.task("scripts", ["scripts:tmp"], function(callback) {
 });
 
 var jqueryjs = function() {
+    console.log('cdn jqueryjs');
     return request($config.concate.scripts.cdn.jquery)
-        .pipe(source('jquery-3.1.1.js'))
+        .pipe(source('jquery-3.2.1.js'))
+        // .pipe($.size({
+        //     title: 'cdn jqueryjs',
+        //     showFiles: true
+        // }))
 };
 var bootstrapjs = function() {
+    console.log('cdn bootstrapjs');
     return request($config.concate.scripts.cdn.bootstrap)
         .pipe(source('bootstrap.js'))
+        // .pipe($.size({
+        //     title: 'cdn bootstrapjs',
+        //     showFiles: true
+        // }))
 };
 var videojsjs = function() {
+    console.log('cdn videojsjs');
     return request($config.concate.scripts.cdn.videojs)
         .pipe(source('video.min.js'))
+        // .pipe($.size({
+        //     title: 'cdn videojsjs',
+        //     showFiles: true
+        // }))
 };
 var dashjs = function() {
+    console.log('cdn dashjs');
     return request($config.concate.scripts.cdn.dash)
         .pipe(source('dash.all.min.js'))
+        // .pipe($.size({
+        //     title: 'cdn dashjs',
+        //     showFiles: true
+        // }))
 };
 var hlsjs = function() {
+    console.log('cdn hlsjs');
     return request($config.concate.scripts.cdn.hls)
         .pipe(source('videojs-contrib-hls.min.js'))
+        // .pipe($.size({
+        //     title: 'cdn hlsjs',
+        //     showFiles: true
+        // }))
 };
 var adsjs = function() {
+    console.log('cdn adsjs');
     return request($config.concate.scripts.cdn.ads)
         .pipe(source('videojs.ads.min.js'))
+        // .pipe($.size({
+        //     title: 'cdn adsjs',
+        //     showFiles: true
+        // }))
 };
 var imajs = function() {
+    console.log('cdn imajs');
     return request($config.concate.scripts.cdn.ima)
         .pipe(source('videojs.ima.js'))
+        // .pipe($.size({
+        //     title: 'cdn imajs',
+        //     showFiles: true
+        // }))
 };
 gulp.task("scripts:emall", function(callback) {
     var src = $config.concate.scripts.local;
@@ -153,7 +188,7 @@ gulp.task("scripts:emall", function(callback) {
     var localjs = gulp.src(src);
     //var jq = jqueryjs.pipe($.clone());
     //console.log(jqueryjs);
-    return merge(jqueryjs(), videojsjs(), hlsjs(), adsjs(), imajs(), localjs)
+    return merge(jqueryjs(), videojsjs(), adsjs(), hlsjs(), imajs(), localjs)
         .pipe($.buffer())
         .pipe($.concat('all-embed.js'))
         .pipe(gulp.dest($config.tmp.root))
@@ -208,27 +243,36 @@ gulp.task("scripts:weball", function(callback) {
 
 
 var bootstrapcss = function() {
+    console.log('cdn bootstrapcss');
     return request($config.concate.styles.cdn.bootstrap)
         .pipe(source('bootstrap.css'))
 };
 var videojscss = function() {
+    console.log('cdn videojscss');
     return request($config.concate.styles.cdn.videojs)
         .pipe(source('video-js.css'))
 };
 var adscss = function() {
+    console.log('cdn adscss');
     return request($config.concate.styles.cdn.ads)
         .pipe(source('videojs.ads.css'))
 };
 var imacss = function() {
+    console.log('cdn imacss');
     return request($config.concate.styles.cdn.ima)
         .pipe(source('videojs.ima.css'))
+};
+var fontcss = function() {
+    console.log('cdn fontcss');
+    return request($config.concate.styles.cdn.font)
+        .pipe(source('font.css'))
 };
 
 gulp.task("styles:emall", function(callback) {
     var src = $config.concate.styles.local;
     src.push("dist/css/styles-embed.min.css");
     var localcss = gulp.src(src);
-    return merge(videojscss(), adscss(), imacss(), localcss)
+    return merge(fontcss(), videojscss(), adscss(), imacss(), localcss)
         .pipe($.buffer())
         .pipe($.concat('all-embed.css'))
         .pipe(gulp.dest($config.tmp.root))
@@ -256,7 +300,7 @@ gulp.task("styles:weball", function(callback) {
     var src = $config.concate.styles.local;
     src.push("dist/css/styles.min.css");
     var localcss = gulp.src(src);
-    return merge(bootstrapcss(), videojscss(), adscss(), imacss(), localcss)
+    return merge(fontcss(), bootstrapcss(), videojscss(), adscss(), imacss(), localcss)
         .pipe($.buffer())
         .pipe($.concat('all-web.css'))
         .pipe(gulp.dest($config.tmp.root))

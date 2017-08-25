@@ -11,14 +11,14 @@
     <!-- Color the status bar on mobile devices -->
     <meta name="theme-color" content="#0063a6">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.2.6/alt/video-js-cdn.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/alt/video-js-cdn.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.8/videojs.ads.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.min.css" />
-    <link rel="stylesheet" href="vendors/videojs-watermark/videojs-watermark.css" />
+    <!-- <link rel="stylesheet" href="vendors/videojs-watermark/videojs-watermark.css" /> -->
     <!-- <link rel="stylesheet" href="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.css" /> -->
-    <!-- <link rel="stylesheet" href="vendors/videojs-replay/videojs-replay.css" /> -->
-    <!-- <link rel="stylesheet" href="css/styles-embed.min.css" /> -->
-    <link rel="stylesheet" href="css/all-embed.min.css" />
+    <link rel="stylesheet" href="vendors/videojs-replay/videojs-replay.css" />
+    <link rel="stylesheet" href="css/styles-embed.min.css" />
+    <!-- <link rel="stylesheet" href="css/all-embed.min.css" /> -->
 
 </head>
 
@@ -93,14 +93,14 @@
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.2.6/video.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/video.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.9.0/videojs-contrib-hls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.8/videojs.ads.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.min.js"></script>
-    <!-- <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script> -->
+    <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script>
     <!-- <script src="vendors/videojs-contextmenu/videojs-contextmenu.min.js"></script>
     <script src="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js"></script> -->
-    <!-- <script src="vendors/videojs-replay/videojs-replay.js"></script> -->
+    <script src="vendors/videojs-replay/videojs-replay.js"></script>
 
     <!-- <script src="js/blogg-embed-demo.js"></script> -->
     <!-- <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script> -->
@@ -139,6 +139,10 @@
                 controlBar: {
                     volumePanel: {
                         inline: false
+                    },
+                    volumeMenuButton: {
+                        inline: false,
+                        vertical: true
                     }
                 },
                 hls: {
@@ -151,6 +155,8 @@
                 contentPlayer.hasAttribute('controls')) {
                 contentPlayer.removeAttribute('controls');
             }
+
+            player.replayButton();
 
             var adsManagerLoadedCallback = function() {
                 var events = [
@@ -194,12 +200,7 @@
                 player.ima.requestAds();
                 player.play();
             });
-            // player.watermark({
-            //     position: 'bottom-right',
-            //     url: '',
-            //     image: 'images/blogg-logo.png',
-            //     fadeTime: null
-            // });
+
             player.on('play', function() {
                 console.log(':play')
             });
