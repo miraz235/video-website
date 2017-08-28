@@ -246,10 +246,21 @@
                                     player.ima.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
                                         _trackEvents('AdCompleted', 'Google');
                                     });
+
+                                    player.ima.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, function() {
+                                        _trackEvents('VideoPauseReq', 'Google');
+                                        if (!_isMobile && mediaOptions.postAd) {
+                                            /* After postroll the player src forcefuully change to blob url */
+                                            player.ima.contentSource = player.src();
+                                        }
+                                    });
                                 });
                                 player.one('contentended', function() {
                                     _trackEvents('ContentEnded');
                                     //_removeAds(player);
+                                    if (!mediaOptions.postAd) {
+                                        _removeAds(player);
+                                    }
                                 });
                             } catch (err) {
                                 if (!window.google) {

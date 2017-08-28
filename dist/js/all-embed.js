@@ -21741,6 +21741,17 @@ module.exports = {
 
                                     player.ima.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
                                         _trackEvents('AdCompleted', 'Google');
+                                        if (mediaOptions.postAd) {
+                                            _removeAds(player);
+                                        }
+                                    });
+
+                                    player.ima.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, function() {
+                                        _trackEvents('VideoPauseReq', 'Google');
+                                        if (!_isMobile && mediaOptions.postAd) {
+                                            /* After postroll the player src forcefuully change to blob url */
+                                            player.ima.contentSource = player.src();
+                                        }
                                     });
                                 });
                                 //player.trigger('nopostroll');
@@ -21751,6 +21762,7 @@ module.exports = {
                                         _removeAds(player);
                                     }
                                 });
+
                             } catch (err) {
                                 if (!window.google) {
                                     _trackAPICall(_tracks.AD_BLOCKED, 'Ad Blocked by AdBlocker plugins or Google ima not loaded');
