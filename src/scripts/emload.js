@@ -243,14 +243,15 @@
         lazy: helpers.searchParams(me.src, 'lazy'),
         wrapClass: helpers.searchParams(me.src, 'class')
     };
+
     var isAutoplay = helpers.searchParams(config.src, 'autoplay');
-    config.src = helpers.addParam(config.src, 'prel', location.href);
     if (isAutoplay && (isAutoplay === '1' || isAutoplay === 'true' || isAutoplay === 1 || isAutoplay === true)) {
         config.lazy = null;
     }
 
     createWrapper(config);
     createIframe(config);
+
     helpers.insertAfter(me, wrapper);
     helpers.wrapper = wrapper;
     helpers.iframe = iframe;

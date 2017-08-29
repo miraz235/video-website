@@ -309,6 +309,14 @@
                                             player.ima.contentSource = player.src();
                                         }
                                     });
+
+                                    player.ima.addEventListener(google.ima.AdEvent.Type.LOG, function(a) {
+                                        a = a.getAdData();
+                                        if (a.adError) {
+                                            _trackEvents('InvalidAd', "Non-fatal error occurred: " + a.adError.getMessage());
+                                            player.trigger('nopreroll');
+                                        }
+                                    });
                                 });
                                 //player.trigger('nopostroll');
                                 player.one('contentended', function() {
