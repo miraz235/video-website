@@ -35,11 +35,6 @@
             var paramValue = '',
                 hasParam = false;
 
-            /*if (typeof URL === "function") {
-                var srcObj = new URL(src);
-                paramValue = srcObj.searchParams.get(paramName);
-                hasParam = srcObj.searchParams.has(paramName);
-            } else {*/
             paramName = paramName.replace(/[\[\]]/g, "\\$&");
             var regex = new RegExp("[?&]" + paramName + "(=([^&#]*)|&|#|$)"),
                 results = regex.exec(src);
@@ -47,10 +42,18 @@
                 hasParam = true;
                 if (results[2]) paramValue = results[2].replace(/\+/g, " ");
             }
-            //}
+
             if (paramValue === null) paramValue = '';
 
             return !hasParam ? null : window.decodeURIComponent(paramValue);
+        },
+        addParam: function(src, paramName, paramValue) {
+            var regex = new RegExp("[?&]"),
+                results = regex.exec(src),
+                paramConnector = results ? "&" : "?",
+                hasParam = !!this.searchParams(src, paramName);
+
+            return !hasParam ? src + paramConnector + paramName + "=" + window.encodeURIComponent(paramValue) : src;
         },
         setIFrameHeight: function(el, height, withRatio) {
             if (withRatio) {
@@ -111,28 +114,6 @@
         postMessage: function(postMsg, origin) {
             if (this.iframe.contentWindow)
                 this.iframe.contentWindow.postMessage(postMsg, origin);
-        },
-        adBlocked: function() {
-            if (this.wrapper.classList.contains("em-adblocked"))
-                return;
-            var blockalert = document.createElement("div");
-            blockalert.style.backgroundColor = "#C00";
-            blockalert.style.color = "#fff";
-            blockalert.style.position = "absolute";
-            blockalert.style.top = "30px";
-            blockalert.style.left = "50%";
-            blockalert.style.transform = "translateX(-50%)";
-            blockalert.style.padding = "10px";
-            blockalert.style.cursor = "pointer";
-            blockalert.style.fontWeight = "bold";
-            blockalert.style.textAlign = "center";
-            blockalert.innerHTML = "&times; Please stop the AdBlock plugin";
-            blockalert.onclick = function() {
-                this.remove();
-                return false;
-            };
-            this.wrapper.classList.add("em-adblocked");
-            this.wrapper.appendChild(blockalert);
         },
         playVideo: function() {
             if (this.wrapper.classList.contains("em-visible") || !this.wrapper.classList.contains('em-paused') || this.wrapper.classList.contains('em-playing'))
@@ -197,9 +178,6 @@
                             //console.log('Player status: ' + message.emmethod);
                         } else this.pauseVideo();
                         break;
-                    case 'adblocked':
-                        /*if (targetFrame)
-                            this.adBlocked();*/
                     case "paused":
                     case "ended":
                     case "adstart":
@@ -266,8 +244,10 @@
         wrapClass: helpers.searchParams(me.src, 'class')
     };
     var isAutoplay = helpers.searchParams(config.src, 'autoplay');
-    if (isAutoplay && (isAutoplay === '1' || isAutoplay === 'true' || isAutoplay === 1 || isAutoplay === true))
+    config.src = helpers.addParam(config.src, 'prel', location.href);
+    if (isAutoplay && (isAutoplay === '1' || isAutoplay === 'true' || isAutoplay === 1 || isAutoplay === true)) {
         config.lazy = null;
+    }
 
     createWrapper(config);
     createIframe(config);
