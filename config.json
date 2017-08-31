@@ -65,9 +65,9 @@
             ],
             "cdn": {
                 "bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
-                "videojs": "https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/alt/video-js-cdn.min.css",
-                "ima": "https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.min.css",
-                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.8/videojs.ads.min.css",
+                "videojs": "https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/alt/video-js-cdn.css",
+                "ima": "https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.css",
+                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.8/videojs.ads.css",
                 "font": "https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700"
             }
         },

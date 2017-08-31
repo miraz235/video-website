@@ -91,6 +91,7 @@
             _timeupWaitingID = 0,
             _culture = 'no',
             _lastEventName = '',
+            _adState = 'preroll',
             _isMobile = detectmob();
 
         var _getDefaultSetup = function() {
@@ -227,6 +228,9 @@
                     case 'ima':
                         if (plugins.ima.adTagUrl) {
                             try {
+                                if (!(window.google && window.google.ima)) {
+                                    throw new Error(_tracks.AD_BLOCKED);
+                                }
                                 player.ima(plugins.ima);
                                 if (!player.autoplay()) {
                                     player.one(_startEvent, function() {
@@ -241,6 +245,7 @@
                                     _trackAPICall(_tracks.ADS_READY);
                                     player.ima.addEventListener(google.ima.AdEvent.Type.STARTED, function() {
                                         _trackEvents('AdStarted', 'Google');
+                                        _adState = 'postroll';
                                     });
 
                                     player.ima.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
@@ -259,7 +264,16 @@
                                         a = a.getAdData();
                                         if (a.adError) {
                                             _trackEvents('InvalidAd', "Non-fatal error occurred: " + a.adError.getMessage());
-                                            player.trigger('nopreroll');
+                                            switch (_adState) {
+                                                case 'preroll':
+                                                    player.trigger('nopreroll');
+                                                    _adState = 'postroll';
+                                                    break;
+                                                case 'postroll':
+                                                    player.trigger('nopostroll');
+                                                    _adState = 'nopostroll';
+                                                    break;
+                                            }
                                         }
                                     });
                                 });
@@ -271,8 +285,12 @@
                                     }
                                 });
                             } catch (err) {
-                                if (!window.google) {
+                                if (err.message == _tracks.AD_BLOCKED) {
+                                    player.trigger('nopreroll');
+                                    player.trigger('nopostroll');
                                     _trackAPICall(_tracks.AD_BLOCKED);
+                                } else {
+                                    console.log(err.name + ': ' + err.message);
                                 }
                             }
                         }
@@ -314,6 +332,10 @@
             var defaultSetup = _getDefaultSetup();
             _idSelector = element || _idSelector;
             var settings = $.extend({}, defaultSetup, setup);
+
+            if (_isMobile) {
+                settings.autoplay = false;
+            }
 
             var srcPl = _getSrc($(_idSelector));
             _setAttrsForMobile();
@@ -542,7 +564,7 @@
                     if (window.location.href.indexOf(this.href) > -1) {
                         $li.addClass("currently-playing");
                         _currentMedia.index = index;
-                        if (index > 0) {
+                        if (index > 0 && !_isMobile) {
                             _currentMedia.player.autoplay(true);
                         }
                         $li.parent().animate({

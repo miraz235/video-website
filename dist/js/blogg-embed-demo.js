@@ -93,6 +93,7 @@
             _timeupWaitingID = 0,
             _culture = 'en',
             _lastEventName = '',
+            _adState = 'preroll',
             _isMobile = detectmob();
 
         var _getDefaultSetup = function() {
@@ -277,6 +278,9 @@
                     case 'ima':
                         if (plugins.ima.adTagUrl) {
                             try {
+                                if (!(window.google && window.google.ima)) {
+                                    throw new Error(_tracks.AD_BLOCKED);
+                                }
                                 player.ima(plugins.ima);
                                 if (!player.autoplay()) {
                                     player.one(_startEvent, function() {
@@ -293,6 +297,7 @@
                                     _trackAPICall(_tracks.ADS_READY, 'Trigger this event after to signal that your integration is ready to play ads.');
                                     player.ima.addEventListener(google.ima.AdEvent.Type.STARTED, function() {
                                         _trackEvents('AdStarted', 'Google');
+                                        _adState = 'postroll';
                                     });
 
                                     player.ima.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
@@ -314,7 +319,16 @@
                                         a = a.getAdData();
                                         if (a.adError) {
                                             _trackEvents('InvalidAd', "Non-fatal error occurred: " + a.adError.getMessage());
-                                            player.trigger('nopreroll');
+                                            switch (_adState) {
+                                                case 'preroll':
+                                                    player.trigger('nopreroll');
+                                                    _adState = 'postroll';
+                                                    break;
+                                                case 'postroll':
+                                                    player.trigger('nopostroll');
+                                                    _adState = 'nopostroll';
+                                                    break;
+                                            }
                                         }
                                     });
                                 });
@@ -328,9 +342,13 @@
                                 });
 
                             } catch (err) {
-                                if (!window.google) {
+                                if (err.message == _tracks.AD_BLOCKED) {
+                                    player.trigger('nopreroll');
+                                    player.trigger('nopostroll');
                                     _trackAPICall(_tracks.AD_BLOCKED, 'Ad Blocked by AdBlocker plugins or Google ima not loaded');
                                     _notifyToParent({ emmethod: "adblocked" });
+                                } else {
+                                    console.log(err.name + ': ' + err.message);
                                 }
                             }
                         }
@@ -356,6 +374,10 @@
             var defaultSetup = _getDefaultSetup();
             _idSelector = element || _idSelector;
             var settings = $.extend({}, defaultSetup, setup);
+
+            if (_isMobile) {
+                settings.autoplay = false;
+            }
 
             _setAttrsForMobile();
             var playerCallback = function() {
@@ -384,7 +406,6 @@
             player.on('adend', onMediaAdEndEvent.bind(this));
             player.on('adskip', onMediaAdCancelEvent.bind(this));
             player.on('adserror', onMediaAdErrorEvent.bind(this));
-            player.on('nopostroll', function() { alert('nopost'); });
 
             player.on('adtimeout', _trackEvents.bind(this, 'AdTimeout', 'A timeout managed by the plugin has expired and regular video content has begun to play. Ad integrations have a fixed amount of time to inform the plugin of their intent during playback. If the ad integration is blocked by network conditions or an error, this event will fire and regular playback resumes rather than stalling the player indefinitely.'));
             player.on('adplaying', _trackEvents.bind(this, 'AdPlaying', 'Trigger this event when an ads starts playing. If your integration triggers playing event when an ad begins, it will automatically be redispatched as adplaying.'));
@@ -643,7 +664,7 @@
                     if (window.location.href.indexOf(this.href) > -1) {
                         $li.addClass("currently-playing");
                         _currentMedia.index = index;
-                        if (index > 0) {
+                        if (index > 0 && !_isMobile) {
                             _currentMedia.player.autoplay(true);
                         }
                         $li.parent().animate({

@@ -270,7 +270,7 @@ var fontcss = function() {
 
 gulp.task("styles:emall", function(callback) {
     var src = $config.concate.styles.local;
-    src.push("dist/css/styles-embed.css");
+    src.push(".tmp/css/styles-embed.css");
     var localcss = gulp.src(src);
     return merge(fontcss(), videojscss(), adscss(), imacss(), localcss)
         .pipe($.buffer())
@@ -298,7 +298,7 @@ gulp.task("styles:emall", function(callback) {
 });
 gulp.task("styles:weball", function(callback) {
     var src = $config.concate.styles.local;
-    src.push("dist/css/styles.css");
+    src.push(".tmp/css/styles.css");
     var localcss = gulp.src(src);
     return merge(fontcss(), bootstrapcss(), videojscss(), adscss(), imacss(), localcss)
         .pipe($.buffer())
