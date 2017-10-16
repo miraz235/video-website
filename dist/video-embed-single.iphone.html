@@ -24,15 +24,9 @@
 
 <body>
     <div class="media-wrap media-embed with-xinfo">
-        <video id="videoSingle" class="video-js vjs-bloggmedia-skin embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png">
-            <!-- <source src="http://stream.blogg.no/3e2751f533da4212add78be584b7ae5c.ism/index.m3u8" type="application/x-mpegURL" /> -->
-            <!-- <source src="http://stream.blogg.no/186d0d67b23f4bf2b36d9337d69805b1.ism/index.m3u8" type="application/x-mpegURL" /> -->
-            <source src="https://s3.amazonaws.com/_bc_dml/example-content/bipbop-advanced/bipbop_16x9_variant.m3u8" type="application/x-mpegURL">
-            <p class="vjs-no-js">
-                To view this video please enable JavaScript, and consider upgrading to a web browser
-                that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-            </p>
-        </video>
+        <div id="media-placeholder" class="video-js vjs-bloggmedia-skin">
+            <button class="vjs-big-play-button" type="button" title="Play Video" aria-disabled="false"><span class="vjs-control-text">Play Video</span></button>
+        </div>
         <header class="media-header">
             <div class="media-btn-group pull-right">
                 <button title="Share" id="shareBtn" class="media-icon" data-embutton><span class="vjs-icon-share"></span></button>
@@ -108,9 +102,20 @@
     <script src="js/all-embed.min.js"></script>
 
     <script>
-        jQuery(function() {
+        function detectIPmob() {
+            if (window.navigator.userAgent.match(/iPhone/i) ||
+                window.navigator.userAgent.match(/iPad/i) ||
+                window.navigator.userAgent.match(/iPod/i)
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function setVideoContent() {
             var videoSingle = embedMedia('video').setMediaPlayer("#videoSingle", {
-                autoplay: true
+                autoplay: false
             }).setPlugins({
                 ima: {
                     prerollTimeout: 15000,
@@ -125,6 +130,72 @@
                         //adTagUrl: null
                 }
             }).debug();
+
+
+            $('#media-share').on('click', function(event) {
+                event.preventDefault();
+                _openWindow(this.href,
+                    this.class, {
+                        width: 500,
+                            height: 356
+                    });
+            });
+        }
+        jQuery(function() {
+            var $mediaPlaceHolder = $('#media-placeholder').css({
+                'background-image': 'url(//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png)',
+                'background-position': 'center',
+                'background-size': 'cover',
+                'background-repeat': 'no-repeat'
+            });
+            $video = '\
+            <video id="videoSingle" class="video-js vjs-bloggmedia-skin embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png">\
+                <source src="https://s3.amazonaws.com/_bc_dml/example-content/bipbop-advanced/bipbop_16x9_variant.m3u8" type="application/x-mpegURL">\
+                <!--<source src="http://rmcdn.2mdn.net/Demo/vast_inspector/android.mp4" type="video/mp4">-->\
+                <p class="vjs-no-js">\
+                    To view this video please enable JavaScript, and consider upgrading to a web browser\
+                    that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>\
+                </p>\
+            </video>';
+            var player = '';
+
+            if (detectIPmob()) {
+                //$mediaWrap.prepend($video);
+                var dumbPlayer = document.createElement('video');
+                dumbPlayer.id = 'videoSingle';
+                dumbPlayer.className = 'video-js vjs-default-skin';
+                var contentSrc = document.createElement('source');
+                //contentSrc.setAttribute('src', 'https://s3.amazonaws.com/_bc_dml/example-content/bipbop-advanced/bipbop_16x9_variant.m3u8');
+                //contentSrc.setAttribute('type', 'application/x-mpegURL');
+                contentSrc.setAttribute('src', 'http://rmcdn.2mdn.net/Demo/vast_inspector/android.mp4');
+                contentSrc.setAttribute('type', 'video/mp4');
+                dumbPlayer.appendChild(contentSrc);
+                $mediaPlaceHolder.on('click', function() {
+                    $(this).replaceWith(dumbPlayer);
+                    //setVideoContent();
+                    player = videojs('videoSingle');
+                    player.ima({
+                        id: 'videoSingle',
+                        prerollTimeout: 15000,
+                        adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2Ftv2video%2Fnettavisen%2FNettavisen&gdfp_req=1&env=vp&output=xml_vast3&unviewed_position_start=1&description_url=http%3A%2F%2Fnavideo.blogg.no%2Fvideo%3Fv%3D5ab74b26254c4407aaa613f42bac7bde&correlator=1033524498191538&hl=no&sdkv=h.3.177.1&sdki=3c0d&scor=3013045709585508&adk=3919232739&osd=2&frm=0&sdr=1&afvsz=450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fnavideo.blogg.no%2Fvideo%3Fv%3D8960faeec1c64f639053d669347e6d67&cust_params=dfpduration%3D4&u_so=l&vpa=click&mpt=videojs-ima&mpv=0.2.0&ged=ve4_td4_tt2_pd4_la0_er56.367.206.667_vi0.0.950.1903_vp100_eb24171',
+                        /*adTagUrl: 'http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&' +
+                            'iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&' +
+                            'gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&' +
+                            'cust_params=sample_ct%3Dlinear%26deployment%3Dgmf-js&correlator=',*/
+                        nativeControlsForTouch: false
+                    });
+                    player.ima.initializeAdDisplayContainer();
+
+                    // Request ads and play the video
+                    player.ima.requestAds();
+                    player.play();
+                });
+
+                //setVideoContent();
+            } else {
+                $mediaPlaceHolder.replaceWith($video);
+                setVideoContent();
+            }
 
             // Share
             var _openWindow = function(url, title, opt) {
@@ -148,14 +219,6 @@
                     ",toolbar=" + toolbar;
                 return window.open(url, title, winOpt);
             };
-            $('#media-share').on('click', function(event) {
-                event.preventDefault();
-                _openWindow(this.href,
-                    this.class, {
-                        width: 500,
-                            height: 356
-                    });
-            });
         });
     </script>
 </body>

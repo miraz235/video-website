@@ -2402,7 +2402,7 @@ g.initTrackListeners(),a.nativeControlsForTouch||g.emitTapEvents(),g.constructor
 t.setTextContent(ca,"\n      .video-js {\n        width: 300px;\n        height: 150px;\n      }\n\n      .vjs-fluid {\n        padding-top: 56.25%\n      }\n    ")}}r.autoSetupTimeout(1,g),g.VERSION="5.20.3",g.options=B["default"].prototype.options_,g.getPlayers=function(){return B["default"].players},g.players=B["default"].players,g.getComponent=v["default"].getComponent,g.registerComponent=function(a,b){ba["default"].isTech(b)&&S["default"].warn("The "+a+" tech was registered as a component. It should instead be registered using videojs.registerTech(name, tech)"),v["default"].registerComponent.call(v["default"],a,b)},g.getTech=ba["default"].getTech,g.registerTech=ba["default"].registerTech,g.browser=n,g.TOUCH_ENABLED=n.TOUCH_ENABLED,g.extend=Z["default"],g.mergeOptions=F["default"],g.bind=H.bind,g.plugin=D["default"],g.addLanguage=function(a,b){var c;return a=(""+a).toLowerCase(),g.options.languages=(0,F["default"])(g.options.languages,(c={},c[a]=b,c)),g.options.languages[a]},g.log=S["default"],g.createTimeRange=g.createTimeRanges=O.createTimeRanges,g.formatTime=Q["default"],g.parseUrl=U.parseUrl,g.isCrossOrigin=U.isCrossOrigin,g.EventTarget=x["default"],g.on=z.on,g.one=z.one,g.off=z.off,g.trigger=z.trigger,g.xhr=_["default"],g.TextTrack=J["default"],g.AudioTrack=L["default"],g.VideoTrack=N["default"],g.isEl=p.isEl,g.isTextNode=p.isTextNode,g.createEl=p.createEl,g.hasClass=p.hasElClass,g.addClass=p.addElClass,g.removeClass=p.removeElClass,g.toggleClass=p.toggleElClass,g.setAttributes=p.setElAttributes,g.getAttributes=p.getElAttributes,g.emptyEl=p.emptyEl,g.appendContent=p.appendContent,g.insertContent=p.insertContent,g.computedStyle=X["default"],"function"==typeof a&&a.amd?a("videojs",[],function(){return g}):"object"===(void 0===d?"undefined":h(d))&&"object"===(void 0===c?"undefined":h(c))&&(c.exports=g),d["default"]=g},{104:104,42:42,43:43,5:5,51:51,52:52,56:56,62:62,64:64,72:72,77:77,78:78,80:80,81:81,82:82,83:83,84:84,86:86,87:87,88:88,89:89,90:90,92:92,94:94,95:95}],94:[function(a,b,c){(function(c){var d=void 0!==c?c:"undefined"!=typeof window?window:{},e=a(96);if("undefined"!=typeof document)b.exports=document;else{var f=d["__GLOBAL_DOCUMENT_CACHE@4"];f||(f=d["__GLOBAL_DOCUMENT_CACHE@4"]=e),b.exports=f}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{96:96}],95:[function(a,b,c){(function(a){"undefined"!=typeof window?b.exports=window:void 0!==a?b.exports=a:"undefined"!=typeof self?b.exports=self:b.exports={}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],96:[function(a,b,c){},{}],97:[function(a,b,c){function d(a,b){var c,d=null;try{c=JSON.parse(a,b)}catch(e){d=e}return[d,c]}b.exports=d},{}],98:[function(a,b,c){function d(a){return a.replace(/\n\r?\s*/g,"")}b.exports=function(a){for(var b="",c=0;c<arguments.length;c++)b+=d(a[c])+(arguments[c+1]||"");return b}},{}],99:[function(a,b,c){var d=a(103),e=b.exports={WebVTT:a(100),VTTCue:a(101),VTTRegion:a(102)};d.vttjs=e,d.WebVTT=e.WebVTT;var f=e.VTTCue,g=e.VTTRegion,h=d.VTTCue,i=d.VTTRegion;e.shim=function(){d.VTTCue=f,d.VTTRegion=g},e.restore=function(){d.VTTCue=h,d.VTTRegion=i},d.VTTCue||e.shim()},{100:100,101:101,102:102,103:103}],100:[function(a,b,c){function d(a,b){this.name="ParsingError",this.code=a.code,this.message=b||a.message}function e(a){function b(a,b,c,d){return 3600*(0|a)+60*(0|b)+(0|c)+(0|d)/1e3}var c=a.match(/^(\d+):(\d{2})(:\d{2})?\.(\d{3})/);return c?c[3]?b(c[1],c[2],c[3].replace(":",""),c[4]):c[1]>59?b(c[1],c[2],0,c[4]):b(0,c[1],c[2],c[4]):null}function f(){this.values=r(null)}function g(a,b,c,d){var e=d?a.split(d):[a];for(var f in e)if("string"==typeof e[f]){var g=e[f].split(c);if(2===g.length){var h=g[0],i=g[1];b(h,i)}}}function h(a,b,c){function h(){var b=e(a);if(null===b)throw new d(d.Errors.BadTimeStamp,"Malformed timestamp: "+j);return a=a.replace(/^[^\sa-zA-Z-]+/,""),b}function i(){a=a.replace(/^\s+/,"")}var j=a;if(i(),b.startTime=h(),i(),"--\x3e"!==a.substr(0,3))throw new d(d.Errors.BadTimeStamp,"Malformed time stamp (time stamps must be separated by '--\x3e'): "+j);a=a.substr(3),i(),b.endTime=h(),i(),function(a,b){var d=new f;g(a,function(a,b){switch(a){case"region":for(var e=c.length-1;e>=0;e--)if(c[e].id===b){d.set(a,c[e].region);break}break;case"vertical":d.alt(a,b,["rl","lr"]);break;case"line":var f=b.split(","),g=f[0];d.integer(a,g),d.percent(a,g)&&d.set("snapToLines",!1),d.alt(a,g,["auto"]),2===f.length&&d.alt("lineAlign",f[1],["start","middle","end"]);break;case"position":f=b.split(","),d.percent(a,f[0]),2===f.length&&d.alt("positionAlign",f[1],["start","middle","end"]);break;case"size":d.percent(a,b);break;case"align":d.alt(a,b,["start","middle","end","left","right"])}},/:/,/\s/),b.region=d.get("region",null),b.vertical=d.get("vertical",""),b.line=d.get("line","auto"),b.lineAlign=d.get("lineAlign","start"),b.snapToLines=d.get("snapToLines",!0),b.size=d.get("size",100),b.align=d.get("align","middle"),b.position=d.get("position",{start:0,left:0,middle:50,end:100,right:100},b.align),b.positionAlign=d.get("positionAlign",{start:"start",left:"start",middle:"middle",end:"end",right:"end"},b.align)}(a,b)}function i(a,b){function c(a){return s[a]}for(var d,f=a.document.createElement("div"),g=f,h=[];null!==(d=function(){if(!b)return null;var a=b.match(/^([^<]*)(<[^>]+>?)?/);return function(a){return b=b.substr(a.length),a}(a[1]?a[1]:a[2])}());)if("<"!==d[0])g.appendChild(a.document.createTextNode(function(a){for(;k=a.match(/&(amp|lt|gt|lrm|rlm|nbsp);/);)a=a.replace(k[0],c);return a}(d)));else{if("/"===d[1]){h.length&&h[h.length-1]===d.substr(2).replace(">","")&&(h.pop(),g=g.parentNode);continue}var i,j=e(d.substr(1,d.length-2));if(j){i=a.document.createProcessingInstruction("timestamp",j),g.appendChild(i);continue}var k=d.match(/^<([^.\s\/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);if(!k)continue;if(!(i=function(b,c){var d=t[b];if(!d)return null;var e=a.document.createElement(d);e.localName=d;var f=u[b];return f&&c&&(e[f]=c.trim()),e}(k[1],k[3])))continue;if(!function(a,b){return!v[b.localName]||v[b.localName]===a.localName}(g,i))continue;k[2]&&(i.className=k[2].substr(1).replace("."," ")),h.push(k[1]),g.appendChild(i),g=i}return f}function j(a){for(var b=0;b<w.length;b++){var c=w[b];if(a>=c[0]&&a<=c[1])return!0}return!1}function k(a){function b(a,b){for(var c=b.childNodes.length-1;c>=0;c--)a.push(b.childNodes[c])}function c(a){if(!a||!a.length)return null;var d=a.pop(),e=d.textContent||d.innerText;if(e){var f=e.match(/^.*(\n|\r)/);return f?(a.length=0,f[0]):e}return"ruby"===d.tagName?c(a):d.childNodes?(b(a,d),c(a)):void 0}var d,e=[],f="";if(!a||!a.childNodes)return"ltr";for(b(e,a);f=c(e);)for(var g=0;g<f.length;g++)if(d=f.charCodeAt(g),j(d))return"rtl";return"ltr"}function l(a){if("number"==typeof a.line&&(a.snapToLines||a.line>=0&&a.line<=100))return a.line;if(!a.track||!a.track.textTrackList||!a.track.textTrackList.mediaElement)return-1;for(var b=a.track,c=b.textTrackList,d=0,e=0;e<c.length&&c[e]!==b;e++)"showing"===c[e].mode&&d++;return-1*++d}function m(){}function n(a,b,c){var d=/MSIE\s8\.0/.test(navigator.userAgent),e="rgba(255, 255, 255, 1)",f="rgba(0, 0, 0, 0.8)";d&&(e="rgb(255, 255, 255)",f="rgb(0, 0, 0)"),m.call(this),this.cue=b,this.cueDiv=i(a,b.text);var g={color:e,backgroundColor:f,position:"relative",left:0,right:0,top:0,bottom:0,display:"inline"};d||(g.writingMode=""===b.vertical?"horizontal-tb":"lr"===b.vertical?"vertical-lr":"vertical-rl",g.unicodeBidi="plaintext"),this.applyStyles(g,this.cueDiv),this.div=a.document.createElement("div"),g={textAlign:"middle"===b.align?"center":b.align,font:c.font,whiteSpace:"pre-line",position:"absolute"},d||(g.direction=k(this.cueDiv),g.writingMode=""===b.vertical?"horizontal-tb":"lr"===b.vertical?"vertical-lr":"vertical-rl".stylesunicodeBidi="plaintext"),this.applyStyles(g),this.div.appendChild(this.cueDiv);var h=0;switch(b.positionAlign){case"start":h=b.position;break;case"middle":h=b.position-b.size/2;break;case"end":h=b.position-b.size}""===b.vertical?this.applyStyles({left:this.formatStyle(h,"%"),width:this.formatStyle(b.size,"%")}):this.applyStyles({top:this.formatStyle(h,"%"),height:this.formatStyle(b.size,"%")}),this.move=function(a){this.applyStyles({top:this.formatStyle(a.top,"px"),bottom:this.formatStyle(a.bottom,"px"),left:this.formatStyle(a.left,"px"),right:this.formatStyle(a.right,"px"),height:this.formatStyle(a.height,"px"),width:this.formatStyle(a.width,"px")})}}function o(a){var b,c,d,e,f=/MSIE\s8\.0/.test(navigator.userAgent);if(a.div){c=a.div.offsetHeight,d=a.div.offsetWidth,e=a.div.offsetTop;var g=(g=a.div.childNodes)&&(g=g[0])&&g.getClientRects&&g.getClientRects();a=a.div.getBoundingClientRect(),b=g?Math.max(g[0]&&g[0].height||0,a.height/g.length):0}this.left=a.left,this.right=a.right,this.top=a.top||e,this.height=a.height||c,this.bottom=a.bottom||e+(a.height||c),this.width=a.width||d,this.lineHeight=b!==undefined?b:a.lineHeight,f&&!this.lineHeight&&(this.lineHeight=13)}function p(a,b,c,d){var e=new o(b),f=b.cue,g=l(f),h=[];if(f.snapToLines){var i;switch(f.vertical){case"":h=["+y","-y"],i="height";break;case"rl":h=["+x","-x"],i="width";break;case"lr":h=["-x","+x"],i="width"}var j=e.lineHeight,k=j*Math.round(g),m=c[i]+j,n=h[0];Math.abs(k)>m&&(k=k<0?-1:1,k*=Math.ceil(m/j)*j),g<0&&(k+=""===f.vertical?c.height:c.width,h=h.reverse()),e.move(n,k)}else{var p=e.lineHeight/c.height*100;switch(f.lineAlign){case"middle":g-=p/2;break;case"end":g-=p}switch(f.vertical){case"":b.applyStyles({top:b.formatStyle(g,"%")});break;case"rl":b.applyStyles({left:b.formatStyle(g,"%")});break;case"lr":b.applyStyles({right:b.formatStyle(g,"%")})}h=["+y","-x","+x","-y"],e=new o(b)}var q=function(a,b){for(var e,f=new o(a),g=1,h=0;h<b.length;h++){for(;a.overlapsOppositeAxis(c,b[h])||a.within(c)&&a.overlapsAny(d);)a.move(b[h]);if(a.within(c))return a;var i=a.intersectPercentage(c);g>i&&(e=new o(a),g=i),a=new o(f)}return e||f}(e,h);b.move(q.toCSSCompatValues(c))}function q(){}var r=Object.create||function(){function a(){}return function(b){if(1!==arguments.length)throw new Error("Object.create shim only accepts one parameter.");return a.prototype=b,new a}}();d.prototype=r(Error.prototype),d.prototype.constructor=d,d.Errors={BadSignature:{code:0,message:"Malformed WebVTT signature."},BadTimeStamp:{code:1,message:"Malformed time stamp."}},f.prototype={set:function(a,b){this.get(a)||""===b||(this.values[a]=b)},get:function(a,b,c){return c?this.has(a)?this.values[a]:b[c]:this.has(a)?this.values[a]:b},has:function(a){return a in this.values},alt:function(a,b,c){for(var d=0;d<c.length;++d)if(b===c[d]){this.set(a,b);break}},integer:function(a,b){/^-?\d+$/.test(b)&&this.set(a,parseInt(b,10))},percent:function(a,b){return!!(b.match(/^([\d]{1,3})(\.[\d]*)?%$/)&&(b=parseFloat(b))>=0&&b<=100)&&(this.set(a,b),!0)}};var s={"&amp;":"&","&lt;":"<","&gt;":">","&lrm;":"‎","&rlm;":"‏","&nbsp;":" "},t={c:"span",i:"i",b:"b",u:"u",ruby:"ruby",rt:"rt",v:"span",lang:"span"},u={v:"title",lang:"lang"},v={rt:"ruby"},w=[[1470,1470],[1472,1472],[1475,1475],[1478,1478],[1488,1514],[1520,1524],[1544,1544],[1547,1547],[1549,1549],[1563,1563],[1566,1610],[1645,1647],[1649,1749],[1765,1766],[1774,1775],[1786,1805],[1807,1808],[1810,1839],[1869,1957],[1969,1969],[1984,2026],[2036,2037],[2042,2042],[2048,2069],[2074,2074],[2084,2084],[2088,2088],[2096,2110],[2112,2136],[2142,2142],[2208,2208],[2210,2220],[8207,8207],[64285,64285],[64287,64296],[64298,64310],[64312,64316],[64318,64318],[64320,64321],[64323,64324],[64326,64449],[64467,64829],[64848,64911],[64914,64967],[65008,65020],[65136,65140],[65142,65276],[67584,67589],[67592,67592],[67594,67637],[67639,67640],[67644,67644],[67647,67669],[67671,67679],[67840,67867],[67872,67897],[67903,67903],[67968,68023],[68030,68031],[68096,68096],[68112,68115],[68117,68119],[68121,68147],[68160,68167],[68176,68184],[68192,68223],[68352,68405],[68416,68437],[68440,68466],[68472,68479],[68608,68680],[126464,126467],[126469,126495],[126497,126498],[126500,126500],[126503,126503],[126505,126514],[126516,126519],[126521,126521],[126523,126523],[126530,126530],[126535,126535],[126537,126537],[126539,126539],[126541,126543],[126545,126546],[126548,126548],[126551,126551],[126553,126553],[126555,126555],[126557,126557],[126559,126559],[126561,126562],[126564,126564],[126567,126570],[126572,126578],[126580,126583],[126585,126588],[126590,126590],[126592,126601],[126603,126619],[126625,126627],[126629,126633],[126635,126651],[1114109,1114109]];m.prototype.applyStyles=function(a,b){b=b||this.div;for(var c in a)a.hasOwnProperty(c)&&(b.style[c]=a[c])},m.prototype.formatStyle=function(a,b){return 0===a?0:a+b},n.prototype=r(m.prototype),n.prototype.constructor=n,o.prototype.move=function(a,b){switch(b=b!==undefined?b:this.lineHeight,a){case"+x":this.left+=b,this.right+=b;break;case"-x":this.left-=b,this.right-=b;break;case"+y":this.top+=b,this.bottom+=b;break;case"-y":this.top-=b,this.bottom-=b}},o.prototype.overlaps=function(a){return this.left<a.right&&this.right>a.left&&this.top<a.bottom&&this.bottom>a.top},o.prototype.overlapsAny=function(a){for(var b=0;b<a.length;b++)if(this.overlaps(a[b]))return!0;return!1},o.prototype.within=function(a){return this.top>=a.top&&this.bottom<=a.bottom&&this.left>=a.left&&this.right<=a.right},o.prototype.overlapsOppositeAxis=function(a,b){switch(b){case"+x":return this.left<a.left;case"-x":return this.right>a.right;case"+y":return this.top<a.top;case"-y":return this.bottom>a.bottom}},o.prototype.intersectPercentage=function(a){return Math.max(0,Math.min(this.right,a.right)-Math.max(this.left,a.left))*Math.max(0,Math.min(this.bottom,a.bottom)-Math.max(this.top,a.top))/(this.height*this.width)},o.prototype.toCSSCompatValues=function(a){return{top:this.top-a.top,bottom:a.bottom-this.bottom,left:this.left-a.left,right:a.right-this.right,height:this.height,width:this.width}},o.getSimpleBoxPosition=function(a){var b=a.div?a.div.offsetHeight:a.tagName?a.offsetHeight:0,c=a.div?a.div.offsetWidth:a.tagName?a.offsetWidth:0,d=a.div?a.div.offsetTop:a.tagName?a.offsetTop:0;return a=a.div?a.div.getBoundingClientRect():a.tagName?a.getBoundingClientRect():a,{left:a.left,right:a.right,top:a.top||d,height:a.height||b,bottom:a.bottom||d+(a.height||b),width:a.width||c}},q.StringDecoder=function(){return{decode:function(a){if(!a)return"";if("string"!=typeof a)throw new Error("Error - expected string data.");return decodeURIComponent(encodeURIComponent(a))}}},q.convertCueToDOMTree=function(a,b){return a&&b?i(a,b):null};q.processCues=function(a,b,c){if(!a||!b||!c)return null;for(;c.firstChild;)c.removeChild(c.firstChild);var d=a.document.createElement("div");if(d.style.position="absolute",d.style.left="0",d.style.right="0",d.style.top="0",d.style.bottom="0",d.style.margin="1.5%",c.appendChild(d),function(a){for(var b=0;b<a.length;b++)if(a[b].hasBeenReset||!a[b].displayState)return!0;return!1}(b)){var e=[],f=o.getSimpleBoxPosition(d),g=Math.round(.05*f.height*100)/100,h={font:g+"px sans-serif"};!function(){for(var c,g,i=0;i<b.length;i++)g=b[i],c=new n(a,g,h),d.appendChild(c.div),p(a,c,f,e),g.displayState=c.div,e.push(o.getSimpleBoxPosition(c))}()}else for(var i=0;i<b.length;i++)d.appendChild(b[i].displayState)},q.Parser=function(a,b,c){c||(c=b,b={}),b||(b={}),this.window=a,this.vttjs=b,this.state="INITIAL",this.buffer="",this.decoder=c||new TextDecoder("utf8"),this.regionList=[]},q.Parser.prototype={reportOrThrowError:function(a){if(!(a instanceof d))throw a;this.onparsingerror&&this.onparsingerror(a)},parse:function(a){function b(){for(var a=j.buffer,b=0;b<a.length&&"\r"!==a[b]&&"\n"!==a[b];)++b;var c=a.substr(0,b);return"\r"===a[b]&&++b,"\n"===a[b]&&++b,j.buffer=a.substr(b),c}function c(a){var b=new f;if(g(a,function(a,c){switch(a){case"id":b.set(a,c);break;case"width":b.percent(a,c);break;case"lines":b.integer(a,c);break;case"regionanchor":case"viewportanchor":var d=c.split(",");if(2!==d.length)break;var e=new f;if(e.percent("x",d[0]),e.percent("y",d[1]),!e.has("x")||!e.has("y"))break;b.set(a+"X",e.get("x")),b.set(a+"Y",e.get("y"));break;case"scroll":b.alt(a,c,["up"])}},/=/,/\s/),b.has("id")){var c=new(j.vttjs.VTTRegion||j.window.VTTRegion);c.width=b.get("width",100),c.lines=b.get("lines",3),c.regionAnchorX=b.get("regionanchorX",0),c.regionAnchorY=b.get("regionanchorY",100),c.viewportAnchorX=b.get("viewportanchorX",0),c.viewportAnchorY=b.get("viewportanchorY",100),c.scroll=b.get("scroll",""),j.onregion&&j.onregion(c),j.regionList.push({id:b.get("id"),region:c})}}function i(a){var b=new f;g(a,function(a,c){switch(a){case"MPEGT":b.integer(a+"S",c);break;case"LOCA":b.set(a+"L",e(c))}},/[^\d]:/,/,/),j.ontimestampmap&&j.ontimestampmap({MPEGTS:b.get("MPEGTS"),LOCAL:b.get("LOCAL")})}var j=this;a&&(j.buffer+=j.decoder.decode(a,{stream:!0}));try{var k;if("INITIAL"===j.state){if(!/\r\n|\n/.test(j.buffer))return this;k=b();var l=k.match(/^WEBVTT([ \t].*)?$/);if(!l||!l[0])throw new d(d.Errors.BadSignature);j.state="HEADER"}for(var m=!1;j.buffer;){if(!/\r\n|\n/.test(j.buffer))return this;switch(m?m=!1:k=b(),j.state){case"HEADER":/:/.test(k)?function(a){a.match(/X-TIMESTAMP-MAP/)?g(a,function(a,b){switch(a){case"X-TIMESTAMP-MAP":i(b)}},/=/):g(a,function(a,b){switch(a){case"Region":c(b)}},/:/)}(k):k||(j.state="ID");continue;case"NOTE":k||(j.state="ID");continue;case"ID":if(/^NOTE($|[ \t])/.test(k)){j.state="NOTE";break}if(!k)continue;if(j.cue=new(j.vttjs.VTTCue||j.window.VTTCue)(0,0,""),j.state="CUE",-1===k.indexOf("--\x3e")){j.cue.id=k;continue}case"CUE":try{h(k,j.cue,j.regionList)}catch(o){j.reportOrThrowError(o),j.cue=null,j.state="BADCUE";continue}j.state="CUETEXT";continue;case"CUETEXT":var n=-1!==k.indexOf("--\x3e");if(!k||n&&(m=!0)){j.oncue&&j.oncue(j.cue),j.cue=null,j.state="ID";continue}j.cue.text&&(j.cue.text+="\n"),j.cue.text+=k;continue;case"BADCUE":k||(j.state="ID");continue}}}catch(o){j.reportOrThrowError(o),"CUETEXT"===j.state&&j.cue&&j.oncue&&j.oncue(j.cue),j.cue=null,j.state="INITIAL"===j.state?"BADWEBVTT":"BADCUE"}return this},flush:function(){var a=this;try{if(a.buffer+=a.decoder.decode(),(a.cue||"HEADER"===a.state)&&(a.buffer+="\n\n",a.parse()),"INITIAL"===a.state)throw new d(d.Errors.BadSignature)}catch(b){a.reportOrThrowError(b)}return a.onflush&&a.onflush(),this}},b.exports=q},{}],101:[function(a,b,c){function d(a){return"string"==typeof a&&(!!i[a.toLowerCase()]&&a.toLowerCase())}function e(a){return"string"==typeof a&&(!!j[a.toLowerCase()]&&a.toLowerCase())}function f(a){for(var b=1;b<arguments.length;b++){var c=arguments[b];for(var d in c)a[d]=c[d]}return a}function g(a,b,c){var g=this,i=/MSIE\s8\.0/.test(navigator.userAgent),j={};i?g=document.createElement("custom"):j.enumerable=!0,g.hasBeenReset=!1;var k="",l=!1,m=a,n=b,o=c,p=null,q="",r=!0,s="auto",t="start",u=50,v="middle",w=50,x="middle";if(Object.defineProperty(g,"id",f({},j,{get:function(){return k},set:function(a){k=""+a}})),Object.defineProperty(g,"pauseOnExit",f({},j,{get:function(){return l},set:function(a){l=!!a}})),Object.defineProperty(g,"startTime",f({},j,{get:function(){return m},set:function(a){if("number"!=typeof a)throw new TypeError("Start time must be set to a number.");m=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"endTime",f({},j,{get:function(){return n},set:function(a){if("number"!=typeof a)throw new TypeError("End time must be set to a number.");n=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"text",f({},j,{get:function(){return o},set:function(a){o=""+a,this.hasBeenReset=!0}})),Object.defineProperty(g,"region",f({},j,{get:function(){return p},set:function(a){p=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"vertical",f({},j,{get:function(){return q},set:function(a){var b=d(a);if(!1===b)throw new SyntaxError("An invalid or illegal string was specified.");q=b,this.hasBeenReset=!0}})),Object.defineProperty(g,"snapToLines",f({},j,{get:function(){return r},set:function(a){r=!!a,this.hasBeenReset=!0}})),Object.defineProperty(g,"line",f({},j,{get:function(){return s},set:function(a){if("number"!=typeof a&&a!==h)throw new SyntaxError("An invalid number or illegal string was specified.");s=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"lineAlign",f({},j,{get:function(){return t},set:function(a){var b=e(a);if(!b)throw new SyntaxError("An invalid or illegal string was specified.");t=b,this.hasBeenReset=!0}})),Object.defineProperty(g,"position",f({},j,{get:function(){return u},set:function(a){if(a<0||a>100)throw new Error("Position must be between 0 and 100.");u=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"positionAlign",f({},j,{get:function(){return v},set:function(a){var b=e(a);if(!b)throw new SyntaxError("An invalid or illegal string was specified.");v=b,this.hasBeenReset=!0}})),Object.defineProperty(g,"size",f({},j,{get:function(){return w},set:function(a){if(a<0||a>100)throw new Error("Size must be between 0 and 100.");w=a,this.hasBeenReset=!0}})),Object.defineProperty(g,"align",f({},j,{get:function(){return x},set:function(a){var b=e(a);if(!b)throw new SyntaxError("An invalid or illegal string was specified.");x=b,this.hasBeenReset=!0}})),g.displayState=undefined,i)return g}var h="auto",i={"":!0,lr:!0,rl:!0},j={start:!0,middle:!0,end:!0,left:!0,right:!0};g.prototype.getCueAsHTML=function(){return WebVTT.convertCueToDOMTree(window,this.text)},b.exports=g},{}],102:[function(a,b,c){function d(a){return"string"==typeof a&&(!!g[a.toLowerCase()]&&a.toLowerCase())}function e(a){return"number"==typeof a&&a>=0&&a<=100}function f(){var a=100,b=3,c=0,f=100,g=0,h=100,i="";Object.defineProperties(this,{width:{enumerable:!0,get:function(){return a},set:function(b){if(!e(b))throw new Error("Width must be between 0 and 100.");a=b}},lines:{enumerable:!0,get:function(){return b},set:function(a){if("number"!=typeof a)throw new TypeError("Lines must be set to a number.");b=a}},regionAnchorY:{enumerable:!0,get:function(){return f},set:function(a){if(!e(a))throw new Error("RegionAnchorX must be between 0 and 100.");f=a}},regionAnchorX:{enumerable:!0,get:function(){return c},set:function(a){if(!e(a))throw new Error("RegionAnchorY must be between 0 and 100.");c=a}},viewportAnchorY:{enumerable:!0,get:function(){return h},set:function(a){if(!e(a))throw new Error("ViewportAnchorY must be between 0 and 100.");h=a}},viewportAnchorX:{enumerable:!0,get:function(){return g},set:function(a){if(!e(a))throw new Error("ViewportAnchorX must be between 0 and 100.");g=a}},scroll:{enumerable:!0,get:function(){return i},set:function(a){var b=d(a);if(!1===b)throw new SyntaxError("An invalid or illegal string was specified.");i=b}}})}var g={"":!0,up:!0};b.exports=f},{}],103:[function(a,b,c){(function(a){var c;c="undefined"!=typeof window?window:void 0!==a?a:"undefined"!=typeof self?self:{},b.exports=c}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],104:[function(a,b,c){"use strict";function d(a){for(var b in a)if(a.hasOwnProperty(b))return!1;return!0}function e(a,b,c){var d=a;return k(b)?(c=b,"string"==typeof a&&(d={uri:a})):d=m(b,{uri:a}),d.callback=c,d}function f(a,b,c){return b=e(a,b,c),g(b)}function g(a){function b(){4===m.readyState&&g()}function c(){var a=undefined;if(a=m.response?m.response:m.responseText||h(m),v)try{a=JSON.parse(a)}catch(b){}return a}function e(a){return clearTimeout(p),a instanceof Error||(a=new Error(""+(a||"Unknown XMLHttpRequest Error"))),a.statusCode=0,j(a,k)}function g(){if(!o){var b;clearTimeout(p),b=a.useXDR&&m.status===undefined?200:1223===m.status?204:m.status;var d=k,e=null;return 0!==b?(d={body:c(),statusCode:b,method:r,headers:{},url:q,rawRequest:m},m.getAllResponseHeaders&&(d.headers=l(m.getAllResponseHeaders()))):e=new Error("Internal XMLHttpRequest Error"),j(e,d,d.body)}}if("undefined"==typeof a.callback)throw new Error("callback argument missing");var i=!1,j=function(b,c,d){i||(i=!0,a.callback(b,c,d))},k={body:undefined,headers:{},statusCode:0,method:r,url:q,rawRequest:m},m=a.xhr||null;m||(m=a.cors||a.useXDR?new f.XDomainRequest:new f.XMLHttpRequest);var n,o,p,q=m.url=a.uri||a.url,r=m.method=a.method||"GET",s=a.body||a.data||null,t=m.headers=a.headers||{},u=!!a.sync,v=!1;if("json"in a&&(v=!0,t.accept||t.Accept||(t.Accept="application/json"),"GET"!==r&&"HEAD"!==r&&(t["content-type"]||t["Content-Type"]||(t["Content-Type"]="application/json"),s=JSON.stringify(a.json))),m.onreadystatechange=b,m.onload=g,m.onerror=e,m.onprogress=function(){},m.ontimeout=e,m.open(r,q,!u,a.username,a.password),u||(m.withCredentials=!!a.withCredentials),!u&&a.timeout>0&&(p=setTimeout(function(){o=!0,m.abort("timeout");var a=new Error("XMLHttpRequest timeout");a.code="ETIMEDOUT",e(a)},a.timeout)),m.setRequestHeader)for(n in t)t.hasOwnProperty(n)&&m.setRequestHeader(n,t[n]);else if(a.headers&&!d(a.headers))throw new Error("Headers cannot be set on an XDomainRequest object");return"responseType"in a&&(m.responseType=a.responseType),"beforeSend"in a&&"function"==typeof a.beforeSend&&a.beforeSend(m),m.send(s),m}function h(a){if("document"===a.responseType)return a.responseXML;var b=204===a.status&&a.responseXML&&"parsererror"===a.responseXML.documentElement.nodeName;return""!==a.responseType||b?null:a.responseXML}function i(){}var j=a(95),k=a(105),l=a(108),m=a(109);b.exports=f,f.XMLHttpRequest=j.XMLHttpRequest||i,f.XDomainRequest="withCredentials"in new f.XMLHttpRequest?f.XMLHttpRequest:j.XDomainRequest,function(a,b){for(var c=0;c<a.length;c++)b(a[c])}(["get","put","post","patch","head","delete"],function(a){f["delete"===a?"del":a]=function(b,c,d){return c=e(b,c,d),c.method=a.toUpperCase(),g(c)}})},{105:105,108:108,109:109,95:95}],105:[function(a,b,c){function d(a){var b=e.call(a);return"[object Function]"===b||"function"==typeof a&&"[object RegExp]"!==b||"undefined"!=typeof window&&(a===window.setTimeout||a===window.alert||a===window.confirm||a===window.prompt)}b.exports=d;var e=Object.prototype.toString},{}],106:[function(a,b,c){function d(a,b,c){if(!h(b))throw new TypeError("iterator must be a function");arguments.length<3&&(c=this),"[object Array]"===i.call(a)?e(a,b,c):"string"==typeof a?f(a,b,c):g(a,b,c)}function e(a,b,c){for(var d=0,e=a.length;d<e;d++)j.call(a,d)&&b.call(c,a[d],d,a)}function f(a,b,c){for(var d=0,e=a.length;d<e;d++)b.call(c,a.charAt(d),d,a)}function g(a,b,c){for(var d in a)j.call(a,d)&&b.call(c,a[d],d,a)}var h=a(105);b.exports=d;var i=Object.prototype.toString,j=Object.prototype.hasOwnProperty},{105:105}],107:[function(a,b,c){function d(a){return a.replace(/^\s*|\s*$/g,"")}c=b.exports=d,c.left=function(a){return a.replace(/^\s*/,"")},c.right=function(a){return a.replace(/\s*$/,"")}},{}],108:[function(a,b,c){var d=a(107),e=a(106),f=function(a){return"[object Array]"===Object.prototype.toString.call(a)};b.exports=function(a){if(!a)return{};var b={};return e(d(a).split("\n"),function(a){var c=a.indexOf(":"),e=d(a.slice(0,c)).toLowerCase(),g=d(a.slice(c+1));"undefined"==typeof b[e]?b[e]=g:f(b[e])?b[e].push(g):b[e]=[b[e],g]}),b}},{106:106,107:107}],109:[function(a,b,c){function d(){for(var a={},b=0;b<arguments.length;b++){var c=arguments[b];for(var d in c)e.call(c,d)&&(a[d]=c[d])}return a}b.exports=d;var e=Object.prototype.hasOwnProperty},{}]},{},[93])(93)});
 /**
  * videojs-contrib-hls
- * @version 5.9.0
+ * @version 5.11.0
  * @copyright 2017 Brightcove, Inc
  * @license Apache-2.0
  */
@@ -2519,7 +2519,7 @@ exports['default'] = {
   findAdCue: findAdCue
 };
 module.exports = exports['default'];
-},{"global/window":31}],2:[function(require,module,exports){
+},{"global/window":32}],2:[function(require,module,exports){
 /**
  * @file bin-utils.js
  */
@@ -2703,7 +2703,7 @@ exports['default'] = function (self) {
 };
 
 module.exports = exports['default'];
-},{"./bin-utils":2,"aes-decrypter":24,"global/window":31}],5:[function(require,module,exports){
+},{"./bin-utils":2,"aes-decrypter":25,"global/window":32}],5:[function(require,module,exports){
 (function (global){
 /**
  * @file master-playlist-controller.js
@@ -2768,6 +2768,8 @@ var _config2 = _interopRequireDefault(_config);
 
 var _utilCodecsJs = require('./util/codecs.js');
 
+var _mediaGroups = require('./media-groups');
+
 var ABORT_EARLY_BLACKLIST_SECONDS = 60 * 2;
 
 var Hls = undefined;
@@ -2785,33 +2787,6 @@ var defaultCodecs = {
 var loaderStats = ['mediaRequests', 'mediaRequestsAborted', 'mediaRequestsTimedout', 'mediaRequestsErrored', 'mediaTransferDuration', 'mediaBytesTransferred'];
 var sumLoaderStat = function sumLoaderStat(stat) {
   return this.audioSegmentLoader_[stat] + this.mainSegmentLoader_[stat];
-};
-
-/**
- * determine if an object a is differnt from
- * and object b. both only having one dimensional
- * properties
- *
- * @param {Object} a object one
- * @param {Object} b object two
- * @return {Boolean} if the object has changed or not
- */
-var objectChanged = function objectChanged(a, b) {
-  if (typeof a !== typeof b) {
-    return true;
-  }
-  // if we have a different number of elements
-  // something has changed
-  if (Object.keys(a).length !== Object.keys(b).length) {
-    return true;
-  }
-
-  for (var prop in a) {
-    if (a[prop] !== b[prop]) {
-      return true;
-    }
-  }
-  return false;
 };
 
 /**
@@ -3023,12 +2998,9 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
       timeout: null
     };
 
-    this.audioGroups_ = {};
-    this.subtitleGroups_ = { groups: {}, tracks: {} };
+    this.mediaTypes_ = (0, _mediaGroups.createMediaTypes)();
 
     this.mediaSource = new _videoJs2['default'].MediaSource({ mode: mode });
-    this.audioinfo_ = null;
-    this.mediaSource.on('audioinfo', this.handleAudioinfoUpdate_.bind(this));
 
     // load the media source into the player
     this.mediaSource.addEventListener('sourceopen', this.handleSourceOpen_.bind(this));
@@ -3073,8 +3045,6 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
     // setup playlist loaders
     this.masterPlaylistLoader_ = new _playlistLoader2['default'](url, this.hls_, this.withCredentials);
     this.setupMasterPlaylistLoaderListeners_();
-    this.audioPlaylistLoader_ = null;
-    this.subtitlePlaylistLoader_ = null;
 
     // setup segment loaders
     // combined audio/video or just video when alternate audio track is selected
@@ -3133,11 +3103,21 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
           _this2.mainSegmentLoader_.load();
         }
 
-        _this2.fillAudioTracks_();
-        _this2.setupAudio();
-
-        _this2.fillSubtitleTracks_();
-        _this2.setupSubtitles();
+        (0, _mediaGroups.setupMediaGroups)({
+          segmentLoaders: {
+            AUDIO: _this2.audioSegmentLoader_,
+            SUBTITLES: _this2.subtitleSegmentLoader_,
+            main: _this2.mainSegmentLoader_
+          },
+          tech: _this2.tech_,
+          requestOptions: _this2.requestOptions_,
+          masterPlaylistLoader: _this2.masterPlaylistLoader_,
+          mode: _this2.mode_,
+          hls: _this2.hls_,
+          master: _this2.master(),
+          mediaTypes: _this2.mediaTypes_,
+          blacklistCurrentPlaylist: _this2.blacklistCurrentPlaylist.bind(_this2)
+        });
 
         _this2.triggerPresenceUsage_(_this2.master(), media);
 
@@ -3149,7 +3129,6 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
         }
         _this2.setupFirstPlay();
 
-        _this2.trigger('audioupdate');
         _this2.trigger('selectedinitialmedia');
       });
 
@@ -3231,8 +3210,6 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
       this.masterPlaylistLoader_.on('mediachange', function () {
         var media = _this2.masterPlaylistLoader_.media();
         var requestTimeout = _this2.masterPlaylistLoader_.targetDuration * 1.5 * 1000;
-        var activeAudioGroup = undefined;
-        var activeTrack = undefined;
 
         // If we don't have any more available playlists, we don't want to
         // timeout the request.
@@ -3248,18 +3225,6 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
         // on `loadedplaylist`
         _this2.mainSegmentLoader_.playlist(media, _this2.requestOptions_);
         _this2.mainSegmentLoader_.load();
-
-        // if the audio group has changed, a new audio track has to be
-        // enabled
-        activeAudioGroup = _this2.activeAudioGroup();
-        activeTrack = activeAudioGroup.filter(function (track) {
-          return track.enabled;
-        })[0];
-        if (!activeTrack) {
-          _this2.mediaGroupChanged();
-          _this2.trigger('audioupdate');
-        }
-        _this2.setupSubtitles();
 
         _this2.tech_.trigger({
           type: 'mediachange',
@@ -3405,160 +3370,18 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
         }, ABORT_EARLY_BLACKLIST_SECONDS);
       });
 
+      this.mainSegmentLoader_.on('reseteverything', function () {
+        _this3.tech_.trigger('hls-reset');
+      });
+
       this.audioSegmentLoader_.on('ended', function () {
         _this3.onEndOfStream();
       });
-
-      this.audioSegmentLoader_.on('error', function () {
-        _videoJs2['default'].log.warn('Problem encountered with the current alternate audio track' + '. Switching back to default.');
-        _this3.audioSegmentLoader_.abort();
-        _this3.audioPlaylistLoader_ = null;
-        _this3.setupAudio();
-      });
-
-      this.subtitleSegmentLoader_.on('error', this.handleSubtitleError_.bind(this));
-    }
-  }, {
-    key: 'handleAudioinfoUpdate_',
-    value: function handleAudioinfoUpdate_(event) {
-      if (Hls.supportsAudioInfoChange_() || !this.audioInfo_ || !objectChanged(this.audioInfo_, event.info)) {
-        this.audioInfo_ = event.info;
-        return;
-      }
-
-      var error = 'had different audio properties (channels, sample rate, etc.) ' + 'or changed in some other way.  This behavior is currently ' + 'unsupported in Firefox 48 and below due to an issue: \n\n' + 'https://bugzilla.mozilla.org/show_bug.cgi?id=1247138\n\n';
-
-      var enabledIndex = this.activeAudioGroup().map(function (track) {
-        return track.enabled;
-      }).indexOf(true);
-      var enabledTrack = this.activeAudioGroup()[enabledIndex];
-      var defaultTrack = this.activeAudioGroup().filter(function (track) {
-        return track.properties_ && track.properties_['default'];
-      })[0];
-
-      // they did not switch audiotracks
-      // blacklist the current playlist
-      if (!this.audioPlaylistLoader_) {
-        error = 'The rendition that we tried to switch to ' + error + 'Unfortunately that means we will have to blacklist ' + 'the current playlist and switch to another. Sorry!';
-        this.blacklistCurrentPlaylist();
-      } else {
-        error = 'The audio track \'' + enabledTrack.label + '\' that we tried to ' + ('switch to ' + error + ' Unfortunately this means we will have to ') + ('return you to the main track \'' + defaultTrack.label + '\'. Sorry!');
-        defaultTrack.enabled = true;
-        this.activeAudioGroup().splice(enabledIndex, 1);
-        this.trigger('audioupdate');
-      }
-
-      _videoJs2['default'].log.warn(error);
-      this.setupAudio();
     }
   }, {
     key: 'mediaSecondsLoaded_',
     value: function mediaSecondsLoaded_() {
       return Math.max(this.audioSegmentLoader_.mediaSecondsLoaded + this.mainSegmentLoader_.mediaSecondsLoaded);
-    }
-
-    /**
-     * fill our internal list of HlsAudioTracks with data from
-     * the master playlist or use a default
-     *
-     * @private
-     */
-  }, {
-    key: 'fillAudioTracks_',
-    value: function fillAudioTracks_() {
-      var master = this.master();
-      var mediaGroups = master.mediaGroups || {};
-
-      // force a default if we have none or we are not
-      // in html5 mode (the only mode to support more than one
-      // audio track)
-      if (!mediaGroups || !mediaGroups.AUDIO || Object.keys(mediaGroups.AUDIO).length === 0 || this.mode_ !== 'html5') {
-        // "main" audio group, track name "default"
-        mediaGroups.AUDIO = { main: { 'default': { 'default': true } } };
-      }
-
-      for (var mediaGroup in mediaGroups.AUDIO) {
-        if (!this.audioGroups_[mediaGroup]) {
-          this.audioGroups_[mediaGroup] = [];
-        }
-
-        for (var label in mediaGroups.AUDIO[mediaGroup]) {
-          var properties = mediaGroups.AUDIO[mediaGroup][label];
-          var track = new _videoJs2['default'].AudioTrack({
-            id: label,
-            kind: this.audioTrackKind_(properties),
-            enabled: false,
-            language: properties.language,
-            label: label
-          });
-
-          track.properties_ = properties;
-          this.audioGroups_[mediaGroup].push(track);
-        }
-      }
-
-      // enable the default active track
-      (this.activeAudioGroup().filter(function (audioTrack) {
-        return audioTrack.properties_['default'];
-      })[0] || this.activeAudioGroup()[0]).enabled = true;
-    }
-
-    /**
-     * Convert the properties of an HLS track into an audioTrackKind.
-     *
-     * @private
-     */
-  }, {
-    key: 'audioTrackKind_',
-    value: function audioTrackKind_(properties) {
-      var kind = properties['default'] ? 'main' : 'alternative';
-
-      if (properties.characteristics && properties.characteristics.indexOf('public.accessibility.describes-video') >= 0) {
-        kind = 'main-desc';
-      }
-
-      return kind;
-    }
-
-    /**
-     * fill our internal list of Subtitle Tracks with data from
-     * the master playlist or use a default
-     *
-     * @private
-     */
-  }, {
-    key: 'fillSubtitleTracks_',
-    value: function fillSubtitleTracks_() {
-      var master = this.master();
-      var mediaGroups = master.mediaGroups || {};
-
-      for (var mediaGroup in mediaGroups.SUBTITLES) {
-        if (!this.subtitleGroups_.groups[mediaGroup]) {
-          this.subtitleGroups_.groups[mediaGroup] = [];
-        }
-
-        for (var label in mediaGroups.SUBTITLES[mediaGroup]) {
-          var properties = mediaGroups.SUBTITLES[mediaGroup][label];
-
-          if (!properties.forced) {
-            this.subtitleGroups_.groups[mediaGroup].push(_videoJs2['default'].mergeOptions({ id: label }, properties));
-
-            if (typeof this.subtitleGroups_.tracks[label] === 'undefined') {
-              var track = this.tech_.addRemoteTextTrack({
-                id: label,
-                kind: 'subtitles',
-                enabled: false,
-                language: properties.language,
-                label: label
-              }, false).track;
-
-              this.subtitleGroups_.tracks[label] = track;
-            }
-          }
-        }
-      }
-
-      // Do not enable a default subtitle track. Wait for user interaction instead.
     }
 
     /**
@@ -3568,320 +3391,11 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
     key: 'load',
     value: function load() {
       this.mainSegmentLoader_.load();
-      if (this.audioPlaylistLoader_) {
+      if (this.mediaTypes_.AUDIO.activePlaylistLoader) {
         this.audioSegmentLoader_.load();
       }
-      if (this.subtitlePlaylistLoader_) {
+      if (this.mediaTypes_.SUBTITLES.activePlaylistLoader) {
         this.subtitleSegmentLoader_.load();
-      }
-    }
-
-    /**
-     * Returns the audio group for the currently active primary
-     * media playlist.
-     */
-  }, {
-    key: 'activeAudioGroup',
-    value: function activeAudioGroup() {
-      var videoPlaylist = this.masterPlaylistLoader_.media();
-      var result = undefined;
-
-      if (videoPlaylist.attributes.AUDIO) {
-        result = this.audioGroups_[videoPlaylist.attributes.AUDIO];
-      }
-
-      return result || this.audioGroups_.main;
-    }
-
-    /**
-     * Returns the subtitle group for the currently active primary
-     * media playlist.
-     */
-  }, {
-    key: 'activeSubtitleGroup_',
-    value: function activeSubtitleGroup_() {
-      var videoPlaylist = this.masterPlaylistLoader_.media();
-      var result = undefined;
-
-      if (!videoPlaylist) {
-        return null;
-      }
-
-      if (videoPlaylist.attributes.SUBTITLES) {
-        result = this.subtitleGroups_.groups[videoPlaylist.attributes.SUBTITLES];
-      }
-
-      return result || this.subtitleGroups_.groups.main;
-    }
-  }, {
-    key: 'activeSubtitleTrack_',
-    value: function activeSubtitleTrack_() {
-      for (var trackName in this.subtitleGroups_.tracks) {
-        if (this.subtitleGroups_.tracks[trackName].mode === 'showing') {
-          return this.subtitleGroups_.tracks[trackName];
-        }
-      }
-
-      return null;
-    }
-  }, {
-    key: 'handleSubtitleError_',
-    value: function handleSubtitleError_() {
-      _videoJs2['default'].log.warn('Problem encountered loading the subtitle track' + '. Switching back to default.');
-
-      this.subtitleSegmentLoader_.abort();
-
-      var track = this.activeSubtitleTrack_();
-
-      if (track) {
-        track.mode = 'disabled';
-      }
-
-      this.setupSubtitles();
-    }
-
-    /**
-     * Determine the correct audio renditions based on the active
-     * AudioTrack and initialize a PlaylistLoader and SegmentLoader if
-     * necessary. This method is only called when the media-group changes
-     * and performs non-destructive 'resync' of the SegmentLoader(s) since
-     * the playlist has likely changed
-     */
-  }, {
-    key: 'mediaGroupChanged',
-    value: function mediaGroupChanged() {
-      var track = this.getActiveAudioTrack_();
-
-      this.stopAudioLoaders_();
-      this.resyncAudioLoaders_(track);
-    }
-
-    /**
-     * Determine the correct audio rendition based on the active
-     * AudioTrack and initialize a PlaylistLoader and SegmentLoader if
-     * necessary. This method is called once automatically before
-     * playback begins to enable the default audio track and should be
-     * invoked again if the track is changed. Performs destructive 'reset'
-     * on the SegmentLoaders(s) to ensure we start loading audio as
-     * close to currentTime as possible
-     */
-  }, {
-    key: 'setupAudio',
-    value: function setupAudio() {
-      var track = this.getActiveAudioTrack_();
-
-      this.stopAudioLoaders_();
-      this.resetAudioLoaders_(track);
-    }
-
-    /**
-     * Returns the currently active track or the default track if none
-     * are active
-     */
-  }, {
-    key: 'getActiveAudioTrack_',
-    value: function getActiveAudioTrack_() {
-      // determine whether seperate loaders are required for the audio
-      // rendition
-      var audioGroup = this.activeAudioGroup();
-      var track = audioGroup.filter(function (audioTrack) {
-        return audioTrack.enabled;
-      })[0];
-
-      if (!track) {
-        track = audioGroup.filter(function (audioTrack) {
-          return audioTrack.properties_['default'];
-        })[0] || audioGroup[0];
-        track.enabled = true;
-      }
-
-      return track;
-    }
-
-    /**
-     * Destroy the PlaylistLoader and pause the SegmentLoader specifically
-     * for audio when switching audio tracks
-     */
-  }, {
-    key: 'stopAudioLoaders_',
-    value: function stopAudioLoaders_() {
-      // stop playlist and segment loading for audio
-      if (this.audioPlaylistLoader_) {
-        this.audioPlaylistLoader_.dispose();
-        this.audioPlaylistLoader_ = null;
-      }
-      this.audioSegmentLoader_.pause();
-    }
-
-    /**
-     * Destructive reset of the mainSegmentLoader (when audio is muxed)
-     * or audioSegmentLoader (when audio is demuxed) to prepare them
-     * to start loading new data right at currentTime
-     */
-  }, {
-    key: 'resetAudioLoaders_',
-    value: function resetAudioLoaders_(track) {
-      if (!track.properties_.resolvedUri) {
-        this.mainSegmentLoader_.resetEverything();
-        return;
-      }
-
-      this.audioSegmentLoader_.resetEverything();
-      this.setupAudioPlaylistLoader_(track);
-    }
-
-    /**
-     * Non-destructive resync of the audioSegmentLoader (when audio
-     * is demuxed) to prepare to continue appending new audio data
-     * at the end of the current buffered region
-     */
-  }, {
-    key: 'resyncAudioLoaders_',
-    value: function resyncAudioLoaders_(track) {
-      if (!track.properties_.resolvedUri) {
-        return;
-      }
-
-      this.audioSegmentLoader_.resyncLoader();
-      this.setupAudioPlaylistLoader_(track);
-    }
-
-    /**
-     * Setup a new audioPlaylistLoader and start the audioSegmentLoader
-     * to begin loading demuxed audio
-     */
-  }, {
-    key: 'setupAudioPlaylistLoader_',
-    value: function setupAudioPlaylistLoader_(track) {
-      var _this4 = this;
-
-      // startup playlist and segment loaders for the enabled audio
-      // track
-      this.audioPlaylistLoader_ = new _playlistLoader2['default'](track.properties_.resolvedUri, this.hls_, this.withCredentials);
-      this.audioPlaylistLoader_.load();
-
-      this.audioPlaylistLoader_.on('loadedmetadata', function () {
-        var audioPlaylist = _this4.audioPlaylistLoader_.media();
-
-        _this4.audioSegmentLoader_.playlist(audioPlaylist, _this4.requestOptions_);
-
-        // if the video is already playing, or if this isn't a live video and preload
-        // permits, start downloading segments
-        if (!_this4.tech_.paused() || audioPlaylist.endList && _this4.tech_.preload() !== 'none') {
-          _this4.audioSegmentLoader_.load();
-        }
-
-        if (!audioPlaylist.endList) {
-          _this4.audioPlaylistLoader_.trigger('firstplay');
-        }
-      });
-
-      this.audioPlaylistLoader_.on('loadedplaylist', function () {
-        var updatedPlaylist = undefined;
-
-        if (_this4.audioPlaylistLoader_) {
-          updatedPlaylist = _this4.audioPlaylistLoader_.media();
-        }
-
-        if (!updatedPlaylist) {
-          // only one playlist to select
-          _this4.audioPlaylistLoader_.media(_this4.audioPlaylistLoader_.playlists.master.playlists[0]);
-          return;
-        }
-
-        _this4.audioSegmentLoader_.playlist(updatedPlaylist, _this4.requestOptions_);
-      });
-
-      this.audioPlaylistLoader_.on('error', function () {
-        _videoJs2['default'].log.warn('Problem encountered loading the alternate audio track' + '. Switching back to default.');
-        _this4.audioSegmentLoader_.abort();
-        _this4.setupAudio();
-      });
-    }
-
-    /**
-     * Determine the correct subtitle playlist based on the active
-     * SubtitleTrack and initialize a PlaylistLoader and SegmentLoader if
-     * necessary. This method is called once automatically before
-     * playback begins to enable the default subtitle track and should be
-     * invoked again if the track is changed.
-     */
-  }, {
-    key: 'setupSubtitles',
-    value: function setupSubtitles() {
-      var _this5 = this;
-
-      var subtitleGroup = this.activeSubtitleGroup_();
-      var track = this.activeSubtitleTrack_();
-
-      this.subtitleSegmentLoader_.pause();
-
-      if (!track) {
-        // stop playlist and segment loading for subtitles
-        if (this.subtitlePlaylistLoader_) {
-          this.subtitlePlaylistLoader_.dispose();
-          this.subtitlePlaylistLoader_ = null;
-        }
-        return;
-      }
-
-      var properties = subtitleGroup.filter(function (subtitleProperties) {
-        return subtitleProperties.id === track.id;
-      })[0];
-
-      // startup playlist and segment loaders for the enabled subtitle track
-      if (!this.subtitlePlaylistLoader_ ||
-      // if the media hasn't loaded yet, we don't have the URI to check, so it is
-      // easiest to simply recreate the playlist loader
-      !this.subtitlePlaylistLoader_.media() || this.subtitlePlaylistLoader_.media().resolvedUri !== properties.resolvedUri) {
-
-        if (this.subtitlePlaylistLoader_) {
-          this.subtitlePlaylistLoader_.dispose();
-        }
-
-        // reset the segment loader only when the subtitle playlist is changed instead of
-        // every time setupSubtitles is called since switching subtitle tracks fires
-        // multiple `change` events on the TextTrackList
-        this.subtitleSegmentLoader_.resetEverything();
-
-        // can't reuse playlistloader because we're only using single renditions and not a
-        // proper master
-        this.subtitlePlaylistLoader_ = new _playlistLoader2['default'](properties.resolvedUri, this.hls_, this.withCredentials);
-
-        this.subtitlePlaylistLoader_.on('loadedmetadata', function () {
-          var subtitlePlaylist = _this5.subtitlePlaylistLoader_.media();
-
-          _this5.subtitleSegmentLoader_.playlist(subtitlePlaylist, _this5.requestOptions_);
-          _this5.subtitleSegmentLoader_.track(_this5.activeSubtitleTrack_());
-
-          // if the video is already playing, or if this isn't a live video and preload
-          // permits, start downloading segments
-          if (!_this5.tech_.paused() || subtitlePlaylist.endList && _this5.tech_.preload() !== 'none') {
-            _this5.subtitleSegmentLoader_.load();
-          }
-        });
-
-        this.subtitlePlaylistLoader_.on('loadedplaylist', function () {
-          var updatedPlaylist = undefined;
-
-          if (_this5.subtitlePlaylistLoader_) {
-            updatedPlaylist = _this5.subtitlePlaylistLoader_.media();
-          }
-
-          if (!updatedPlaylist) {
-            return;
-          }
-
-          _this5.subtitleSegmentLoader_.playlist(updatedPlaylist, _this5.requestOptions_);
-        });
-
-        this.subtitlePlaylistLoader_.on('error', this.handleSubtitleError_.bind(this));
-      }
-
-      if (this.subtitlePlaylistLoader_.media() && this.subtitlePlaylistLoader_.media().resolvedUri === properties.resolvedUri) {
-        this.subtitleSegmentLoader_.load();
-      } else {
-        this.subtitlePlaylistLoader_.load();
       }
     }
 
@@ -4015,7 +3529,7 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
     value: function onEndOfStream() {
       var isEndOfStream = this.mainSegmentLoader_.ended_;
 
-      if (this.audioPlaylistLoader_) {
+      if (this.mediaTypes_.AUDIO.activePlaylistLoader) {
         // if the audio playlist loader exists, then alternate audio is active, so we need
         // to wait for both the main and audio segment loaders to call endOfStream
         isEndOfStream = isEndOfStream && this.audioSegmentLoader_.ended_;
@@ -4128,10 +3642,10 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
     key: 'pauseLoading',
     value: function pauseLoading() {
       this.mainSegmentLoader_.pause();
-      if (this.audioPlaylistLoader_) {
+      if (this.mediaTypes_.AUDIO.activePlaylistLoader) {
         this.audioSegmentLoader_.pause();
       }
-      if (this.subtitlePlaylistLoader_) {
+      if (this.mediaTypes_.SUBTITLES.activePlaylistLoader) {
         this.subtitleSegmentLoader_.pause();
       }
     }
@@ -4172,11 +3686,11 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
       // location
       this.mainSegmentLoader_.resetEverything();
       this.mainSegmentLoader_.abort();
-      if (this.audioPlaylistLoader_) {
+      if (this.mediaTypes_.AUDIO.activePlaylistLoader) {
         this.audioSegmentLoader_.resetEverything();
         this.audioSegmentLoader_.abort();
       }
-      if (this.subtitlePlaylistLoader_) {
+      if (this.mediaTypes_.SUBTITLES.activePlaylistLoader) {
         this.subtitleSegmentLoader_.resetEverything();
         this.subtitleSegmentLoader_.abort();
       }
@@ -4243,8 +3757,8 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
         return;
       }
 
-      if (this.audioPlaylistLoader_) {
-        media = this.audioPlaylistLoader_.media();
+      if (this.mediaTypes_.AUDIO.activePlaylistLoader) {
+        media = this.mediaTypes_.AUDIO.activePlaylistLoader.media();
         expired = this.syncController_.getExpiredTime(media, this.mediaSource.duration);
 
         if (expired === null) {
@@ -4278,16 +3792,16 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
   }, {
     key: 'updateDuration',
     value: function updateDuration() {
-      var _this6 = this;
+      var _this4 = this;
 
       var oldDuration = this.mediaSource.duration;
       var newDuration = Hls.Playlist.duration(this.masterPlaylistLoader_.media());
       var buffered = this.tech_.buffered();
       var setDuration = function setDuration() {
-        _this6.mediaSource.duration = newDuration;
-        _this6.tech_.trigger('durationchange');
+        _this4.mediaSource.duration = newDuration;
+        _this4.tech_.trigger('durationchange');
 
-        _this6.mediaSource.removeEventListener('sourceopen', setDuration);
+        _this4.mediaSource.removeEventListener('sourceopen', setDuration);
       };
 
       if (buffered.length > 0) {
@@ -4312,16 +3826,24 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
   }, {
     key: 'dispose',
     value: function dispose() {
+      var _this5 = this;
+
       this.decrypter_.terminate();
       this.masterPlaylistLoader_.dispose();
       this.mainSegmentLoader_.dispose();
 
-      if (this.audioPlaylistLoader_) {
-        this.audioPlaylistLoader_.dispose();
-      }
-      if (this.subtitlePlaylistLoader_) {
-        this.subtitlePlaylistLoader_.dispose();
-      }
+      ['AUDIO', 'SUBTITLES'].forEach(function (type) {
+        var groups = _this5.mediaTypes_[type].groups;
+
+        for (var id in groups) {
+          groups[id].forEach(function (group) {
+            if (group.playlistLoader) {
+              group.playlistLoader.dispose();
+            }
+          });
+        }
+      });
+
       this.audioSegmentLoader_.dispose();
       this.subtitleSegmentLoader_.dispose();
     }
@@ -4488,7 +4010,764 @@ var MasterPlaylistController = (function (_videojs$EventTarget) {
 
 exports.MasterPlaylistController = MasterPlaylistController;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./ad-cue-tags":1,"./config":3,"./decrypter-worker":4,"./playlist-loader":8,"./ranges":11,"./segment-loader":15,"./sync-controller":17,"./util/codecs.js":18,"./vtt-segment-loader":19,"videojs-contrib-media-sources/es5/codec-utils":65,"webworkify":76}],6:[function(require,module,exports){
+},{"./ad-cue-tags":1,"./config":3,"./decrypter-worker":4,"./media-groups":6,"./playlist-loader":9,"./ranges":12,"./segment-loader":16,"./sync-controller":18,"./util/codecs.js":19,"./vtt-segment-loader":20,"videojs-contrib-media-sources/es5/codec-utils":65,"webworkify":76}],6:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _videoJs = (typeof window !== "undefined" ? window['videojs'] : typeof global !== "undefined" ? global['videojs'] : null);
+
+var _videoJs2 = _interopRequireDefault(_videoJs);
+
+var _playlistLoader = require('./playlist-loader');
+
+var _playlistLoader2 = _interopRequireDefault(_playlistLoader);
+
+var noop = function noop() {};
+
+/**
+ * Convert the properties of an HLS track into an audioTrackKind.
+ *
+ * @private
+ */
+var audioTrackKind_ = function audioTrackKind_(properties) {
+  var kind = properties['default'] ? 'main' : 'alternative';
+
+  if (properties.characteristics && properties.characteristics.indexOf('public.accessibility.describes-video') >= 0) {
+    kind = 'main-desc';
+  }
+
+  return kind;
+};
+
+/**
+ * Pause provided segment loader and playlist loader if active
+ *
+ * @param {SegmentLoader} segmentLoader
+ *        SegmentLoader to pause
+ * @param {Object} mediaType
+ *        Active media type
+ * @function stopLoaders
+ */
+var stopLoaders = function stopLoaders(segmentLoader, mediaType) {
+  segmentLoader.abort();
+  segmentLoader.pause();
+
+  if (mediaType && mediaType.activePlaylistLoader) {
+    mediaType.activePlaylistLoader.pause();
+    mediaType.activePlaylistLoader = null;
+  }
+};
+
+exports.stopLoaders = stopLoaders;
+/**
+ * Start loading provided segment loader and playlist loader
+ *
+ * @param {PlaylistLoader} playlistLoader
+ *        PlaylistLoader to start loading
+ * @param {Object} mediaType
+ *        Active media type
+ * @function startLoaders
+ */
+var startLoaders = function startLoaders(playlistLoader, mediaType) {
+  // Segment loader will be started after `loadedmetadata` or `loadedplaylist` from the
+  // playlist loader
+  mediaType.activePlaylistLoader = playlistLoader;
+  playlistLoader.load();
+};
+
+exports.startLoaders = startLoaders;
+/**
+ * Returns a function to be called when the media group changes. It performs a
+ * non-destructive (preserve the buffer) resync of the SegmentLoader. This is because a
+ * change of group is merely a rendition switch of the same content at another encoding,
+ * rather than a change of content, such as switching audio from English to Spanish.
+ *
+ * @param {String} type
+ *        MediaGroup type
+ * @param {Object} settings
+ *        Object containing required information for media groups
+ * @return {Function}
+ *         Handler for a non-destructive resync of SegmentLoader when the active media
+ *         group changes.
+ * @function onGroupChanged
+ */
+var onGroupChanged = function onGroupChanged(type, settings) {
+  return function () {
+    var _settings$segmentLoaders = settings.segmentLoaders;
+    var segmentLoader = _settings$segmentLoaders[type];
+    var mainSegmentLoader = _settings$segmentLoaders.main;
+    var mediaType = settings.mediaTypes[type];
+
+    var activeTrack = mediaType.activeTrack();
+    var activeGroup = mediaType.activeGroup(activeTrack);
+    var previousActiveLoader = mediaType.activePlaylistLoader;
+
+    stopLoaders(segmentLoader, mediaType);
+
+    if (!activeGroup) {
+      // there is no group active
+      return;
+    }
+
+    if (!activeGroup.playlistLoader) {
+      if (previousActiveLoader) {
+        // The previous group had a playlist loader but the new active group does not
+        // this means we are switching from demuxed to muxed audio. In this case we want to
+        // do a destructive reset of the main segment loader and not restart the audio
+        // loaders.
+        mainSegmentLoader.resetEverything();
+      }
+      return;
+    }
+
+    // Non-destructive resync
+    segmentLoader.resyncLoader();
+
+    startLoaders(activeGroup.playlistLoader, mediaType);
+  };
+};
+
+exports.onGroupChanged = onGroupChanged;
+/**
+ * Returns a function to be called when the media track changes. It performs a
+ * destructive reset of the SegmentLoader to ensure we start loading as close to
+ * currentTime as possible.
+ *
+ * @param {String} type
+ *        MediaGroup type
+ * @param {Object} settings
+ *        Object containing required information for media groups
+ * @return {Function}
+ *         Handler for a destructive reset of SegmentLoader when the active media
+ *         track changes.
+ * @function onTrackChanged
+ */
+var onTrackChanged = function onTrackChanged(type, settings) {
+  return function () {
+    var _settings$segmentLoaders2 = settings.segmentLoaders;
+    var segmentLoader = _settings$segmentLoaders2[type];
+    var mainSegmentLoader = _settings$segmentLoaders2.main;
+    var mediaType = settings.mediaTypes[type];
+
+    var activeTrack = mediaType.activeTrack();
+    var activeGroup = mediaType.activeGroup(activeTrack);
+    var previousActiveLoader = mediaType.activePlaylistLoader;
+
+    stopLoaders(segmentLoader, mediaType);
+
+    if (!activeGroup) {
+      // there is no group active so we do not want to restart loaders
+      return;
+    }
+
+    if (!activeGroup.playlistLoader) {
+      // when switching from demuxed audio/video to muxed audio/video (noted by no playlist
+      // loader for the audio group), we want to do a destructive reset of the main segment
+      // loader and not restart the audio loaders
+      mainSegmentLoader.resetEverything();
+      return;
+    }
+
+    if (previousActiveLoader === activeGroup.playlistLoader) {
+      // Nothing has actually changed. This can happen because track change events can fire
+      // multiple times for a "single" change. One for enabling the new active track, and
+      // one for disabling the track that was active
+      startLoaders(activeGroup.playlistLoader, mediaType);
+      return;
+    }
+
+    if (segmentLoader.track) {
+      // For WebVTT, set the new text track in the segmentloader
+      segmentLoader.track(activeTrack);
+    }
+
+    // destructive reset
+    segmentLoader.resetEverything();
+
+    startLoaders(activeGroup.playlistLoader, mediaType);
+  };
+};
+
+exports.onTrackChanged = onTrackChanged;
+var onError = {
+  /**
+   * Returns a function to be called when a SegmentLoader or PlaylistLoader encounters
+   * an error.
+   *
+   * @param {String} type
+   *        MediaGroup type
+   * @param {Object} settings
+   *        Object containing required information for media groups
+   * @return {Function}
+   *         Error handler. Logs warning (or error if the playlist is blacklisted) to
+   *         console and switches back to default audio track.
+   * @function onError.AUDIO
+   */
+  AUDIO: function AUDIO(type, settings) {
+    return function () {
+      var segmentLoader = settings.segmentLoaders[type];
+      var mediaType = settings.mediaTypes[type];
+      var blacklistCurrentPlaylist = settings.blacklistCurrentPlaylist;
+
+      stopLoaders(segmentLoader, mediaType);
+
+      // switch back to default audio track
+      var activeTrack = mediaType.activeTrack();
+      var activeGroup = mediaType.activeGroup();
+      var id = (activeGroup.filter(function (group) {
+        return group['default'];
+      })[0] || activeGroup[0]).id;
+      var defaultTrack = mediaType.tracks[id];
+
+      if (activeTrack === defaultTrack) {
+        // Default track encountered an error. All we can do now is blacklist the current
+        // rendition and hope another will switch audio groups
+        blacklistCurrentPlaylist({
+          message: 'Problem encountered loading the default audio track.'
+        });
+        return;
+      }
+
+      _videoJs2['default'].log.warn('Problem encountered loading the alternate audio track.' + 'Switching back to default.');
+
+      for (var trackId in mediaType.tracks) {
+        mediaType.tracks[trackId].enabled = mediaType.tracks[trackId] === defaultTrack;
+      }
+
+      mediaType.onTrackChanged();
+    };
+  },
+  /**
+   * Returns a function to be called when a SegmentLoader or PlaylistLoader encounters
+   * an error.
+   *
+   * @param {String} type
+   *        MediaGroup type
+   * @param {Object} settings
+   *        Object containing required information for media groups
+   * @return {Function}
+   *         Error handler. Logs warning to console and disables the active subtitle track
+   * @function onError.SUBTITLES
+   */
+  SUBTITLES: function SUBTITLES(type, settings) {
+    return function () {
+      var segmentLoader = settings.segmentLoaders[type];
+      var mediaType = settings.mediaTypes[type];
+
+      _videoJs2['default'].log.warn('Problem encountered loading the subtitle track.' + 'Disabling subtitle track.');
+
+      stopLoaders(segmentLoader, mediaType);
+
+      var track = mediaType.activeTrack();
+
+      if (track) {
+        track.mode = 'disabled';
+      }
+
+      mediaType.onTrackChanged();
+    };
+  }
+};
+
+exports.onError = onError;
+var setupListeners = {
+  /**
+   * Setup event listeners for audio playlist loader
+   *
+   * @param {String} type
+   *        MediaGroup type
+   * @param {PlaylistLoader|null} playlistLoader
+   *        PlaylistLoader to register listeners on
+   * @param {Object} settings
+   *        Object containing required information for media groups
+   * @function setupListeners.AUDIO
+   */
+  AUDIO: function AUDIO(type, playlistLoader, settings) {
+    if (!playlistLoader) {
+      // no playlist loader means audio will be muxed with the video
+      return;
+    }
+
+    var tech = settings.tech;
+    var requestOptions = settings.requestOptions;
+    var segmentLoader = settings.segmentLoaders[type];
+
+    playlistLoader.on('loadedmetadata', function () {
+      var media = playlistLoader.media();
+
+      segmentLoader.playlist(media, requestOptions);
+
+      // if the video is already playing, or if this isn't a live video and preload
+      // permits, start downloading segments
+      if (!tech.paused() || media.endList && tech.preload() !== 'none') {
+        segmentLoader.load();
+      }
+    });
+
+    playlistLoader.on('loadedplaylist', function () {
+      segmentLoader.playlist(playlistLoader.media(), requestOptions);
+
+      // If the player isn't paused, ensure that the segment loader is running
+      if (!tech.paused()) {
+        segmentLoader.load();
+      }
+    });
+
+    playlistLoader.on('error', onError[type](type, settings));
+  },
+  /**
+   * Setup event listeners for subtitle playlist loader
+   *
+   * @param {String} type
+   *        MediaGroup type
+   * @param {PlaylistLoader|null} playlistLoader
+   *        PlaylistLoader to register listeners on
+   * @param {Object} settings
+   *        Object containing required information for media groups
+   * @function setupListeners.SUBTITLES
+   */
+  SUBTITLES: function SUBTITLES(type, playlistLoader, settings) {
+    var tech = settings.tech;
+    var requestOptions = settings.requestOptions;
+    var segmentLoader = settings.segmentLoaders[type];
+    var mediaType = settings.mediaTypes[type];
+
+    playlistLoader.on('loadedmetadata', function () {
+      var media = playlistLoader.media();
+
+      segmentLoader.playlist(media, requestOptions);
+      segmentLoader.track(mediaType.activeTrack());
+
+      // if the video is already playing, or if this isn't a live video and preload
+      // permits, start downloading segments
+      if (!tech.paused() || media.endList && tech.preload() !== 'none') {
+        segmentLoader.load();
+      }
+    });
+
+    playlistLoader.on('loadedplaylist', function () {
+      segmentLoader.playlist(playlistLoader.media(), requestOptions);
+
+      // If the player isn't paused, ensure that the segment loader is running
+      if (!tech.paused()) {
+        segmentLoader.load();
+      }
+    });
+
+    playlistLoader.on('error', onError[type](type, settings));
+  }
+};
+
+exports.setupListeners = setupListeners;
+var initialize = {
+  /**
+   * Setup PlaylistLoaders and AudioTracks for the audio groups
+   *
+   * @param {String} type
+   *        MediaGroup type
+   * @param {Object} settings
+   *        Object containing required information for media groups
+   * @function initialize.AUDIO
+   */
+  'AUDIO': function AUDIO(type, settings) {
+    var mode = settings.mode;
+    var hls = settings.hls;
+    var segmentLoader = settings.segmentLoaders[type];
+    var withCredentials = settings.requestOptions.withCredentials;
+    var mediaGroups = settings.master.mediaGroups;
+    var _settings$mediaTypes$type = settings.mediaTypes[type];
+    var groups = _settings$mediaTypes$type.groups;
+    var tracks = _settings$mediaTypes$type.tracks;
+
+    // force a default if we have none or we are not
+    // in html5 mode (the only mode to support more than one
+    // audio track)
+    if (!mediaGroups[type] || Object.keys(mediaGroups[type]).length === 0 || mode !== 'html5') {
+      mediaGroups[type] = { main: { 'default': { 'default': true } } };
+    }
+
+    for (var groupId in mediaGroups[type]) {
+      if (!groups[groupId]) {
+        groups[groupId] = [];
+      }
+
+      for (var variantLabel in mediaGroups[type][groupId]) {
+        var properties = mediaGroups[type][groupId][variantLabel];
+        var playlistLoader = undefined;
+
+        if (properties.resolvedUri) {
+          playlistLoader = new _playlistLoader2['default'](properties.resolvedUri, hls, withCredentials);
+        } else {
+          // no resolvedUri means the audio is muxed with the video when using this
+          // audio track
+          playlistLoader = null;
+        }
+
+        properties = _videoJs2['default'].mergeOptions({ id: variantLabel, playlistLoader: playlistLoader }, properties);
+
+        setupListeners[type](type, properties.playlistLoader, settings);
+
+        groups[groupId].push(properties);
+
+        if (typeof tracks[variantLabel] === 'undefined') {
+          var track = new _videoJs2['default'].AudioTrack({
+            id: variantLabel,
+            kind: audioTrackKind_(properties),
+            enabled: false,
+            language: properties.language,
+            'default': properties['default'],
+            label: variantLabel
+          });
+
+          tracks[variantLabel] = track;
+        }
+      }
+    }
+
+    // setup single error event handler for the segment loader
+    segmentLoader.on('error', onError[type](type, settings));
+  },
+  /**
+   * Setup PlaylistLoaders and TextTracks for the subtitle groups
+   *
+   * @param {String} type
+   *        MediaGroup type
+   * @param {Object} settings
+   *        Object containing required information for media groups
+   * @function initialize.SUBTITLES
+   */
+  'SUBTITLES': function SUBTITLES(type, settings) {
+    var tech = settings.tech;
+    var hls = settings.hls;
+    var segmentLoader = settings.segmentLoaders[type];
+    var withCredentials = settings.requestOptions.withCredentials;
+    var mediaGroups = settings.master.mediaGroups;
+    var _settings$mediaTypes$type2 = settings.mediaTypes[type];
+    var groups = _settings$mediaTypes$type2.groups;
+    var tracks = _settings$mediaTypes$type2.tracks;
+
+    for (var groupId in mediaGroups[type]) {
+      if (!groups[groupId]) {
+        groups[groupId] = [];
+      }
+
+      for (var variantLabel in mediaGroups[type][groupId]) {
+        if (mediaGroups[type][groupId][variantLabel].forced) {
+          // Subtitle playlists with the forced attribute are not selectable in Safari.
+          // According to Apple's HLS Authoring Specification:
+          //   If content has forced subtitles and regular subtitles in a given language,
+          //   the regular subtitles track in that language MUST contain both the forced
+          //   subtitles and the regular subtitles for that language.
+          // Because of this requirement and that Safari does not add forced subtitles,
+          // forced subtitles are skipped here to maintain consistent experience across
+          // all platforms
+          continue;
+        }
+
+        var properties = mediaGroups[type][groupId][variantLabel];
+
+        properties = _videoJs2['default'].mergeOptions({
+          id: variantLabel,
+          playlistLoader: new _playlistLoader2['default'](properties.resolvedUri, hls, withCredentials)
+        }, properties);
+
+        setupListeners[type](type, properties.playlistLoader, settings);
+
+        groups[groupId].push(properties);
+
+        if (typeof tracks[variantLabel] === 'undefined') {
+          var track = tech.addRemoteTextTrack({
+            id: variantLabel,
+            kind: 'subtitles',
+            enabled: false,
+            language: properties.language,
+            label: variantLabel
+          }, false).track;
+
+          tracks[variantLabel] = track;
+        }
+      }
+    }
+
+    // setup single error event handler for the segment loader
+    segmentLoader.on('error', onError[type](type, settings));
+  },
+  /**
+   * Setup TextTracks for the closed-caption groups
+   *
+   * @param {String} type
+   *        MediaGroup type
+   * @param {Object} settings
+   *        Object containing required information for media groups
+   * @function initialize['CLOSED-CAPTIONS']
+   */
+  'CLOSED-CAPTIONS': function CLOSEDCAPTIONS(type, settings) {
+    var tech = settings.tech;
+    var mediaGroups = settings.master.mediaGroups;
+    var _settings$mediaTypes$type3 = settings.mediaTypes[type];
+    var groups = _settings$mediaTypes$type3.groups;
+    var tracks = _settings$mediaTypes$type3.tracks;
+
+    for (var groupId in mediaGroups[type]) {
+      if (!groups[groupId]) {
+        groups[groupId] = [];
+      }
+
+      for (var variantLabel in mediaGroups[type][groupId]) {
+        var properties = mediaGroups[type][groupId][variantLabel];
+
+        // We only support CEA608 captions for now, so ignore anything that
+        // doesn't use a CCx INSTREAM-ID
+        if (!properties.instreamId.match(/CC\d/)) {
+          continue;
+        }
+
+        // No PlaylistLoader is required for Closed-Captions because the captions are
+        // embedded within the video stream
+        groups[groupId].push(_videoJs2['default'].mergeOptions({ id: variantLabel }, properties));
+
+        if (typeof tracks[variantLabel] === 'undefined') {
+          var track = tech.addRemoteTextTrack({
+            id: properties.instreamId,
+            kind: 'captions',
+            enabled: false,
+            language: properties.language,
+            label: variantLabel
+          }, false).track;
+
+          tracks[variantLabel] = track;
+        }
+      }
+    }
+  }
+};
+
+exports.initialize = initialize;
+/**
+ * Returns a function used to get the active group of the provided type
+ *
+ * @param {String} type
+ *        MediaGroup type
+ * @param {Object} settings
+ *        Object containing required information for media groups
+ * @return {Function}
+ *         Function that returns the active media group for the provided type. Takes an
+ *         optional parameter {TextTrack} track. If no track is provided, a list of all
+ *         variants in the group, otherwise the variant corresponding to the provided
+ *         track is returned.
+ * @function activeGroup
+ */
+var activeGroup = function activeGroup(type, settings) {
+  return function (track) {
+    var masterPlaylistLoader = settings.masterPlaylistLoader;
+    var groups = settings.mediaTypes[type].groups;
+
+    var media = masterPlaylistLoader.media();
+
+    if (!media) {
+      return null;
+    }
+
+    var variants = null;
+
+    if (media.attributes[type]) {
+      variants = groups[media.attributes[type]];
+    }
+
+    variants = variants || groups.main;
+
+    if (typeof track === 'undefined') {
+      return variants;
+    }
+
+    if (track === null) {
+      // An active track was specified so a corresponding group is expected. track === null
+      // means no track is currently active so there is no corresponding group
+      return null;
+    }
+
+    return variants.filter(function (props) {
+      return props.id === track.id;
+    })[0] || null;
+  };
+};
+
+exports.activeGroup = activeGroup;
+var activeTrack = {
+  /**
+   * Returns a function used to get the active track of type provided
+   *
+   * @param {String} type
+   *        MediaGroup type
+   * @param {Object} settings
+   *        Object containing required information for media groups
+   * @return {Function}
+   *         Function that returns the active media track for the provided type. Returns
+   *         null if no track is active
+   * @function activeTrack.AUDIO
+   */
+  AUDIO: function AUDIO(type, settings) {
+    return function () {
+      var tracks = settings.mediaTypes[type].tracks;
+
+      for (var id in tracks) {
+        if (tracks[id].enabled) {
+          return tracks[id];
+        }
+      }
+
+      return null;
+    };
+  },
+  /**
+   * Returns a function used to get the active track of type provided
+   *
+   * @param {String} type
+   *        MediaGroup type
+   * @param {Object} settings
+   *        Object containing required information for media groups
+   * @return {Function}
+   *         Function that returns the active media track for the provided type. Returns
+   *         null if no track is active
+   * @function activeTrack.SUBTITLES
+   */
+  SUBTITLES: function SUBTITLES(type, settings) {
+    return function () {
+      var tracks = settings.mediaTypes[type].tracks;
+
+      for (var id in tracks) {
+        if (tracks[id].mode === 'showing') {
+          return tracks[id];
+        }
+      }
+
+      return null;
+    };
+  }
+};
+
+exports.activeTrack = activeTrack;
+/**
+ * Setup PlaylistLoaders and Tracks for media groups (Audio, Subtitles,
+ * Closed-Captions) specified in the master manifest.
+ *
+ * @param {Object} settings
+ *        Object containing required information for setting up the media groups
+ * @param {SegmentLoader} settings.segmentLoaders.AUDIO
+ *        Audio segment loader
+ * @param {SegmentLoader} settings.segmentLoaders.SUBTITLES
+ *        Subtitle segment loader
+ * @param {SegmentLoader} settings.segmentLoaders.main
+ *        Main segment loader
+ * @param {Tech} settings.tech
+ *        The tech of the player
+ * @param {Object} settings.requestOptions
+ *        XHR request options used by the segment loaders
+ * @param {PlaylistLoader} settings.masterPlaylistLoader
+ *        PlaylistLoader for the master source
+ * @param {String} mode
+ *        Mode of the hls source handler. Can be 'auto', 'html5', or 'flash'
+ * @param {HlsHandler} settings.hls
+ *        HLS SourceHandler
+ * @param {Object} settings.master
+ *        The parsed master manifest
+ * @param {Object} settings.mediaTypes
+ *        Object to store the loaders, tracks, and utility methods for each media type
+ * @param {Function} settings.blacklistCurrentPlaylist
+ *        Blacklists the current rendition and forces a rendition switch.
+ * @function setupMediaGroups
+ */
+var setupMediaGroups = function setupMediaGroups(settings) {
+  ['AUDIO', 'SUBTITLES', 'CLOSED-CAPTIONS'].forEach(function (type) {
+    initialize[type](type, settings);
+  });
+
+  var mediaTypes = settings.mediaTypes;
+  var masterPlaylistLoader = settings.masterPlaylistLoader;
+  var tech = settings.tech;
+  var hls = settings.hls;
+
+  // setup active group and track getters and change event handlers
+  ['AUDIO', 'SUBTITLES'].forEach(function (type) {
+    mediaTypes[type].activeGroup = activeGroup(type, settings);
+    mediaTypes[type].activeTrack = activeTrack[type](type, settings);
+    mediaTypes[type].onGroupChanged = onGroupChanged(type, settings);
+    mediaTypes[type].onTrackChanged = onTrackChanged(type, settings);
+  });
+
+  // DO NOT enable the default subtitle or caption track.
+  // DO enable the default audio track
+  var audioGroup = mediaTypes.AUDIO.activeGroup();
+  var groupId = (audioGroup.filter(function (group) {
+    return group['default'];
+  })[0] || audioGroup[0]).id;
+
+  mediaTypes.AUDIO.tracks[groupId].enabled = true;
+  mediaTypes.AUDIO.onTrackChanged();
+
+  masterPlaylistLoader.on('mediachange', function () {
+    ['AUDIO', 'SUBTITLES'].forEach(function (type) {
+      return mediaTypes[type].onGroupChanged();
+    });
+  });
+
+  // custom audio track change event handler for usage event
+  var onAudioTrackChanged = function onAudioTrackChanged() {
+    mediaTypes.AUDIO.onTrackChanged();
+    tech.trigger({ type: 'usage', name: 'hls-audio-change' });
+  };
+
+  tech.audioTracks().addEventListener('change', onAudioTrackChanged);
+  tech.remoteTextTracks().addEventListener('change', mediaTypes.SUBTITLES.onTrackChanged);
+
+  hls.on('dispose', function () {
+    tech.audioTracks().removeEventListener('change', onAudioTrackChanged);
+    tech.remoteTextTracks().removeEventListener('change', mediaTypes.SUBTITLES.onTrackChanged);
+  });
+
+  // clear existing audio tracks and add the ones we just created
+  tech.clearTracks('audio');
+
+  for (var id in mediaTypes.AUDIO.tracks) {
+    tech.audioTracks().addTrack(mediaTypes.AUDIO.tracks[id]);
+  }
+};
+
+exports.setupMediaGroups = setupMediaGroups;
+/**
+ * Creates skeleton object used to store the loaders, tracks, and utility methods for each
+ * media type
+ *
+ * @return {Object}
+ *         Object to store the loaders, tracks, and utility methods for each media type
+ * @function createMediaTypes
+ */
+var createMediaTypes = function createMediaTypes() {
+  var mediaTypes = {};
+
+  ['AUDIO', 'SUBTITLES', 'CLOSED-CAPTIONS'].forEach(function (type) {
+    mediaTypes[type] = {
+      groups: {},
+      tracks: {},
+      activePlaylistLoader: null,
+      activeGroup: noop,
+      activeTrack: noop,
+      onGroupChanged: noop,
+      onTrackChanged: noop
+    };
+  });
+
+  return mediaTypes;
+};
+exports.createMediaTypes = createMediaTypes;
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./playlist-loader":9}],7:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -4938,7 +5217,7 @@ var mediaSegmentRequest = function mediaSegmentRequest(xhr, xhrOptions, decrypti
 };
 exports.mediaSegmentRequest = mediaSegmentRequest;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bin-utils":2}],7:[function(require,module,exports){
+},{"./bin-utils":2}],8:[function(require,module,exports){
 (function (global){
 /**
  * @file playback-watcher.js
@@ -5130,15 +5409,30 @@ var PlaybackWatcher = (function () {
   }, {
     key: 'fixesBadSeeks_',
     value: function fixesBadSeeks_() {
+      var seeking = this.tech_.seeking();
       var seekable = this.seekable();
       var currentTime = this.tech_.currentTime();
+      var seekTo = undefined;
 
-      if (this.tech_.seeking() && this.outsideOfSeekableWindow_(seekable, currentTime)) {
+      if (seeking && this.afterSeekableWindow_(seekable, currentTime)) {
         var seekableEnd = seekable.end(seekable.length - 1);
 
         // sync to live point (if VOD, our seekable was updated and we're simply adjusting)
-        this.logger_('Trying to seek outside of seekable at time ' + currentTime + ' with ' + ('seekable range ' + _ranges2['default'].printableRange(seekable) + '. Seeking to ') + (seekableEnd + '.'));
-        this.tech_.setCurrentTime(seekableEnd);
+        seekTo = seekableEnd;
+      }
+
+      if (seeking && this.beforeSeekableWindow_(seekable, currentTime)) {
+        var seekableStart = seekable.start(0);
+
+        // sync to the beginning of the live window
+        // provide a buffer of .1 seconds to handle rounding/imprecise numbers
+        seekTo = seekableStart + 0.1;
+      }
+
+      if (typeof seekTo !== 'undefined') {
+        this.logger_('Trying to seek outside of seekable at time ' + currentTime + ' with ' + ('seekable range ' + _ranges2['default'].printableRange(seekable) + '. Seeking to ') + (seekTo + '.'));
+
+        this.tech_.setCurrentTime(seekTo);
         return true;
       }
 
@@ -5206,7 +5500,7 @@ var PlaybackWatcher = (function () {
         return true;
       }
 
-      if (this.fellOutOfLiveWindow_(seekable, currentTime)) {
+      if (this.beforeSeekableWindow_(seekable, currentTime)) {
         var livePoint = seekable.end(seekable.length - 1);
 
         this.logger_('Fell out of live window at time ' + currentTime + '. Seeking to ' + ('live point (seekable end) ' + livePoint));
@@ -5248,26 +5542,28 @@ var PlaybackWatcher = (function () {
       return false;
     }
   }, {
-    key: 'outsideOfSeekableWindow_',
-    value: function outsideOfSeekableWindow_(seekable, currentTime) {
+    key: 'afterSeekableWindow_',
+    value: function afterSeekableWindow_(seekable, currentTime) {
       if (!seekable.length) {
         // we can't make a solid case if there's no seekable, default to false
         return false;
       }
 
       // provide a buffer of .1 seconds to handle rounding/imprecise numbers
-      if (currentTime < seekable.start(0) - 0.1 || currentTime > seekable.end(seekable.length - 1) + 0.1) {
+      if (currentTime > seekable.end(seekable.length - 1) + 0.1) {
         return true;
       }
 
       return false;
     }
   }, {
-    key: 'fellOutOfLiveWindow_',
-    value: function fellOutOfLiveWindow_(seekable, currentTime) {
+    key: 'beforeSeekableWindow_',
+    value: function beforeSeekableWindow_(seekable, currentTime) {
       if (seekable.length &&
       // can't fall before 0 and 0 seekable start identifies VOD stream
-      seekable.start(0) > 0 && currentTime < seekable.start(0)) {
+      seekable.start(0) > 0 &&
+      // provide a buffer of .1 seconds to handle rounding/imprecise numbers
+      currentTime < seekable.start(0) - 0.1) {
         return true;
       }
 
@@ -5377,7 +5673,7 @@ var PlaybackWatcher = (function () {
 exports['default'] = PlaybackWatcher;
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./ranges":11,"global/window":31}],8:[function(require,module,exports){
+},{"./ranges":12,"global/window":32}],9:[function(require,module,exports){
 (function (global){
 /**
  * @file playlist-loader.js
@@ -5739,6 +6035,7 @@ var PlaylistLoader = function PlaylistLoader(srcUrl, hls, withCredentials) {
     if (this.media_) {
       this.trigger('mediachanging');
     }
+
     request = this.hls_.xhr({
       uri: (0, _resolveUrl2['default'])(loader.master.uri, playlist.uri),
       withCredentials: withCredentials
@@ -5778,6 +6075,7 @@ var PlaylistLoader = function PlaylistLoader(srcUrl, hls, withCredentials) {
     }
 
     loader.state = 'HAVE_CURRENT_METADATA';
+
     request = this.hls_.xhr({
       uri: (0, _resolveUrl2['default'])(loader.master.uri, loader.media().uri),
       withCredentials: withCredentials
@@ -5790,20 +6088,9 @@ var PlaylistLoader = function PlaylistLoader(srcUrl, hls, withCredentials) {
       if (error) {
         return playlistRequestError(request, loader.media().uri, 'HAVE_METADATA');
       }
+
       haveMetadata(request, loader.media().uri);
     });
-  });
-
-  // setup initial sync info
-  loader.on('firstplay', function () {
-    var playlist = loader.media();
-
-    if (playlist) {
-      playlist.syncInfo = {
-        mediaSequence: playlist.mediaSequence,
-        time: 0
-      };
-    }
   });
 
   /**
@@ -5816,6 +6103,19 @@ var PlaylistLoader = function PlaylistLoader(srcUrl, hls, withCredentials) {
       // If we pause the loader before any data has been retrieved, its as if we never
       // started, so reset to an unstarted state.
       loader.started = false;
+    }
+    // Need to restore state now that no activity is happening
+    if (loader.state === 'SWITCHING_MEDIA') {
+      // if the loader was in the process of switching media, it should either return to
+      // HAVE_MASTER or HAVE_METADATA depending on if the loader has loaded a media
+      // playlist yet. This is determined by the existence of loader.media_
+      if (loader.media_) {
+        loader.state = 'HAVE_METADATA';
+      } else {
+        loader.state = 'HAVE_MASTER';
+      }
+    } else if (loader.state === 'HAVE_CURRENT_METADATA') {
+      loader.state = 'HAVE_METADATA';
     }
   };
 
@@ -5966,7 +6266,7 @@ PlaylistLoader.prototype = new _videoJs.EventTarget();
 exports['default'] = PlaylistLoader;
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./playlist.js":10,"./resolve-url":14,"global/window":31,"m3u8-parser":32}],9:[function(require,module,exports){
+},{"./playlist.js":11,"./resolve-url":15,"global/window":32,"m3u8-parser":33}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -6362,7 +6662,7 @@ var lowestBitrateCompatibleVariantSelector = function lowestBitrateCompatibleVar
   return playlistsWithVideo[0] || null;
 };
 exports.lowestBitrateCompatibleVariantSelector = lowestBitrateCompatibleVariantSelector;
-},{"./config":3,"./playlist":10,"./util/codecs.js":18}],10:[function(require,module,exports){
+},{"./config":3,"./playlist":11,"./util/codecs.js":19}],11:[function(require,module,exports){
 (function (global){
 /**
  * @file playlist.js
@@ -6875,7 +7175,7 @@ Playlist.estimateSegmentRequestTime = estimateSegmentRequestTime;
 // exports
 exports['default'] = Playlist;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"global/window":31}],11:[function(require,module,exports){
+},{"global/window":32}],12:[function(require,module,exports){
 (function (global){
 /**
  * ranges
@@ -7250,7 +7550,7 @@ exports['default'] = {
 };
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -7387,7 +7687,7 @@ var reloadSourceOnError = function reloadSourceOnError(options) {
 exports['default'] = reloadSourceOnError;
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -7494,7 +7794,7 @@ var renditionSelectionMixin = function renditionSelectionMixin(hlsHandler) {
 
 exports['default'] = renditionSelectionMixin;
 module.exports = exports['default'];
-},{"./playlist.js":10}],14:[function(require,module,exports){
+},{"./playlist.js":11}],15:[function(require,module,exports){
 /**
  * @file resolve-url.js
  */
@@ -7531,7 +7831,7 @@ var resolveUrl = function resolveUrl(baseURL, relativeURL) {
 
 exports['default'] = resolveUrl;
 module.exports = exports['default'];
-},{"global/window":31,"url-toolkit":62}],15:[function(require,module,exports){
+},{"global/window":32,"url-toolkit":63}],16:[function(require,module,exports){
 (function (global){
 /**
  * @file segment-loader.js
@@ -7618,6 +7918,29 @@ var finite = function finite(num) {
   return typeof num === 'number' && isFinite(num);
 };
 
+var illegalMediaSwitch = function illegalMediaSwitch(loaderType, startingMedia, newSegmentMedia) {
+  // Although these checks should most likely cover non 'main' types, for now it narrows
+  // the scope of our checks.
+  if (loaderType !== 'main' || !startingMedia || !newSegmentMedia) {
+    return null;
+  }
+
+  if (!newSegmentMedia.containsAudio && !newSegmentMedia.containsVideo) {
+    return 'Neither audio nor video found in segment.';
+  }
+
+  if (startingMedia.containsVideo && !newSegmentMedia.containsVideo) {
+    return 'Only audio found in segment when we expected video.' + ' We can\'t switch to audio only from a stream that had video.' + ' To get rid of this message, please add codec information to the manifest.';
+  }
+
+  if (!startingMedia.containsVideo && newSegmentMedia.containsVideo) {
+    return 'Video found in segment when we expected only audio.' + ' We can\'t switch to a stream with video from an audio only stream.' + ' To get rid of this message, please add codec information to the manifest.';
+  }
+
+  return null;
+};
+
+exports.illegalMediaSwitch = illegalMediaSwitch;
 /**
  * An object that manages segment loading and appending.
  *
@@ -7664,6 +7987,7 @@ var SegmentLoader = (function (_videojs$EventTarget) {
     this.mediaSource_ = settings.mediaSource;
     this.hls_ = settings.hls;
     this.loaderType_ = settings.loaderType;
+    this.startingMedia_ = void 0;
     this.segmentMetadataTrack_ = settings.segmentMetadataTrack;
     this.goalBufferLength_ = settings.goalBufferLength;
 
@@ -8060,6 +8384,7 @@ var SegmentLoader = (function (_videojs$EventTarget) {
       this.ended_ = false;
       this.resetLoader();
       this.remove(0, this.duration_());
+      this.trigger('reseteverything');
     }
 
     /**
@@ -8654,12 +8979,34 @@ var SegmentLoader = (function (_videojs$EventTarget) {
         return;
       }
 
-      this.state = 'APPENDING';
-
       var segmentInfo = this.pendingSegment_;
       var segment = segmentInfo.segment;
+      var timingInfo = this.syncController_.probeSegmentInfo(segmentInfo);
 
-      this.syncController_.probeSegmentInfo(segmentInfo);
+      // When we have our first timing info, determine what media types this loader is
+      // dealing with. Although we're maintaining extra state, it helps to preserve the
+      // separation of segment loader from the actual source buffers.
+      if (typeof this.startingMedia_ === 'undefined' && timingInfo && (
+      // Guard against cases where we're not getting timing info at all until we are
+      // certain that all streams will provide it.
+      timingInfo.containsAudio || timingInfo.containsVideo)) {
+        this.startingMedia_ = {
+          containsAudio: timingInfo.containsAudio,
+          containsVideo: timingInfo.containsVideo
+        };
+      }
+
+      var illegalMediaSwitchError = illegalMediaSwitch(this.loaderType_, this.startingMedia_, timingInfo);
+
+      if (illegalMediaSwitchError) {
+        this.error({
+          message: illegalMediaSwitchError
+        });
+        this.trigger('error');
+        return;
+      }
+
+      this.state = 'APPENDING';
 
       if (segmentInfo.isSyncRequest) {
         this.trigger('syncinfoupdate');
@@ -8854,9 +9201,8 @@ var SegmentLoader = (function (_videojs$EventTarget) {
 })(_videoJs2['default'].EventTarget);
 
 exports['default'] = SegmentLoader;
-module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bin-utils":2,"./config":3,"./media-segment-request":6,"./playlist":10,"./playlist-selectors":9,"./ranges":11,"./source-updater":16,"global/window":31,"videojs-contrib-media-sources/es5/remove-cues-from-track.js":72}],16:[function(require,module,exports){
+},{"./bin-utils":2,"./config":3,"./media-segment-request":7,"./playlist":11,"./playlist-selectors":10,"./ranges":12,"./source-updater":17,"global/window":32,"videojs-contrib-media-sources/es5/remove-cues-from-track.js":72}],17:[function(require,module,exports){
 (function (global){
 /**
  * @file source-updater.js
@@ -9078,7 +9424,7 @@ var SourceUpdater = (function () {
 exports['default'] = SourceUpdater;
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (global){
 /**
  * @file sync-controller.js
@@ -9476,6 +9822,7 @@ var SyncController = (function (_videojs$EventTarget) {
     key: 'probeSegmentInfo',
     value: function probeSegmentInfo(segmentInfo) {
       var segment = segmentInfo.segment;
+      var playlist = segmentInfo.playlist;
       var timingInfo = undefined;
 
       if (segment.map) {
@@ -9487,8 +9834,19 @@ var SyncController = (function (_videojs$EventTarget) {
       if (timingInfo) {
         if (this.calculateSegmentTimeMapping_(segmentInfo, timingInfo)) {
           this.saveDiscontinuitySyncInfo_(segmentInfo);
+
+          // If the playlist does not have sync information yet, record that information
+          // now with segment timing information
+          if (!playlist.syncInfo) {
+            playlist.syncInfo = {
+              mediaSequence: playlist.mediaSequence + segmentInfo.mediaIndex,
+              time: segment.start
+            };
+          }
         }
       }
+
+      return timingInfo;
     }
 
     /**
@@ -9547,7 +9905,9 @@ var SyncController = (function (_videojs$EventTarget) {
 
       return {
         start: segmentStartTime,
-        end: segmentEndTime
+        end: segmentEndTime,
+        containsVideo: timeInfo.video && timeInfo.video.length === 2,
+        containsAudio: timeInfo.audio && timeInfo.audio.length === 2
       };
     }
   }, {
@@ -9664,7 +10024,7 @@ var SyncController = (function (_videojs$EventTarget) {
 
 exports['default'] = SyncController;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./playlist":10,"mux.js/lib/mp4/probe":56,"mux.js/lib/tools/ts-inspector.js":58}],18:[function(require,module,exports){
+},{"./playlist":11,"mux.js/lib/mp4/probe":57,"mux.js/lib/tools/ts-inspector.js":59}],19:[function(require,module,exports){
 
 /**
  * @file - codecs.js - Handles tasks regarding codec strings such as translating them to
@@ -9706,7 +10066,7 @@ var parseCodecs = function parseCodecs() {
   return result;
 };
 exports.parseCodecs = parseCodecs;
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 (function (global){
 /**
  * @file vtt-segment-loader.js
@@ -9872,12 +10232,18 @@ var VTTSegmentLoader = (function (_SegmentLoader) {
     /**
      * Set a subtitle track on the segment loader to add subtitles to
      *
-     * @param {TextTrack} track
+     * @param {TextTrack=} track
      *        The text track to add loaded subtitles to
+     * @return {TextTrack}
+     *        Returns the subtitles track
      */
   }, {
     key: 'track',
     value: function track(_track) {
+      if (typeof _track === 'undefined') {
+        return this.subtitlesTrack_;
+      }
+
       this.subtitlesTrack_ = _track;
 
       // if we were unpaused but waiting for a sourceUpdater, start
@@ -9885,6 +10251,8 @@ var VTTSegmentLoader = (function (_SegmentLoader) {
       if (this.state === 'INIT' && this.couldBeginLoading_()) {
         this.init_();
       }
+
+      return this.subtitlesTrack_;
     }
 
     /**
@@ -9973,7 +10341,7 @@ var VTTSegmentLoader = (function (_SegmentLoader) {
     value: function handleSegment_() {
       var _this2 = this;
 
-      if (!this.pendingSegment_) {
+      if (!this.pendingSegment_ || !this.subtitlesTrack_) {
         this.state = 'READY';
         return;
       }
@@ -10162,7 +10530,7 @@ var VTTSegmentLoader = (function (_SegmentLoader) {
 exports['default'] = VTTSegmentLoader;
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bin-utils":2,"./segment-loader":15,"global/window":31,"videojs-contrib-media-sources/es5/remove-cues-from-track.js":72}],20:[function(require,module,exports){
+},{"./bin-utils":2,"./segment-loader":16,"global/window":32,"videojs-contrib-media-sources/es5/remove-cues-from-track.js":72}],21:[function(require,module,exports){
 (function (global){
 /**
  * @file xhr.js
@@ -10251,7 +10619,7 @@ var xhrFactory = function xhrFactory() {
 exports['default'] = xhrFactory;
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /**
  * @file aes.js
  *
@@ -10497,7 +10865,7 @@ var AES = (function () {
 
 exports['default'] = AES;
 module.exports = exports['default'];
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * @file async-stream.js
  */
@@ -10578,7 +10946,7 @@ var AsyncStream = (function (_Stream) {
 
 exports['default'] = AsyncStream;
 module.exports = exports['default'];
-},{"./stream":25}],23:[function(require,module,exports){
+},{"./stream":26}],24:[function(require,module,exports){
 /**
  * @file decrypter.js
  *
@@ -10762,7 +11130,7 @@ exports['default'] = {
   Decrypter: Decrypter,
   decrypt: decrypt
 };
-},{"./aes":21,"./async-stream":22,"pkcs7":27}],24:[function(require,module,exports){
+},{"./aes":22,"./async-stream":23,"pkcs7":28}],25:[function(require,module,exports){
 /**
  * @file index.js
  *
@@ -10793,7 +11161,7 @@ exports['default'] = {
   AsyncStream: _asyncStream2['default']
 };
 module.exports = exports['default'];
-},{"./async-stream":22,"./decrypter":23}],25:[function(require,module,exports){
+},{"./async-stream":23,"./decrypter":24}],26:[function(require,module,exports){
 /**
  * @file stream.js
  */
@@ -10924,7 +11292,7 @@ var Stream = (function () {
 
 exports['default'] = Stream;
 module.exports = exports['default'];
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /*
  * pkcs7.pad
  * https://github.com/brightcove/pkcs7
@@ -11010,7 +11378,7 @@ PADDING = [
   [1]
 ];
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /*
  * pkcs7
  * https://github.com/brightcove/pkcs7
@@ -11024,7 +11392,7 @@ PADDING = [
 exports.pad = require('./pad.js');
 exports.unpad = require('./unpad.js');
 
-},{"./pad.js":26,"./unpad.js":28}],28:[function(require,module,exports){
+},{"./pad.js":27,"./unpad.js":29}],29:[function(require,module,exports){
 /*
  * pkcs7.unpad
  * https://github.com/brightcove/pkcs7
@@ -11045,9 +11413,9 @@ module.exports = function unpad(padded) {
   return padded.subarray(0, padded.byteLength - padded[padded.byteLength - 1]);
 };
 
-},{}],29:[function(require,module,exports){
-
 },{}],30:[function(require,module,exports){
+
+},{}],31:[function(require,module,exports){
 (function (global){
 var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
@@ -11068,7 +11436,7 @@ if (typeof document !== 'undefined') {
 module.exports = doccy;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":29}],31:[function(require,module,exports){
+},{"min-document":30}],32:[function(require,module,exports){
 (function (global){
 var win;
 
@@ -11085,7 +11453,7 @@ if (typeof window !== "undefined") {
 module.exports = win;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 var _lineStream = require('./line-stream');
@@ -11115,7 +11483,7 @@ module.exports = {
     * that do not assume the entirety of the manifest is ready and expose a
     * ReadableStream-like interface.
     */
-},{"./line-stream":33,"./parse-stream":34,"./parser":35}],33:[function(require,module,exports){
+},{"./line-stream":34,"./parse-stream":35,"./parser":36}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11184,7 +11552,7 @@ var LineStream = function (_Stream) {
 }(_stream2['default']);
 
 exports['default'] = LineStream;
-},{"./stream":36}],34:[function(require,module,exports){
+},{"./stream":37}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11637,7 +12005,7 @@ var ParseStream = function (_Stream) {
 }(_stream2['default']);
 
 exports['default'] = ParseStream;
-},{"./stream":36}],35:[function(require,module,exports){
+},{"./stream":37}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12028,7 +12396,7 @@ var Parser = function (_Stream) {
 }(_stream2['default']);
 
 exports['default'] = Parser;
-},{"./line-stream":33,"./parse-stream":34,"./stream":36}],36:[function(require,module,exports){
+},{"./line-stream":34,"./parse-stream":35,"./stream":37}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12161,7 +12529,7 @@ var Stream = function () {
 }();
 
 exports['default'] = Stream;
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /**
  * mux.js
  *
@@ -12306,7 +12674,7 @@ AacStream.prototype = new Stream();
 
 module.exports = AacStream;
 
-},{"../utils/stream.js":61}],38:[function(require,module,exports){
+},{"../utils/stream.js":62}],39:[function(require,module,exports){
 /**
  * mux.js
  *
@@ -12469,7 +12837,7 @@ module.exports = {
   parseAacTimestamp: parseAacTimestamp
 };
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 var Stream = require('../utils/stream.js');
@@ -12603,7 +12971,7 @@ AdtsStream.prototype = new Stream();
 
 module.exports = AdtsStream;
 
-},{"../utils/stream.js":61}],40:[function(require,module,exports){
+},{"../utils/stream.js":62}],41:[function(require,module,exports){
 'use strict';
 
 var Stream = require('../utils/stream.js');
@@ -13023,7 +13391,7 @@ module.exports = {
   NalByteStream: NalByteStream
 };
 
-},{"../utils/exp-golomb.js":60,"../utils/stream.js":61}],41:[function(require,module,exports){
+},{"../utils/exp-golomb.js":61,"../utils/stream.js":62}],42:[function(require,module,exports){
 var highPrefix = [33, 16, 5, 32, 164, 27];
 var lowPrefix = [33, 65, 108, 84, 1, 2, 4, 8, 168, 2, 4, 8, 17, 191, 252];
 var zeroFill = function(count) {
@@ -13060,7 +13428,7 @@ var coneOfSilence = {
 
 module.exports = makeTable(coneOfSilence);
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 var Stream = require('../utils/stream.js');
@@ -13123,6 +13491,7 @@ CoalesceStream.prototype.flush = function(flushSource) {
     event = {
       tags: {},
       captions: [],
+      captionStreams: {},
       metadata: []
     };
 
@@ -13165,13 +13534,14 @@ CoalesceStream.prototype.flush = function(flushSource) {
   event.tags.audioTags = this.audioTags;
 
   // Translate caption PTS times into second offsets into the
-  // video timeline for the segment
+  // video timeline for the segment, and add track info
   for (i = 0; i < this.pendingCaptions.length; i++) {
     caption = this.pendingCaptions[i];
     caption.startTime = caption.startPts - timelineStartPts;
     caption.startTime /= 90e3;
     caption.endTime = caption.endPts - timelineStartPts;
     caption.endTime /= 90e3;
+    event.captionStreams[caption.stream] = true;
     event.captions.push(caption);
   }
 
@@ -13205,7 +13575,7 @@ CoalesceStream.prototype.flush = function(flushSource) {
 
 module.exports = CoalesceStream;
 
-},{"../utils/stream.js":61}],43:[function(require,module,exports){
+},{"../utils/stream.js":62}],44:[function(require,module,exports){
 'use strict';
 
 var FlvTag = require('./flv-tag.js');
@@ -13267,7 +13637,7 @@ var getFlvHeader = function(duration, audio, video) { // :ByteArray {
 
 module.exports = getFlvHeader;
 
-},{"./flv-tag.js":44}],44:[function(require,module,exports){
+},{"./flv-tag.js":45}],45:[function(require,module,exports){
 /**
  * An object that stores the bytes of an FLV tag and methods for
  * querying and manipulating that data.
@@ -13641,14 +14011,14 @@ FlvTag.frameTime = function(tag) {
 
 module.exports = FlvTag;
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports = {
   tag: require('./flv-tag'),
   Transmuxer: require('./transmuxer'),
   getFlvHeader: require('./flv-header')
 };
 
-},{"./flv-header":43,"./flv-tag":44,"./transmuxer":47}],46:[function(require,module,exports){
+},{"./flv-header":44,"./flv-tag":45,"./transmuxer":48}],47:[function(require,module,exports){
 'use strict';
 
 var TagList = function() {
@@ -13675,7 +14045,7 @@ var TagList = function() {
 
 module.exports = TagList;
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 'use strict';
 
 var Stream = require('../utils/stream.js');
@@ -13766,6 +14136,7 @@ extraDataTag = function(track, pts) {
 AudioSegmentStream = function(track) {
   var
     adtsFrames = [],
+    videoKeyFrames = [],
     oldExtraData;
 
   AudioSegmentStream.prototype.init.call(this);
@@ -13773,7 +14144,7 @@ AudioSegmentStream = function(track) {
   this.push = function(data) {
     collectTimelineInfo(track, data);
 
-    if (track && track.channelcount === undefined) {
+    if (track) {
       track.audioobjecttype = data.audioobjecttype;
       track.channelcount = data.channelcount;
       track.samplerate = data.samplerate;
@@ -13804,40 +14175,21 @@ AudioSegmentStream = function(track) {
     while (adtsFrames.length) {
       currentFrame = adtsFrames.shift();
 
-      // write out metadata tags every 1 second so that the decoder
+      // write out a metadata frame at every video key frame
+      if (videoKeyFrames.length && currentFrame.pts >= videoKeyFrames[0]) {
+        lastMetaPts = videoKeyFrames.shift();
+        this.writeMetaDataTags(tags, lastMetaPts);
+      }
+
+      // also write out metadata tags every 1 second so that the decoder
       // is re-initialized quickly after seeking into a different
-      // audio configuration
+      // audio configuration.
       if (track.extraData !== oldExtraData || currentFrame.pts - lastMetaPts >= 1000) {
-       adtsFrame = new FlvTag(FlvTag.METADATA_TAG);
-        adtsFrame.pts = currentFrame.pts;
-        adtsFrame.dts = currentFrame.dts;
-
-        // AAC is always 10
-        adtsFrame.writeMetaDataDouble('audiocodecid', 10);
-        adtsFrame.writeMetaDataBoolean('stereo', track.channelcount === 2);
-        adtsFrame.writeMetaDataDouble('audiosamplerate', track.samplerate);
-        // Is AAC always 16 bit?
-        adtsFrame.writeMetaDataDouble('audiosamplesize', 16);
-
-        tags.push(adtsFrame.finalize());
-
+        this.writeMetaDataTags(tags, currentFrame.pts);
         oldExtraData = track.extraData;
-
-        adtsFrame = new FlvTag(FlvTag.AUDIO_TAG, true);
-        // For audio, DTS is always the same as PTS. We want to set the DTS
-        // however so we can compare with video DTS to determine approximate
-        // packet order
-        adtsFrame.pts = currentFrame.pts;
-        adtsFrame.dts = currentFrame.dts;
-
-        adtsFrame.view.setUint16(adtsFrame.position, track.extraData);
-        adtsFrame.position += 2;
-        adtsFrame.length = Math.max(adtsFrame.length, adtsFrame.position);
-
-        tags.push(adtsFrame.finalize());
-
         lastMetaPts = currentFrame.pts;
       }
+
       adtsFrame = new FlvTag(FlvTag.AUDIO_TAG);
       adtsFrame.pts = currentFrame.pts;
       adtsFrame.dts = currentFrame.dts;
@@ -13847,10 +14199,48 @@ AudioSegmentStream = function(track) {
       tags.push(adtsFrame.finalize());
     }
 
+    videoKeyFrames.length = 0;
     oldExtraData = null;
     this.trigger('data', {track: track, tags: tags.list});
 
     this.trigger('done', 'AudioSegmentStream');
+  };
+
+  this.writeMetaDataTags = function(tags, pts) {
+    var adtsFrame;
+
+    adtsFrame = new FlvTag(FlvTag.METADATA_TAG);
+    // For audio, DTS is always the same as PTS. We want to set the DTS
+    // however so we can compare with video DTS to determine approximate
+    // packet order
+    adtsFrame.pts = pts;
+    adtsFrame.dts = pts;
+
+    // AAC is always 10
+    adtsFrame.writeMetaDataDouble('audiocodecid', 10);
+    adtsFrame.writeMetaDataBoolean('stereo', track.channelcount === 2);
+    adtsFrame.writeMetaDataDouble('audiosamplerate', track.samplerate);
+    // Is AAC always 16 bit?
+    adtsFrame.writeMetaDataDouble('audiosamplesize', 16);
+
+    tags.push(adtsFrame.finalize());
+
+    adtsFrame = new FlvTag(FlvTag.AUDIO_TAG, true);
+    // For audio, DTS is always the same as PTS. We want to set the DTS
+    // however so we can compare with video DTS to determine approximate
+    // packet order
+    adtsFrame.pts = pts;
+    adtsFrame.dts = pts;
+
+    adtsFrame.view.setUint16(adtsFrame.position, track.extraData);
+    adtsFrame.position += 2;
+    adtsFrame.length = Math.max(adtsFrame.length, adtsFrame.position);
+
+    tags.push(adtsFrame.finalize());
+  };
+
+  this.onVideoKeyFrame = function(pts) {
+    videoKeyFrames.push(pts);
   };
 };
 AudioSegmentStream.prototype = new Stream();
@@ -13883,6 +14273,8 @@ VideoSegmentStream = function(track) {
       tags.push(metaTag);
       tags.push(extraTag);
       track.newMetadata = false;
+
+      this.trigger('keyframe', frame.dts);
     }
 
     frame.endNalUnit();
@@ -14063,6 +14455,10 @@ Transmuxer = function(options) {
         adtsStream
           .pipe(audioSegmentStream)
           .pipe(coalesceStream);
+
+        if (videoSegmentStream) {
+          videoSegmentStream.on('keyframe', audioSegmentStream.onVideoKeyFrame);
+        }
       }
     }
   });
@@ -14076,6 +14472,11 @@ Transmuxer = function(options) {
   this.flush = function() {
     // Start at the top of the pipeline and flush all pending work
     packetStream.flush();
+  };
+
+  // Caption data has to be reset when seeking outside buffered range
+  this.resetCaptions = function() {
+    captionStream.reset();
   };
 
   // Re-emit any data coming from the coalesce stream to the outside world
@@ -14093,7 +14494,7 @@ Transmuxer.prototype = new Stream();
 // forward compatibility
 module.exports = Transmuxer;
 
-},{"../codecs/adts.js":39,"../codecs/h264":40,"../m2ts/m2ts.js":49,"../utils/stream.js":61,"./coalesce-stream.js":42,"./flv-tag.js":44,"./tag-list.js":46}],48:[function(require,module,exports){
+},{"../codecs/adts.js":40,"../codecs/h264":41,"../m2ts/m2ts.js":50,"../utils/stream.js":62,"./coalesce-stream.js":43,"./flv-tag.js":45,"./tag-list.js":47}],49:[function(require,module,exports){
 /**
  * mux.js
  *
@@ -14104,6 +14505,7 @@ module.exports = Transmuxer;
  * stream. Captions must follow the CEA-708 standard for injection
  * into an MPEG-2 transport streams.
  * @see https://en.wikipedia.org/wiki/CEA-708
+ * @see https://www.gpo.gov/fdsys/pkg/CFR-2007-title47-vol1/pdf/CFR-2007-title47-vol1-sec15-119.pdf
  */
 
 'use strict';
@@ -14235,17 +14637,33 @@ var parseCaptionPackets = function(pts, userData) {
   return results;
 };
 
+var packetDropper = {
+  push: function() {}
+};
+
 var CaptionStream = function() {
+
   CaptionStream.prototype.init.call(this);
 
   this.captionPackets_ = [];
 
-  this.field1_ = new Cea608Stream(); // eslint-disable-line no-use-before-define
+  this.ccStreams_ = [
+    new Cea608Stream(0, 0), // eslint-disable-line no-use-before-define
+    new Cea608Stream(0, 1), // eslint-disable-line no-use-before-define
+    new Cea608Stream(1, 0), // eslint-disable-line no-use-before-define
+    new Cea608Stream(1, 1) // eslint-disable-line no-use-before-define
+  ];
 
-  // forward data and done events from field1_ to this CaptionStream
-  this.field1_.on('data', this.trigger.bind(this, 'data'));
-  this.field1_.on('done', this.trigger.bind(this, 'done'));
+  this.reset();
+
+  // forward data and done events from CCs to this CaptionStream
+  this.ccStreams_.forEach(function(cc) {
+    cc.on('data', this.trigger.bind(this, 'data'));
+    cc.on('done', this.trigger.bind(this, 'done'));
+  }, this);
+
 };
+
 CaptionStream.prototype = new Stream();
 CaptionStream.prototype.push = function(event) {
   var sei, userData;
@@ -14271,14 +14689,34 @@ CaptionStream.prototype.push = function(event) {
     return;
   }
 
+  // Sometimes, the same segment # will be downloaded twice. To stop the
+  // caption data from being processed twice, we track the latest dts we've
+  // received and ignore everything with a dts before that. However, since
+  // data for a specific dts can be split across 2 packets on either side of
+  // a segment boundary, we need to make sure we *don't* ignore the second
+  // dts packet we receive that has dts === this.latestDts_. And thus, the
+  // ignoreNextEqualDts_ flag was born.
+  if (event.dts < this.latestDts_) {
+    // We've started getting older data, so set the flag.
+    this.ignoreNextEqualDts_ = true;
+    return;
+  } else if ((event.dts === this.latestDts_) && (this.ignoreNextEqualDts_)) {
+    // We've received the last duplicate packet, time to start processing again
+    this.ignoreNextEqualDts_ = false;
+    return;
+  }
+
   // parse out CC data packets and save them for later
   this.captionPackets_ = this.captionPackets_.concat(parseCaptionPackets(event.pts, userData));
+  this.latestDts_ = event.dts;
 };
 
 CaptionStream.prototype.flush = function() {
   // make sure we actually parsed captions before proceeding
   if (!this.captionPackets_.length) {
-    this.field1_.flush();
+    this.ccStreams_.forEach(function(cc) {
+      cc.flush();
+    }, this);
     return;
   }
 
@@ -14296,60 +14734,171 @@ CaptionStream.prototype.flush = function() {
     return a.pts - b.pts;
   });
 
-  // Push each caption into Cea608Stream
-  this.captionPackets_.forEach(this.field1_.push, this.field1_);
+  this.captionPackets_.forEach(function(packet) {
+    if (packet.type < 2) {
+      // Dispatch packet to the right Cea608Stream
+      this.dispatchCea608Packet(packet);
+    }
+    // this is where an 'else' would go for a dispatching packets
+    // to a theoretical Cea708Stream that handles SERVICEn data
+  }, this);
 
   this.captionPackets_.length = 0;
-  this.field1_.flush();
+  this.ccStreams_.forEach(function(cc) {
+    cc.flush();
+  }, this);
   return;
 };
+
+CaptionStream.prototype.reset = function() {
+  this.latestDts_ = null;
+  this.ignoreNextEqualDts_ = false;
+  this.activeCea608Channel_ = null;
+  // Since we don't know which channel is active until we get a control
+  // code that sets it, we start off with CEA608 handlers that just drop
+  // all the packets.
+  this.activeCea608Streams_ = [
+    packetDropper,
+    packetDropper
+  ];
+  this.ccStreams_.forEach(function(ccStream) {
+    ccStream.reset();
+  });
+};
+
+CaptionStream.prototype.dispatchCea608Packet = function(packet) {
+  if (this.setsChannel1Active(packet) && this.activeCea608Channel_ !== 1) {
+    this.activeCea608Channel_ = 1;
+    this.activeCea608Streams_ = [this.ccStreams_[0], this.ccStreams_[2]]; // CC1, CC3
+  } else if (this.setsChannel2Active(packet) && this.activeCea608Channel_ !== 2) {
+    this.activeCea608Channel_ = 2;
+    this.activeCea608Streams_ = [this.ccStreams_[1], this.ccStreams_[3]]; // CC2, CC4
+  }
+  // If we haven't set the active streams yet, this next call just returns
+  // immediately.
+  this.activeCea608Streams_[packet.type].push(packet);
+};
+
+CaptionStream.prototype.setsChannel1Active = function(packet) {
+  return ((packet.ccData & 0x7800) === 0x1000);
+};
+CaptionStream.prototype.setsChannel2Active = function(packet) {
+  return ((packet.ccData & 0x7800) === 0x1800);
+};
+
 // ----------------------
 // Session to Application
 // ----------------------
 
-var BASIC_CHARACTER_TRANSLATION = {
-  0x2a: 0xe1,
-  0x5c: 0xe9,
-  0x5e: 0xed,
-  0x5f: 0xf3,
-  0x60: 0xfa,
-  0x7b: 0xe7,
-  0x7c: 0xf7,
-  0x7d: 0xd1,
-  0x7e: 0xf1,
-  0x7f: 0x2588
+var CHARACTER_TRANSLATION = {
+  0x2a: 0xe1,     // á
+  0x5c: 0xe9,     // é
+  0x5e: 0xed,     // í
+  0x5f: 0xf3,     // ó
+  0x60: 0xfa,     // ú
+  0x7b: 0xe7,     // ç
+  0x7c: 0xf7,     // ÷
+  0x7d: 0xd1,     // Ñ
+  0x7e: 0xf1,     // ñ
+  0x7f: 0x2588,   // █
+  0x0130: 0xae,   // ®
+  0x0131: 0xb0,   // °
+  0x0132: 0xbd,   // ½
+  0x0133: 0xbf,   // ¿
+  0x0134: 0x2122, // ™
+  0x0135: 0xa2,   // ¢
+  0x0136: 0xa3,   // £
+  0x0137: 0x266a, // ♪
+  0x0138: 0xe0,   // à
+  0x0139: 0xa0,   //
+  0x013a: 0xe8,   // è
+  0x013b: 0xe2,   // â
+  0x013c: 0xea,   // ê
+  0x013d: 0xee,   // î
+  0x013e: 0xf4,   // ô
+  0x013f: 0xfb,   // û
+  0x0220: 0xc1,   // Á
+  0x0221: 0xc9,   // É
+  0x0222: 0xd3,   // Ó
+  0x0223: 0xda,   // Ú
+  0x0224: 0xdc,   // Ü
+  0x0225: 0xfc,   // ü
+  0x0226: 0x2018, // ‘
+  0x0227: 0xa1,   // ¡
+  0x0228: 0x2a,   // *
+  0x0229: 0x27,   // '
+  0x022a: 0x2014, // —
+  0x022b: 0xa9,   // ©
+  0x022c: 0x2120, // ℠
+  0x022d: 0x2022, // •
+  0x022e: 0x201c, // “
+  0x022f: 0x201d, // ”
+  0x0230: 0xc0,   // À
+  0x0231: 0xc2,   // Â
+  0x0232: 0xc7,   // Ç
+  0x0233: 0xc8,   // È
+  0x0234: 0xca,   // Ê
+  0x0235: 0xcb,   // Ë
+  0x0236: 0xeb,   // ë
+  0x0237: 0xce,   // Î
+  0x0238: 0xcf,   // Ï
+  0x0239: 0xef,   // ï
+  0x023a: 0xd4,   // Ô
+  0x023b: 0xd9,   // Ù
+  0x023c: 0xf9,   // ù
+  0x023d: 0xdb,   // Û
+  0x023e: 0xab,   // «
+  0x023f: 0xbb,   // »
+  0x0320: 0xc3,   // Ã
+  0x0321: 0xe3,   // ã
+  0x0322: 0xcd,   // Í
+  0x0323: 0xcc,   // Ì
+  0x0324: 0xec,   // ì
+  0x0325: 0xd2,   // Ò
+  0x0326: 0xf2,   // ò
+  0x0327: 0xd5,   // Õ
+  0x0328: 0xf5,   // õ
+  0x0329: 0x7b,   // {
+  0x032a: 0x7d,   // }
+  0x032b: 0x5c,   // \
+  0x032c: 0x5e,   // ^
+  0x032d: 0x5f,   // _
+  0x032e: 0x7c,   // |
+  0x032f: 0x7e,   // ~
+  0x0330: 0xc4,   // Ä
+  0x0331: 0xe4,   // ä
+  0x0332: 0xd6,   // Ö
+  0x0333: 0xf6,   // ö
+  0x0334: 0xdf,   // ß
+  0x0335: 0xa5,   // ¥
+  0x0336: 0xa4,   // ¤
+  0x0337: 0x2502, // │
+  0x0338: 0xc5,   // Å
+  0x0339: 0xe5,   // å
+  0x033a: 0xd8,   // Ø
+  0x033b: 0xf8,   // ø
+  0x033c: 0x250c, // ┌
+  0x033d: 0x2510, // ┐
+  0x033e: 0x2514, // └
+  0x033f: 0x2518  // ┘
 };
 
 var getCharFromCode = function(code) {
   if (code === null) {
     return '';
   }
-  code = BASIC_CHARACTER_TRANSLATION[code] || code;
+  code = CHARACTER_TRANSLATION[code] || code;
   return String.fromCharCode(code);
 };
 
-// Constants for the byte codes recognized by Cea608Stream. This
-// list is not exhaustive. For a more comprehensive listing and
-// semantics see
-// http://www.gpo.gov/fdsys/pkg/CFR-2010-title47-vol1/pdf/CFR-2010-title47-vol1-sec15-119.pdf
-var PADDING                    = 0x0000,
-
-    // Pop-on Mode
-    RESUME_CAPTION_LOADING     = 0x1420,
-    END_OF_CAPTION             = 0x142f,
-
-    // Roll-up Mode
-    ROLL_UP_2_ROWS             = 0x1425,
-    ROLL_UP_3_ROWS             = 0x1426,
-    ROLL_UP_4_ROWS             = 0x1427,
-    CARRIAGE_RETURN            = 0x142d,
-    // Erasure
-    BACKSPACE                  = 0x1421,
-    ERASE_DISPLAYED_MEMORY     = 0x142c,
-    ERASE_NON_DISPLAYED_MEMORY = 0x142e;
-
 // the index of the last row in a CEA-608 display buffer
 var BOTTOM_ROW = 14;
+
+// This array is used for mapping PACs -> row #, since there's no way of
+// getting it through bit logic.
+var ROWS = [0x1100, 0x1120, 0x1200, 0x1220, 0x1500, 0x1520, 0x1600, 0x1620,
+            0x1700, 0x1720, 0x1000, 0x1300, 0x1320, 0x1400, 0x1420];
+
 // CEA-608 captions are rendered onto a 34x15 matrix of character
 // cells. The "bottom" row is the last element in the outer array.
 var createDisplayBuffer = function() {
@@ -14360,30 +14909,23 @@ var createDisplayBuffer = function() {
   return result;
 };
 
-var Cea608Stream = function() {
+var Cea608Stream = function(field, dataChannel) {
   Cea608Stream.prototype.init.call(this);
 
-  this.mode_ = 'popOn';
-  // When in roll-up mode, the index of the last row that will
-  // actually display captions. If a caption is shifted to a row
-  // with a lower index than this, it is cleared from the display
-  // buffer
-  this.topRow_ = 0;
-  this.startPts_ = 0;
-  this.displayed_ = createDisplayBuffer();
-  this.nonDisplayed_ = createDisplayBuffer();
-  this.lastControlCode_ = null;
+  this.field_ = field || 0;
+  this.dataChannel_ = dataChannel || 0;
+
+  this.name_ = 'CC' + (((this.field_ << 1) | this.dataChannel_) + 1);
+
+  this.setConstants();
+  this.reset();
 
   this.push = function(packet) {
-    // Ignore other channels
-    if (packet.type !== 0) {
-      return;
-    }
-    var data, swap, char0, char1;
+    var data, swap, char0, char1, text;
     // remove the parity bits
     data = packet.ccData & 0x7f7f;
 
-    // ignore duplicate control codes
+    // ignore duplicate control codes; the spec demands they're sent twice
     if (data === this.lastControlCode_) {
       this.lastControlCode_ = null;
       return;
@@ -14392,17 +14934,21 @@ var Cea608Stream = function() {
     // Store control codes
     if ((data & 0xf000) === 0x1000) {
       this.lastControlCode_ = data;
-    } else {
+    } else if (data !== this.PADDING_) {
       this.lastControlCode_ = null;
     }
 
-    switch (data) {
-    case PADDING:
-      break;
-    case RESUME_CAPTION_LOADING:
+    char0 = data >>> 8;
+    char1 = data & 0xff;
+
+    if (data === this.PADDING_) {
+      return;
+
+    } else if (data === this.RESUME_CAPTION_LOADING_) {
       this.mode_ = 'popOn';
-      break;
-    case END_OF_CAPTION:
+
+    } else if (data === this.END_OF_CAPTION_) {
+      this.clearFormatting(packet.pts);
       // if a caption was being displayed, it's gone now
       this.flushDisplayed(packet.pts);
 
@@ -14413,80 +14959,145 @@ var Cea608Stream = function() {
 
       // start measuring the time to display the caption
       this.startPts_ = packet.pts;
-      break;
 
-    case ROLL_UP_2_ROWS:
+    } else if (data === this.ROLL_UP_2_ROWS_) {
       this.topRow_ = BOTTOM_ROW - 1;
       this.mode_ = 'rollUp';
-      break;
-    case ROLL_UP_3_ROWS:
+    } else if (data === this.ROLL_UP_3_ROWS_) {
       this.topRow_ = BOTTOM_ROW - 2;
       this.mode_ = 'rollUp';
-      break;
-    case ROLL_UP_4_ROWS:
+    } else if (data === this.ROLL_UP_4_ROWS_) {
       this.topRow_ = BOTTOM_ROW - 3;
       this.mode_ = 'rollUp';
-      break;
-    case CARRIAGE_RETURN:
+    } else if (data === this.CARRIAGE_RETURN_) {
+      this.clearFormatting(packet.pts);
       this.flushDisplayed(packet.pts);
       this.shiftRowsUp_();
       this.startPts_ = packet.pts;
-      break;
 
-    case BACKSPACE:
+    } else if (data === this.BACKSPACE_) {
       if (this.mode_ === 'popOn') {
         this.nonDisplayed_[BOTTOM_ROW] = this.nonDisplayed_[BOTTOM_ROW].slice(0, -1);
       } else {
         this.displayed_[BOTTOM_ROW] = this.displayed_[BOTTOM_ROW].slice(0, -1);
       }
-      break;
-    case ERASE_DISPLAYED_MEMORY:
+    } else if (data === this.ERASE_DISPLAYED_MEMORY_) {
       this.flushDisplayed(packet.pts);
       this.displayed_ = createDisplayBuffer();
-      break;
-    case ERASE_NON_DISPLAYED_MEMORY:
+    } else if (data === this.ERASE_NON_DISPLAYED_MEMORY_) {
       this.nonDisplayed_ = createDisplayBuffer();
-      break;
-    default:
-      char0 = data >>> 8;
-      char1 = data & 0xff;
 
-      // Look for a Channel 1 Preamble Address Code
-      if (char0 >= 0x10 && char0 <= 0x17 &&
-          char1 >= 0x40 && char1 <= 0x7F &&
-          (char0 !== 0x10 || char1 < 0x60)) {
-        // Follow Safari's lead and replace the PAC with a space
-        char0 = 0x20;
-        // we only want one space so make the second character null
-        // which will get become '' in getCharFromCode
-        char1 = null;
+    } else if (data === this.RESUME_DIRECT_CAPTIONING_) {
+      this.mode_ = 'paintOn';
+
+    // Append special characters to caption text
+    } else if (this.isSpecialCharacter(char0, char1)) {
+      // Bitmask char0 so that we can apply character transformations
+      // regardless of field and data channel.
+      // Then byte-shift to the left and OR with char1 so we can pass the
+      // entire character code to `getCharFromCode`.
+      char0 = (char0 & 0x03) << 8;
+      text = getCharFromCode(char0 | char1);
+      this[this.mode_](packet.pts, text);
+      this.column_++;
+
+    // Append extended characters to caption text
+    } else if (this.isExtCharacter(char0, char1)) {
+      // Extended characters always follow their "non-extended" equivalents.
+      // IE if a "è" is desired, you'll always receive "eè"; non-compliant
+      // decoders are supposed to drop the "è", while compliant decoders
+      // backspace the "e" and insert "è".
+
+      // Delete the previous character
+      if (this.mode_ === 'popOn') {
+        this.nonDisplayed_[this.row_] = this.nonDisplayed_[this.row_].slice(0, -1);
+      } else {
+        this.displayed_[BOTTOM_ROW] = this.displayed_[BOTTOM_ROW].slice(0, -1);
       }
 
-      // Look for special character sets
-      if ((char0 === 0x11 || char0 === 0x19) &&
-          (char1 >= 0x30 && char1 <= 0x3F)) {
-        // Put in eigth note and space
-        char0 = 0x266A;
-        char1 = '';
+      // Bitmask char0 so that we can apply character transformations
+      // regardless of field and data channel.
+      // Then byte-shift to the left and OR with char1 so we can pass the
+      // entire character code to `getCharFromCode`.
+      char0 = (char0 & 0x03) << 8;
+      text = getCharFromCode(char0 | char1);
+      this[this.mode_](packet.pts, text);
+      this.column_++;
+
+    // Process mid-row codes
+    } else if (this.isMidRowCode(char0, char1)) {
+      // Attributes are not additive, so clear all formatting
+      this.clearFormatting(packet.pts);
+
+      // According to the standard, mid-row codes
+      // should be replaced with spaces, so add one now
+      this[this.mode_](packet.pts, ' ');
+      this.column_++;
+
+      if ((char1 & 0xe) === 0xe) {
+        this.addFormatting(packet.pts, ['i']);
       }
 
-      // ignore unsupported control codes
-      if ((char0 & 0xf0) === 0x10) {
-        return;
+      if ((char1 & 0x1) === 0x1) {
+        this.addFormatting(packet.pts, ['u']);
       }
 
-      // remove null chars
-      if (char0 === 0x00) {
-        char0 = null;
+    // Detect offset control codes and adjust cursor
+    } else if (this.isOffsetControlCode(char0, char1)) {
+      // Cursor position is set by indent PAC (see below) in 4-column
+      // increments, with an additional offset code of 1-3 to reach any
+      // of the 32 columns specified by CEA-608. So all we need to do
+      // here is increment the column cursor by the given offset.
+      this.column_ += (char1 & 0x03);
+
+    // Detect PACs (Preamble Address Codes)
+    } else if (this.isPAC(char0, char1)) {
+
+      // There's no logic for PAC -> row mapping, so we have to just
+      // find the row code in an array and use its index :(
+      var row = ROWS.indexOf(data & 0x1f20);
+
+      if (row !== this.row_) {
+        // formatting is only persistent for current row
+        this.clearFormatting(packet.pts);
+        this.row_ = row;
       }
+      // All PACs can apply underline, so detect and apply
+      // (All odd-numbered second bytes set underline)
+      if ((char1 & 0x1) && (this.formatting_.indexOf('u') === -1)) {
+          this.addFormatting(packet.pts, ['u']);
+      }
+
+      if ((data & 0x10) === 0x10) {
+        // We've got an indent level code. Each successive even number
+        // increments the column cursor by 4, so we can get the desired
+        // column position by bit-shifting to the right (to get n/2)
+        // and multiplying by 4.
+        this.column_ = ((data & 0xe) >> 1) * 4;
+      }
+
+      if (this.isColorPAC(char1)) {
+        // it's a color code, though we only support white, which
+        // can be either normal or italicized. white italics can be
+        // either 0x4e or 0x6e depending on the row, so we just
+        // bitwise-and with 0xe to see if italics should be turned on
+        if ((char1 & 0xe) === 0xe) {
+          this.addFormatting(packet.pts, ['i']);
+        }
+      }
+
+    // We have a normal character in char0, and possibly one in char1
+    } else if (this.isNormalChar(char0)) {
       if (char1 === 0x00) {
         char1 = null;
       }
+      text = getCharFromCode(char0);
+      text += getCharFromCode(char1);
+      this[this.mode_](packet.pts, text);
+      this.column_ += text.length;
 
-      // character handling is dependent on the current mode
-      this[this.mode_](packet.pts, char0, char1);
-      break;
-    }
+    } // finish data processing
+
   };
 };
 Cea608Stream.prototype = new Stream();
@@ -14498,47 +15109,235 @@ Cea608Stream.prototype.flushDisplayed = function(pts) {
     .map(function(row) {
       return row.trim();
     })
-    // remove empty rows
-    .filter(function(row) {
-      return row.length;
-    })
     // combine all text rows to display in one cue
-    .join('\n');
+    .join('\n')
+    // and remove blank rows from the start and end, but not the middle
+    .replace(/^\n+|\n+$/g, '');
 
   if (content.length) {
     this.trigger('data', {
       startPts: this.startPts_,
       endPts: pts,
-      text: content
+      text: content,
+      stream: this.name_
     });
   }
 };
 
-// Mode Implementations
-Cea608Stream.prototype.popOn = function(pts, char0, char1) {
-  var baseRow = this.nonDisplayed_[BOTTOM_ROW];
+/**
+ * Zero out the data, used for startup and on seek
+ */
+Cea608Stream.prototype.reset = function() {
+  this.mode_ = 'popOn';
+  // When in roll-up mode, the index of the last row that will
+  // actually display captions. If a caption is shifted to a row
+  // with a lower index than this, it is cleared from the display
+  // buffer
+  this.topRow_ = 0;
+  this.startPts_ = 0;
+  this.displayed_ = createDisplayBuffer();
+  this.nonDisplayed_ = createDisplayBuffer();
+  this.lastControlCode_ = null;
 
-  // buffer characters
-  baseRow += getCharFromCode(char0);
-  baseRow += getCharFromCode(char1);
-  this.nonDisplayed_[BOTTOM_ROW] = baseRow;
+  // Track row and column for proper line-breaking and spacing
+  this.column_ = 0;
+  this.row_ = BOTTOM_ROW;
+
+  // This variable holds currently-applied formatting
+  this.formatting_ = [];
 };
 
-Cea608Stream.prototype.rollUp = function(pts, char0, char1) {
-  var baseRow = this.displayed_[BOTTOM_ROW];
-  if (baseRow === '') {
-    // we're starting to buffer new display input, so flush out the
-    // current display
-    this.flushDisplayed(pts);
-
-    this.startPts_ = pts;
+/**
+ * Sets up control code and related constants for this instance
+ */
+Cea608Stream.prototype.setConstants = function() {
+  // The following attributes have these uses:
+  // ext_ :    char0 for mid-row codes, and the base for extended
+  //           chars (ext_+0, ext_+1, and ext_+2 are char0s for
+  //           extended codes)
+  // control_: char0 for control codes, except byte-shifted to the
+  //           left so that we can do this.control_ | CONTROL_CODE
+  // offset_:  char0 for tab offset codes
+  //
+  // It's also worth noting that control codes, and _only_ control codes,
+  // differ between field 1 and field2. Field 2 control codes are always
+  // their field 1 value plus 1. That's why there's the "| field" on the
+  // control value.
+  if (this.dataChannel_ === 0) {
+    this.BASE_     = 0x10;
+    this.EXT_      = 0x11;
+    this.CONTROL_  = (0x14 | this.field_) << 8;
+    this.OFFSET_   = 0x17;
+  } else if (this.dataChannel_ === 1) {
+    this.BASE_     = 0x18;
+    this.EXT_      = 0x19;
+    this.CONTROL_  = (0x1c | this.field_) << 8;
+    this.OFFSET_   = 0x1f;
   }
 
-  baseRow += getCharFromCode(char0);
-  baseRow += getCharFromCode(char1);
-
-  this.displayed_[BOTTOM_ROW] = baseRow;
+  // Constants for the LSByte command codes recognized by Cea608Stream. This
+  // list is not exhaustive. For a more comprehensive listing and semantics see
+  // http://www.gpo.gov/fdsys/pkg/CFR-2010-title47-vol1/pdf/CFR-2010-title47-vol1-sec15-119.pdf
+  // Padding
+  this.PADDING_                    = 0x0000;
+  // Pop-on Mode
+  this.RESUME_CAPTION_LOADING_     = this.CONTROL_ | 0x20;
+  this.END_OF_CAPTION_             = this.CONTROL_ | 0x2f;
+  // Roll-up Mode
+  this.ROLL_UP_2_ROWS_             = this.CONTROL_ | 0x25;
+  this.ROLL_UP_3_ROWS_             = this.CONTROL_ | 0x26;
+  this.ROLL_UP_4_ROWS_             = this.CONTROL_ | 0x27;
+  this.CARRIAGE_RETURN_            = this.CONTROL_ | 0x2d;
+  // paint-on mode (not supported)
+  this.RESUME_DIRECT_CAPTIONING_   = this.CONTROL_ | 0x29;
+  // Erasure
+  this.BACKSPACE_                  = this.CONTROL_ | 0x21;
+  this.ERASE_DISPLAYED_MEMORY_     = this.CONTROL_ | 0x2c;
+  this.ERASE_NON_DISPLAYED_MEMORY_ = this.CONTROL_ | 0x2e;
 };
+
+/**
+ * Detects if the 2-byte packet data is a special character
+ *
+ * Special characters have a second byte in the range 0x30 to 0x3f,
+ * with the first byte being 0x11 (for data channel 1) or 0x19 (for
+ * data channel 2).
+ *
+ * @param  {Integer} char0 The first byte
+ * @param  {Integer} char1 The second byte
+ * @return {Boolean}       Whether the 2 bytes are an special character
+ */
+Cea608Stream.prototype.isSpecialCharacter = function(char0, char1) {
+  return (char0 === this.EXT_ && char1 >= 0x30 && char1 <= 0x3f);
+};
+
+/**
+ * Detects if the 2-byte packet data is an extended character
+ *
+ * Extended characters have a second byte in the range 0x20 to 0x3f,
+ * with the first byte being 0x12 or 0x13 (for data channel 1) or
+ * 0x1a or 0x1b (for data channel 2).
+ *
+ * @param  {Integer} char0 The first byte
+ * @param  {Integer} char1 The second byte
+ * @return {Boolean}       Whether the 2 bytes are an extended character
+ */
+Cea608Stream.prototype.isExtCharacter = function(char0, char1) {
+  return ((char0 === (this.EXT_ + 1) || char0 === (this.EXT_ + 2)) &&
+    (char1 >= 0x20 && char1 <= 0x3f));
+};
+
+/**
+ * Detects if the 2-byte packet is a mid-row code
+ *
+ * Mid-row codes have a second byte in the range 0x20 to 0x2f, with
+ * the first byte being 0x11 (for data channel 1) or 0x19 (for data
+ * channel 2).
+ *
+ * @param  {Integer} char0 The first byte
+ * @param  {Integer} char1 The second byte
+ * @return {Boolean}       Whether the 2 bytes are a mid-row code
+ */
+Cea608Stream.prototype.isMidRowCode = function(char0, char1) {
+  return (char0 === this.EXT_ && (char1 >= 0x20 && char1 <= 0x2f));
+};
+
+/**
+ * Detects if the 2-byte packet is an offset control code
+ *
+ * Offset control codes have a second byte in the range 0x21 to 0x23,
+ * with the first byte being 0x17 (for data channel 1) or 0x1f (for
+ * data channel 2).
+ *
+ * @param  {Integer} char0 The first byte
+ * @param  {Integer} char1 The second byte
+ * @return {Boolean}       Whether the 2 bytes are an offset control code
+ */
+Cea608Stream.prototype.isOffsetControlCode = function(char0, char1) {
+  return (char0 === this.OFFSET_ && (char1 >= 0x21 && char1 <= 0x23));
+};
+
+/**
+ * Detects if the 2-byte packet is a Preamble Address Code
+ *
+ * PACs have a first byte in the range 0x10 to 0x17 (for data channel 1)
+ * or 0x18 to 0x1f (for data channel 2), with the second byte in the
+ * range 0x40 to 0x7f.
+ *
+ * @param  {Integer} char0 The first byte
+ * @param  {Integer} char1 The second byte
+ * @return {Boolean}       Whether the 2 bytes are a PAC
+ */
+Cea608Stream.prototype.isPAC = function(char0, char1) {
+  return (char0 >= this.BASE_ && char0 < (this.BASE_ + 8) &&
+    (char1 >= 0x40 && char1 <= 0x7f));
+};
+
+/**
+ * Detects if a packet's second byte is in the range of a PAC color code
+ *
+ * PAC color codes have the second byte be in the range 0x40 to 0x4f, or
+ * 0x60 to 0x6f.
+ *
+ * @param  {Integer} char1 The second byte
+ * @return {Boolean}       Whether the byte is a color PAC
+ */
+Cea608Stream.prototype.isColorPAC = function(char1) {
+  return ((char1 >= 0x40 && char1 <= 0x4f) || (char1 >= 0x60 && char1 <= 0x7f));
+};
+
+/**
+ * Detects if a single byte is in the range of a normal character
+ *
+ * Normal text bytes are in the range 0x20 to 0x7f.
+ *
+ * @param  {Integer} char  The byte
+ * @return {Boolean}       Whether the byte is a normal character
+ */
+Cea608Stream.prototype.isNormalChar = function(char) {
+  return (char >= 0x20 && char <= 0x7f);
+};
+
+// Adds the opening HTML tag for the passed character to the caption text,
+// and keeps track of it for later closing
+Cea608Stream.prototype.addFormatting = function(pts, format) {
+  this.formatting_ = this.formatting_.concat(format);
+  var text = format.reduce(function(text, format) {
+    return text + '<' + format + '>';
+  }, '');
+  this[this.mode_](pts, text);
+};
+
+// Adds HTML closing tags for current formatting to caption text and
+// clears remembered formatting
+Cea608Stream.prototype.clearFormatting = function(pts) {
+  if (!this.formatting_.length) {
+    return;
+  }
+  var text = this.formatting_.reverse().reduce(function(text, format) {
+    return text + '</' + format + '>';
+  }, '');
+  this.formatting_ = [];
+  this[this.mode_](pts, text);
+};
+
+// Mode Implementations
+Cea608Stream.prototype.popOn = function(pts, text) {
+  var baseRow = this.nonDisplayed_[this.row_];
+
+  // buffer characters
+  baseRow += text;
+  this.nonDisplayed_[this.row_] = baseRow;
+};
+
+Cea608Stream.prototype.rollUp = function(pts, text) {
+  var baseRow = this.displayed_[BOTTOM_ROW];
+
+  baseRow += text;
+  this.displayed_[BOTTOM_ROW] = baseRow;
+
+};
+
 Cea608Stream.prototype.shiftRowsUp_ = function() {
   var i;
   // clear out inactive rows
@@ -14553,13 +15352,16 @@ Cea608Stream.prototype.shiftRowsUp_ = function() {
   this.displayed_[BOTTOM_ROW] = '';
 };
 
+// paintOn mode is not implemented
+Cea608Stream.prototype.paintOn = function() {};
+
 // exports
 module.exports = {
   CaptionStream: CaptionStream,
   Cea608Stream: Cea608Stream
 };
 
-},{"../utils/stream":61}],49:[function(require,module,exports){
+},{"../utils/stream":62}],50:[function(require,module,exports){
 /**
  * mux.js
  *
@@ -15038,7 +15840,7 @@ for (var type in StreamTypes) {
 
 module.exports = m2ts;
 
-},{"../utils/stream.js":61,"./caption-stream":48,"./metadata-stream":50,"./stream-types":52,"./stream-types.js":52,"./timestamp-rollover-stream":53}],50:[function(require,module,exports){
+},{"../utils/stream.js":62,"./caption-stream":49,"./metadata-stream":51,"./stream-types":53,"./stream-types.js":53,"./timestamp-rollover-stream":54}],51:[function(require,module,exports){
 /**
  * Accepts program elementary stream (PES) data events and parses out
  * ID3 metadata from them, if present.
@@ -15288,7 +16090,7 @@ MetadataStream.prototype = new Stream();
 
 module.exports = MetadataStream;
 
-},{"../utils/stream":61,"./stream-types":52}],51:[function(require,module,exports){
+},{"../utils/stream":62,"./stream-types":53}],52:[function(require,module,exports){
 /**
  * mux.js
  *
@@ -15577,7 +16379,7 @@ module.exports = {
   videoPacketContainsKeyFrame: videoPacketContainsKeyFrame
 };
 
-},{"./stream-types.js":52}],52:[function(require,module,exports){
+},{"./stream-types.js":53}],53:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -15586,7 +16388,7 @@ module.exports = {
   METADATA_STREAM_TYPE: 0x15
 };
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 /**
  * mux.js
  *
@@ -15672,7 +16474,7 @@ module.exports = {
   handleRollover: handleRollover
 };
 
-},{"../utils/stream":61}],54:[function(require,module,exports){
+},{"../utils/stream":62}],55:[function(require,module,exports){
 module.exports = {
   generator: require('./mp4-generator'),
   Transmuxer: require('./transmuxer').Transmuxer,
@@ -15680,7 +16482,7 @@ module.exports = {
   VideoSegmentStream: require('./transmuxer').VideoSegmentStream
 };
 
-},{"./mp4-generator":55,"./transmuxer":57}],55:[function(require,module,exports){
+},{"./mp4-generator":56,"./transmuxer":58}],56:[function(require,module,exports){
 /**
  * mux.js
  *
@@ -16452,7 +17254,7 @@ module.exports = {
   }
 };
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 /**
  * mux.js
  *
@@ -16642,7 +17444,7 @@ module.exports = {
   startTime: startTime
 };
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 /**
  * mux.js
  *
@@ -17538,6 +18340,7 @@ CoalesceStream.prototype.flush = function(flushSource) {
     offset = 0,
     event = {
       captions: [],
+      captionStreams: {},
       metadata: [],
       info: {}
     },
@@ -17614,13 +18417,14 @@ CoalesceStream.prototype.flush = function(flushSource) {
   }
 
   // Translate caption PTS times into second offsets into the
-  // video timeline for the segment
+  // video timeline for the segment, and add track info
   for (i = 0; i < this.pendingCaptions.length; i++) {
     caption = this.pendingCaptions[i];
     caption.startTime = (caption.startPts - timelineStartPts);
     caption.startTime /= 90e3;
     caption.endTime = (caption.endPts - timelineStartPts);
     caption.endTime /= 90e3;
+    event.captionStreams[caption.stream] = true;
     event.captions.push(caption);
   }
 
@@ -17856,6 +18660,7 @@ Transmuxer = function(options) {
       videoTrack.timelineStartInfo.dts = undefined;
       videoTrack.timelineStartInfo.pts = undefined;
       clearDtsInfo(videoTrack);
+      pipeline.captionStream.reset();
       videoTrack.timelineStartInfo.baseMediaDecodeTime = baseMediaDecodeTime;
     }
 
@@ -17891,6 +18696,14 @@ Transmuxer = function(options) {
     // Start at the top of the pipeline and flush all pending work
     this.transmuxPipeline_.headOfPipeline.flush();
   };
+
+  // Caption data has to be reset when seeking outside buffered range
+  this.resetCaptions = function() {
+    if (this.transmuxPipeline_.captionStream) {
+      this.transmuxPipeline_.captionStream.reset();
+    }
+  };
+
 };
 Transmuxer.prototype = new Stream();
 
@@ -17902,7 +18715,7 @@ module.exports = {
   VIDEO_PROPERTIES: VIDEO_PROPERTIES
 };
 
-},{"../aac":37,"../codecs/adts.js":39,"../codecs/h264":40,"../data/silence":41,"../m2ts/m2ts.js":49,"../utils/clock":59,"../utils/stream.js":61,"./mp4-generator.js":55}],58:[function(require,module,exports){
+},{"../aac":38,"../codecs/adts.js":40,"../codecs/h264":41,"../data/silence":42,"../m2ts/m2ts.js":50,"../utils/clock":60,"../utils/stream.js":62,"./mp4-generator.js":56}],59:[function(require,module,exports){
 /**
  * mux.js
  *
@@ -18416,7 +19229,7 @@ module.exports = {
   inspect: inspect
 };
 
-},{"../aac/probe.js":38,"../m2ts/probe.js":51,"../m2ts/stream-types.js":52,"../m2ts/timestamp-rollover-stream.js":53}],59:[function(require,module,exports){
+},{"../aac/probe.js":39,"../m2ts/probe.js":52,"../m2ts/stream-types.js":53,"../m2ts/timestamp-rollover-stream.js":54}],60:[function(require,module,exports){
 var
   ONE_SECOND_IN_TS = 90000, // 90kHz clock
   secondsToVideoTs,
@@ -18459,7 +19272,7 @@ module.exports = {
   videoTsToAudioTs: videoTsToAudioTs
 };
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
 
 var ExpGolomb;
@@ -18608,7 +19421,7 @@ ExpGolomb = function(workingData) {
 
 module.exports = ExpGolomb;
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 /**
  * mux.js
  *
@@ -18727,7 +19540,7 @@ Stream.prototype.flush = function(flushSource) {
 
 module.exports = Stream;
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 /* jshint ignore:start */
 (function(root) { 
 /* jshint ignore:end */
@@ -18830,7 +19643,7 @@ module.exports = Stream;
 })(this);
 /* jshint ignore:end */
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 (function (global){
 /**
  * @file add-text-track-data.js
@@ -18906,7 +19719,9 @@ var addTextTrackData = function addTextTrackData(sourceHandler, captionArray, me
 
   if (captionArray) {
     captionArray.forEach(function (caption) {
-      this.inbandTextTrack_.addCue(new Cue(caption.startTime + this.timestampOffset, caption.endTime + this.timestampOffset, caption.text));
+      var track = caption.stream;
+
+      this.inbandTextTracks_[track].addCue(new Cue(caption.startTime + this.timestampOffset, caption.endTime + this.timestampOffset, caption.text));
     }, sourceHandler);
   }
 
@@ -18981,46 +19796,7 @@ exports['default'] = {
 };
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"global/window":31}],64:[function(require,module,exports){
-/**
- * Remove the text track from the player if one with matching kind and
- * label properties already exists on the player
- *
- * @param {Object} player the video.js player object
- * @param {String} kind to be considered the text track's `kind` must match
- * @param {String} label to be considered the text track's `label` must match
- * @private
- */
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-var removeExistingTrack = function removeExistingTrack(player, kind, label) {
-  var tracks = player.remoteTextTracks() || [];
-
-  for (var i = 0; i < tracks.length; i++) {
-    var track = tracks[i];
-
-    if (track.kind === kind && track.label === label) {
-      player.removeRemoteTextTrack(track);
-    }
-  }
-};
-
-exports.removeExistingTrack = removeExistingTrack;
-/**
- * Cleaup text tracks on video.js if they exist
- *
- * @param {Object} player the video.js player object
- * @private
- */
-var cleanupTextTracks = function cleanupTextTracks(player) {
-  removeExistingTrack(player, 'captions', 'cc1');
-  removeExistingTrack(player, 'metadata', 'Timed Metadata');
-};
-exports.cleanupTextTracks = cleanupTextTracks;
-},{}],65:[function(require,module,exports){
+},{"global/window":32}],65:[function(require,module,exports){
 /**
  * @file codec-utils.js
  */
@@ -19112,13 +19888,6 @@ module.exports = exports['default'];
 /**
  * @file create-text-tracks-if-necessary.js
  */
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-var _cleanupTextTracks = require('./cleanup-text-tracks');
 
 /**
  * Create text tracks on video.js if they exist on a segment.
@@ -19128,21 +19897,44 @@ var _cleanupTextTracks = require('./cleanup-text-tracks');
  * @param {Object} segment the segment that may contain the text track
  * @private
  */
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 var createTextTracksIfNecessary = function createTextTracksIfNecessary(sourceBuffer, mediaSource, segment) {
   var player = mediaSource.player_;
 
   // create an in-band caption track if one is present in the segment
-  if (segment.captions && segment.captions.length && !sourceBuffer.inbandTextTrack_) {
-    (0, _cleanupTextTracks.removeExistingTrack)(player, 'captions', 'cc1');
-    sourceBuffer.inbandTextTrack_ = player.addRemoteTextTrack({
-      kind: 'captions',
-      label: 'cc1'
-    }, false).track;
-    player.tech_.trigger({ type: 'usage', name: 'hls-608' });
+  if (segment.captions && segment.captions.length) {
+    if (!sourceBuffer.inbandTextTracks_) {
+      sourceBuffer.inbandTextTracks_ = {};
+    }
+
+    for (var trackId in segment.captionStreams) {
+      if (!sourceBuffer.inbandTextTracks_[trackId]) {
+        player.tech_.trigger({ type: 'usage', name: 'hls-608' });
+        var track = player.textTracks().getTrackById(trackId);
+
+        if (track) {
+          // Resuse an existing track with a CC# id because this was
+          // very likely created by videojs-contrib-hls from information
+          // in the m3u8 for us to use
+          sourceBuffer.inbandTextTracks_[trackId] = track;
+        } else {
+          // Otherwise, create a track with the default `CC#` label and
+          // without a language
+          sourceBuffer.inbandTextTracks_[trackId] = player.addRemoteTextTrack({
+            kind: 'captions',
+            id: trackId,
+            label: trackId
+          }, false).track;
+        }
+      }
+    }
   }
 
   if (segment.metadata && segment.metadata.length && !sourceBuffer.metadataTrack_) {
-    (0, _cleanupTextTracks.removeExistingTrack)(player, 'metadata', 'Timed Metadata', true);
     sourceBuffer.metadataTrack_ = player.addRemoteTextTrack({
       kind: 'metadata',
       label: 'Timed Metadata'
@@ -19153,7 +19945,7 @@ var createTextTracksIfNecessary = function createTextTracksIfNecessary(sourceBuf
 
 exports['default'] = createTextTracksIfNecessary;
 module.exports = exports['default'];
-},{"./cleanup-text-tracks":64}],67:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 /**
  * @file flash-constants.js
  */
@@ -19219,8 +20011,6 @@ var _flashConstants2 = _interopRequireDefault(_flashConstants);
 
 var _codecUtils = require('./codec-utils');
 
-var _cleanupTextTracks = require('./cleanup-text-tracks');
-
 /**
  * A flash implmentation of HTML MediaSources and a polyfill
  * for browsers that don't support native or HTML MediaSources..
@@ -19256,12 +20046,6 @@ var FlashMediaSource = (function (_videojs$EventTarget) {
           _this.sourceBuffers[i].abort();
         }
       });
-
-      if (_this.tech_.hls) {
-        _this.tech_.hls.on('dispose', function () {
-          (0, _cleanupTextTracks.cleanupTextTracks)(_this.player_);
-        });
-      }
 
       // trigger load events
       if (_this.swfObj) {
@@ -19396,7 +20180,7 @@ for (var property in _flashConstants2['default']) {
 }
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./cleanup-text-tracks":64,"./codec-utils":65,"./flash-constants":67,"./flash-source-buffer":69,"global/document":30}],69:[function(require,module,exports){
+},{"./codec-utils":65,"./flash-constants":67,"./flash-source-buffer":69,"global/document":31}],69:[function(require,module,exports){
 (function (global){
 /**
  * @file flash-source-buffer.js
@@ -19613,11 +20397,20 @@ var FlashSourceBuffer = (function (_videojs$EventTarget) {
     // of a buffered-range and everything else is reset on seek
     this.mediaSource_.player_.on('seeked', function () {
       (0, _removeCuesFromTrack2['default'])(0, Infinity, _this.metadataTrack_);
-      (0, _removeCuesFromTrack2['default'])(0, Infinity, _this.inbandTextTrack_);
+      if (_this.inbandTextTracks_) {
+        for (var track in _this.inbandTextTracks_) {
+          (0, _removeCuesFromTrack2['default'])(0, Infinity, _this.inbandTextTracks_[track]);
+        }
+      }
     });
+
+    var onHlsReset = this.onHlsReset_.bind(this);
+
+    this.mediaSource_.player_.tech_.on('hls-reset', onHlsReset);
 
     this.mediaSource_.player_.tech_.hls.on('dispose', function () {
       _this.transmuxer_.terminate();
+      _this.mediaSource_.player_.tech_.off('hls-reset', onHlsReset);
     });
   }
 
@@ -19685,7 +20478,11 @@ var FlashSourceBuffer = (function (_videojs$EventTarget) {
     key: 'remove',
     value: function remove(start, end) {
       (0, _removeCuesFromTrack2['default'])(start, end, this.metadataTrack_);
-      (0, _removeCuesFromTrack2['default'])(start, end, this.inbandTextTrack_);
+      if (this.inbandTextTracks_) {
+        for (var track in this.inbandTextTracks_) {
+          (0, _removeCuesFromTrack2['default'])(start, end, this.inbandTextTracks_[track]);
+        }
+      }
       this.trigger({ type: 'update' });
       this.trigger({ type: 'updateend' });
     }
@@ -19990,6 +20787,11 @@ var FlashSourceBuffer = (function (_videojs$EventTarget) {
 
       return tags;
     }
+  }, {
+    key: 'onHlsReset_',
+    value: function onHlsReset_() {
+      this.transmuxer_.postMessage({ action: 'resetCaptions' });
+    }
   }]);
 
   return FlashSourceBuffer;
@@ -19998,7 +20800,7 @@ var FlashSourceBuffer = (function (_videojs$EventTarget) {
 exports['default'] = FlashSourceBuffer;
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./add-text-track-data":63,"./create-text-tracks-if-necessary":66,"./flash-constants":67,"./flash-transmuxer-worker":70,"./remove-cues-from-track":72,"global/window":31,"mux.js/lib/flv":45,"webworkify":76}],70:[function(require,module,exports){
+},{"./add-text-track-data":64,"./create-text-tracks-if-necessary":66,"./flash-constants":67,"./flash-transmuxer-worker":70,"./remove-cues-from-track":72,"global/window":32,"mux.js/lib/flv":46,"webworkify":76}],70:[function(require,module,exports){
 /**
  * @file flash-transmuxer-worker.js
  */
@@ -20114,6 +20916,11 @@ var MessageHandlers = (function () {
     value: function flush() {
       this.transmuxer.flush();
     }
+  }, {
+    key: 'resetCaptions',
+    value: function resetCaptions() {
+      this.transmuxer.resetCaptions();
+    }
   }]);
 
   return MessageHandlers;
@@ -20143,7 +20950,7 @@ exports['default'] = function (self) {
 };
 
 module.exports = exports['default'];
-},{"global/window":31,"mux.js/lib/flv":45}],71:[function(require,module,exports){
+},{"global/window":32,"mux.js/lib/flv":46}],71:[function(require,module,exports){
 (function (global){
 /**
  * @file html-media-source.js
@@ -20183,8 +20990,6 @@ var _virtualSourceBuffer2 = _interopRequireDefault(_virtualSourceBuffer);
 var _addTextTrackData = require('./add-text-track-data');
 
 var _codecUtils = require('./codec-utils');
-
-var _cleanupTextTracks = require('./cleanup-text-tracks');
 
 /**
  * Our MediaSource implementation in HTML, mimics native
@@ -20337,6 +21142,14 @@ var HtmlMediaSource = (function (_videojs$EventTarget) {
       });
     };
 
+    this.onHlsReset_ = function () {
+      _this.sourceBuffers.forEach(function (sourceBuffer) {
+        if (sourceBuffer.transmuxer_) {
+          sourceBuffer.transmuxer_.postMessage({ action: 'resetCaptions' });
+        }
+      });
+    };
+
     // Re-emit MediaSource events on the polyfill
     ['sourceopen', 'sourceclose', 'sourceended'].forEach(function (eventName) {
       this.nativeMediaSource_.addEventListener(eventName, this.trigger.bind(this));
@@ -20353,6 +21166,8 @@ var HtmlMediaSource = (function (_videojs$EventTarget) {
       }
 
       _this.player_ = (0, _videoJs2['default'])(video.parentNode);
+
+      _this.player_.tech_.on('hls-reset', _this.onHlsReset_);
 
       if (_this.player_.audioTracks && _this.player_.audioTracks()) {
         _this.player_.audioTracks().on('change', _this.updateActiveSourceBuffers_);
@@ -20390,8 +21205,6 @@ var HtmlMediaSource = (function (_videojs$EventTarget) {
         return;
       }
 
-      (0, _cleanupTextTracks.cleanupTextTracks)(this.player_);
-
       if (this.player_.audioTracks && this.player_.audioTracks()) {
         this.player_.audioTracks().off('change', this.updateActiveSourceBuffers_);
         this.player_.audioTracks().off('addtrack', this.updateActiveSourceBuffers_);
@@ -20404,6 +21217,7 @@ var HtmlMediaSource = (function (_videojs$EventTarget) {
       // event handlers left to unbind anyway
       if (this.player_.el_) {
         this.player_.off('mediachange', this.onPlayerMediachange_);
+        this.player_.tech_.off('hls-reset', this.onHlsReset_);
       }
     });
   }
@@ -20494,7 +21308,7 @@ var HtmlMediaSource = (function (_videojs$EventTarget) {
 exports['default'] = HtmlMediaSource;
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./add-text-track-data":63,"./cleanup-text-tracks":64,"./codec-utils":65,"./virtual-source-buffer":75,"global/document":30,"global/window":31}],72:[function(require,module,exports){
+},{"./add-text-track-data":64,"./codec-utils":65,"./virtual-source-buffer":75,"global/document":31,"global/window":32}],72:[function(require,module,exports){
 /**
  * @file remove-cues-from-track.js
  */
@@ -20713,6 +21527,11 @@ var MessageHandlers = (function () {
     value: function flush(data) {
       this.transmuxer.flush();
     }
+  }, {
+    key: 'resetCaptions',
+    value: function resetCaptions() {
+      this.transmuxer.resetCaptions();
+    }
   }]);
 
   return MessageHandlers;
@@ -20742,7 +21561,7 @@ exports['default'] = function (self) {
 };
 
 module.exports = exports['default'];
-},{"global/window":31,"mux.js/lib/mp4":54}],74:[function(require,module,exports){
+},{"global/window":32,"mux.js/lib/mp4":55}],74:[function(require,module,exports){
 (function (global){
 /**
  * @file videojs-contrib-media-sources.js
@@ -20901,7 +21720,7 @@ exports.URL = URL;
 _videoJs2['default'].MediaSource = MediaSource;
 _videoJs2['default'].URL = URL;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./flash-media-source":68,"./html-media-source":71,"global/window":31}],75:[function(require,module,exports){
+},{"./flash-media-source":68,"./html-media-source":71,"global/window":32}],75:[function(require,module,exports){
 (function (global){
 /**
  * @file virtual-source-buffer.js
@@ -21374,7 +22193,11 @@ var VirtualSourceBuffer = (function (_videojs$EventTarget) {
       (0, _removeCuesFromTrack2['default'])(start, end, this.metadataTrack_);
 
       // Remove Any Captions
-      (0, _removeCuesFromTrack2['default'])(start, end, this.inbandTextTrack_);
+      if (this.inbandTextTracks_) {
+        for (var track in this.inbandTextTracks_) {
+          (0, _removeCuesFromTrack2['default'])(start, end, this.inbandTextTracks_[track]);
+        }
+      }
     }
 
     /**
@@ -21546,7 +22369,7 @@ var VirtualSourceBuffer = (function (_videojs$EventTarget) {
 exports['default'] = VirtualSourceBuffer;
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./add-text-track-data":63,"./codec-utils":65,"./create-text-tracks-if-necessary":66,"./remove-cues-from-track":72,"./transmuxer-worker":73,"webworkify":76}],76:[function(require,module,exports){
+},{"./add-text-track-data":64,"./codec-utils":65,"./create-text-tracks-if-necessary":66,"./remove-cues-from-track":72,"./transmuxer-worker":73,"webworkify":76}],76:[function(require,module,exports){
 var bundleFn = arguments[3];
 var sources = arguments[4];
 var cache = arguments[5];
@@ -21801,26 +22624,6 @@ Hls.isSupported = function () {
   return _videoJs2['default'].log.warn('HLS is no longer a tech. Please remove it from ' + 'your player\'s techOrder.');
 };
 
-var USER_AGENT = _globalWindow2['default'].navigator && _globalWindow2['default'].navigator.userAgent || '';
-
-/**
- * Determines whether the browser supports a change in the audio configuration
- * during playback. Currently only Firefox 48 and below do not support this.
- * window.isSecureContext is a propterty that was added to window in firefox 49,
- * so we can use it to detect Firefox 49+.
- *
- * @return {Boolean} Whether the browser supports audio config change during playback
- */
-Hls.supportsAudioInfoChange_ = function () {
-  if (_videoJs2['default'].browser.IS_FIREFOX) {
-    var firefoxVersionMap = /Firefox\/([\d.]+)/i.exec(USER_AGENT);
-    var version = parseInt(firefoxVersionMap[1], 10);
-
-    return version >= 49;
-  }
-  return true;
-};
-
 var Component = _videoJs2['default'].getComponent('Component');
 
 /**
@@ -21895,15 +22698,6 @@ var HlsHandler = (function (_Component) {
         this.masterPlaylistController_.pauseLoading();
       }
     });
-
-    this.audioTrackChange_ = function () {
-      _this.masterPlaylistController_.setupAudio();
-      _this.tech_.trigger({ type: 'usage', name: 'hls-audio-change' });
-    };
-
-    this.textTrackChange_ = function () {
-      _this.masterPlaylistController_.setupSubtitles();
-    };
 
     this.on(this.tech_, 'play', this.play);
   }
@@ -22112,22 +22906,9 @@ var HlsHandler = (function (_Component) {
 
       this.tech_.one('canplay', this.masterPlaylistController_.setupFirstPlay.bind(this.masterPlaylistController_));
 
-      this.masterPlaylistController_.on('sourceopen', function () {
-        _this3.tech_.audioTracks().addEventListener('change', _this3.audioTrackChange_);
-        _this3.tech_.remoteTextTracks().addEventListener('change', _this3.textTrackChange_);
-      });
-
       this.masterPlaylistController_.on('selectedinitialmedia', function () {
         // Add the manual rendition mix-in to HlsHandler
         (0, _renditionMixin2['default'])(_this3);
-      });
-
-      this.masterPlaylistController_.on('audioupdate', function () {
-        // clear current audioTracks
-        _this3.tech_.clearTracks('audio');
-        _this3.masterPlaylistController_.activeAudioGroup().forEach(function (audioTrack) {
-          _this3.tech_.audioTracks().addTrack(audioTrack);
-        });
       });
 
       // the bandwidth of the primary segment loader is our best
@@ -22182,17 +22963,6 @@ var HlsHandler = (function (_Component) {
     }
 
     /**
-     * a helper for grabbing the active audio group from MasterPlaylistController
-     *
-     * @private
-     */
-  }, {
-    key: 'activeAudioGroup_',
-    value: function activeAudioGroup_() {
-      return this.masterPlaylistController_.activeAudioGroup();
-    }
-
-    /**
      * Begin playing the video.
      */
   }, {
@@ -22243,8 +23013,6 @@ var HlsHandler = (function (_Component) {
       if (this.qualityLevels_) {
         this.qualityLevels_.dispose();
       }
-      this.tech_.audioTracks().removeEventListener('change', this.audioTrackChange_);
-      this.tech_.remoteTextTracks().removeEventListener('change', this.textTrackChange_);
       _get(Object.getPrototypeOf(HlsHandler.prototype), 'dispose', this).call(this);
     }
   }]);
@@ -22349,9 +23117,15 @@ module.exports = {
   HlsSourceHandler: HlsSourceHandler
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bin-utils":2,"./config":3,"./master-playlist-controller":5,"./playback-watcher":7,"./playlist":10,"./playlist-loader":8,"./playlist-selectors.js":9,"./reload-source-on-error":12,"./rendition-mixin":13,"./xhr":20,"aes-decrypter":24,"global/document":30,"global/window":31,"m3u8-parser":32,"videojs-contrib-media-sources":74}]},{},[77])(77)
+},{"./bin-utils":2,"./config":3,"./master-playlist-controller":5,"./playback-watcher":8,"./playlist":11,"./playlist-loader":9,"./playlist-selectors.js":10,"./reload-source-on-error":13,"./rendition-mixin":14,"./xhr":21,"aes-decrypter":25,"global/document":31,"global/window":32,"m3u8-parser":33,"videojs-contrib-media-sources":74}]},{},[77])(77)
 });
-!function e(t,n,a){function d(i,s){if(!n[i]){if(!t[i]){var r="function"==typeof require&&require;if(!s&&r)return r(i,!0);if(o)return o(i,!0);var u=new Error("Cannot find module '"+i+"'");throw u.code="MODULE_NOT_FOUND",u}var l=n[i]={exports:{}};t[i][0].call(l.exports,function(e){var n=t[i][1][e];return d(n||e)},l,l.exports,e,t,n,a)}return n[i].exports}for(var o="function"==typeof require&&require,i=0;i<a.length;i++)d(a[i]);return d}({1:[function(e,t,n){(function(t){"use strict";function a(e){return e&&e.__esModule?e:{"default":e}}function d(e){if(!e.ads.cancelPlayTimeout){if(l["default"].browser.IS_IOS&&l["default"].browser.IS_IPHONE&&!e.el_.hasAttribute("playsinline")){var t=e.currentWidth?e.currentWidth():e.width(),n=e.currentHeight?e.currentHeight():e.height(),a=i["default"].getComputedStyle(e.el_).position,d=i["default"].getComputedStyle(e.el_).top,o=r["default"].createElement("div");o.style.width=t+"px",o.style.height=n+"px",o.style.background="black",o.style.position=a,o.style.top=d,e.el_.parentNode.insertBefore(o,e.el_),e.el_.style.display="none",e.one(["adstart","adtimeout","adserror","adscanceled","adskip","playing"],function(){e.el_.style.display="block",o.remove()}),e.on("fullscreenchange",function(){o&&!e.isFullscreen()&&(e.el_.style.display="block",o.remove())})}e.ads.cancelPlayTimeout=i["default"].setTimeout(function(){e.ads.cancelPlayTimeout=null,e.paused()||e.pause(),e.ads.cancelledPlay=!0},1)}}n.__esModule=!0,n["default"]=d;var o=e(9),i=a(o),s=e(8),r=a(s),u="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,l=a(u)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],2:[function(e,t,n){"use strict";function a(e){e.ads.contentSrc=e.currentSrc();var t=function(){if("ad-playback"!==e.ads.state){var t=e.currentSrc();t!==e.ads.contentSrc&&(e.trigger({type:"contentupdate",oldValue:e.ads.contentSrc,newValue:t}),e.ads.contentSrc=t)}};e.on("loadstart",t),o["default"].setTimeout(t,1)}n.__esModule=!0,n["default"]=a;var d=e(9),o=function(e){return e&&e.__esModule?e:{"default":e}}(d)},{}],3:[function(e,t,n){(function(e){"use strict";function t(e,t){var n=e.textTracks(),a=function(n){"metadata"===n.kind&&(e.ads.cueTextTracks.setMetadataTrackMode(n),t(e,n))};if(n.length>0)for(var d=0;d<n.length;d++){var o=n[d];a(o)}else n.addEventListener("addtrack",function(e){var t=e.track;a(t)})}function a(e){}function d(e,t){return t}function o(e,t){return t.id}function i(e,t,n,a){e.ads.includedCues={};for(var d=0;d<t.length;d++){var o=t[d],i=this.getSupportedAdCue(e,o);if(-1===i)return void r["default"].log.warn("Skipping as this is not a supported ad cue.",o);var s=this.getCueId(e,o),c=o.startTime;if(u(e,s))return void r["default"].log("Skipping ad already seen with ID "+s);n(e,i,s,c),l(e,s),a!==undefined&&a(e,i)}}n.__esModule=!0,n.processMetadataTracks=t,n.setMetadataTrackMode=a,n.getSupportedAdCue=d,n.getCueId=o,n.processAdTrack=i;var s="undefined"!=typeof window?window.videojs:void 0!==e?e.videojs:null,r=function(e){return e&&e.__esModule?e:{"default":e}}(s),u=function(e,t){return t!==undefined&&e.ads.includedCues[t]},l=function(e,t){t!==undefined&&""!==t&&(e.ads.includedCues[t]=!0)}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],4:[function(e,t,n){(function(t){"use strict";function a(e){return e&&e.__esModule?e:{"default":e}}function d(e,t,n){t===undefined&&(t=!1);var a={};n!==undefined&&(a=n),a["{player.id}"]=this.options_["data-player"],a["{mediainfo.id}"]=this.mediainfo?this.mediainfo.id:"",a["{mediainfo.name}"]=this.mediainfo?this.mediainfo.name:"",a["{mediainfo.description}"]=this.mediainfo?this.mediainfo.description:"",a["{mediainfo.tags}"]=this.mediainfo?this.mediainfo.tags:"",a["{mediainfo.reference_id}"]=this.mediainfo?this.mediainfo.reference_id:"",a["{mediainfo.duration}"]=this.mediainfo?this.mediainfo.duration:"",a["{mediainfo.ad_keys}"]=this.mediainfo?this.mediainfo.ad_keys:"",a["{player.duration}"]=this.duration(),a["{timestamp}"]=(new Date).getTime(),a["{document.referrer}"]=u["default"].referrer,a["{window.location.href}"]=s["default"].location.href,a["{random}"]=Math.floor(1e12*Math.random()),p(this.mediainfo,a,"custom_fields"),p(this.mediainfo,a,"customFields");for(var d in a)e=e.split(d).join(f(a[d],t));return e=e.replace(/{pageVariable\.([^}]+)}/g,function(e,n){for(var a=void 0,d=s["default"],i=n.split("."),r=0;r<i.length;r++)r===i.length-1?a=d[i[r]]:d=d[i[r]];var u=void 0===a?"undefined":o(a);return null===a?"null":a===undefined?(c["default"].log.warn('Page variable "'+n+'" not found'),""):"string"!==u&&"number"!==u&&"boolean"!==u?(c["default"].log.warn('Page variable "'+n+'" is not a supported type'),""):f(String(a),t)})}n.__esModule=!0;var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};n["default"]=d;var i=e(9),s=a(i),r=e(8),u=a(r),l="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,c=a(l),f=function(e,t){return t?encodeURIComponent(e):e},p=function(e,t,n){if(e&&e[n])for(var a=e[n],d=Object.keys(a),o=0;o<d.length;o++){var i="{mediainfo."+n+"."+d[o]+"}";t[i]=a[d[o]]}}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],5:[function(e,t,n){"use strict";function a(e){if("playing"===e.type&&"preroll?"===this.ads.state)o(this,"ad",e);else if("playing"!==e.type||"ad-playback"!==this.ads.state||this.ads.videoElementRecycled())if("playing"===e.type&&"ads-ready?"===this.ads.state)o(this,"ad",e);else{if("playing"===e.type&&"ad-playback"===this.ads.state&&this.ads.videoElementRecycled())return void d(this,e);if("ad-playback"===this.ads.state)(this.ads.videoElementRecycled()||this.ads.stitchedAds())&&o(this,"ad",e);else if("content-playback"===this.ads.state&&"ended"===e.type)o(this,"content",e);else if("content-resuming"===this.ads.state){if(this.ads.snapshot&&this.currentSrc()!==this.ads.snapshot.currentSrc){if("loadstart"===e.type)return;return o(this,"content",e)}if(this.ads.snapshot&&this.ads.snapshot.ended){if("pause"===e.type||"ended"===e.type)return;return o(this,"content",e)}"playing"!==e.type&&o(this,"content",e)}}else o(this,"ad",e)}n.__esModule=!0,n["default"]=a;var d=function(e,t){t.isImmediatePropagationStopped=function(){return!0},t.cancelBubble=!0,t.isPropagationStopped=function(){return!0}},o=function(e,t,n){d(e,n),e.trigger({type:t+n.type,state:e.ads.state,originalEvent:n})}},{}],6:[function(e,t,n){(function(t){"use strict";function a(e){return e&&e.__esModule?e:{"default":e}}function d(e){var t=void 0;t=u["default"].browser.IS_IOS&&e.ads.isLive(e)&&e.seekable().length>0?e.currentTime()-e.seekable().end(0):e.currentTime();var n=e.$(".vjs-tech"),a=e.remoteTextTracks?e.remoteTextTracks():[],d=e.textTracks?e.textTracks():[],o=[],i=[],s={ended:e.ended(),currentSrc:e.currentSrc(),src:e.tech_.src(),currentTime:t,type:e.currentType()};n&&(s.nativePoster=n.poster,s.style=n.getAttribute("style"));for(var r=0;r<a.length;r++){var l=a[r];o.push({track:l,mode:l.mode}),l.mode="disabled"}s.suppressedRemoteTracks=o;for(var c=0;c<d.length;c++){var f=d[c];i.push({track:f,mode:f.mode}),f.mode="disabled"}return s.suppressedTracks=i,s}function o(e,t){if(!0===e.ads.disableNextSnapshotRestore)return void(e.ads.disableNextSnapshotRestore=!1);var n=e.$(".vjs-tech"),a=20,d=t.suppressedRemoteTracks,o=t.suppressedTracks,i=void 0,r=function(){for(var e=0;e<d.length;e++)i=d[e],i.track.mode=i.mode;for(var t=0;t<o.length;t++)i=o[t],i.track.mode=i.mode},l=function(){var n=void 0;u["default"].browser.IS_IOS&&e.ads.isLive(e)?t.currentTime<0&&(n=e.seekable().length>0?e.seekable().end(0)+t.currentTime:e.currentTime(),e.currentTime(n)):t.ended?e.currentTime(e.duration()):e.currentTime(t.currentTime),t.ended||e.play()},c=function f(){if(e.off("contentcanplay",f),e.ads.tryToResumeTimeout_&&(e.clearTimeout(e.ads.tryToResumeTimeout_),e.ads.tryToResumeTimeout_=null),n=e.el().querySelector(".vjs-tech"),n.readyState>1)return l();if(n.seekable===undefined)return l();if(n.seekable.length>0)return l();if(a--)s["default"].setTimeout(f,50);else try{l()}catch(t){u["default"].log.warn("Failed to resume the content after an advertisement",t)}};t.nativePoster&&(n.poster=t.nativePoster),"style"in t&&n.setAttribute("style",t.style||""),e.ads.videoElementRecycled()?(e.one("contentloadedmetadata",r),e.src({src:t.currentSrc,type:t.type}),e.load(),e.one("contentcanplay",c),e.ads.tryToResumeTimeout_=e.setTimeout(c,2e3)):e.ended()&&t.ended||(r(),e.play())}n.__esModule=!0,n.getPlayerSnapshot=d,n.restorePlayerSnapshot=o;var i=e(9),s=a(i),r="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,u=a(r)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],7:[function(e,t,n){},{}],8:[function(e,t,n){(function(n){var a,d=void 0!==n?n:"undefined"!=typeof window?window:{},o=e(7);"undefined"!=typeof document?a=document:(a=d["__GLOBAL_DOCUMENT_CACHE@4"])||(a=d["__GLOBAL_DOCUMENT_CACHE@4"]=o),t.exports=a}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],9:[function(e,t,n){(function(e){var n;n="undefined"!=typeof window?window:void 0!==e?e:"undefined"!=typeof self?self:{},t.exports=n}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],10:[function(e,t,n){(function(t){"use strict";function n(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&(t[n]=e[n]);return t["default"]=e,t}function a(e){return e&&e.__esModule?e:{"default":e}}var d=e(9),o=a(d),i="undefined"!=typeof window?window.videojs:void 0!==t?t.videojs:null,s=a(i),r=e(5),u=a(r),l=e(6),c=n(l),f=e(2),p=a(f),y=e(1),m=a(y),h=e(4),v=a(h),g=e(3),T=n(g),b=s["default"].getTech("Html5").Events,_=function(e){var t=e.$(".vjs-tech");t&&t.removeAttribute("poster")},w={timeout:5e3,prerollTimeout:100,postrollTimeout:100,debug:!1,stitchedAds:!1},k=function(e){var t=this,n=s["default"].mergeOptions(w,e),a=b.concat(["firstplay","loadedalldata","playing"]);t.on(a,u["default"]),t.on("ended",function(){t.hasClass("vjs-has-started")||t.addClass("vjs-has-started")}),t.on(["addurationchange","adcanplay"],function(){t.currentSrc()!==t.ads.snapshot.currentSrc&&t.play()}),t.on("nopreroll",function(){t.ads.nopreroll_=!0}),t.on("nopostroll",function(){t.ads.nopostroll_=!0}),t.on(["ads-ad-started","playing"],function(){t.removeClass("vjs-ad-loading")}),t.ads={state:"content-set",disableNextSnapshotRestore:!1,_contentHasEnded:!1,adType:null,VERSION:"4.2.8",reset:function(){t.ads.disableNextSnapshotRestore=!1,t.ads._contentHasEnded=!1,t.ads.snapshot=null,t.ads.adType=null},startLinearAdMode:function(){"preroll?"!==t.ads.state&&"content-playback"!==t.ads.state&&"postroll?"!==t.ads.state||t.trigger("adstart")},endLinearAdMode:function(){"ad-playback"===t.ads.state&&(t.trigger("adend"),t.removeClass("vjs-ad-loading"))},skipLinearAdMode:function(){"ad-playback"!==t.ads.state&&t.trigger("adskip")},stitchedAds:function(e){return e!==undefined&&(this._stitchedAds=!!e),this._stitchedAds},videoElementRecycled:function(){if(t.ads.shouldPlayContentBehindAd(t))return!1;if(!this.snapshot)throw new Error("You cannot use videoElementRecycled while there is no snapshot.");var e=t.tech_.src()!==this.snapshot.src,n=t.currentSrc()!==this.snapshot.currentSrc;return e||n},isLive:function(e){return e.duration()===Infinity||"8"===s["default"].browser.IOS_VERSION&&0===e.duration()},shouldPlayContentBehindAd:function(e){return!s["default"].browser.IS_IOS&&!s["default"].browser.IS_ANDROID&&e.duration()===Infinity}},t.ads.stitchedAds(n.stitchedAds),t.ads.cueTextTracks=T,t.ads.adMacroReplacement=v["default"].bind(t),(0,p["default"])(t),t.on("contentupdate",t.ads.reset);var d={"content-set":{events:{adscanceled:function(){this.state="content-playback"},adsready:function(){this.state="ads-ready"},play:function(){this.state="ads-ready?",(0,m["default"])(t),_(t)},adserror:function(){this.state="content-playback"},adskip:function(){this.state="content-playback"}}},"ads-ready":{events:{play:function(){this.state="preroll?",(0,m["default"])(t)},adskip:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"}}},"preroll?":{enter:function(){t.ads.nopreroll_?(t.trigger("readyforpreroll"),o["default"].setTimeout(function(){t.trigger("nopreroll")},1)):(t.addClass("vjs-ad-loading"),t.ads.adTimeoutTimeout=o["default"].setTimeout(function(){t.trigger("adtimeout")},n.prerollTimeout),t.trigger("readyforpreroll"))},leave:function(){o["default"].clearTimeout(t.ads.adTimeoutTimeout)},events:{play:function(){(0,m["default"])(t)},adstart:function(){this.state="ad-playback",t.ads.adType="preroll"},adskip:function(){this.state="content-playback"},adtimeout:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"},nopreroll:function(){this.state="content-playback"}}},"ads-ready?":{enter:function(){t.addClass("vjs-ad-loading"),t.ads.adTimeoutTimeout=o["default"].setTimeout(function(){t.trigger("adtimeout")},n.timeout)},leave:function(){o["default"].clearTimeout(t.ads.adTimeoutTimeout),t.removeClass("vjs-ad-loading")},events:{play:function(){(0,m["default"])(t)},adscanceled:function(){this.state="content-playback"},adsready:function(){this.state="preroll?"},adskip:function(){this.state="content-playback"},adtimeout:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"}}},"ad-playback":{enter:function(){t.ads.shouldPlayContentBehindAd(t)||(this.snapshot=c.getPlayerSnapshot(t)),t.ads.shouldPlayContentBehindAd(t)&&(this.preAdVolume_=t.volume(),t.volume(0)),t.addClass("vjs-ad-playing"),t.hasClass("vjs-live")&&t.removeClass("vjs-live"),_(t),t.ads.cancelPlayTimeout&&o["default"].setTimeout(function(){o["default"].clearTimeout(t.ads.cancelPlayTimeout),t.ads.cancelPlayTimeout=null},1)},leave:function(){t.removeClass("vjs-ad-playing"),t.ads.isLive(t)&&t.addClass("vjs-live"),t.ads.shouldPlayContentBehindAd(t)||c.restorePlayerSnapshot(t,this.snapshot),t.ads.shouldPlayContentBehindAd(t)&&t.volume(this.preAdVolume_)},events:{adend:function(){this.state="content-resuming",t.ads.adType=null},adserror:function(){this.state="content-resuming",t.trigger("adend")}}},"content-resuming":{enter:function(){this._contentHasEnded&&(o["default"].clearTimeout(t.ads._fireEndedTimeout),t.ads._fireEndedTimeout=o["default"].setTimeout(function(){t.trigger("ended")},1e3))},leave:function(){o["default"].clearTimeout(t.ads._fireEndedTimeout)},events:{contentupdate:function(){this.state="content-set"},contentresumed:function(){this.state="content-playback"},playing:function(){this.state="content-playback"},ended:function(){this.state="content-playback"}}},"postroll?":{enter:function(){this.snapshot=c.getPlayerSnapshot(t),t.ads.nopostroll_?o["default"].setTimeout(function(){t.ads.state="content-resuming",t.trigger("ended")},1):(t.addClass("vjs-ad-loading"),t.ads.adTimeoutTimeout=o["default"].setTimeout(function(){t.trigger("adtimeout")},n.postrollTimeout))},leave:function(){o["default"].clearTimeout(t.ads.adTimeoutTimeout),t.removeClass("vjs-ad-loading")},events:{adstart:function(){this.state="ad-playback",t.ads.adType="postroll"},adskip:function(){this.state="content-resuming",o["default"].setTimeout(function(){t.trigger("ended")},1)},adtimeout:function(){this.state="content-resuming",o["default"].setTimeout(function(){t.trigger("ended")},1)},adserror:function(){this.state="content-resuming",o["default"].setTimeout(function(){t.trigger("ended")},1)},contentupdate:function(){this.state="ads-ready?"}}},"content-playback":{enter:function(){t.ads.cancelPlayTimeout&&(o["default"].clearTimeout(t.ads.cancelPlayTimeout),t.ads.cancelPlayTimeout=null),t.trigger({type:"contentplayback",triggerevent:t.ads.triggerevent}),t.ads.cancelledPlay&&(t.ads.cancelledPlay=!1,t.paused()&&t.play())},events:{adsready:function(){t.trigger("readyforpreroll")},adstart:function(){this.state="ad-playback","preroll"!==t.ads.adType&&(t.ads.adType="midroll")},contentupdate:function(){t.ads.shouldPlayContentBehindAd(t)||(0,m["default"])(t),t.paused()?this.state="content-set":this.state="ads-ready?"},contentended:function(){if(this._contentHasEnded)return void(this.state="content-resuming");this._contentHasEnded=!0,this.state="postroll?"}}}},i=function(e){var a=t.ads.state,o=d[a].events;if(o){var i=o[e.type];i&&i.apply(t.ads)}if(a!==t.ads.state){var r=a,u=t.ads.state;t.ads.triggerevent=e.type,d[r].leave&&d[r].leave.apply(t.ads),d[u].enter&&d[u].enter.apply(t.ads),n.debug&&s["default"].log("ads",t.ads.triggerevent+" triggered: "+r+" -> "+u)}};t.on(b.concat(["adtimeout","contentupdate","contentplaying","contentended","contentresumed","adstart","adend","adskip","adsready","adserror","adscanceled","nopreroll"]),i),t.on("dispose",function(){t.ads.adTimeoutTimeout&&o["default"].clearTimeout(t.ads.adTimeoutTimeout),t.ads._fireEndedTimeout&&o["default"].clearTimeout(t.ads._fireEndedTimeout),t.ads.cancelPlayTimeout&&o["default"].clearTimeout(t.ads.cancelPlayTimeout),t.ads.tryToResumeTimeout_&&t.clearTimeout(t.ads.tryToResumeTimeout_)}),t.paused()||i({type:"play"})};(s["default"].registerPlugin||s["default"].plugin)("ads",k)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}]},{},[10]);
+/**
+ * videojs-contrib-ads
+ * @version 5.1.0
+ * @copyright 2017 Brightcove, Inc.
+ * @license Apache-2.0
+ */
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t(require("video.js")):"function"==typeof define&&define.amd?define(["video.js"],t):e.videojsContribAds=t(e.videojs)}(this,function(e){"use strict";function t(e){"playing"===e.type?m(this,e):"ended"===e.type?h(this,e):"loadstart"===e.type||"loadeddata"===e.type||"loadedmetadata"===e.type?y(this,e):"play"===e.type?g(this,e):this.ads.isInAdMode()&&(this.ads.isContentResuming()?p(this,"content",e):p(this,"ad",e))}function n(e){e.on("contentupdate",function(){e.ads.snapshot.trackChangeHandler&&(e.textTracks().removeEventListener("change",e.ads.snapshot.trackChangeHandler),e.ads.snapshotIOSTrackHandlerAdded_=!1)}),e.ads.snapshotInitialized_=!0}function a(t){t.ads.snapshotInitialized_===undefined&&n(t);var a=void 0;a=e.browser.IS_IOS&&t.ads.isLive(t)&&t.seekable().length>0?t.currentTime()-t.seekable().end(0):t.currentTime();var s=t.$(".vjs-tech"),d=t.remoteTextTracks?t.remoteTextTracks():[],i=t.textTracks?t.textTracks():[],o=[],r=[],c={ended:t.ended(),currentSrc:t.currentSrc(),src:t.tech_.src(),currentTime:a,type:t.currentType()};s&&(c.nativePoster=s.poster,c.style=s.getAttribute("style"));for(var u=0;u<d.length;u++){var l=d[u];o.push({track:l,mode:l.mode}),l.mode="disabled"}c.suppressedRemoteTracks=o;for(var f=0;f<i.length;f++){var p=i[f];r.push({track:p,mode:p.mode}),p.mode="disabled"}c.suppressedTracks=r;var m=function(){if(t.ads.isAdPlaying())for(var e=t.textTracks(),n=0;n<e.length;n++){var a=e[n];"showing"===a.mode&&(a.mode="disabled")}};return e.browser.IS_IOS&&t.tech_.featuresNativeTextTracks&&!Array.isArray(i)&&(t.ads.snapshotIOSTrackHandlerAdded_||(i.addEventListener("change",m),t.ads.snapshotIOSTrackHandlerAdded_=!0)),c.trackChangeHandler=m,c}function s(t,n){if(!0!==t.ads.disableNextSnapshotRestore){var a=t.$(".vjs-tech"),s=20,d=n.suppressedRemoteTracks,i=n.suppressedTracks;e.browser.IS_IOS&&t.tech_.featuresNativeTextTracks&&(t.textTracks().removeEventListener("change",n.trackChangeHandler),t.ads.snapshotIOSTrackHandlerAdded_=!1);var o=void 0,r=function(){for(var e=0;e<d.length;e++)(o=d[e]).track.mode=o.mode;for(var t=0;t<i.length;t++)(o=i[t]).track.mode=o.mode},c=function(){var a=void 0;e.browser.IS_IOS&&t.ads.isLive(t)?n.currentTime<0&&(a=t.seekable().length>0?t.seekable().end(0)+n.currentTime:t.currentTime(),t.currentTime(a)):n.ended?t.currentTime(t.duration()):t.currentTime(n.currentTime),n.ended||t.play()},u=function f(){if(t.off("contentcanplay",f),t.ads.tryToResumeTimeout_&&(t.clearTimeout(t.ads.tryToResumeTimeout_),t.ads.tryToResumeTimeout_=null),(a=t.el().querySelector(".vjs-tech")).readyState>1)return c();if(a.seekable===undefined)return c();if(a.seekable.length>0)return c();if(s--)l.setTimeout(f,50);else try{c()}catch(n){e.log.warn("Failed to resume the content after an advertisement",n)}};n.nativePoster&&(a.poster=n.nativePoster),"style"in n&&a.setAttribute("style",n.style||""),t.ads.videoElementRecycled()?(t.one("contentloadedmetadata",r),t.src({src:n.currentSrc,type:n.type}),t.one("contentcanplay",u),t.ads.tryToResumeTimeout_=t.setTimeout(u,2e3)):t.ended()&&n.ended||(r(),t.play())}else t.ads.disableNextSnapshotRestore=!1}function d(e){e.ads.contentSrc=e.currentSrc();var t=function(){if("ad-playback"!==e.ads.state){var t=e.currentSrc();t!==e.ads.contentSrc&&(e.trigger({type:"contentupdate",oldValue:e.ads.contentSrc,newValue:t}),e.ads.contentSrc=t)}};e.on("loadstart",t),l.setTimeout(t,1)}function i(t){if(!t.ads.cancelPlayTimeout){if(e.browser.IS_IOS&&e.browser.IS_IPHONE&&!t.el_.hasAttribute("playsinline")){var n=t.currentWidth?t.currentWidth():t.width(),a=t.currentHeight?t.currentHeight():t.height(),s=l.getComputedStyle(t.el_).position,d=l.getComputedStyle(t.el_).top,i=k.createElement("div");i.style.width=n+"px",i.style.height=a+"px",i.style.background="black",i.style.position=s,i.style.top=d,t.el_.parentNode.insertBefore(i,t.el_),t.el_.style.display="none",t.one(["adstart","adtimeout","adserror","adscanceled","adskip","playing"],function(){t.el_.style.display="block",i.remove()}),t.on("fullscreenchange",function(){i&&!t.isFullscreen()&&(t.el_.style.display="block",i.remove())})}t.ads.cancelPlayTimeout=l.setTimeout(function(){t.ads.cancelPlayTimeout=null,t.paused()||t.pause(),t.ads._cancelledPlay=!0},1)}}function o(t,n,a){n===undefined&&(n=!1);var s={};a!==undefined&&(s=a),s["{player.id}"]=this.options_["data-player"],s["{mediainfo.id}"]=this.mediainfo?this.mediainfo.id:"",s["{mediainfo.name}"]=this.mediainfo?this.mediainfo.name:"",s["{mediainfo.description}"]=this.mediainfo?this.mediainfo.description:"",s["{mediainfo.tags}"]=this.mediainfo?this.mediainfo.tags:"",s["{mediainfo.reference_id}"]=this.mediainfo?this.mediainfo.reference_id:"",s["{mediainfo.duration}"]=this.mediainfo?this.mediainfo.duration:"",s["{mediainfo.ad_keys}"]=this.mediainfo?this.mediainfo.ad_keys:"",s["{player.duration}"]=this.duration(),s["{timestamp}"]=(new Date).getTime(),s["{document.referrer}"]=k.referrer,s["{window.location.href}"]=l.location.href,s["{random}"]=Math.floor(1e12*Math.random()),C(this.mediainfo,s,"custom_fields"),C(this.mediainfo,s,"customFields");for(var d in s)t=t.split(d).join(S(s[d],n));return t=t.replace(/{pageVariable\.([^}]+)}/g,function(t,a){for(var s=void 0,d=l,i=a.split("."),o=0;o<i.length;o++)o===i.length-1?s=d[i[o]]:d=d[i[o]];var r=void 0===s?"undefined":A(s);return null===s?"null":s===undefined?(e.log.warn('Page variable "'+a+'" not found'),""):"string"!==r&&"number"!==r&&"boolean"!==r?(e.log.warn('Page variable "'+a+'" is not a supported type'),""):S(String(s),n)})}e="default"in e?e["default"]:e;var r,c,u="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},l=r="undefined"!=typeof window?window:void 0!==u?u:"undefined"!=typeof self?self:{},f=function(e,t){t.isImmediatePropagationStopped=function(){return!0},t.cancelBubble=!0,t.isPropagationStopped=function(){return!0}},p=function(e,t,n){f(0,n),e.trigger({type:t+n.type,state:e.ads.state,originalEvent:n})},m=function(e,t){e.ads.isInAdMode()&&(e.ads.isContentResuming()?e.ads._contentEnding&&p(e,"content",t):e.ads._cancelledPlay?f(0,t):p(e,"ad",t))},h=function(e,t){if(e.ads.isInAdMode()){if(e.ads.isContentResuming())return;p(e,"ad",t)}else p(e,"content",t)},y=function(e,t){if(!("loadstart"===t.type&&!e.ads._hasThereBeenALoadStartDuringPlayerLife||"loadeddata"===t.type&&!e.ads._hasThereBeenALoadedData||"loadedmetadata"===t.type&&!e.ads._hasThereBeenALoadedMetaData))if(e.ads.isAdPlaying())p(e,"ad",t);else{if(e.currentSrc()!==e.ads.contentSrc)return;p(e,"content",t)}},g=function(e,t){var n=e.ads._cancelledPlay&&!e.ads.isInAdMode();e.ads.isAdPlaying()?p(e,"ad",t):(e.ads.isContentResuming()||n)&&p(e,"content",t)},T={},v=(Object.freeze||Object)({"default":T}),_=v&&T||v,b=void 0!==u?u:"undefined"!=typeof window?window:{};"undefined"!=typeof document?c=document:(c=b["__GLOBAL_DOCUMENT_CACHE@4"])||(c=b["__GLOBAL_DOCUMENT_CACHE@4"]=_);var k=c,A="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},S=function(e,t){return t?encodeURIComponent(e):e},C=function(e,t,n){if(e&&e[n])for(var a=e[n],s=Object.keys(a),d=0;d<s.length;d++)t["{mediainfo."+n+"."+s[d]+"}"]=a[s[d]]},P={};P.processMetadataTracks=function(e,t){for(var n=e.textTracks(),a=function(n){"metadata"===n.kind&&(e.ads.cueTextTracks.setMetadataTrackMode(n),t(e,n))},s=0;s<n.length;s++)a(n[s]);n.addEventListener("addtrack",function(e){a(e.track)})},P.setMetadataTrackMode=function(e){},P.getSupportedAdCue=function(e,t){return t},P.isSupportedAdCue=function(e,t){return!0},P.getCueId=function(e,t){return t.id};var w=function(e,t){return t!==undefined&&e.ads.includedCues[t]},I=function(e,t){t!==undefined&&""!==t&&(e.ads.includedCues[t]=!0)};P.processAdTrack=function(t,n,a,s){t.ads.includedCues={};for(var d=0;d<n.length;d++){var i=n[d],o=this.getSupportedAdCue(t,i);if(!this.isSupportedAdCue(t,i))return void e.log.warn("Skipping as this is not a supported ad cue.",i);var r=this.getCueId(t,i),c=i.startTime;if(w(t,r))return void e.log("Skipping ad already seen with ID "+r);s&&s(t,o,r,c),a(t,o,r,c),I(t,r)}};var L=e.getTech("Html5").Events,E=function(e){var t=e.$(".vjs-tech");t&&t.removeAttribute("poster")},j={timeout:5e3,prerollTimeout:100,postrollTimeout:100,debug:!1,stitchedAds:!1},M=function(n){var r=this,c=e.mergeOptions(j,n),u=L.concat(["firstplay","loadedalldata","playing"]);r.on(u,t),l.setTimeout(function(){r.ads._hasThereBeenALoadStartDuringPlayerLife||""===r.src()||e.log.error("videojs-contrib-ads has not seen a loadstart event 5 seconds after being initialized, but a source is present. This indicates that videojs-contrib-ads was initialized too late. It must be initialized immediately after video.js in the same tick. As a result, some ads will not play and some media events will be incorrect. For more information, see https://github.com/videojs/videojs-contrib-ads#important-note-about-initialization")},5e3),r.on("ended",function(){r.hasClass("vjs-has-started")||r.addClass("vjs-has-started")}),r.on(["addurationchange","adcanplay"],function(){r.ads.snapshot&&r.currentSrc()===r.ads.snapshot.currentSrc||r.ads.isAdPlaying()&&r.play()}),r.on("nopreroll",function(){r.ads.nopreroll_=!0}),r.on("nopostroll",function(){r.ads.nopostroll_=!0}),r.on(["ads-ad-started","playing"],function(){r.removeClass("vjs-ad-loading")}),r.on("playing",function(){r.ads._cancelledPlay=!1}),r.one("loadstart",function(){r.ads._hasThereBeenALoadStartDuringPlayerLife=!0}),r.on("loadeddata",function(){r.ads._hasThereBeenALoadedData=!0}),r.on("loadedmetadata",function(){r.ads._hasThereBeenALoadedMetaData=!0}),r.ads={state:"content-set",disableNextSnapshotRestore:!1,_contentEnding:!1,_contentHasEnded:!1,_hasThereBeenALoadStartDuringPlayerLife:!1,_hasThereBeenALoadedData:!1,_hasThereBeenALoadedMetaData:!1,_inLinearAdMode:!1,adType:null,VERSION:"__VERSION__",reset:function(){r.ads.disableNextSnapshotRestore=!1,r.ads._contentEnding=!1,r.ads._contentHasEnded=!1,r.ads.snapshot=null,r.ads.adType=null,r.ads._hasThereBeenALoadedData=!1,r.ads._hasThereBeenALoadedMetaData=!1},startLinearAdMode:function(){"preroll?"!==r.ads.state&&"content-playback"!==r.ads.state&&"postroll?"!==r.ads.state||(r.ads._inLinearAdMode=!0,r.trigger("adstart"))},endLinearAdMode:function(){"ad-playback"===r.ads.state&&(r.ads._inLinearAdMode=!1,r.trigger("adend"),r.removeClass("vjs-ad-loading"))},skipLinearAdMode:function(){"ad-playback"!==r.ads.state&&r.trigger("adskip")},stitchedAds:function(e){return e!==undefined&&(this._stitchedAds=!!e),this._stitchedAds},videoElementRecycled:function(){if(r.ads.shouldPlayContentBehindAd(r))return!1;if(!this.snapshot)throw new Error("You cannot use videoElementRecycled while there is no snapshot.");var e=r.tech_.src()!==this.snapshot.src,t=r.currentSrc()!==this.snapshot.currentSrc;return e||t},isLive:function(t){return t.duration()===Infinity||"8"===e.browser.IOS_VERSION&&0===t.duration()},shouldPlayContentBehindAd:function(t){return!e.browser.IS_IOS&&!e.browser.IS_ANDROID&&t.duration()===Infinity},isInAdMode:function(){return"ads-ready?"===r.ads.state||"preroll?"===r.ads.state||"ad-playback"===r.ads.state||"content-resuming"===r.ads.state},isContentResuming:function(){return"content-resuming"===r.ads.state},isAdPlaying:function(){return this._inLinearAdMode}},r.ads.stitchedAds(c.stitchedAds),r.ads.cueTextTracks=P,r.ads.adMacroReplacement=o.bind(r),d(r),r.on("contentupdate",r.ads.reset);var f={"content-set":{events:{adscanceled:function(){this.state="content-playback"},adsready:function(){this.state="ads-ready"},play:function(){this.state="ads-ready?",i(r),E(r)},adserror:function(){this.state="content-playback"},adskip:function(){this.state="content-playback"}}},"ads-ready":{events:{play:function(){this.state="preroll?",i(r)},adskip:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"}}},"preroll?":{enter:function(){r.ads.nopreroll_?(r.trigger("readyforpreroll"),l.setTimeout(function(){r.trigger("nopreroll")},1)):(r.addClass("vjs-ad-loading"),r.ads.adTimeoutTimeout=l.setTimeout(function(){r.trigger("adtimeout")},c.prerollTimeout),r.ads._hasThereBeenALoadStartDuringPlayerLife?r.trigger("readyforpreroll"):r.one("loadstart",function(){r.trigger("readyforpreroll")}))},leave:function(){l.clearTimeout(r.ads.adTimeoutTimeout)},events:{play:function(){i(r)},adstart:function(){this.state="ad-playback",r.ads.adType="preroll"},adskip:function(){this.state="content-playback"},adtimeout:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"},nopreroll:function(){this.state="content-playback"}}},"ads-ready?":{enter:function(){r.addClass("vjs-ad-loading"),r.ads.adTimeoutTimeout=l.setTimeout(function(){r.trigger("adtimeout")},c.timeout)},leave:function(){l.clearTimeout(r.ads.adTimeoutTimeout),r.removeClass("vjs-ad-loading")},events:{play:function(){i(r)},adscanceled:function(){this.state="content-playback"},adsready:function(){this.state="preroll?"},adskip:function(){this.state="content-playback"},adtimeout:function(){this.state="content-playback"},adserror:function(){this.state="content-playback"}}},"ad-playback":{enter:function(){r.ads.shouldPlayContentBehindAd(r)||(this.snapshot=a(r)),r.ads.shouldPlayContentBehindAd(r)&&(this.preAdVolume_=r.volume(),r.volume(0)),r.addClass("vjs-ad-playing"),r.hasClass("vjs-live")&&r.removeClass("vjs-live"),E(r),r.ads.cancelPlayTimeout&&l.setTimeout(function(){l.clearTimeout(r.ads.cancelPlayTimeout),r.ads.cancelPlayTimeout=null},1)},leave:function(){r.removeClass("vjs-ad-playing"),r.ads.isLive(r)&&r.addClass("vjs-live"),r.ads.shouldPlayContentBehindAd(r)||s(r,this.snapshot),r.ads.shouldPlayContentBehindAd(r)&&r.volume(this.preAdVolume_)},events:{adend:function(){this.state="content-resuming",r.ads.adType=null},adserror:function(){r.ads.endLinearAdMode()}}},"content-resuming":{enter:function(){this._contentHasEnded&&(l.clearTimeout(r.ads._fireEndedTimeout),r.ads._fireEndedTimeout=l.setTimeout(function(){r.trigger("ended")},1e3))},leave:function(){l.clearTimeout(r.ads._fireEndedTimeout)},events:{contentupdate:function(){this.state="content-set"},contentresumed:function(){this.state="content-playback"},playing:function(){this.state="content-playback"},ended:function(){this.state="content-playback"}}},"postroll?":{enter:function(){r.ads._contentEnding=!0,this.snapshot=a(r),r.ads.nopostroll_?l.setTimeout(function(){r.ads.state="content-resuming",r.trigger("ended")},1):(r.addClass("vjs-ad-loading"),r.ads.adTimeoutTimeout=l.setTimeout(function(){r.trigger("adtimeout")},c.postrollTimeout))},leave:function(){l.clearTimeout(r.ads.adTimeoutTimeout),r.removeClass("vjs-ad-loading")},events:{adstart:function(){this.state="ad-playback",r.ads.adType="postroll"},adskip:function(){this.state="content-resuming",l.setTimeout(function(){r.trigger("ended")},1)},adtimeout:function(){this.state="content-resuming",l.setTimeout(function(){r.trigger("ended")},1)},adserror:function(){this.state="content-resuming",l.setTimeout(function(){r.trigger("ended")},1)},contentupdate:function(){this.state="ads-ready?"}}},"content-playback":{enter:function(){r.ads.cancelPlayTimeout&&(l.clearTimeout(r.ads.cancelPlayTimeout),r.ads.cancelPlayTimeout=null),r.trigger({type:"contentplayback",triggerevent:r.ads.triggerevent}),r.ads._cancelledPlay&&r.paused()&&r.play()},events:{adsready:function(){r.trigger("readyforpreroll")},adstart:function(){this.state="ad-playback","preroll"!==r.ads.adType&&(r.ads.adType="midroll")},contentupdate:function(){r.ads.shouldPlayContentBehindAd(r)||i(r),r.paused()?this.state="content-set":this.state="ads-ready?"},contentended:function(){this._contentHasEnded?this.state="content-resuming":(this._contentEnding=!1,this._contentHasEnded=!0,this.state="postroll?")}}}},p=function(t){var n=r.ads.state,a=f[n].events;if(a){var s=a[t.type];s&&s.apply(r.ads)}if(n!==r.ads.state){var d=n,i=r.ads.state;r.ads.triggerevent=t.type,f[d].leave&&f[d].leave.apply(r.ads),f[i].enter&&f[i].enter.apply(r.ads),c.debug&&e.log("ads",r.ads.triggerevent+" triggered: "+d+" -> "+i)}};r.on(L.concat(["adtimeout","contentupdate","contentplaying","contentended","contentresumed","adstart","adend","adskip","adsready","adserror","adscanceled","nopreroll"]),p),r.on("dispose",function(){r.ads.adTimeoutTimeout&&l.clearTimeout(r.ads.adTimeoutTimeout),r.ads._fireEndedTimeout&&l.clearTimeout(r.ads._fireEndedTimeout),r.ads.cancelPlayTimeout&&l.clearTimeout(r.ads.cancelPlayTimeout),r.ads.tryToResumeTimeout_&&r.clearTimeout(r.ads.tryToResumeTimeout_)}),r.paused()||p({type:"play"})};return(e.registerPlugin||e.plugin)("ads",M),M});
 /**
  * Copyright 2014 Google Inc.
  *
@@ -23821,591 +24595,134 @@ module.exports = {
  */
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var n;n="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,n.videojsReplay=e()}}(function(){return function e(n,o,t){function i(l,r){if(!o[l]){if(!n[l]){var u="function"==typeof require&&require;if(!r&&u)return u(l,!0);if(f)return f(l,!0);var d=new Error("Cannot find module '"+l+"'");throw d.code="MODULE_NOT_FOUND",d}var a=o[l]={exports:{}};n[l][0].call(a.exports,function(e){var o=n[l][1][e];return i(o?o:e)},a,a.exports,e,n,o,t)}return o[l].exports}for(var f="function"==typeof require&&require,l=0;l<t.length;l++)i(t[l]);return i}({1:[function(e,n,o){(function(e){"use strict";function t(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(o,"__esModule",{value:!0});var i="undefined"!=typeof window?window.videojs:"undefined"!=typeof e?e.videojs:null,f=t(i),l={},r=function(e){e.duration()!==1/0&&e.addClass("vjs-replay").getChild("controlBar").getChild("playToggle").controlText(e.localize("Replay"))},u=function(e){var n=void 0;e.hasClass("vjs-replay")&&(n=e.paused()?e.localize("Play"):e.localize("Pause"),e.removeClass("vjs-replay").getChild("controlBar").getChild("playToggle").controlText(n))},d=function(e,n){e.on("ended",function(){r(e)}),e.on("play",function(){u(e)}),e.on("seeking",function(){u(e)})},a=function(e){var n=this;this.ready(function(){d(n,f["default"].mergeOptions(l,e))})};f["default"].plugin("replayButton",a),a.VERSION="1.1.0",o["default"]=a,n.exports=o["default"]}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}]},{},[1])(1)});
 /**
- * blogg-embed
- * @version 1.2.6
+ * em-utils
+ * @version 0.0.1
  * @copyright 2017 blogg.no
  * @license (MIT OR Apache-2.0)
  */
-(function($, videojs, window) {
+(function(window) {
     'use strict';
-    if (window.embedMedia) { return; }
-    var APIlist = {
-        vplays: function(mediaId, blogId) {
-            return $.getJSON("//hits.blogsoft.org?callback=?", {
-                id: blogId,
-                vid: mediaId
-            });
-        },
-        vtrack: function(eventName, mediaId, blogId) {
-            return $.getJSON("//hits.blogsoft.org/track?callback=?", {
-                e: eventName,
-                id: blogId,
-                vid: mediaId
-            });
-        },
-        aplays: function(mediaId, blogId) {
-            return $.getJSON("//hits.blogsoft.org?callback=?", {
-                id: blogId,
-                aid: mediaId
-            });
-        }
+    var mediaLang = {
+        CLOSE_SHARE: { en: "Close share box", no: "kk del boks" },
+        CLOSE_PLAYLIST: { en: "Close playlist box", no: "Lukk spilleliste boksen" },
+        ADVERTISEMENT: { en: "Advertisement", no: "Annonse" },
+        COPY_SCRIPT: { en: "Copy embed script code", no: "Kopier skriptkode" },
+        COPY_EMBED: { en: "Copy embed iframe code", no: "Kopier embed iframe-koden" }
     };
 
-    function detectmob() {
-        if (window.navigator.userAgent.match(/Android/i) ||
-            window.navigator.userAgent.match(/webOS/i) ||
-            window.navigator.userAgent.match(/iPhone/i) ||
-            window.navigator.userAgent.match(/iPad/i) ||
-            window.navigator.userAgent.match(/iPod/i) ||
-            window.navigator.userAgent.match(/BlackBerry/i) ||
-            window.navigator.userAgent.match(/Windows Phone/i)
-        ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    var _culture = 'en';
 
-    var embedMedia = function(mediaType, mediaOptions) {
-        var _startEvent = 'click';
-        if (navigator.userAgent.match(/iPhone/i) ||
-            navigator.userAgent.match(/iPad/i) ||
-            navigator.userAgent.match(/Android/i)) {
-            _startEvent = 'touchend';
-        }
-        var _emLang = {
-            CLOSE_SHARE: { en: "Close share box", no: "kk del boks" },
-            CLOSE_PLAYLIST: { en: "Close playlist box", no: "Lukk spilleliste boksen" },
-            ADVERTISEMENT: { en: "Advertisement", no: "Annonse" },
-            COPY_SCRIPT: { en: "Copy embed script code", no: "Kopier skriptkode" },
-            COPY_EMBED: { en: "Copy embed iframe code", no: "Kopier embed iframe-koden" }
-        };
-        var _tracks = {
-            ADS_READY: 'adReady',
-            AD_STARTED: 'adStarted',
-            AD_ENDED: 'adEnded',
-            ADS_ERROR: 'adError',
-            AD_BLOCKED: 'adBlocked',
-            AD_SKIP: 'adCanceled',
-            ADS_CRITICAL: 'adCriticalError',
-            PLAYS: 'play',
-            PAUSED: 'paused',
-            ENDED: 'ended',
-            REPLAYS: 'replay'
-        };
-        mediaOptions = $.extend({}, {
-            blogId: 0,
-            mediaId: 0,
-            postAd: true
-        }, mediaOptions);
-        var _isDemo = JSON.parse("false"),
-            _isDebuge = _isDemo,
-            _mediaPlayListUrls = [],
-            _currentMedia = {
-                type: mediaType,
-                id: 0,
-                player: null,
-                plugins: null,
-                src: '',
-                playsCounter: 0,
-                index: -1,
-                ads: false
-            },
-            _idSelector = '#embedMedia',
-            _timeupWaitingID = 0,
-            _culture = 'no',
-            _lastEventName = '',
-            _adState = 'preroll',
-            _isMobile = detectmob();
+    var helpers = {
+        ajaxGet: function(url, successCallback, errorCallback) {
+            var request = new XMLHttpRequest();
+            request.open('GET', url, true);
 
-        var _getDefaultSetup = function() {
-            var defaultOpt = {
-                controls: true,
-                autoplay: false,
-                loop: false,
-                preload: "none",
-                html5: {
-                    hlsjsConfig: {}
-                },
-                inactivityTimeout: 500,
-                controlBar: {
-                    fullscreenToggle: true
+            request.onload = function() {
+                if (request.status >= 200 && request.status < 400) {
+                    // Success!
+                    var data = request.responseText;
+                    successCallback && successCallback(data);
+                } else {
+                    // We reached our target server, but it returned an error
+                    errorCallback && errorCallback();
                 }
             };
 
-            switch (_currentMedia.type) {
-                case 'audio':
-                    defaultOpt.height = 50;
-                    defaultOpt.controlBar.fullscreenToggle = false;
-                    break;
-                default:
-                    defaultOpt.controlBar.volumeMenuButton = {
-                        inline: false,
-                        vertical: true
-                    };
+            request.onerror = function() {
+                // There was a connection error of some sort
+                console.log('Connection error');
             };
-            return defaultOpt;
-        };
 
-        var _getPluginDefaultOptions = function() {
-            var vjPlgOpt = {
-                    ima: {
-                        id: _idSelector.replace('#', ''),
-                        showControlsForJSAds: false,
-                        adLabel: _emLang.ADVERTISEMENT[_culture],
-                        adTagUrl: '',
-                        prerollTimeout: 5000,
-                        debug: _isDebuge
-                    },
-                    contextmenuUI: {
-                        content: [{
-                            label: _emLang.COPY_SCRIPT[_culture],
-                            listener: function() {
-                                //$('#shareBtn').trigger('click');
-                                _copyToClipboard($('#inputEmbedScript').val());
-                            }
-                        }, {
-                            label: _emLang.COPY_EMBED[_culture],
-                            listener: function() {
-                                _copyToClipboard($('#inputEmbedIframe').val());
-                            }
-                        }]
-                    },
-                    replayButton: {}
-                },
-                selectedPlugins = {},
-                plg = {
-                    video: ["ima", "contextmenuUI", "replayButton"],
-                    audio: ["replayButton"]
-                };
-            for (var idx in plg[_currentMedia.type]) {
-                var plugin = plg[_currentMedia.type][idx];
-                selectedPlugins[plugin] = vjPlgOpt[plugin];
-            }
-
-            return selectedPlugins;
-        };
-
-        var _notifyToParent = function(msg) {
-            var message = $.extend({ frameid: (window.name ? window.name.replace("em-iframe-", "") : '') }, msg);
-            window.parent.postMessage('em|' + JSON.stringify(message), "*");
-        };
-
-
-        var _copyToClipboard = function(text) {
-            if (typeof text != "string") { return; }
-            var textArea = $('<textarea></textarea>').css({
-                'position': 'absolute',
-                'left': '-9999px',
-                'top': '0'
-            }).val(text);
-            $('body').append(textArea);
-            textArea.select();
-            try {
-                var successful = document.execCommand('copy');
-                var msg = successful ? 'successful' : 'unsuccessful';
-                videojs.log('Copying text command was ' + msg);
-            } catch (err) {
-                videojs.log('Oops, unable to copy');
-            }
-            textArea.remove();
-        };
-
-        var _playsAPICall = function() {
-            if (_isDebuge) { console.log('API: Plays Count'); }
-            if (_isDemo || !mediaOptions.mediaId) { return; }
-            switch (_currentMedia.type) {
-                case 'video':
-                    APIlist.vplays(mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
-                        //console.log(msg);
-                        _currentMedia.playsCounter++;
-                    });
-                    break;
-                case 'audio':
-                    APIlist.aplays(mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
-                        //console.log(msg);
-                        _currentMedia.playsCounter++;
-                    });
-                    break;
-            };
-        };
-        var _trackEvents = function(eventName, msg) {
-            if (_isDebuge) { videojs.log('Event', eventName + ':', msg); }
-            _lastEventName = eventName;
-        };
-        var _trackAPICall = function(eventName, msg) {
-            if (eventName && _lastEventName != eventName) {
-                _trackEvents(eventName, msg);
-                if (_isDebuge) { console.log('API: Events Track'); }
-                if (!_isDemo && mediaOptions.mediaId) {
-                    switch (_currentMedia.type) {
-                        case 'video':
-                            APIlist.vtrack(eventName, mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
-                                console.log(eventName, msg);
-                            });
-                            break;
-                        case 'audio':
-                            break;
-                    };
-                }
-            } else return;
-        };
-        var _getUrlQueries = function(queryStr) {
-            var out = {};
-            $.each(queryStr.split('&'), function(key, value) {
-                var i = value.split('=');
-                if (i.length == 2) {
-                    out[i[0].toString()] = i[1].toString();
-                }
-            });
-            return out;
-        };
-        var _getEmbedId = function() {
-            if (!_isDemo) {
-                var parts = location.pathname.split('/');
-                return parts[parts.length - 1];
-            } else {
-                var queries = _getUrlQueries(document.location.search.substr(1));
-                return _currentMedia.type == 'video' ? queries.v : queries.id;
-            }
-        };
-
-        var _setMediaUrlId = function() {
-            _mediaPlayListUrls = [];
-            _mediaPlayListUrls.push(window.location.href);
-            _currentMedia.index = 0;
-            _currentMedia.id = _getEmbedId();
-        };
-
-        var _loadAds = function(player) {
-            //console.log('ads load', 'autoplay: ' + player.autoplay());
-            _currentMedia.ads = true;
-            player.ima.initializeAdDisplayContainer();
-            player.ima.requestAds();
-            player.play();
-        };
-
-        var _removeAds = function(player) {
-            if (_currentMedia.ads) {
-                _currentMedia.ads = false;
-                player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
-                player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
-                $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
-            }
-        };
-
-        var _runPlugin = function(player, plugins) {
-            for (var plugin in plugins) {
-                switch (plugin) {
-                    case 'ima':
-                        if (plugins.ima.adTagUrl) {
-                            try {
-                                if (!(window.google && window.google.ima)) {
-                                    throw new Error(_tracks.AD_BLOCKED);
-                                }
-                                player.ima(plugins.ima);
-                                if (!player.autoplay()) {
-                                    player.one(_startEvent, function() {
-                                        _loadAds(player);
-                                    });
-                                } else {
-                                    player.autoplay(false);
-                                    setTimeout((function() {
-                                        _loadAds(player);
-                                    }).bind(this), 100);
-                                };
-                                player.one('adsready', function() {
-                                    _notifyToParent({ emmethod: "adsready" });
-                                    _trackAPICall(_tracks.ADS_READY, 'Trigger this event after to signal that your integration is ready to play ads.');
-                                    player.ima.addEventListener(google.ima.AdEvent.Type.STARTED, function() {
-                                        _trackEvents('AdStarted', 'Google');
-                                        _adState = 'postroll';
-                                    });
-
-                                    player.ima.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
-                                        _trackEvents('AdCompleted', 'Google');
-                                        if (mediaOptions.postAd) {
-                                            _removeAds(player);
-                                        }
-                                    });
-
-                                    player.ima.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, function() {
-                                        _trackEvents('VideoPauseReq', 'Google');
-                                        if (!_isMobile && mediaOptions.postAd) {
-                                            /* After postroll the player src forcefuully change to blob url */
-                                            player.ima.contentSource = player.src();
-                                        }
-                                    });
-
-                                    player.ima.addEventListener(google.ima.AdEvent.Type.LOG, function(a) {
-                                        a = a.getAdData();
-                                        if (a.adError) {
-                                            _trackEvents('InvalidAd', "Non-fatal error occurred: " + a.adError.getMessage());
-                                            switch (_adState) {
-                                                case 'preroll':
-                                                    player.trigger('nopreroll');
-                                                    _adState = 'postroll';
-                                                    break;
-                                                case 'postroll':
-                                                    player.trigger('nopostroll');
-                                                    _adState = 'nopostroll';
-                                                    break;
-                                            }
-                                        }
-                                    });
-                                });
-                                //player.trigger('nopostroll');
-                                player.one('contentended', function() {
-                                    _notifyToParent({ emmethod: "contentended" });
-                                    _trackEvents('ContentEnded');
-                                    if (!mediaOptions.postAd) {
-                                        _removeAds(player);
-                                    }
-                                });
-
-                            } catch (err) {
-                                if (err.message == _tracks.AD_BLOCKED) {
-                                    player.trigger('nopreroll');
-                                    player.trigger('nopostroll');
-                                    _trackAPICall(_tracks.AD_BLOCKED, 'Ad Blocked by AdBlocker plugins or Google ima not loaded');
-                                    _notifyToParent({ emmethod: "adblocked" });
-                                } else {
-                                    console.log(err.name + ': ' + err.message);
-                                }
-                            }
-                        }
-                        break;
-                    default:
-                        if (typeof player[plugin] === 'function') {
-                            player[plugin](plugins[plugin]);
-                        }
-                };
-            }
-        };
-
-        var _setAttrsForMobile = function() {
-            var contentPlayer = $(_idSelector)[0];
-            if ((navigator.userAgent.match(/iPad/i) ||
-                    navigator.userAgent.match(/Android/i)) &&
-                contentPlayer.hasAttribute('controls')) {
-                contentPlayer.removeAttribute('controls');
-            }
-        };
-
-        var createPlayer = function(element, setup, callback) {
-            var defaultSetup = _getDefaultSetup();
-            _idSelector = element || _idSelector;
-            var settings = $.extend({}, defaultSetup, setup);
-
-            if (_isMobile) {
-                settings.autoplay = false;
-            }
-
-            _setAttrsForMobile();
-            var playerCallback = function() {
-                switch (_currentMedia.type) {
-                    case 'video':
-                        if (_isDemo && _currentMedia.id) {
-                            this.src([{ type: "video/mp4", src: "resources/videos/" + _currentMedia.id + ".mp4" }]);
-                            this.poster('resources/videos/posters/' + _currentMedia.id + '.jpg');
-                        }
-                        break;
-                    case 'audio':
-                        if (_isDemo && _currentMedia.id) {
-                            this.src([{ type: "audio/mp3", src: "resources/audios/" + _currentMedia.id + ".mp3" }]);
-                        }
-                };
-                if (callback) { callback(); }
-                _runPlugin(this, $.extend({}, plgOpts, _currentMedia.plugins));
-            }
-
-            var player = videojs(_idSelector, settings, playerCallback);
-            var plgOpts = _getPluginDefaultOptions(player.id());
-            player.on('play', onMediaPlayEvent.bind(this));
-            player.on('pause', onMediaPauseEvent.bind(this));
-            player.on('ended', onMediaEndEvent.bind(this));
-            player.on('adstart', onMediaAdStartEvent.bind(this));
-            player.on('adend', onMediaAdEndEvent.bind(this));
-            player.on('adskip', onMediaAdCancelEvent.bind(this));
-            player.on('adserror', onMediaAdErrorEvent.bind(this));
-
-            player.on('adtimeout', _trackEvents.bind(this, 'AdTimeout', 'A timeout managed by the plugin has expired and regular video content has begun to play. Ad integrations have a fixed amount of time to inform the plugin of their intent during playback. If the ad integration is blocked by network conditions or an error, this event will fire and regular playback resumes rather than stalling the player indefinitely.'));
-            player.on('adplaying', _trackEvents.bind(this, 'AdPlaying', 'Trigger this event when an ads starts playing. If your integration triggers playing event when an ad begins, it will automatically be redispatched as adplaying.'));
-            player.on('ads-ad-started', _trackEvents.bind(this, 'AdsAdStarted', 'Trigger this when each individual ad begins.'));
-            player.on('contentresumed', _trackEvents.bind(this, 'ContentResumed', ' If your integration does not result in a "playing" event when resuming content after an ad, send this event to signal that content can resume. This was added to support stitched ads and is not normally necessary.'));
-            player.on('error', _trackEvents.bind(this, 'Error', 'An error occurs while fetching the media data.'));
-            player.on('loadeddata', _trackEvents.bind(this, 'LoadedData', 'The user agent can render the media data at the current playback position for the first time.'));
-            player.on('loadedmetadata', _trackEvents.bind(this, 'LoadedMetaData', 'The user agent has just determined the duration and dimensions of the media resource and the text tracks are ready.'));
-            player.on('canplay', _trackEvents.bind(this, 'CanPlay', 'The user agent can resume playback of the media data, but estimates that if playback were to be started now, the media resource could not be rendered at the current playback rate up to its end without having to stop for further buffering of content.'));
-            player.on('canplaythrough', _trackEvents.bind(this, 'CanPlayThrough', '	The user agent estimates that if playback were to be started now, the media resource could be rendered at the current playback rate all the way to its end without having to stop for further buffering.'));
-            player.on('playing', _trackEvents.bind(this, 'Playing', 'Playback is ready to start after having been paused or delayed due to lack of media data.'));
-
-            _currentMedia.player = player;
-
-            return player;
-        };
-
-        var _stopTimer = function() {
-            window.clearTimeout(_timeupWaitingID);
-            $('#circulerTimer').remove();
-            $('.vjs-big-play-button').removeAttr('style');
-        };
-        var _addCirculerTimer = function() {
-            var circulerTimer = '<div id="circulerTimer" class="radial-timer s-animate">' +
-                '<div class="radial-timer-half"></div>' +
-                '<div class="radial-timer-half"></div>' +
-                '</div>'
-            $(circulerTimer).appendTo(_idSelector);
-            $('.vjs-big-play-button').css({ 'z-index': 1112, 'background-color': 'transparent' });
-        };
-
-        var onMediaPlayEvent = function(event) {
-            _stopTimer();
-            _notifyToParent({ emmethod: "play" });
-            switch (_lastEventName) {
-                case _tracks.ENDED:
-                    _currentMedia.playsCounter = 0;
-                    _trackAPICall(_tracks.REPLAYS, 'Clicked on replay button');
-                    break;
-                case _tracks.ADS_READY:
-                case _tracks.AD_STARTED:
-                    if (!_isMobile) {
-                        _trackAPICall(_tracks.ADS_CRITICAL, 'Something error in desktop version media after AdReady or AdStarted and Ad not playing');
+            request.send();
+        },
+        detectmob: function() {
+            return !!(window.navigator.userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i));
+        },
+        detectIPmob: function() {
+            return !!(window.navigator.userAgent.match(/iPhone|iPad|iPod/i));
+        },
+        extend: function(obj) {
+            var arg;
+            var index;
+            var key;
+            for (index = 1; index < arguments.length; index++) {
+                arg = arguments[index];
+                for (key in arg) {
+                    if (arg.hasOwnProperty(key)) {
+                        obj[key] = arg[key];
                     }
-                    break;
+                }
+            }
+            return obj;
+        },
+        $: function(ctxElement) {
+            var foundElements = [ctxElement];
+            var selectElm = function(selectors) {
+                foundElements = ctxElement.querySelectorAll(selectors);
+                this.elements = foundElements;
+                return this;
             };
-            _trackEvents(_tracks.PLAYS, 'The media plays');
-
-            _currentMedia.playsCounter++;
-            if (_currentMedia.playsCounter === 1
-                /*&&
-                               !(_currentMedia.plugins.ima &&
-                                   (_currentMedia.plugins.ima.adTagUrl &&
-                                       !_currentMedia.plugins.ima.error))*/
-            ) {
-                _playsAPICall();
-            }
-        };
-        var onMediaPauseEvent = function(event) {
-            _notifyToParent({ emmethod: "paused" });
-            //_trackAPICall(_tracks.PAUSED);
-            _trackEvents(_tracks.PAUSED, 'The element has been paused. Fired after the pause() method has returned.');
-        };
-        var onMediaEndEvent = function() {
-            _notifyToParent({ emmethod: "ended" });
-            _trackAPICall(_tracks.ENDED, 'Playback has stopped because the end of the media resource was reached.');
-            _stopTimer();
-            var waitTime = 3000;
-            var nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
-            if (nextMedia) {
-                if (_currentMedia.type == 'video' && !_isMobile) {
-                    _removeAds(_currentMedia.player);
-                    _addCirculerTimer();
+            var addEvent = function(events, callback) {
+                var n = foundElements.length;
+                for (var i = 0; i < n; i++) {
+                    foundElements[i].addEventListener(events, callback.bind(foundElements[i]));
                 }
-                if (_currentMedia.type == 'audio' || !_isMobile) {
-                    _timeupWaitingID = window.setTimeout((function() {
-                        window.location.href = nextMedia;
-                    }).bind(this), waitTime);
+                this.elements = foundElements;
+                return this;
+            };
+            var addClass = function(classes) {
+                var n = foundElements.length;
+                for (var i = 0; i < n; i++) {
+                    foundElements[i].classList.add(classes);
                 }
-            }
-        };
-        var onMediaAdStartEvent = function(event) {
-            _notifyToParent({ emmethod: "adstart" });
-            //this.addClass('vjs-ad-playing');
-            //_trackAPICall(_tracks.AD_STARTED, 'The player has entered linear ad playback mode. This event only indicates that an ad break has begun; the start and end of individual ads must be signalled through some other mechanism.');
-        };
-        var onMediaAdEndEvent = function(event) {
-            _notifyToParent({ emmethod: "adend" });
-            _trackAPICall(_tracks.AD_ENDED, 'The player has returned from linear ad playback mode. Note that multiple ads may have played back between adstart and adend.');
-            if (_currentMedia.playsCounter === 1) {
-                _notifyToParent({ emmethod: "videostart" });
-            }
-        };
-        var onMediaAdCancelEvent = function(event) {
-            _trackAPICall(_tracks.AD_SKIP, 'The player is skipping a linear ad opportunity and content-playback should resume immediately.');
-        };
-        var onMediaAdErrorEvent = function(event) {
-            _notifyToParent({ emmethod: "adserror" });
-            _currentMedia.plugins.ima.error = true;
-            _trackAPICall(_tracks.ADS_ERROR, 'Trigger this event to indicate that an error in the ad integration has ocurred and any ad states should abort so that content can resume.');
-            _removeAds(_currentMedia.player);
-        };
-
-        var debug = function(isdebug) {
-            _isDebuge = isdebug === undefined ? true : !!isdebug;
-            if (_currentMedia.plugins && _currentMedia.plugins.ima) {
-                _currentMedia.plugins.ima.debug = _isDebuge;
-            }
-            return this;
-        };
-
-        var _boxCloseControl = function(boxClass, title) {
-            var closebtn = $('<a>', {
-                title: title,
-                href: "#",
-                class: "media-icon",
-                click: function(event) {
-                    event.stopPropagation();
-                    $(boxClass + '.drawer').removeClass("open");
-                    //_currentMedia.player.play();
-                    return false;
+                this.elements = foundElements;
+                return this;
+            };
+            var removeClass = function(classes) {
+                var n = foundElements.length;
+                for (var i = 0; i < n; i++) {
+                    foundElements[i].classList.remove(classes);
                 }
-            });
-
-            closebtn.html('&times;')
-                .wrap('<div class="media-close text-muted"></div>')
-                .parent()
-                .prependTo(boxClass);
-
-            $(boxClass).on('click', function(event) {
-                event.stopPropagation();
-            });
-        };
-        var _setShareDrawer = function() {
-            $('#shareBtn').show();
-            _boxCloseControl(".media-share", _emLang.CLOSE_SHARE[_culture]);
-            $('#inputEmbedScript, #inputEmbedIframe').on('focus', function() {
-                var $this = $(this);
-                $this.prev().hide();
-                window.setTimeout(function() {
-                    $this.select();
-                });
-            }).on('blur', function() {
-                $(this).prev().removeAttr("style");
-            });
-        };
-        var _setTitle = function() {
-            $('.media-title a, .media-playlist__header__title a').on('click', function(event) {
-                event.stopPropagation();
-                _currentMedia.player.pause();
-            });
-        };
-        var _setHeader = function() {
-            if (_currentMedia.type == 'video') {
-                var $emHeader = $(_idSelector).next('.media-header');
-                $emHeader.appendTo(_idSelector);
+                this.elements = foundElements;
+                return this;
             }
-            _setTitle();
-        };
-        var _setButtons = function() {
-            var btnGroups = $('[data-embutton]');
-            btnGroups.on('click', function(event) {
-                event.stopPropagation();
-                switch (this.id) {
-                    case 'downloadBtn':
-                        _playsAPICall();
-                        return true;
-                    default:
-                        if (this.id && $('.drawer[data-btnid=' + this.id + ']').length > 0) {
-                            $('.drawer[data-btnid=' + this.id + ']').addClass('open');
-                            _currentMedia.player.pause();
-                        }
-                };
-
-                return false;
-            });
-        };
-        var _openWindow = function(url, title, opt) {
+            var prepend = function(childElement) {
+                var n = foundElements.length;
+                for (var i = 0; i < n; i++) {
+                    foundElements[i].insertBefore(childElement, foundElements[i].firstElementChild);
+                }
+                this.elements = foundElements;
+                return this;
+            }
+            return {
+                find: selectElm,
+                on: addEvent,
+                elements: foundElements,
+                addClass: addClass,
+                removeClass: removeClass,
+                prepend: prepend
+            };
+        },
+        createElement: function(tag, attrs) {
+            if (!tag) throw new SyntaxError("element tag name not defined");
+            var ele = document.createElement(tag),
+                attrName, styleName;
+            if (attrs)
+                for (attrName in attrs) {
+                    if (attrName === "style")
+                        for (styleName in attrs.style) { ele.style[styleName] = attrs.style[styleName]; }
+                    else
+                        ele.setAttribute(attrName, attrs[attrName]);
+                }
+            return ele;
+        },
+        insertAfter: function(referenceNode, newNode) {
+            referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+        },
+        prependChild: function(parentNode, childNode) {
+            parentNode.insertBefore(childNode, parentNode.firstElementChild);
+        },
+        openWindow: function(url, title, opt) {
             var width = opt.width,
                 height = opt.height,
                 scrollbars = opt.scrollbars || 'yes',
@@ -24427,228 +24744,97 @@ module.exports = {
                 ",resizable=" + resizable +
                 ",toolbar=" + toolbar;
             return window.open(url, title, winOpt);
-        };
-        var _setShare = function() {
-            $('.media-share .buttons a').on('click', function(event) {
-                event.stopPropagation();
-                if ($(this).hasClass('email')) { return true; }
-                _openWindow(this.href,
-                    this.class, {
-                        width: 500,
-                            height: 400
-                    });
-                return false;
-            });
-            _setShareDrawer();
-        };
-
-        var setMediaPlayer = function(domId, setup, callback) {
-            if (typeof domId != 'undefined' && !(domId && $(domId).length)) {
-                console.log('Not found');
-                return this;
-            }
-            _setMediaUrlId();
-
-            createPlayer(domId, setup, callback);
-            _currentMedia.playsCounter = 0;
-            _setHeader();
-            _setButtons();
-            _setShare();
-
-            return this;
-        };
-
-        var setPlugins = function(plugins) {
-            if (!_currentMedia.player || !plugins) { return this; }
-            var videoJsPluginOptions = _getPluginDefaultOptions();
-            if (!_currentMedia.plugins) {
-                _currentMedia.plugins = videoJsPluginOptions;
-            }
-            for (var plugin in plugins) {
-                if (plugin in _currentMedia.player) {
-                    _currentMedia.plugins[plugin] = $.extend({}, videoJsPluginOptions[plugin], plugins[plugin]);
-                }
-            }
-            return this;
-        };
-
-        var getMediaPlayer = function() {
-            return _currentMedia.player;
-        };
-
-        var _getList = function($tracksDom) {
-            var mediaLinkList = [];
-            $tracksDom.each(function(index) {
-                var queries = _getUrlQueries(this.href.split('?')[1]);
-                var $li = $(this).parent();
-                if (queries) {
-                    mediaLinkList[index] = this.href;
-                    if (window.location.href.indexOf(this.href) > -1) {
-                        $li.addClass("currently-playing");
-                        _currentMedia.index = index;
-                        if (index > 0 && !_isMobile) {
-                            _currentMedia.player.autoplay(true);
-                        }
-                        $li.parent().animate({
-                            scrollTop: index * $li.outerHeight() + 1
-                        }, 500);
-                    }
-                }
-            });
-            return mediaLinkList;
-        };
-
-        var _setTrackNumber = function() {
-            var $trackNum = $(".media-playlist__header__info span");
-            $trackNum.text((_currentMedia.index + 1) + '/' + _mediaPlayListUrls.length);
-        };
-
-        var _setPlaylistDrawer = function() {
-            $('#playListBtn').show();
-            _boxCloseControl(".media-playlist", _emLang.CLOSE_PLAYLIST[_culture]);
-        };
-
-        var setPlayList = function(domList) {
-            if (!_currentMedia.player) { return; }
-            var $tracksDom = $(domList);
-
-            if ($tracksDom.length > 0) {
-                _mediaPlayListUrls = _getList($tracksDom);
-                if (_currentMedia.type == 'video') {
-                    _setPlaylistDrawer();
-                }
-                _setTrackNumber();
-            }
-            return this;
-        };
-
-        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent",
-            messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-        window[eventMethod](messageEvent, function(e) {
-            var message = e.data;
-            if (_currentMedia.player && typeof message == "string" && message.indexOf("em|") > -1) {
-                message = JSON.parse(message.split("|")[1]);
-                switch (message.emmethod) {
-                    case "pause":
-                        _currentMedia.player.pause();
-                        break;
-                    case "play":
-                        _currentMedia.player.play();
-                        break;
-                }
-            }
-        }, false);
-
-        return {
-            createPlayer: createPlayer,
-            setMediaPlayer: setMediaPlayer,
-            getMediaPlayer: getMediaPlayer,
-            setPlayList: setPlayList,
-            setPlugins: setPlugins,
-            debug: debug
-        };
+        }
     };
-    window.embedMedia = embedMedia || {};
+    var getMediaLang = function(key) {
+        return mediaLang[key][_culture];
+    };
+    var setCulture = function(culture) {
+        _culture = culture;
+    };
 
-})(jQuery, videojs, window);
+
+    var utils = {
+        mediaLang: getMediaLang,
+        helpers: helpers,
+        setCulture: setCulture
+    }
+
+    window.emUtils = utils || {};
+
+})(window);
 /**
- * blogg-media
- * @version 1.2.6
+ * b-media
+ * @version 0.0.1
  * @copyright 2017 blogg.no
  * @license (MIT OR Apache-2.0)
  */
-(function($, videojs, window) {
+(function(videojs, utils, window) {
     'use strict';
+    var helpers = utils.helpers;
+    var mediaLang = utils.mediaLang;
 
     var APIlist = {
-        vplays: function(mediaId, blogId) {
-            return $.getJSON("//hits.blogsoft.org?callback=?", {
-                id: blogId,
-                vid: mediaId
-            });
+        vplays: function(mediaId, blogId, callback) {
+            helpers.ajaxGet("//hits.blogsoft.org?id=" + blogId + "&vid=" + mediaId + "&callback=?", callback);
         },
-        vtrack: function(eventName, mediaId, blogId) {
-            return $.getJSON("//hits.blogsoft.org/track?callback=?", {
-                e: eventName,
-                id: blogId,
-                vid: mediaId
-            });
+        vtrack: function(eventName, mediaId, blogId, callback) {
+            helpers.ajaxGet("//hits.blogsoft.org?e=" + eventName + "&id=" + blogId + "&vid=" + mediaId + "&callback=?", callback);
         },
-        aplays: function(mediaId, blogId) {
-            return $.getJSON("//hits.blogsoft.org?callback=?", {
-                id: blogId,
-                aid: mediaId
-            });
+        aplays: function(mediaId, blogId, callback) {
+            helpers.ajaxGet("//hits.blogsoft.org?id=" + blogId + "&aid=" + mediaId + "&callback=?", callback);
         }
     };
 
-    function detectmob() {
-        if (window.navigator.userAgent.match(/Android/i) ||
-            window.navigator.userAgent.match(/webOS/i) ||
-            window.navigator.userAgent.match(/iPhone/i) ||
-            window.navigator.userAgent.match(/iPad/i) ||
-            window.navigator.userAgent.match(/iPod/i) ||
-            window.navigator.userAgent.match(/BlackBerry/i) ||
-            window.navigator.userAgent.match(/Windows Phone/i)
-        ) {
-            return true;
-        } else {
+    var mediaTracks = {
+        ADS_READY: 'adReady',
+        AD_STARTED: 'adStarted',
+        AD_ENDED: 'adEnded',
+        ADS_ERROR: 'adError',
+        AD_BLOCKED: 'adBlocked',
+        AD_SKIP: 'adCanceled',
+        ADS_CRITICAL: 'adCriticalError',
+        PLAYS: 'play',
+        PAUSED: 'paused',
+        ENDED: 'ended',
+        REPLAYS: 'replay'
+    };
+
+    var bMedia = function(mediaSelector, mediaOptions) {
+        var mediaElement = mediaSelector;
+        if (typeof mediaElement == "string") {
+            mediaElement = document.querySelector(mediaSelector);
+        }
+        if (!mediaElement) {
+            console.log(mediaSelector + ' element not found');
             return false;
         }
-    }
 
-    var bloggMedia = function(mediaType, mediaOptions) {
-        var _startEvent = 'click';
-        if (navigator.userAgent.match(/iPhone/i) ||
-            navigator.userAgent.match(/iPad/i) ||
-            navigator.userAgent.match(/Android/i)) {
-            _startEvent = 'touchend';
-        }
-        var _emLang = {
-            ADVERTISEMENT: { en: "Advertisement", no: "Annonse" }
-        };
-        var _tracks = {
-            ADS_READY: 'adReady',
-            AD_STARTED: 'adStarted',
-            AD_ENDED: 'adEnded',
-            ADS_ERROR: 'adError',
-            AD_BLOCKED: 'adBlocked',
-            AD_SKIP: 'adCanceled',
-            ADS_CRITICAL: 'adCriticalError',
-            PLAYS: 'play',
-            PAUSED: 'paused',
-            ENDED: 'ended',
-            REPLAYS: 'replay'
-        };
-        mediaOptions = $.extend({}, {
-            blogId: 0,
-            mediaId: 0,
-            postAd: true
-        }, mediaOptions);
-        var _isDemo = JSON.parse("false"),
-            _isDebuge = _isDemo,
-            _mediaPlayListUrls = [],
-            _mediaPlayerList = [],
-
-            _currentMedia = {
-                type: mediaType,
-                id: 0,
+        var _isMobile = helpers.detectmob(),
+            _isIPmob = helpers.detectIPmob(),
+            _media = {
+                element: mediaElement,
+                type: mediaElement.tagName.toLowerCase(),
                 player: null,
                 plugins: null,
-                src: '',
-                playsCounter: 0,
-                index: -1,
-                ads: false
-            },
-            _idSelector = '#embedMedia',
-            _timeupWaitingID = 0,
-            _culture = 'no',
-            _lastEventName = '',
-            _adState = 'preroll',
-            _isMobile = detectmob();
+                playsCounter: 0
+            };
 
-        var _getDefaultSetup = function() {
-            var defaultOpt = {
+        mediaOptions = helpers.extend({}, {
+            blogId: 0,
+            mediaId: 0,
+            postAd: true,
+            debug: false,
+            setup: {},
+            plugins: {}
+        }, mediaOptions || {});
+
+        if (!mediaOptions.debug) {
+            utils.setCulture('no');
+        }
+
+        var getDefaultOptions = function() {
+            var options = {
                 controls: true,
                 autoplay: false,
                 loop: false,
@@ -24661,533 +24847,603 @@ module.exports = {
                     fullscreenToggle: true
                 }
             };
-
-            switch (_currentMedia.type) {
+            switch (_media.type) {
                 case 'audio':
-                    defaultOpt.height = 100;
-                    defaultOpt.controlBar.fullscreenToggle = false;
+                    options.height = 50;
+                    options.controlBar.fullscreenToggle = false;
                     break;
                 default:
-                    defaultOpt.controlBar.volumeMenuButton = {
+                    options.controlBar.volumeMenuButton = {
                         inline: false,
                         vertical: true
                     };
+                    if (_isIPmob) {
+                        //options.controls = false;
+                        options.nativeControlsForTouch = false;
+                    }
             };
-            return defaultOpt;
+            return options;
         };
 
-        var _getPluginDefaultOptions = function(vId) {
-            var vjPlgOpt = {
-                    ima: {
-                        id: vId,
-                        showControlsForJSAds: false,
-                        adLabel: _emLang.ADVERTISEMENT[_culture],
-                        adTagUrl: '',
-                        prerollTimeout: 5000,
-                        debug: _isDebuge
-                    },
-                    replayButton: {}
+        var getPluginDefaultOptions = function() {
+            var options = {
+                ima: {
+                    id: _media.player.id(),
+                    showControlsForJSAds: false,
+                    adLabel: mediaLang('ADVERTISEMENT'),
+                    adTagUrl: '',
+                    prerollTimeout: 5000,
+                    debug: mediaOptions.debug
                 },
-                selectedPlugins = {},
+                replayButton: {}
+            };
+
+            var selectedPlugins = {},
                 plg = {
                     video: ["ima", "replayButton"],
                     audio: ["replayButton"]
                 };
-            for (var idx in plg[_currentMedia.type]) {
-                var plugin = plg[_currentMedia.type][idx];
-                selectedPlugins[plugin] = vjPlgOpt[plugin];
+
+            for (var idx in plg[_media.type]) {
+                var plugin = plg[_media.type][idx];
+                selectedPlugins[plugin] = options[plugin];
             }
 
             return selectedPlugins;
         };
 
-        var _playsAPICall = function() {
-            if (_isDebuge) { console.log('API: Plays Count'); }
-            if (_isDemo || !mediaOptions.mediaId) { return; }
-            switch (_currentMedia.type) {
+        var notifyToParent = function(msg) {
+            var message = helpers.extend({ frameid: (window.name ? window.name.replace("em-iframe-", "") : '') }, msg);
+            window.parent.postMessage('em|' + JSON.stringify(message) + '|media', "*");
+            if (mediaOptions.debug) { console.log('Post Message: ', 'em|' + JSON.stringify(message) + '|media'); }
+        };
+
+        var _lastEventName = '';
+        var trackEvents = function(eventName, msg) {
+            if (mediaOptions.debug) { videojs.log('Event', eventName + ':', msg); }
+            _lastEventName = eventName;
+        };
+
+        var trackAPICall = function(eventName, msg) {
+            if (eventName && _lastEventName != eventName) {
+                trackEvents(eventName, msg);
+                if (mediaOptions.debug) { console.log('API: Events Track'); }
+                if (_media.type == 'video' && mediaOptions.mediaId) {
+                    APIlist.vtrack(eventName, mediaOptions.mediaId, mediaOptions.blogId);
+                }
+            } else return;
+        };
+
+        var playsAPICall = function() {
+            if (_adsLoaded) {
+                _media.player.off(_startEvent, loadAds);
+            }
+            if (mediaOptions.debug) { console.log('API: Plays Count'); }
+            if (!mediaOptions.mediaId) { return; }
+            switch (_media.type) {
                 case 'video':
-                    APIlist.vplays(mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
-                        //console.log(msg);
-                        _currentMedia.playsCounter++;
+                    APIlist.vplays(mediaOptions.mediaId, mediaOptions.blogId, function(msg) {
+                        _media.playsCounter++;
                     });
                     break;
                 case 'audio':
-                    APIlist.aplays(mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
-                        //console.log(msg);
-                        _currentMedia.playsCounter++;
+                    APIlist.aplays(mediaOptions.mediaId, mediaOptions.blogId, function(msg) {
+                        _media.playsCounter++;
                     });
                     break;
             };
         };
-        var _trackEvents = function(eventName, msg) {
-            if (_isDebuge) { videojs.log('Event', eventName + ':', msg); }
-            _lastEventName = eventName;
-        };
-        var _trackAPICall = function(eventName, msg) {
-            if (eventName && _lastEventName != eventName) {
-                _trackEvents(eventName, msg);
-                if (_isDebuge) { console.log('API: Events Track'); }
-                if (!_isDemo && mediaOptions.mediaId) {
-                    switch (_currentMedia.type) {
-                        case 'video':
-                            APIlist.vtrack(eventName, mediaOptions.mediaId, mediaOptions.blogId).done(function(msg) {
-                                console.log(eventName, msg);
-                            });
-                            break;
-                        case 'audio':
-                            break;
-                    };
-                }
-            } else return;
-        };
-        var _getUrlQueries = function(queryStr) {
-            var out = {};
-            $.each(queryStr.split('&'), function(key, value) {
-                var i = value.split('=');
-                if (i.length == 2) {
-                    out[i[0].toString()] = i[1].toString();
-                }
-            });
-            return out;
+
+        var _startEvent = _isMobile ? 'touchend' : 'click';
+        var _adsLoaded = false;
+        var loadAds = function() {
+            if (!_adsLoaded) {
+                _media.player.ima.initializeAdDisplayContainer();
+                _media.player.ima.requestAds();
+            }
+            _media.player.play();
+            _adsLoaded = true;
         };
 
-        var _setMediaUrlId = function() {
-            _mediaPlayListUrls = [window.location.href];
-            _currentMedia.index = 0;
-            var queries = _getUrlQueries(document.location.search.substr(1));
-            _currentMedia.id = _currentMedia.type == 'video' ? queries.v : queries.id;
-        };
-
-        var _loadAds = function(player) {
-            //console.log('ads load', 'autoplay: ' + player.autoplay());
-            _currentMedia.ads = true;
-            player.ima.initializeAdDisplayContainer();
-            player.ima.requestAds();
-            player.play();
-        };
-
-        var _removeAds = function(player) {
-            if (_currentMedia.ads) {
-                _currentMedia.ads = false;
-                player.ima.getAdsManager() && player.ima.getAdsManager().discardAdBreak();
-                player.ima.adContainerDiv && player.ima.adContainerDiv.remove();
-                $('#' + player.id()).removeClass('vjs-ad-loading vjs-ad-playing');
+        var removeAds = function() {
+            if (_adsLoaded) {
+                _adsLoaded = false;
+                _media.player.ima.getAdsManager() && _media.player.ima.getAdsManager().discardAdBreak();
+                _media.player.ima.adContainerDiv && _media.player.ima.adContainerDiv.remove();
+                mediaElement.classList.remove('vjs-ad-loading', 'vjs-ad-playing');
             }
         };
 
-        var _runPlugin = function(player, plugins) {
-            for (var plugin in plugins) {
-                switch (plugin) {
-                    case 'ima':
-                        if (plugins.ima.adTagUrl) {
-                            try {
-                                if (!(window.google && window.google.ima)) {
-                                    throw new Error(_tracks.AD_BLOCKED);
-                                }
-                                player.ima(plugins.ima);
-                                if (!player.autoplay()) {
-                                    player.one(_startEvent, function() {
-                                        _loadAds(player);
-                                    });
-                                } else {
-                                    setTimeout((function() {
-                                        _loadAds(player);
-                                    }).bind(this), 100);
-                                };
-                                player.one('adsready', function() {
-                                    _trackAPICall(_tracks.ADS_READY);
-                                    player.ima.addEventListener(google.ima.AdEvent.Type.STARTED, function() {
-                                        _trackEvents('AdStarted', 'Google');
-                                        _adState = 'postroll';
-                                    });
+        var mediaAds = function(plgOptions) {
+            if (!plgOptions.adTagUrl) return;
+            try {
+                if (!(window.google && window.google.ima)) {
+                    throw new Error(mediaTracks.AD_BLOCKED);
+                }
+                _media.player.ima(plgOptions);
+                if (_media.player.autoplay()) {
+                    loadAds();
+                } else {
+                    _media.player.on(_startEvent, loadAds);
+                };
+                var _adState = 'preroll';
+                _media.player.one('adsready', function() {
+                    notifyToParent({ emmethod: "adsready" });
+                    trackAPICall(mediaTracks.ADS_READY, 'Trigger this event after to signal that your integration is ready to play ads.');
+                    _media.player.ima.addEventListener(google.ima.AdEvent.Type.STARTED, function() {
+                        trackEvents('AdStarted', 'Google');
+                        _adState = 'postroll';
+                    });
 
-                                    player.ima.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
-                                        _trackEvents('AdCompleted', 'Google');
-                                    });
+                    _media.player.ima.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
+                        trackEvents('AdCompleted', 'Google');
+                        if (mediaOptions.postAd) {
+                            removeAds();
+                        }
+                    });
 
-                                    player.ima.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, function() {
-                                        _trackEvents('VideoPauseReq', 'Google');
-                                        if (!_isMobile && mediaOptions.postAd) {
-                                            /* After postroll the player src forcefuully change to blob url */
-                                            player.ima.contentSource = player.src();
-                                        }
-                                    });
+                    _media.player.ima.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, function() {
+                        trackEvents('VideoPauseReq', 'Google');
+                        if (!_isMobile && mediaOptions.postAd) {
+                            /* After postroll the player src forcefully change to blob url */
+                            _media.player.ima.contentSource = _media.player.src();
+                        }
+                    });
 
-                                    player.ima.addEventListener(google.ima.AdEvent.Type.LOG, function(a) {
-                                        a = a.getAdData();
-                                        if (a.adError) {
-                                            _trackEvents('InvalidAd', "Non-fatal error occurred: " + a.adError.getMessage());
-                                            switch (_adState) {
-                                                case 'preroll':
-                                                    player.trigger('nopreroll');
-                                                    _adState = 'postroll';
-                                                    break;
-                                                case 'postroll':
-                                                    player.trigger('nopostroll');
-                                                    _adState = 'nopostroll';
-                                                    break;
-                                            }
-                                        }
-                                    });
-                                });
-                                player.one('contentended', function() {
-                                    _trackEvents('ContentEnded');
-                                    //_removeAds(player);
-                                    if (!mediaOptions.postAd) {
-                                        _removeAds(player);
-                                    }
-                                });
-                            } catch (err) {
-                                if (err.message == _tracks.AD_BLOCKED) {
-                                    player.trigger('nopreroll');
-                                    player.trigger('nopostroll');
-                                    _trackAPICall(_tracks.AD_BLOCKED);
-                                } else {
-                                    console.log(err.name + ': ' + err.message);
-                                }
+                    _media.player.ima.addEventListener(google.ima.AdEvent.Type.LOG, function(a) {
+                        a = a.getAdData();
+                        if (a.adError) {
+                            trackEvents('InvalidAd', "Non-fatal error occurred: " + a.adError.getMessage());
+                            switch (_adState) {
+                                case 'preroll':
+                                    _media.player.trigger('nopreroll');
+                                    _adState = 'postroll';
+                                    break;
+                                case 'postroll':
+                                    _media.player.trigger('nopostroll');
+                                    _adState = 'nopostroll';
+                                    break;
                             }
                         }
-                        break;
-                    default:
-                        if (typeof player[plugin] === 'function') {
-                            player[plugin](plugins[plugin]);
+                    });
+
+                    _media.player.one('contentended', function() {
+                        notifyToParent({ emmethod: "contentended" });
+                        trackEvents('ContentEnded');
+                        if (!mediaOptions.postAd) {
+                            removeAds();
                         }
-                };
+                    });
+                });
+            } catch (err) {
+                if (err.message == mediaTracks.AD_BLOCKED) {
+                    _media.player.trigger('nopreroll');
+                    _media.player.trigger('nopostroll');
+                    trackAPICall(mediaTracks.AD_BLOCKED, 'Ad Blocked by AdBlocker plugins or Google ima not loaded');
+                    notifyToParent({ emmethod: "adblocked" });
+                } else {
+                    console.log(err.name + ': ' + err.message);
+                }
             }
         };
 
-        var _getSrc = function($player) {
-            var src = null;
-            var source = $player.find("source");
+        var setPlugins = function(plugins) {
+            if (!_media.player) { return this; }
 
-            if (source.length) {
-                src = source.attr("src");
-                /*if (_currentMedia.type == 'audio') {
-                    $player[0].pause();
-                    source.remove();
-                }*/
+            if (!_media.plugins) {
+                _media.plugins = {};
             }
-            /*if (_currentMedia.type == 'audio')
-                $player[0].load();*/
-            return src;
+
+            var pluginDefaultOptions = getPluginDefaultOptions();
+            for (var plugin in pluginDefaultOptions) {
+                if (plugin in _media.player) {
+                    _media.plugins[plugin] = helpers.extend({}, pluginDefaultOptions[plugin], plugins[plugin]);
+                    if (plugin == "ima") {
+                        mediaAds(_media.plugins[plugin]);
+                        continue;
+                    }
+                    if (typeof _media.player[plugin] === 'function') {
+                        _media.player[plugin](_media.plugins[plugin]);
+                    }
+                }
+            }
+            return this;
         };
 
-        var _setAttrsForMobile = function() {
-            var contentPlayer = $(_idSelector)[0];
-            if ((navigator.userAgent.match(/iPad/i) ||
-                    navigator.userAgent.match(/Android/i)) &&
-                contentPlayer.hasAttribute('controls')) {
-                contentPlayer.removeAttribute('controls');
+        var onMediaPlayEvent = function(event) {
+            notifyToParent({ emmethod: "play", playerid: _media.player.id() });
+            switch (_lastEventName) {
+                case mediaTracks.ENDED:
+                    _media.playsCounter = 0;
+                    trackAPICall(mediaTracks.REPLAYS, 'Clicked on replay button');
+                    break;
+                case mediaTracks.ADS_READY:
+                case mediaTracks.AD_STARTED:
+                    if (!_isMobile) {
+                        trackAPICall(mediaTracks.ADS_CRITICAL, 'Something error in desktop version media after AdReady or AdStarted and Ad not playing');
+                    }
+                    break;
+            };
+            trackEvents(mediaTracks.PLAYS, 'The media plays');
+
+            _media.playsCounter++;
+            if (_media.playsCounter === 1) {
+                playsAPICall();
             }
         };
+        var onMediaPauseEvent = function(event) {
+            notifyToParent({ emmethod: "paused" });
+            trackEvents(mediaTracks.PAUSED, 'The element has been paused. Fired after the pause() method has returned.');
+        };
+        var onMediaEndEvent = function(event) {
+            notifyToParent({ emmethod: "ended" });
+            trackAPICall(mediaTracks.ENDED, 'Playback has stopped because the end of the media resource was reached.');
+        };
+        var onMediaAdStartEvent = function(event) {
+            notifyToParent({ emmethod: "adstart" });
+        };
+        var onMediaAdEndEvent = function(event) {
+            notifyToParent({ emmethod: "adend" });
+            trackAPICall(mediaTracks.AD_ENDED, 'The player has returned from linear ad playback mode. Note that multiple ads may have played back between adstart and adend.');
+            if (_media.playsCounter === 1) {
+                notifyToParent({ emmethod: "videostart" });
+            }
+        };
+        var onMediaAdCancelEvent = function(event) {
+            trackAPICall(mediaTracks.AD_SKIP, 'The player is skipping a linear ad opportunity and content-playback should resume immediately.');
+        };
+        var onMediaAdErrorEvent = function(event) {
+            notifyToParent({ emmethod: "adserror" });
+            trackAPICall(mediaTracks.ADS_ERROR, 'Trigger this event to indicate that an error in the ad integration has ocurred and any ad states should abort so that content can resume.');
+            removeAds(_media.player);
+        };
 
-        var createPlayer = function(element, setup, callback) {
-            var defaultSetup = _getDefaultSetup();
-            _idSelector = element || _idSelector;
-            var settings = $.extend({}, defaultSetup, setup);
+        var setEvents = function() {
+            _media.player.on('play', onMediaPlayEvent);
+            _media.player.on('pause', onMediaPauseEvent);
+            _media.player.on('ended', onMediaEndEvent);
+            _media.player.on('adstart', onMediaAdStartEvent);
+            _media.player.on('adend', onMediaAdEndEvent);
+            _media.player.on('adskip', onMediaAdCancelEvent);
+            _media.player.on('adserror', onMediaAdErrorEvent);
 
+            _media.player.on('adplaying', trackEvents.bind(this, 'AdPlaying', 'Trigger this event when an ads starts playing. If your integration triggers playing event when an ad begins, it will automatically be redispatched as adplaying.'));
+            _media.player.on('ads-ad-started', trackEvents.bind(this, 'AdsAdStarted', 'Trigger this when each individual ad begins.'));
+            _media.player.on('contentresumed', trackEvents.bind(this, 'ContentResumed', ' If your integration does not result in a "playing" event when resuming content after an ad, send this event to signal that content can resume. This was added to support stitched ads and is not normally necessary.'));
+            _media.player.on('error', trackEvents.bind(this, 'Error', 'An error occurs while fetching the media data.'));
+            _media.player.on('loadeddata', trackEvents.bind(this, 'LoadedData', 'The user agent can render the media data at the current playback position for the first time.'));
+            _media.player.on('loadedmetadata', trackEvents.bind(this, 'LoadedMetaData', 'The user agent has just determined the duration and dimensions of the media resource and the text tracks are ready.'));
+            _media.player.on('canplay', trackEvents.bind(this, 'CanPlay', 'The user agent can resume playback of the media data, but estimates that if playback were to be started now, the media resource could not be rendered at the current playback rate up to its end without having to stop for further buffering of content.'));
+            _media.player.on('canplaythrough', trackEvents.bind(this, 'CanPlayThrough', '	The user agent estimates that if playback were to be started now, the media resource could be rendered at the current playback rate all the way to its end without having to stop for further buffering.'));
+            _media.player.on('playing', trackEvents.bind(this, 'Playing', 'Playback is ready to start after having been paused or delayed due to lack of media data.'));
+        };
+
+        var createPlayer = function(setup, playerCallback) {
+            var defaultOptions = getDefaultOptions();
+            var settings = helpers.extend({}, defaultOptions, setup);
             if (_isMobile) {
                 settings.autoplay = false;
             }
 
-            var srcPl = _getSrc($(_idSelector));
-            _setAttrsForMobile();
-            var playerCallback = function() {
-                switch (_currentMedia.type) {
-                    case 'video':
-                        if (_isDemo && _currentMedia.id) {
-                            this.src([{ type: "video/mp4", src: "resources/videos/" + _currentMedia.id + ".mp4" }]);
-                            this.poster('resources/videos/posters/' + _currentMedia.id + '.jpg');
+            _media.playsCounter = 0;
+            _media.plugins = null;
+            _media.player = videojs(mediaElement, settings, playerCallback);
+            _media.element = mediaElement.parentElement || document.querySelector('#' + _media.player.id());
+
+            setPlugins(mediaOptions.plugins);
+            setEvents();
+        };
+
+        window.addEventListener("message", function(e) {
+            var message = e.data;
+            if (!message || typeof message != "string" || message == "undefined" || message.indexOf('ima://') > -1) {
+                return;
+            }
+            var msgParts = message.split("|");
+            if (msgParts[0] == "em") {
+                if (mediaOptions.debug) { console.log('Post Message: ', message); }
+                message = JSON.parse(msgParts[1]);
+                switch (message.emmethod) {
+                    case "pause":
+                        if (msgParts[2] == "script") {
+                            _media.player.pause();
                         }
                         break;
-                    case 'audio':
-                        if (_isDemo && _currentMedia.id) {
-                            this.src([{ type: "audio/mp3", src: "resources/audios/" + _currentMedia.id + ".mp3" }]);
+                    case "play":
+                        if (msgParts[2] == "media") {
+                            if (message.playerid != _media.player.id()) {
+                                _media.player.pause();
+                                _media.player.currentTime(0);
+                                _media.playsCounter = 0;
+                            }
+                        } else {
+                            _media.player.play();
                         }
-                };
-                if (callback) callback();
-                _runPlugin(this, $.extend({}, plgOpts, _currentMedia.plugins));
-            }
-
-            var player = videojs(_idSelector, settings, playerCallback);
-            var plgOpts = _getPluginDefaultOptions(player.id());
-            player.on('play', onMediaPlayEvent.bind(this));
-            player.on('pause', onMediaPauseEvent.bind(this));
-            player.on('ended', onMediaEndEvent.bind(this));
-            player.on('adstart', onMediaAdStartEvent.bind(this));
-            player.on('adend', onMediaAdEndEvent.bind(this));
-            player.on('adskip', onMediaAdCancelEvent.bind(this));
-            player.on('adserror', onMediaAdErrorEvent.bind(this));
-
-            player.on('adtimeout', _trackEvents.bind(this, 'AdTimeout', 'A timeout managed by the plugin has expired and regular video content has begun to play. Ad integrations have a fixed amount of time to inform the plugin of their intent during playback. If the ad integration is blocked by network conditions or an error, this event will fire and regular playback resumes rather than stalling the player indefinitely.'));
-            player.on('adplaying', _trackEvents.bind(this, 'AdPlaying', 'Trigger this event when an ads starts playing. If your integration triggers playing event when an ad begins, it will automatically be redispatched as adplaying.'));
-            player.on('ads-ad-started', _trackEvents.bind(this, 'AdsAdStarted', 'Trigger this when each individual ad begins.'));
-            player.on('contentresumed', _trackEvents.bind(this, 'ContentResumed', ' If your integration does not result in a "playing" event when resuming content after an ad, send this event to signal that content can resume. This was added to support stitched ads and is not normally necessary.'));
-            player.on('error', _trackEvents.bind(this, 'Error', 'An error occurs while fetching the media data.'));
-            player.on('loadeddata', _trackEvents.bind(this, 'LoadedData', 'The user agent can render the media data at the current playback position for the first time.'));
-            player.on('loadedmetadata', _trackEvents.bind(this, 'LoadedMetaData', 'The user agent has just determined the duration and dimensions of the media resource and the text tracks are ready.'));
-            player.on('canplay', _trackEvents.bind(this, 'CanPlay', 'The user agent can resume playback of the media data, but estimates that if playback were to be started now, the media resource could not be rendered at the current playback rate up to its end without having to stop for further buffering of content.'));
-            player.on('canplaythrough', _trackEvents.bind(this, 'CanPlayThrough', '	The user agent estimates that if playback were to be started now, the media resource could be rendered at the current playback rate all the way to its end without having to stop for further buffering.'));
-            player.on('playing', _trackEvents.bind(this, 'Playing', 'Playback is ready to start after having been paused or delayed due to lack of media data.'));
-
-            _currentMedia.player = player;
-
-            return player;
-        };
-
-        var _stopTimer = function() {
-            window.clearTimeout(_timeupWaitingID);
-            $('#circulerTimer').remove();
-        };
-        var _addCirculerTimer = function() {
-            var circulerTimer = '<div id="circulerTimer" class="radial-timer s-animate">' +
-                '<div class="radial-timer-half"></div>' +
-                '<div class="radial-timer-half"></div>' +
-                '</div>'
-            $(circulerTimer).appendTo(_idSelector);
-            $('.vjs-big-play-button').css({ 'z-index': 1112, 'background-color': 'transparent' });
-        };
-
-        var onMediaPlayEvent = function(event) {
-            _stopTimer();
-            switch (_lastEventName) {
-                case _tracks.ENDED:
-                    _currentMedia.playsCounter = 0;
-                    _trackAPICall(_tracks.REPLAYS, 'Clicked on replay button');
-                    break;
-                case _tracks.ADS_READY:
-                case _tracks.AD_STARTED:
-                    if (!_isMobile) {
-                        _trackAPICall(_tracks.ADS_CRITICAL, 'Something error in desktop version media after AdReady or AdStarted and Ad not playing');
-                    }
-                    break;
-            };
-            _trackEvents(_tracks.PLAYS, 'The media plays');
-
-            for (var i = 0; i < _mediaPlayerList.length; i++) {
-                if (_mediaPlayerList[i].id() != event.target.id) {
-                    if (!_mediaPlayerList[i].paused()) {
-                        _mediaPlayerList[i].pause();
-                        _mediaPlayerList[i].currentTime(0);
-                        _currentMedia.playsCounter = 0;
-                    }
+                        break;
                 }
             }
-            _currentMedia.playsCounter++;
-            if (_currentMedia.playsCounter === 1
-                /*&&
-                               !(_currentMedia.plugins.ima &&
-                                   (_currentMedia.plugins.ima.adTagUrl &&
-                                       !_currentMedia.plugins.ima.error))*/
-            ) {
-                var $targetDom = $('#' + event.target.id);
-                var mediaUrlId = $targetDom.attr("data-" + _currentMedia.type + "-id");
-                if (mediaUrlId) {
-                    _currentMedia.id = mediaUrlId;
-                    $targetDom.attr("data-" + _currentMedia.type + "-id", '');
-                }
-                var mediaApiId = $targetDom.attr("data-" + _currentMedia.type + "-api-id");
-                if (mediaApiId) {
-                    mediaOptions.mediaId = mediaApiId;
-                }
-                if (_currentMedia.id) {
-                    _playsAPICall();
-                }
-            }
-        };
-        var onMediaPauseEvent = function(event) {
-            //_trackAPICall(_tracks.PAUSED);
-            _trackEvents(_tracks.PAUSED, 'The element has been paused. Fired after the pause() method has returned.');
-        };
-        var onMediaEndEvent = function() {
-            _trackAPICall(_tracks.ENDED, 'Playback has stopped because the end of the media resource was reached.');
-            _stopTimer();
-            var waitTime = 3000,
-                nextMedia = _mediaPlayListUrls[_currentMedia.index + 1];
-            if (nextMedia && ((_currentMedia.type == 'video' && _getAutoChangeValue()) || _currentMedia.type == 'audio')) {
-                if (_currentMedia.type == 'video' && !_isMobile) {
-                    _removeAds(_currentMedia.player);
-                    _addCirculerTimer();
-                }
-                if (_currentMedia.type == 'audio' || !_isMobile) {
-                    _timeupWaitingID = window.setTimeout((function() {
-                        window.location.href = nextMedia;
-                    }).bind(this), waitTime);
-                }
-            }
-        };
-        var onMediaAdStartEvent = function(event) {
-            //this.pause();
-            _trackAPICall(_tracks.AD_STARTED, 'The player has entered linear ad playback mode. This event only indicates that an ad break has begun; the start and end of individual ads must be signalled through some other mechanism.');
-        };
-        var onMediaAdEndEvent = function(event) {
-            _trackAPICall(_tracks.AD_ENDED, 'The player has returned from linear ad playback mode. Note that multiple ads may have played back between adstart and adend.');
-        };
-        var onMediaAdCancelEvent = function(event) {
-            _trackAPICall(_tracks.AD_SKIP, 'The player is skipping a linear ad opportunity and content-playback should resume immediately.');
-        };
-        var onMediaAdErrorEvent = function(event) {
-            _currentMedia.plugins.ima.error = true;
-            _trackAPICall(_tracks.ADS_ERROR, 'Trigger this event to indicate that an error in the ad integration has ocurred and any ad states should abort so that content can resume.');
-            _removeAds(_currentMedia.player);
-        };
+        }, false);
 
-        var debug = function(isdebug) {
-            _isDebuge = isdebug === undefined ? true : !!isdebug;
-            if (_currentMedia.plugins && _currentMedia.plugins.ima) {
-                _currentMedia.plugins.ima.debug = _isDebuge;
-            }
-            return this;
-        };
-
-        var addMediaPlayer = function($elem, setup, callback) {
-            if (!($elem && $($elem).length)) {
-                console.log('No Player');
-                return this;
-            }
-
-            var player = createPlayer($elem, setup, callback);
-            _mediaPlayerList.push(player);
-            return this;
-        };
-
-        var setMediaPlayer = function(domId, setup, callback) {
-            if (typeof domId != 'undefined' && !(domId && $(domId).length)) {
-                console.log('Not found');
-                return this;
-            } else if (_mediaPlayerList.length) {
-                console.log('Already Initialize');
-                return this;
-            }
-            _setMediaUrlId();
-
-            addMediaPlayer(domId, setup, callback);
-            _currentMedia.player = _mediaPlayerList[0];
-            _currentMedia.playsCounter = 0;
-
-            return this;
-        };
-
-        var setPlugins = function(plugins) {
-            if (!_currentMedia.player || !plugins) {
-                return this;
-            }
-            var videoJsPluginOptions = _getPluginDefaultOptions(_currentMedia.player.id());
-            if (!_currentMedia.plugins) {
-                _currentMedia.plugins = videoJsPluginOptions;
-            }
-            for (var plugin in plugins) {
-                if (plugin in _currentMedia.player) {
-                    _currentMedia.plugins[plugin] = $.extend({}, videoJsPluginOptions[plugin], plugins[plugin]);
-                }
-            }
-            return this;
-        };
-
-        var getMediaPlayer = function() {
-            return _currentMedia.player;
-        };
-
-        var totalPlayers = function() {
-            return _mediaPlayerList.length;
-        };
-
-        var _remove = function(player) {
-            player.dispose();
-        };
-
-        var removePlayer = function(id) {
-            if (!id && _currentMedia.player) {
-                id = _currentMedia.player.id();
-            }
-            for (var i = 0; i < _totalPlayers(); i++) {
-                if (id == 'all' || id == _mediaPlayerList[i].id()) {
-                    _remove(_mediaPlayerList[i]);
-                }
-            }
-        };
-
-        var getList = function($tracksDom) {
-            var mediaLinkList = [];
-            $tracksDom.each(function(index) {
-                var queries = _getUrlQueries(this.href.split('?')[1]);
-                var $li = $(this).parent();
-                if (queries) {
-                    mediaLinkList[index] = this.href;
-                    if (window.location.href.indexOf(this.href) > -1) {
-                        $li.addClass("currently-playing");
-                        _currentMedia.index = index;
-                        if (index > 0 && !_isMobile) {
-                            _currentMedia.player.autoplay(true);
-                        }
-                        $li.parent().animate({
-                            scrollTop: index * $li.outerHeight() + 1
-                        }, 500);
-                    }
-                }
-            });
-            return mediaLinkList;
-        };
-
-        var _setTrackNumber = function() {
-            var $trackNum = $(".media-playlist__header__info span");
-            $trackNum.text((_currentMedia.index + 1) + '/' + _mediaPlayListUrls.length);
-        };
-
-        var _setAutoChangeValue = function(isAutoplay) {
-            if (typeof(localStorage) !== undefined) {
-                localStorage.setItem("autoplayPlaylist", isAutoplay);
-            } else {
-                console.log("Sorry! No Web Storage support..");
-            }
-        };
-
-        var _getAutoChangeValue = function() {
-            if (typeof(localStorage) !== undefined && localStorage.autoplayPlaylist !== undefined) {
-                var out = JSON.parse(localStorage.autoplayPlaylist);
-                $("#mediaAutoplay").prop("checked", out);
-                return out;
-            } else {
-                console.log("Sorry! No Web Storage support..");
-                return $("#mediaAutoplay").is(":checked");
-            }
-        };
-
-        var _setAutoChange = function() {
-            var is_autoplay = _getAutoChangeValue();
-            _setAutoChangeValue(is_autoplay);
-            $("#mediaAutoplay").change(function(event) {
-                _setAutoChangeValue($(this).is(":checked"));
-            });
-        };
-
-        var setPlayList = function(domList) {
-            if (!_currentMedia.player) { return; }
-
-            var $tracksDom = $(domList);
-
-            if ($tracksDom.length > 0) {
-                _mediaPlayListUrls = getList($tracksDom);
-                _setTrackNumber();
-                if (_currentMedia.type == 'video') {
-                    _setAutoChange();
-                }
-            }
-            return this;
-        };
+        createPlayer(mediaOptions.setup);
 
         return {
             createPlayer: createPlayer,
-            setMediaPlayer: setMediaPlayer,
-            getMediaPlayer: getMediaPlayer,
-            setPlayList: setPlayList,
-            setPlugins: setPlugins,
-            addMediaPlayer: addMediaPlayer,
-            totalPlayers: totalPlayers,
-            removePlayer: removePlayer,
-            debug: debug
+            option: _media,
+            playsAPICall: playsAPICall,
+            removeAds: removeAds
         };
     };
-    window.bloggMedia = bloggMedia || {};
 
-})(jQuery, videojs, window);
+    window.bMedia = bMedia || {};
+})(videojs, emUtils, window);
+/**
+ * b-media-xtend
+ * @version 0.0.1
+ * @copyright 2017 blogg.no
+ * @license (MIT OR Apache-2.0)
+ */
+(function(videojs, utils, window) {
+    'use strict';
+    var mediaLang = utils.mediaLang;
+    var helpers = utils.helpers;
+
+    var bMediaXtend = function(media, isEmbed) {
+        console.log('bMediaXtend:', media);
+        if (!media.option.player) { return; }
+
+        var _mediaPlayListUrls = [],
+            _currentMediaIndex = 0,
+            _timeupWaitingID = 0;
+
+        var boxCloseControl = function(boxClass, title) {
+            var closebtn = helpers.createElement('a', {
+                title: title,
+                href: "javascript:void(0)",
+                class: "media-icon"
+            });
+
+            closebtn.addEventListener('click', function(event) {
+                event.stopPropagation();
+                helpers.$(document).find(boxClass + '.drawer').removeClass("open");
+            });
+            closebtn.innerHTML = '&times;';
+
+            var wrapper = helpers.createElement('div', {
+                class: "media-close text-muted"
+            });
+            wrapper.appendChild(closebtn);
+
+            helpers.$(document).find(boxClass).prepend(wrapper).on('click', function(event) {
+                event.stopPropagation();
+            });
+        };
+
+        var setShareDrawer = function() {
+            var btn = document.querySelector('#shareBtn');
+            if (!btn) return;
+            btn.style.display = 'inline-block';
+            boxCloseControl(".media-share", mediaLang('CLOSE_SHARE'));
+            helpers.$(document).find('#inputEmbedScript, #inputEmbedIframe').on('focus', function() {
+                var $this = this;
+                $this.previousElementSibling.style.display = 'none';
+                window.setTimeout(function() {
+                    $this.setSelectionRange(0, $this.value.length)
+                });
+            }).on('blur', function() {
+                this.previousElementSibling.removeAttribute("style");
+            });
+        };
+
+        var setVideoTitle = function(emHeader) {
+            helpers.$(emHeader).find('.media-title a, .media-playlist__header__title a').on('click', function(event) {
+                event.stopPropagation();
+                media.option.player.pause();
+            });
+        };
+
+        var setVideoHeader = function() {
+            var emHeader = media.option.element.nextElementSibling;
+            if (emHeader) {
+                media.option.element.appendChild(emHeader);
+                setVideoTitle(emHeader);
+            }
+        };
+
+        var setButtons = function() {
+            var area = helpers.$(document);
+            area.find('[data-embutton]').on('click', function(event) {
+                event.stopPropagation();
+                switch (this.id) {
+                    case 'downloadBtn':
+                        media.playsAPICall();
+                        return true;
+                    default:
+                        var drawers = area.find('.drawer[data-btnid=' + this.id + ']');
+                        if (this.id && drawers.elements.length > 0) {
+                            drawers.addClass('open');
+                            media.option.player.pause();
+                        }
+                };
+
+                return false;
+            });
+        };
+
+        var setShare = function() {
+            if (!media.option.element.parentElement) return;
+            helpers.$(media.option.element.parentElement).find('.media-share .buttons a').on('click', function(event) {
+                event.stopPropagation();
+                if (this.classList.contains('email')) { return true; }
+                helpers.openWindow(this.href,
+                    this.class, {
+                        width: 500,
+                            height: 400
+                    });
+                return false;
+            });
+            setShareDrawer();
+        };
+
+        var getPlayList = function(tracksDom) {
+            var mediaLinkList = [];
+            for (var i = 0; i < tracksDom.length; i++) {
+                mediaLinkList[i] = tracksDom[i].href;
+                if (window.location.href.indexOf(tracksDom[i].href) > -1) {
+                    var $li = tracksDom[i].parentElement;
+                    $li.classList.add('currently-playing');
+                    _currentMediaIndex = i;
+                    if (i > 0 && !helpers.detectmob()) {
+                        media.option.player.autoplay(true);
+                    }
+                }
+            }
+            return mediaLinkList;
+        };
+
+        var setTrackNumber = function() {
+            var $trackNum = document.querySelector(".media-playlist__header__info span");
+            $trackNum.innerHTML = (_currentMediaIndex + 1) + '/' + _mediaPlayListUrls.length;
+        };
+
+        var setPlaylistDrawer = function() {
+            var btn = document.querySelector('#playListBtn');
+            if (!btn) return;
+            btn.style.display = 'inline-block';
+            boxCloseControl(".media-playlist", mediaLang('CLOSE_PLAYLIST'));
+        };
+
+        var getAutoChangeValue = function() {
+            if (typeof(localStorage) !== undefined && localStorage.autoplayPlaylist !== undefined) {
+                var out = JSON.parse(localStorage.autoplayPlaylist);
+                document.querySelector('#mediaAutoplay').checked = out;
+                return out;
+            } else {
+                return document.querySelector('#mediaAutoplay').checked;
+            }
+        };
+
+        var setAutoChange = function() {
+            var autoplayCheckbox = document.querySelector('#mediaAutoplay');
+            if (!autoplayCheckbox) return;
+            if (typeof(localStorage) !== undefined) {
+                var is_autoplay = getAutoChangeValue();
+                localStorage.setItem("autoplayPlaylist", is_autoplay);
+                autoplayCheckbox.addEventListener('change', function() {
+                    localStorage.setItem("autoplayPlaylist", autoplayCheckbox.checked);
+                })
+            } else {
+                console.log("Sorry! No Web Storage support..");
+            }
+        };
+
+        var setPlayList = function() {
+            var $tracksDom = helpers.$(document).find('.media-playlist__tracks li .media-playlist__' + media.option.type).elements;
+
+            if ($tracksDom.length > 0) {
+                _mediaPlayListUrls = getPlayList($tracksDom);
+                if (media.option.type == 'video') {
+                    if (isEmbed) {
+                        setPlaylistDrawer();
+                    } else {
+                        setAutoChange();
+                    }
+                }
+                setTrackNumber();
+            }
+        };
+
+        var copyToClipboard = function(text) {
+            if (typeof text != "string") { return; }
+            var textArea = helpers.createElement('textarea', {
+                style: {
+                    'position': 'absolute',
+                    'left': '-9999px',
+                    'top': '0'
+                }
+            });
+
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.setSelectionRange(0, textArea.value.length);
+
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+                console.log('Copying text command was ' + msg);
+            } catch (err) {
+                console.log('Oops, unable to copy');
+            }
+            textArea.parentNode.removeChild(textArea);
+        };
+
+        var stopTimer = function() {
+            window.clearTimeout(_timeupWaitingID);
+            var ctimer = document.querySelector('#circulerTimer');
+            if (ctimer) {
+                ctimer.parentNode.removeChild(ctimer);
+                document.querySelector('.vjs-big-play-button').removeAttribute('style');
+            }
+        };
+
+        var addCirculerTimer = function() {
+            var circulerTimer = '<div id="circulerTimer" class="radial-timer s-animate">' +
+                '<div class="radial-timer-half"></div>' +
+                '<div class="radial-timer-half"></div>' +
+                '</div>';
+            var ctDom = document.createElement("div");
+            ctDom.innerHTML = circulerTimer;
+            media.option.element.appendChild(ctDom.children.circulerTimer);
+            var bigBtn = document.querySelector('.vjs-big-play-button');
+            bigBtn.style.zIndex = 1112;
+            bigBtn.style.backgroundColor = 'transparent';
+        };
+
+        var onMediaPlayEvent = function() {
+            stopTimer();
+        };
+
+        var onMediaEndEvent = function() {
+            stopTimer();
+            var waitTime = 3000;
+            var nextMedia = _mediaPlayListUrls[_currentMediaIndex + 1];
+            if (nextMedia) {
+                if (helpers.detectmob() || (media.option.type == 'video' && !isEmbed && !getAutoChangeValue())) {
+                    return;
+                }
+                if (media.option.type == 'video') {
+                    media.removeAds();
+                    addCirculerTimer();
+                }
+                _timeupWaitingID = window.setTimeout((function() {
+                    window.location.href = nextMedia;
+                }).bind(this), waitTime);
+            }
+        };
+        if (media.option.type == 'video') {
+            isEmbed && setVideoHeader();
+            media.option.player.contextmenuUI({
+                content: [{
+                    label: mediaLang('COPY_SCRIPT'),
+                    listener: function() {
+                        copyToClipboard(document.querySelector('#inputEmbedScript').value);
+                    }
+                }, {
+                    label: mediaLang('COPY_EMBED'),
+                    listener: function() {
+                        copyToClipboard(document.querySelector('#inputEmbedIframe').value);
+                    }
+                }]
+            });
+
+        }
+        media.option.player.on('play', onMediaPlayEvent);
+        media.option.player.on('ended', onMediaEndEvent);
+
+        isEmbed && setButtons();
+        isEmbed && setShare();
+        setPlayList();
+    };
+
+    window.bMediaXtend = bMediaXtend || {};
+})(videojs, emUtils, window);

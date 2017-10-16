@@ -25,6 +25,9 @@
     var wrapper, iframe, lazyload = false;
     var helpers = {
         scrollTimer: 0,
+        detectOperaMini: function() {
+            return !!(navigator.userAgent.match(/Opera Mini/i) || Object.prototype.toString.call(window.operamini) === "[object OperaMini]");
+        },
         isEMLoadScript: function(tag) {
             return tag.src !== "undefined" && tag.src && tag.src.indexOf("emload.js?url=") > -1;
         },
@@ -119,7 +122,7 @@
             if (this.wrapper.classList.contains("em-visible") || !this.wrapper.classList.contains('em-paused') || this.wrapper.classList.contains('em-playing'))
                 return;
             this.wrapper.classList.add("em-visible");
-            var postMsg = 'em|' + JSON.stringify({ emmethod: "play" }),
+            var postMsg = 'em|' + JSON.stringify({ emmethod: "play" }) + '|script',
                 origin = "*";
             if (this.iframe.src.indexOf("vimeo.com") > 0) {
                 this.wrapper.classList.remove("em-paused");
@@ -134,7 +137,7 @@
                 return;
             this.wrapper.classList.remove("em-playing");
             this.wrapper.classList.add("em-paused");
-            var postMsg = 'em|' + JSON.stringify({ emmethod: "pause" }),
+            var postMsg = 'em|' + JSON.stringify({ emmethod: "pause" }) + '|script',
                 origin = "*";
             if (this.iframe.src.indexOf("vimeo.com") > 0) {
                 postMsg = JSON.stringify({ method: 'pause' });
@@ -163,11 +166,15 @@
             }).bind(this), 300);
         },
         onMessage: function(event) {
-            message = event.data;
-            if (typeof message !== "undefined" && message != null && typeof message == "string" && message.indexOf("em|") > -1) {
+            var message = event.data;
+            if (!message || typeof message != "string" || message == "undefined" || message.indexOf('ima://') > -1) {
+                return;
+            }
+            var msgParts = message.split("|");
+            if (msgParts[0] == "em" && msgParts[2] == "media") {
                 var targetFrame = false;
 
-                message = JSON.parse(message.split("|")[1]);
+                message = JSON.parse(msgParts[1]);
                 if (message.frameid)
                     targetFrame = this.iframe.id == "id-" + message.frameid;
                 switch (message.emmethod) {
@@ -258,6 +265,9 @@
     helpers.script = me;
 
     lazyload = config.lazy === null ? lazyload : true;
+    if (helpers.detectOperaMini()) {
+        lazyload = false;
+    }
 
     if (lazyload) {
         helpers.lazyload();

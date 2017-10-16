@@ -157,8 +157,11 @@
 
 .media-title-container {
     margin: 0 45px 20px 0;
-    @media screen and (max-width: $screen-xs-min - 100) {
+    @media screen and (max-width: $screen-xs-min - 50) {
         margin: 0;
+        h3.media-title {
+            font-size: 18px;
+        }
     }
 }
 

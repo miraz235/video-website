@@ -61,6 +61,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
+    "@kmklabs/vjs-core-5.19.1-hls-5.8.3-ads-3.3.12-ima-2f3a06d": "^1.0.6",
     "typescript": "^2.4.2",
     "videojs-watermark": "^1.0.1"
   }

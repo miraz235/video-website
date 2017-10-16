@@ -6,27 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Embed Playlist</title>
+    <title>Video Embed</title>
 
     <!-- Color the status bar on mobile devices -->
     <meta name="theme-color" content="#0063a6">
 
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.19.0/alt/video-js-cdn.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.5/videojs.ads.css" />
-    <link rel="stylesheet" href="vendors/videojs-watermark/videojs-watermark.css" />
-    <link rel="stylesheet" href="vendors/videojs-ima/videojs.ima.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/alt/video-js-cdn.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/5.1.0/videojs.ads.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.css" />
     <link rel="stylesheet" href="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.css" />
-    <link rel="stylesheet" href="vendors/videojs-replay/videojs-replay.css" /> -->
-    <!-- Latest compiled and minified CSS -->
-    <!-- <link rel="stylesheet" href="css/styles-embed.min.css" /> -->
-    <link rel="stylesheet" href="css/all-embed.min.css" />
-
+    <link rel="stylesheet" href="vendors/videojs-replay/videojs-replay.css" />
+    <link rel="stylesheet" href="css/styles-embed.min.css" />
 </head>
 
-<body>
+<body style="margin:0">
     <div class="media-wrap media-embed">
-        <video id="videoMediaPlayer" class="video-js vjs-bloggmedia-skin embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png">
-            <source src="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-demo.webm" type='video/webm' /> 
+        <video id="videoSingle" class="video-js vjs-bloggmedia-skin embed" poster="//s3-us-west-2.amazonaws.com/s.cdpn.io/167883/html5-videojs-rayrcdemo.png">
+            <!-- <source src="http://stream.blogg.no/61184803247a4358b9484e3f460b9147-324.mp4" type="video/mp4" /> -->
+            <source src="https://s3.amazonaws.com/_bc_dml/example-content/bipbop-advanced/bipbop_16x9_variant.m3u8" type="application/x-mpegURL">
             <p class="vjs-no-js">
                 To view this video please enable JavaScript, and consider upgrading to a web browser
                 that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
@@ -145,42 +142,49 @@
         </aside>
     </div>
 
-
-    <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.19.0/video.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.3.3/videojs-contrib-hls.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.5/videojs.ads.min.js"></script>
-    <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script>
-    <script src="vendors/videojs-ima/videojs.ima.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/video.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.11.0/videojs-contrib-hls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/5.1.0/videojs.ads.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.js"></script>
     <script src="vendors/videojs-contextmenu/videojs-contextmenu.min.js"></script>
     <script src="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js"></script>
     <script src="vendors/videojs-replay/videojs-replay.min.js"></script>
-
-    <script src="js/blogg-embed-demo.js"></script> -->
-    <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <script src="js/all-embed.min.js"></script>
+    <script src="js/em-utils.js"></script>
+    <script src="js/b-media.js"></script>
+    <script src="js/b-media-xtend.js"></script>
 
     <script>
-        jQuery(function() {
-            var videoList = embedMedia('video', {
-                blogId: '123',
-                mediaId: 'xyz'
-            }).setMediaPlayer("#videoMediaPlayer").setPlayList('.media-playlist__tracks li .media-playlist__video');
-            videoList.setPlugins({
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        var ad = getParameterByName('ad') == 'true';
+        var videoMedia = bMedia('#videoSingle', {
+            debug: true,
+            setup: {
+                autoplay: false
+            },
+            plugins: {
                 ima: {
-                    //adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2FTV2video%2Fnettavisen%2Fside3&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&description_url=http%3A%2F%2Fwww.nettavisen.no%2F&correlator=843573442472758&hl=no&dfpduration=3&sdkv=h.3.153.3&sdki=d&scor=2299575987365357&adk=3757432570&osd=2&frm=0&sdr=1&afvsz=200x200%2C250x250%2C300x250%2C336x280%2C450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fwww.nettavisen.no%2Fvideo%2F19-aring-fikk-sjokk-da-han-gikk-pa-skolens-toalett%2F3423294927.html&ged=ve4_td4_tt1_pd4_la4000_er514.-518.666.-218_vi396.0.1346.1903_vp0_eb16491'
+                    prerollTimeout: 15000,
+                    //adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2Ftv2video%2Fnettavisen%2FNettavisen&gdfp_req=1&env=vp&output=xml_vast3&unviewed_position_start=1&description_url=http%3A%2F%2Fnavideo.blogg.no%2Fvideo%3Fv%3D5ab74b26254c4407aaa613f42bac7bde&correlator=1033524498191538&hl=no&sdkv=h.3.177.1&sdki=3c0d&scor=3013045709585508&adk=3919232739&osd=2&frm=0&sdr=1&afvsz=450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fnavideo.blogg.no%2Fvideo%3Fv%3D8960faeec1c64f639053d669347e6d67&cust_params=dfpduration%3D4&u_so=l&vpa=click&mpt=videojs-ima&mpv=0.2.0&ged=ve4_td4_tt2_pd4_la0_er56.367.206.667_vi0.0.950.1903_vp100_eb24171',
                     /*adTagUrl: 'http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&' +
-                        'iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&' +
-                        'impl=s&gdfp_req=1&env=vp&output=xml_vmap1&unviewed_position_start=1&' +
-                        'cust_params=sample_ar%3Dpremidpostpod%26deployment%3Dgmf-js&cmsid=496&' +
-                        'vid=short_onecue&correlator='*/
-                    adTagUrl: null
+                        'iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&' +
+                        'gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&' +
+                        'cust_params=sample_ct%3Dlinear%26deployment%3Dgmf-js&correlator=',*/
+                    adTagUrl: ad ? 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2Ftv2video%2Fnettavisen%2FNettavisen&gdfp_req=1&env=vp&output=xml_vast3&unviewed_position_start=1&description_url=http%3A%2F%2Fnavideo.blogg.no%2Fvideo%3Fv%3D5ab74b26254c4407aaa613f42bac7bde&correlator=1033524498191538&hl=no&sdkv=h.3.177.1&sdki=3c0d&scor=3013045709585508&adk=3919232739&osd=2&frm=0&sdr=1&afvsz=450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fnavideo.blogg.no%2Fvideo%3Fv%3D8960faeec1c64f639053d669347e6d67&cust_params=dfpduration%3D4&u_so=l&vpa=click&mpt=videojs-ima&mpv=0.2.0&ged=ve4_td4_tt2_pd4_la0_er56.367.206.667_vi0.0.950.1903_vp100_eb24171' : null
                 }
-            }).debug(true);
+            }
         });
-    </script>
 
+        bMediaXtend(videoMedia, true);
+    </script>
 </body>
 
 </html>

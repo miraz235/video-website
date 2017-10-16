@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Embed</title>
+
+    <!-- Color the status bar on mobile devices -->
+    <meta name="theme-color" content="#0063a6">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/alt/video-js-cdn.css" />
+
+</head>
+
+<body style="margin:0">
+    <audio id="audioMediaPlayer" class="video-js vjs-bloggmedia-skin vjs-fluid">
+        <source src="resources/audios/chrono.mp3" type='audio/mp3'/>
+        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+        <p class="vjs-no-js"><a href="resources/audios/chrono.mp3">resources/audios/chrono.mp3</a></p>
+    </audio>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/video.js"></script>
+    <script src="js/em-utils.js"></script>
+    <script src="js/b-media.js"></script>
+
+    <script>
+        var audioMedia = bMedia('#audioMediaPlayer', {
+            debug: true
+        })
+        console.log(audioMedia.option);
+    </script>
+</body>
+
+</html>

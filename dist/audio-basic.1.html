@@ -11,22 +11,26 @@
     <!-- Color the status bar on mobile devices -->
     <meta name="theme-color" content="#0063a6">
 
-    <link rel="stylesheet" href="http://vjs.zencdn.net/5.16.0/video-js.css" />
-    <link rel="stylesheet" href="vendors/videojs-watermark/videojs-watermark.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/alt/video-js-cdn.css" />
     <link rel="stylesheet" href="vendors/videojs-replay/videojs-replay.css" />
     <link rel="stylesheet" href="css/styles-embed.min.css" />
-
 </head>
 
-<body>
+<body style="margin:0">
     <div class="media-player media-wrap media-embed clearfix">
         <div class="media-player__poster">
             <img src="images/blank.gif" style="background-image: url(resources/audios/posters/cd-blank.jpg)" width="100" alt="Audio 8" />
         </div>
         <div class="media-player__content">
             <header>
-                <div class="info-content pull-right">
-                    <p class="m-b-0 text-truncate" title="John Doe">by - <a href="#">John Doe</a></p>
+                <div class="pull-right">
+                    <div class="media-author">
+                        <a href="#" target="_blank">
+                            <span>Bhaumik Patel</span>
+                            <img src="images/blank.gif" width="32" height="32" alt="Bhaumik Patel" class="bg-img" style="background-image:url(http://lorempixel.com/output/people-q-c-24-24-1.jpg)" />
+                        </a>
+                    </div>
+
                 </div>
                 <h3 class="media-title text-truncate" title="Audio 8"><a href="podcast-episode-single.html">Audio 8</a></h3>
             </header>
@@ -40,10 +44,9 @@
             <div class="pull-left">
                 <ul class="list-inline m-b-0">
                     <li>
-                        <button title="Download" id="downloadBtn" class="btn btn-default btn-xs">
-                            <i class="glyphicon glyphicon-cloud-download"></i>
-                            Download
-                        </button>
+                        <a title="Download" id="downloadBtn" href="" download class="btn btn-default btn-xs" data-embutton>
+                            <i class="glyphicon glyphicon-cloud-download"></i> Download
+                        </a>
                     </li>
                     <li><small class="text-muted">237 Downloads</small></li>
                 </ul>
@@ -52,75 +55,13 @@
                 <ul class="list-inline m-b-0">
                     <li>
                         <button title="Share" id="shareBtn" class="btn btn-default btn-xs" data-embutton>
-                            <i class="glyphicon glyphicon-share-alt"></i>
-                            Share
-                        </button>
+                        <i class="glyphicon glyphicon-share-alt"></i>
+                        Share
+                    </button>
                     </li>
                 </ul>
             </div>
         </div>
-        <aside class="media-playlist">
-            <!-- Playlist -->
-            <ol class="media-playlist__tracks">
-                <li>
-                    <a href="audio-embed-playlist.html?id=chrono" class="media-playlist__audio clearfix">
-                        <span class="media-playlist__index">1</span>
-                        <span class="media-playlist__audio__thumb">
-                            <img width="90" src="images/blank.gif" style="background-image: url(resources/audios/posters/cd-blank.jpg)" alt="Audio 1" />
-                        </span>
-                        <div class="media-playlist__audio__description">
-                            <h4 class="text-truncate">Audio 1</h4>
-                            <span>0:52</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="audio-embed-playlist.html?id=3705" class="media-playlist__audio clearfix">
-                        <span class="media-playlist__index">2</span>
-                        <span class="media-playlist__audio__thumb">
-                            <img width="90" src="images/blank.gif" style="background-image: url(resources/audios/posters/cd-blank.jpg)" alt="Audio 2" />
-                        </span>
-                        <div class="media-playlist__audio__description">
-                            <h4 class="text-truncate">Audio 2</h4>
-                            <span>0:32</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="audio-embed-playlist.html?id=3706" class="media-playlist__audio clearfix">
-                        <span class="media-playlist__index">3</span>
-                        <span class="media-playlist__audio__thumb">
-                            <img width="90" src="images/blank.gif" style="background-image: url(resources/audios/posters/cd-blank.jpg)" alt="Audio 3" />
-                        </span>
-                        <div class="media-playlist__audio__description">
-                            <h4 class="text-truncate">Audio 3</h4>
-                            <span>0:46</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="audio-embed-playlist.html?id=3717" class="media-playlist__audio clearfix">
-                        <span class="media-playlist__index">4</span>
-                        <span class="media-playlist__audio__thumb">
-                            <img width="90" src="images/blank.gif" style="background-image: url(resources/audios/posters/cd-blank.jpg)" alt="Audio 4" />
-                        </span>
-                        <div class="media-playlist__audio__description">
-                            <h4 class="text-truncate">Audio 4</h4>
-                            <span>0:52</span>
-                        </div>
-                    </a>
-                </li>
-            </ol>
-            <!-- Header -->
-            <header class="media-playlist__header">
-                <div>
-                    <h3 class="media-playlist__header__title text-truncate"><a href="video-playlist.html" target="_blank">Audio Podcast 1</a></h3>
-                    <span class="media-playlist__header__info">
-                        <span></span> episodes
-                    </span>
-                </div>
-            </header>
-        </aside>
         <!-- Share -->
         <aside class="media-share drawer" data-btnid="shareBtn">
             <div class="media-share-container">
@@ -148,21 +89,18 @@
         </aside>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js"></script>-->
-    <script src="http://vjs.zencdn.net/5.16.0/video.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/4.1.1/videojs-contrib-hls.min.js"></script>
-    <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script>
-    <!--<script src="vendors/videojs-contrib-dash/videojs-dash.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/video.js"></script>
     <script src="vendors/videojs-replay/videojs-replay.min.js"></script>
+    <script src="js/em-utils.js"></script>
+    <script src="js/b-media.js"></script>
+    <script src="js/b-media-xtend.js"></script>
 
-    <script src="js/blogg-embed-demo.js"></script>
     <script>
-        jQuery(function() {
-            var audioPlaylist = embedMedia('audio').setMediaPlayer("#audioMediaPlayer").setPlayList('.media-playlist__tracks li .media-playlist__audio');
-        });
+        var audioMedia = bMedia('#audioMediaPlayer', {
+            debug: true
+        })
+        bMediaXtend(audioMedia, true);
     </script>
-    <!-- Built with love using Video Website -->
 </body>
 
 </html>

@@ -2618,9 +2618,11 @@ h3.media-title {
 
 .media-title-container {
   margin: 0 45px 20px 0; }
-  @media screen and (max-width: 380px) {
+  @media screen and (max-width: 430px) {
     .media-title-container {
-      margin: 0; } }
+      margin: 0; }
+      .media-title-container h3.media-title {
+        font-size: 18px; } }
 
 .media-error__content {
   position: relative;

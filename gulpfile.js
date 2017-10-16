@@ -184,11 +184,13 @@ var imajs = function() {
 };
 gulp.task("scripts:emall", function(callback) {
     var src = $config.concate.scripts.local;
-    src.push("dist/js/blogg-embed.js");
+    src.push("dist/js/em-utils.js");
+    src.push("dist/js/b-media.js");
+    src.push("dist/js/b-media-xtend.js");
     var localjs = gulp.src(src);
     //var jq = jqueryjs.pipe($.clone());
     //console.log(jqueryjs);
-    return merge(jqueryjs(), videojsjs(), adsjs(), hlsjs(), imajs(), localjs)
+    return merge(videojsjs(), adsjs(), hlsjs(), imajs(), localjs)
         .pipe($.buffer())
         .pipe($.concat('all-embed.js'))
         .pipe(gulp.dest($config.tmp.root))
@@ -214,7 +216,9 @@ gulp.task("scripts:emall", function(callback) {
 
 gulp.task("scripts:weball", function(callback) {
     var src = $config.concate.scripts.local;
-    src.push("dist/js/blogg-media.js");
+    src.push("dist/js/em-utils.js");
+    src.push("dist/js/b-media.js");
+    src.push("dist/js/b-media-xtend.js");
     var localjs = gulp.src(src);
 
     return merge(jqueryjs(), bootstrapjs(), videojsjs(), hlsjs(), adsjs(), imajs(), localjs)
@@ -325,8 +329,14 @@ gulp.task("styles:weball", function(callback) {
         .pipe(gulp.dest($config.dist.styles));
 });
 
-gulp.task("concate", ["styles", "scripts"], function(cb) {
-    runSequence(["scripts:emall", "scripts:weball"], ["styles:emall", "styles:weball"], cb)
+gulp.task("concate:styles", ["styles"], function(cb) {
+    runSequence(["styles:emall", "styles:weball"], cb)
+});
+gulp.task("concate:scripts", ["scripts"], function(cb) {
+    runSequence(["scripts:emall", "scripts:weball"], cb)
+});
+gulp.task("concate", [], function(cb) {
+    runSequence(["concate:styles", "concate:scripts"], cb)
 });
 
 gulp.task("styles", [], function() {
@@ -379,8 +389,8 @@ gulp.task("serve", ["default"], function() {
     });
 
     gulp.watch($config.src.htmls, ["html", $reload]);
-    gulp.watch($config.src.styles, ["concate", $reload]);
-    gulp.watch($config.src.scripts, ["concate", $reload]);
+    gulp.watch($config.src.styles, ["concate:styles", $reload]);
+    gulp.watch($config.src.scripts, ["concate:scripts", $reload]);
     gulp.watch($config.src.images, $reload);
 });
 

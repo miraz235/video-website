@@ -11,17 +11,16 @@
     <!-- Color the status bar on mobile devices -->
     <meta name="theme-color" content="#0063a6">
 
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
-    <link rel="stylesheet" href="http://vjs.zencdn.net/5.16.0/video-js.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.1/videojs.ads.css" />
-    <link rel="stylesheet" href="vendors/videojs-ima/videojs.ima.css" />
-    <link rel="stylesheet" href="vendors/videojs-replay/videojs-replay.css" /> -->
-
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/alt/video-js-cdn.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/5.1.0/videojs.ads.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.css" />
+    <link rel="stylesheet" href="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.css" />
+    <link rel="stylesheet" href="vendors/videojs-replay/videojs-replay.css" />
     <!-- Latest compiled and minified CSS -->
-    <!-- <link rel="stylesheet" href="css/styles.min.css" /> -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/all-web.min.css" />
+    <link rel="stylesheet" href="css/styles.min.css" />
 
 </head>
 
@@ -279,7 +278,7 @@
                                 <ul class="list-inline media-list">
                                     <li>
                                         <div class="media-thumb-box">
-                                            <a href="video-single.html">
+                                            <a href="video-playlist.1.html">
                                                 <img class="media-thumb-box__thumb" width="196" height="110" src="http://i.blogg.no/175x100/http://media.w3.org/2010/05/sintel/poster.png" alt="Video 3" class="media-playlist-thumbnail">
                                             </a>
                                             <div class="media-thumb-box__info">
@@ -405,63 +404,52 @@
             </div>
         </div>
     </footer>
-    <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script> -->
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js"></script>-->
-    <!-- <script src="http://vjs.zencdn.net/5.16.0/video.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/4.1.1/videojs-contrib-hls.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.3/videojs.ads.min.js"></script>
-    <script src="vendors/videojs-watermark/videojs-watermark.min.js"></script> -->
-    <!--<script src="vendors/videojs-contrib-dash/videojs-dash.min.js"></script>-->
-    <!-- <script src="vendors/videojs-ima/videojs.ima.js"></script>
-    <script src="vendors/videojs-replay/videojs-replay.min.js"></script>
-    <script src="js/blogg-media-demo.js"></script> -->
     <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <script src="js/all-web.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/video.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.11.0/videojs-contrib-hls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/5.1.0/videojs.ads.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.js"></script>
+    <script src="vendors/videojs-contextmenu/videojs-contextmenu.min.js"></script>
+    <script src="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js"></script>
+    <script src="vendors/videojs-replay/videojs-replay.min.js"></script>
+    <script src="js/em-utils.js"></script>
+    <script src="js/b-media.js"></script>
+    <script src="js/b-media-xtend.js"></script>
+
+    <!-- <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="js/all-web.min.js"></script> -->
     <script>
         (function($) {
             $(document).ready(function() {
                 // Video
-                var videoMediaPlayer = bloggMedia('video').setMediaPlayer("#videoMediaPlayer", {
-                    html5: {
-                        hlsjsConfig: {
-                            autoStartLoad: true,
-                            debug: true
+                var videoMedia = bMedia('#videoMediaPlayer', {
+                    debug: false,
+                    setup: {
+                        autoplay: false
+                    },
+                    plugins: {
+                        ima: {
+                            prerollTimeout: 15000,
+                            //adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2Ftv2video%2Fnettavisen%2FNettavisen&gdfp_req=1&env=vp&output=xml_vast3&unviewed_position_start=1&description_url=http%3A%2F%2Fnavideo.blogg.no%2Fvideo%3Fv%3D5ab74b26254c4407aaa613f42bac7bde&correlator=1033524498191538&hl=no&sdkv=h.3.177.1&sdki=3c0d&scor=3013045709585508&adk=3919232739&osd=2&frm=0&sdr=1&afvsz=450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fnavideo.blogg.no%2Fvideo%3Fv%3D8960faeec1c64f639053d669347e6d67&cust_params=dfpduration%3D4&u_so=l&vpa=click&mpt=videojs-ima&mpv=0.2.0&ged=ve4_td4_tt2_pd4_la0_er56.367.206.667_vi0.0.950.1903_vp100_eb24171',
+                            /*adTagUrl: 'http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&' +
+                                'iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&' +
+                                'gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&' +
+                                'cust_params=sample_ct%3Dlinear%26deployment%3Dgmf-js&correlator=',*/
+                            adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=%2F5374%2Ftv2video%2Fnettavisen%2FNettavisen&gdfp_req=1&env=vp&output=xml_vast3&unviewed_position_start=1&description_url=http%3A%2F%2Fnavideo.blogg.no%2Fvideo%3Fv%3D5ab74b26254c4407aaa613f42bac7bde&correlator=1033524498191538&hl=no&sdkv=h.3.177.1&sdki=3c0d&scor=3013045709585508&adk=3919232739&osd=2&frm=0&sdr=1&afvsz=450x50%2C468x60%2C480x70%2C728x90&url=http%3A%2F%2Fnavideo.blogg.no%2Fvideo%3Fv%3D8960faeec1c64f639053d669347e6d67&cust_params=dfpduration%3D4&u_so=l&vpa=click&mpt=videojs-ima&mpv=0.2.0&ged=ve4_td4_tt2_pd4_la0_er56.367.206.667_vi0.0.950.1903_vp100_eb24171'
                         }
                     }
-                }).setPlugins({
-                    ima: {
-                        adTagUrl: 'http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=xml_vmap1&unviewed_position_start=1&cust_params=sample_ar%3Dpremidpostpod%26deployment%3Dgmf-js&cmsid=496&vid=short_onecue&correlator='
-                    }
-                }).setPlayList('.media-playlist__tracks li .media-playlist__video');
+                });
+                bMediaXtend(videoMedia);
+
                 // Share
-                var _openWindow = function(url, title, opt) {
-                    var width = opt.width,
-                        height = opt.height,
-                        scrollbars = opt.scrollbars || 'yes',
-                        resizable = opt.resizable || 'yes',
-                        toolbar = opt.toolbar || 'no',
-                        winPosY = (window.screenY || window.screenTop || 0) + window.outerHeight / 2 - height / 2,
-                        winPosX = (window.screenX || window.screenLeft || 0) + window.outerWidth / 2 - width / 2;
-                    if (window.chrome && window.navigator.userAgent.toLowerCase().indexOf("mac os x") !== -1)
-                        height += 27;
-                    if (window.safari)
-                        height += 47;
-                    var winOpt = "width=" + width +
-                        ",height=" + height +
-                        ",left=" + winPosX +
-                        ",top=" + winPosY +
-                        ",scrollbars=" + scrollbars +
-                        ",resizable=" + resizable +
-                        ",toolbar=" + toolbar;
-                    return window.open(url, title, winOpt);
-                };
+
                 $('.media-share-container .buttons a').on('click', function(event) {
                     event.stopPropagation();
                     if ($(this).hasClass('email'))
                         return true;
-                    _openWindow(this.href,
+                    emUtils.helpers.openWindow(this.href,
                         this.class, {
                             width: 500,
                                 height: 400
@@ -526,9 +514,6 @@
             });
         })(jQuery);
     </script>
-    <script src="js/scripts.js"></script>
-
-    <!-- Built with love using Video Website -->
 </body>
 
 </html>

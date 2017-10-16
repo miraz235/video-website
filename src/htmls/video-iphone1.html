@@ -1,0 +1,175 @@
+<!--
+  Copyright 2014 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<html>
+
+<head>
+    <link href="//vjs.zencdn.net/5.3/video-js.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://googleads.github.io/videojs-ima/examples/style.css" />
+    <link rel="stylesheet" href="https://googleads.github.io/videojs-ima/third_party/videojs-ads/videojs.ads.css" />
+    <link rel="stylesheet" href="https://googleads.github.io/videojs-ima/src/videojs.ima.css" />
+
+    <!-- GPT Companion Code
+           For more info see 
+           https://developers.google.com/interactive-media-ads/docs/companions/companions-gpt -->
+    <!-- Initialize the tagging library -->
+    <script type='text/javascript'>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+        (function() {
+            var gads = document.createElement('script');
+            gads.async = true;
+            gads.type = 'text/javascript';
+            gads.src = '//www.googletagservices.com/tag/js/gpt.js';
+            var node = document.getElementsByTagName('script')[0];
+            node.parentNode.insertBefore(gads, node);
+        })();
+    </script>
+
+    <!-- Register your companion slots -->
+    <script type='text/javascript'>
+        googletag.cmd.push(function() {
+            // Supply YOUR_NETWORK/YOUR_UNIT_PATH in place of 6062/iab_vast_samples.
+            googletag.defineSlot('/6062/iab_vast_samples', [728, 90], 'ima-sample-companionDiv')
+                .addService(googletag.companionAds())
+                .addService(googletag.pubads());
+            googletag.companionAds().setRefreshUnfilledSlots(true);
+            googletag.pubads().enableVideoAds();
+            googletag.enableServices();
+        });
+    </script>
+
+    <title>Video.js ima Plugin</title>
+</head>
+
+<body>
+    <div id="ima-sample-container">
+        <header>IMA HTML5 SDK Advanced Demo</header>
+
+        <div id="ima-sample-videoplayer">
+            <div id="ima-sample-placeholder"></div>
+        </div>
+
+        <!-- Declare a div where you want the companion to appear. Use
+              googletag.display() to make sure the ad is displayed. -->
+        <div id="ima-sample-companionDiv">
+            <script type="text/javascript">
+                // Using the command queue to enable asynchronous loading.
+                // The unit will not actually display now - it will display when
+                // the video player is displaying the ads.
+                googletag.cmd.push(function() {
+                    googletag.display('ima-sample-companionDiv');
+                });
+            </script>
+        </div>
+
+        <div id="ima-sample-console">
+            Welcome to IMA HTML5 SDK Demo!
+        </div>
+
+        <footer>Copyright (C) 2013 Google Inc.</footer>
+    </div>
+    <script src="//vjs.zencdn.net/5.3/video.min.js"></script>
+    <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.11.0/videojs-contrib-hls.js"></script>
+    <script src="https://googleads.github.io/videojs-ima/third_party/videojs-ads/videojs.ads.js"></script>
+    <script src="https://googleads.github.io/videojs-ima/src/videojs.ima.js"></script>
+    <!-- <script src="https://googleads.github.io/videojs-ima/examples/iPhone/ads.js"></script> -->
+    <script type="text/javascript">
+        var Ads = function() {
+            this.placeholder = document.getElementById('ima-sample-placeholder');
+            this.placeholder.addEventListener('click', this.bind(this, this.init));
+
+            this.options = {
+                id: 'content_video',
+                adTagUrl: 'http://pubads.g.doubleclick.net/gampad/ads?sz=640x480&' +
+                    'iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&' +
+                    'gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&' +
+                    'cust_params=sample_ct%3Dlinear%26deployment%3Dgmf-js&correlator=',
+                nativeControlsForTouch: false
+            };
+
+            this.events = [
+                google.ima.AdEvent.Type.ALL_ADS_COMPLETED,
+                google.ima.AdEvent.Type.CLICK,
+                google.ima.AdEvent.Type.COMPLETE,
+                google.ima.AdEvent.Type.FIRST_QUARTILE,
+                google.ima.AdEvent.Type.LOADED,
+                google.ima.AdEvent.Type.MIDPOINT,
+                google.ima.AdEvent.Type.PAUSED,
+                google.ima.AdEvent.Type.STARTED,
+                google.ima.AdEvent.Type.THIRD_QUARTILE
+            ];
+
+            this.console = document.getElementById('ima-sample-console');
+        };
+
+        Ads.prototype.init = function() {
+            // Create the player
+            this.createPlayer();
+            this.player = videojs('content_video');
+
+            // Initialize the IMA plugin
+            this.player.ima(
+                this.options,
+                this.bind(this, this.adsManagerLoadedCallback));
+            this.player.ima.initializeAdDisplayContainer();
+
+            // Request ads and play the video
+            this.player.ima.requestAds();
+            this.player.play();
+        };
+
+        Ads.prototype.createPlayer = function() {
+            var dumbPlayer = document.createElement('video');
+            dumbPlayer.id = 'content_video';
+            dumbPlayer.className = 'video-js vjs-default-skin';
+            dumbPlayer.setAttribute('width', '640px');
+            dumbPlayer.setAttribute('height', '360px');
+            var contentSrc = document.createElement('source');
+            //contentSrc.setAttribute('src', 'http://rmcdn.2mdn.net/Demo/vast_inspector/android.mp4');
+            //contentSrc.setAttribute('type', 'video/mp4');
+            contentSrc.setAttribute('src', 'https://s3.amazonaws.com/_bc_dml/example-content/bipbop-advanced/bipbop_16x9_variant.m3u8');
+            contentSrc.setAttribute('type', 'application/x-mpegURL');
+            dumbPlayer.appendChild(contentSrc);
+            this.placeholder.parentNode.appendChild(dumbPlayer);
+            this.placeholder.parentNode.removeChild(this.placeholder);
+        }
+
+        Ads.prototype.adsManagerLoadedCallback = function() {
+            for (var index = 0; index < this.events.length; index++) {
+                this.player.ima.addEventListener(
+                    this.events[index],
+                    this.bind(this, this.onAdEvent));
+            }
+            this.player.ima.startFromReadyCallback();
+        };
+
+        Ads.prototype.onAdEvent = function(event) {
+            this.console.innerHTML =
+                this.console.innerHTML + '<br/>Ad event: ' + event.type;
+        };
+
+        Ads.prototype.bind = function(thisObj, fn) {
+            return function() {
+                fn.apply(thisObj, arguments);
+            };
+        };
+        var ads = new Ads();
+    </script>
+</body>
+
+</html>

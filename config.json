@@ -67,7 +67,7 @@
                 "bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
                 "videojs": "https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/alt/video-js-cdn.css",
                 "ima": "https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.css",
-                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.8/videojs.ads.css",
+                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/5.1.0/videojs.ads.css",
                 "font": "https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700"
             }
         },
@@ -83,9 +83,9 @@
                 "bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js",
                 "videojs": "https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/video.min.js",
                 "dash": "https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js",
-                "hls": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.9.0/videojs-contrib-hls.js",
+                "hls": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.11.0/videojs-contrib-hls.js",
                 "ima": "https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.js",
-                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/4.2.8/videojs.ads.min.js"
+                "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/5.1.0/videojs.ads.min.js"
             }
         }
     },

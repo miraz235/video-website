@@ -44,6 +44,17 @@
         }
     }
 
+    function detectIPmob() {
+        if (window.navigator.userAgent.match(/iPhone/i) ||
+            window.navigator.userAgent.match(/iPad/i) ||
+            window.navigator.userAgent.match(/iPod/i)
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     var embedMedia = function(mediaType, mediaOptions) {
         var _startEvent = 'click';
         if (navigator.userAgent.match(/iPhone/i) ||
@@ -94,7 +105,8 @@
             _culture = '@@__culture__',
             _lastEventName = '',
             _adState = 'preroll',
-            _isMobile = detectmob();
+            _isMobile = detectmob(),
+            _isIPmob = detectIPmob();
 
         var _getDefaultSetup = function() {
             var defaultOpt = {
@@ -108,7 +120,8 @@
                 inactivityTimeout: 500,
                 controlBar: {
                     fullscreenToggle: true
-                }
+                },
+                nativeControlsForTouch: false
             };
 
             switch (_currentMedia.type) {
@@ -121,7 +134,12 @@
                         inline: false,
                         vertical: true
                     };
+                    if (_isIPmob) {
+                        defaultOpt.nativeControlsForTouch = false;
+                    }
             };
+
+
             return defaultOpt;
         };
 
@@ -272,6 +290,8 @@
             }
         };
 
+        var _runImaPlugin = function() {};
+
         var _runPlugin = function(player, plugins) {
             for (var plugin in plugins) {
                 switch (plugin) {
@@ -282,15 +302,14 @@
                                     throw new Error(_tracks.AD_BLOCKED);
                                 }
                                 player.ima(plugins.ima);
-                                if (!player.autoplay()) {
+                                if (_isIPmob || player.autoplay()) {
+                                    //setTimeout((function() {
+                                    _loadAds(player);
+                                    //}).bind(this), 1);
+                                } else {
                                     player.one(_startEvent, function() {
                                         _loadAds(player);
                                     });
-                                } else {
-                                    player.autoplay(false);
-                                    setTimeout((function() {
-                                        _loadAds(player);
-                                    }).bind(this), 100);
                                 };
                                 player.one('adsready', function() {
                                     _notifyToParent({ emmethod: "adsready" });
@@ -398,6 +417,7 @@
             }
 
             var player = videojs(_idSelector, settings, playerCallback);
+            player.ads();
             var plgOpts = _getPluginDefaultOptions(player.id());
             player.on('play', onMediaPlayEvent.bind(this));
             player.on('pause', onMediaPauseEvent.bind(this));
