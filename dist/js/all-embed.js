@@ -22533,7 +22533,7 @@ module.exports = {
 
         var playsAPICall = function() {
             if (_adsLoaded) {
-                _media.player.off(_startEvent, loadAds);
+                _media.player.off(_startEvent, playAds);
             }
             if (mediaOptions.debug) { console.log('API: Plays Count'); }
             if (!mediaOptions.mediaId) { return; }
@@ -22553,13 +22553,15 @@ module.exports = {
 
         var _startEvent = _isMobile ? 'touchend' : 'click';
         var _adsLoaded = false;
-        var loadAds = function() {
+        var initAds = function() {
             if (!_adsLoaded) {
                 _media.player.ima.initializeAdDisplayContainer();
                 _media.player.ima.requestAds();
             }
-            _media.player.play();
             _adsLoaded = true;
+        };
+        var playAds = function() {
+            _media.player.play();
         };
 
         var removeAds = function() {
@@ -22578,10 +22580,9 @@ module.exports = {
                     throw new Error(mediaTracks.AD_BLOCKED);
                 }
                 _media.player.ima(plgOptions);
-                if (_media.player.autoplay()) {
-                    loadAds();
-                } else {
-                    _media.player.on(_startEvent, loadAds);
+                initAds();
+                if (!_media.player.autoplay()) {
+                    _media.player.on(_startEvent, playAds);
                 };
                 var _adState = 'preroll';
                 _media.player.one('adsready', function() {
