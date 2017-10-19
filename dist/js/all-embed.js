@@ -22272,6 +22272,51 @@ module.exports = {
             }
             return obj;
         },
+        serializeUrl: function(params) {
+            var array = [];
+            for (var key in params) {
+                array.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
+            }
+            return array.join('&');
+        },
+        getLocation: function(url) {
+            try {
+                return new URL(url);
+            } catch (e) {
+                var match = url.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
+                return match && {
+                    href: url,
+                    protocol: match[1],
+                    host: match[2],
+                    hostname: match[3],
+                    port: match[4],
+                    pathname: match[5],
+                    search: match[6],
+                    hash: match[7]
+                } || {};
+            }
+        },
+        searchParams: function(src, paramName) {
+            var srcObj = this.getLocation(src),
+                paramValue = '',
+                hasParam = false;
+
+            if (srcObj.searchParams) {
+                paramValue = srcObj.searchParams.get(paramName);
+                hasParam = srcObj.searchParams.has(paramName);
+            } else {
+                paramName = paramName.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[?&]" + paramName + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(src);
+                if (results) {
+                    hasParam = true;
+                    if (results[2]) paramValue = results[2].replace(/\+/g, " ");
+                }
+            }
+            if (paramValue === null) paramValue = '';
+
+            return !hasParam ? null : window.decodeURIComponent(paramValue);
+        },
         $: function(ctxElement) {
             var foundElements = [ctxElement];
             var selectElm = function(selectors) {
