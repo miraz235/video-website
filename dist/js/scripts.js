@@ -15,7 +15,7 @@ function isTrue(value) {
 
 function displayPlayerStats(bl_id, vi_id, placeholderClass) {
     emUtils.helpers.ajaxGet("//hits.blogsoft.org/stats?id=" + bl_id + "&vid=" + vi_id, function(data) {
-        if (data.success & data.video_hits_total > 0) {
+        if (data.success && data.video_hits_total > 0) {
             document.querySelector("." + placeholderClass).innerHTML = '<b>' + data.video_hits_total + '</b> Avspillinger';
         }
     });
@@ -23,7 +23,7 @@ function displayPlayerStats(bl_id, vi_id, placeholderClass) {
 
 function displayAudioPlayerStats(bl_id, au_id, placeholderClass) {
     emUtils.helpers.ajaxGet("//hits.blogsoft.org/stats?id=" + bl_id + "&aid=" + au_id, function(data) {
-        if (data.success & data.audio_hits_total > 0) {
+        if (data.success && data.audio_hits_total > 0) {
             document.querySelector("." + placeholderClass).innerHTML = '<b>' + data.audio_hits_total + '</b> Avspillinger';
         }
     });

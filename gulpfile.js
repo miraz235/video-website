@@ -335,8 +335,14 @@ gulp.task("concate:styles", ["styles"], function(cb) {
 gulp.task("concate:scripts", ["scripts"], function(cb) {
     runSequence(["scripts:emall", "scripts:weball"], cb)
 });
-gulp.task("concate", [], function(cb) {
-    runSequence(["concate:styles", "concate:scripts"], cb)
+gulp.task("concate:emall", [], function(cb) {
+    runSequence(["styles:emall", "scripts:emall"], cb)
+});
+gulp.task("concate:weball", [], function(cb) {
+    runSequence(["styles:weball", "scripts:weball"], cb)
+});
+gulp.task("concate", ["styles", "scripts"], function(cb) {
+    runSequence(["concate:emall", "concate:weball"], cb)
 });
 
 gulp.task("styles", [], function() {

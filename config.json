@@ -23,7 +23,7 @@
         "layoutdir": "src/templates/layouts/*.hbs"
     },
     "replace": {
-        "in-files": ["scripts.js", "blogg-embed.js", "blogg-media.js"],
+        "in-files": ["blogg-embed.js", "blogg-media.js"],
         "keys": {
             "__video-watermark-path__": {
                 "demo": "",
