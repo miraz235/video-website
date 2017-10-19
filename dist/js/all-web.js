@@ -24621,6 +24621,12 @@ module.exports = {
                 if (request.status >= 200 && request.status < 400) {
                     // Success!
                     var data = request.responseText;
+                    try {
+                        if (typeof data == "string") {
+                            data = JSON.parse(data);
+                        }
+                    } catch (e) {}
+
                     successCallback && successCallback(data);
                 } else {
                     // We reached our target server, but it returned an error
