@@ -14,7 +14,7 @@
             helpers.ajaxGet("//hits.blogsoft.org?id=" + blogId + "&vid=" + mediaId + "&callback=?", callback);
         },
         vtrack: function(eventName, mediaId, blogId, callback) {
-            helpers.ajaxGet("//hits.blogsoft.org?e=" + eventName + "&id=" + blogId + "&vid=" + mediaId + "&callback=?", callback);
+            helpers.ajaxGet("//hits.blogsoft.org/track?e=" + eventName + "&id=" + blogId + "&vid=" + mediaId + "&callback=?", callback);
         },
         aplays: function(mediaId, blogId, callback) {
             helpers.ajaxGet("//hits.blogsoft.org?id=" + blogId + "&aid=" + mediaId + "&callback=?", callback);
