@@ -115,6 +115,7 @@
                     $li.classList.add('currently-playing');
                     _currentMediaIndex = i;
                     if (i > 0 && !helpers.detectmob()) {
+                        media.initAds();
                         media.option.player.autoplay(true);
                     }
                 }
