@@ -1707,7 +1707,8 @@ footer[role="contentinfo"] {
     .media-wrap a:not(.btn):hover {
       color: #fff; }
   .media-wrap.media-video .media-player .video-js {
-    padding-top: 56.25%; }
+    padding-top: 56.25%;
+    height: auto; }
   @media screen and (min-width: 992px) {
     .media-wrap.media-video .media-player {
       height: 425px;
