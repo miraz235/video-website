@@ -24900,6 +24900,7 @@ module.exports = {
             };
             switch (_media.type) {
                 case 'audio':
+                    options.preload = "metadata";
                     options.height = 50;
                     options.controlBar.fullscreenToggle = false;
                     break;
