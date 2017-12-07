@@ -25028,7 +25028,7 @@ module.exports = {
                     notifyToParent({ emmethod: "adsready" });
                     trackAPICall(mediaTracks.ADS_READY, 'Trigger this event after to signal that your integration is ready to play ads.');
                     _media.player.ima.addEventListener(google.ima.AdEvent.Type.STARTED, function() {
-                        trackEvents('AdStarted', 'Google');
+                        trackEvents(mediaTracks.AD_STARTED, 'Google');
                         _adState = 'postroll';
                     });
 
@@ -25203,7 +25203,13 @@ module.exports = {
                 switch (message.emmethod) {
                     case "pause":
                         if (msgParts[2] == "script") {
-                            _media.player.pause();
+                            switch (_lastEventName) {
+                                case mediaTracks.ADS_READY:
+                                case mediaTracks.AD_STARTED:
+                                    break;
+                                default:
+                                    _media.player.pause();
+                            };
                         }
                         break;
                     case "play":
@@ -25214,7 +25220,13 @@ module.exports = {
                                 _media.playsCounter = 0;
                             }
                         } else {
-                            _media.player.play();
+                            switch (_lastEventName) {
+                                case mediaTracks.ADS_READY:
+                                case mediaTracks.AD_STARTED:
+                                    break;
+                                default:
+                                    _media.player.play();
+                            };
                         }
                         break;
                 }
