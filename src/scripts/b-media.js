@@ -1,7 +1,7 @@
 /**
  * b-media
- * @version 0.0.1
- * @copyright 2017 blogg.no
+ * @version 0.1.0
+ * @copyright 2018 blogg.no
  * @license (MIT OR Apache-2.0)
  */
 (function(videojs, utils, window) {
@@ -322,6 +322,7 @@
         };
         var onMediaAdStartEvent = function(event) {
             notifyToParent({ emmethod: "adstart" });
+            _media.player.ima.getAdsManager().setVolume(1);
         };
         var onMediaAdEndEvent = function(event) {
             notifyToParent({ emmethod: "adend" });
@@ -365,6 +366,7 @@
             if (_isMobile) {
                 settings.autoplay = false;
             }
+            if(settings.autoplay) settings.muted = true;
 
             _media.playsCounter = 0;
             _media.plugins = null;

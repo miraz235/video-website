@@ -1,7 +1,7 @@
 /**
  * b-media-xtend
- * @version 0.0.1
- * @copyright 2017 blogg.no
+ * @version 0.1.0
+ * @copyright 2018 blogg.no
  * @license (MIT OR Apache-2.0)
  */
 (function(videojs, utils, window) {

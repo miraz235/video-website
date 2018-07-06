@@ -11,9 +11,9 @@
     <!-- Color the status bar on mobile devices -->
     <meta name="theme-color" content="#0063a6">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/alt/video-js-cdn.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/5.1.0/videojs.ads.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.5/alt/video-js-cdn.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/5.2.0-1/videojs.ads.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.8.0/videojs.ima.css" />
     <link rel="stylesheet" href="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.css" />
     <link rel="stylesheet" href="vendors/videojs-replay/videojs-replay.css" />
     <link rel="stylesheet" href="css/styles-embed.min.css" />
@@ -32,10 +32,10 @@
     </div>
 
     <script src="http://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.3/video.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.11.0/videojs-contrib-hls.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/5.1.0/videojs.ads.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.6.0/videojs.ima.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.5/video.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/5.2.0-1/videojs.ads.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.8.0/videojs.ima.js"></script>
     <script src="vendors/videojs-contextmenu/videojs-contextmenu.min.js"></script>
     <script src="vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js"></script>
     <script src="vendors/videojs-replay/videojs-replay.min.js"></script>
@@ -56,7 +56,7 @@
         var videoMedia = bMedia('#videoSingle', {
             debug: true,
             setup: {
-                autoplay: false
+                autoplay: true
             },
             plugins: {
                 ima: {
