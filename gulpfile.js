@@ -400,6 +400,19 @@ gulp.task("serve", ["default"], function() {
     gulp.watch($config.src.images, $reload);
 });
 
+gulp.task("serve:only", [], function() {
+    browserSync({
+        notify: false,
+        server: $config.dist.root,
+        port: 3000
+    });
+
+    gulp.watch($config.src.htmls, ["html", $reload]);
+    gulp.watch($config.src.styles, ["concate:styles", $reload]);
+    gulp.watch($config.src.scripts, ["concate:scripts", $reload]);
+    gulp.watch($config.src.images, $reload);
+});
+
 gulp.task("clean", function() {
     del($config.clean, { dot: true });
 });

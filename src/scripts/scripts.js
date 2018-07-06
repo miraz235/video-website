@@ -39,7 +39,7 @@ function resetAdUrlBasedOnDuration(video) {
     var adhost = 'https://pubads.g.doubleclick.net/gampad/ads';
     var adparams = {
         sz: '640x480',
-        iu: '/5374/TV2video/nettavisen/bloggno',
+        iu: '/5374/TV2video/egmont/bloggno',
         gdfp_req: 1,
         env: 'vp',
         output: 'vast',
@@ -61,22 +61,28 @@ function resetAdUrlBasedOnDuration(video) {
 
     switch (video.userInfo.video_ad_type) {
         case 'partner':
-            adparams.iu = '/5374/tv2video/nettavisen/bloggno/samarbeidsbloggere/' + parseBlogName(video.blog_url);
+            adparams.iu = '/5374/tv2video/egmont/bloggno/samarbeidsbloggere/' + parseBlogName(video.blog_url);
             break;
         case 'na':
-            adparams.iu = '/5374/tv2video/nettavisen/Nettavisen';
+            adparams.iu = '/5374/tv2video/egmont/Nettavisen';
             break;
         case 'side3video':
-            adparams.iu = '/5374/tv2video/nettavisen/side3';
+            adparams.iu = '/5374/tv2video/egmont/side3';
             break;
         case 'nasportvideo':
-            adparams.iu = '/5374/tv2video/nettavisen/sport';
+            adparams.iu = '/5374/tv2video/egmont/sport';
             break;
         case 'side2video':
-            adparams.iu = '/5374/tv2video/nettavisen/Side2/';
+            adparams.iu = '/5374/tv2video/egmont/Side2/';
             break;
         default:
-            adparams.iu = '/5374/tv2video/nettavisen/bloggno/communitybloggere/' + video.userInfo.bl_id + '/' + video.vi_id;
+            adparams.iu = '/5374/tv2video/egmont/bloggno/communitybloggere/' + video.userInfo.bl_id + '/' + video.vi_id;
+    }
+
+    if(video.blog_id == 2069205){
+        adparams.iu = '/5374/tv2video/egmont/test';
+    }else if(video.blog_id == 2069206){
+        adparams.iu = '/5374/tv2video/egmont/test2';
     }
 
     var videoDuration = parseInt(video.duration);
@@ -107,9 +113,9 @@ function ooyalaLocalConfig(video) {
     var ooyalaConfigUrl = '';
     if (video && video.userInfo) {
         switch (video.userInfo.video_ad_type) {
-            case 'na':
+           /* case 'na':
                 ooyalaConfigUrl = 'https://static.blogg.no/blogs/media/js/ooyala/clientConfig_nettavisen.no.json';
-                break;
+                break;*/
             case 'side2video':
                 ooyalaConfigUrl = 'https://static.blogg.no/blogs/media/js/ooyala/clientConfig_side2.no.json';
                 break;
@@ -122,8 +128,7 @@ function ooyalaLocalConfig(video) {
 
 function getVideoPlayerPlugin(video) {
     if (!video) return {};
-    var watermarkImage = isTrue(video.has_ads) ? '//static.blogg.no/blogs/media/resources/img/imgpsh_fullsize.png' : '';
-
+    
     /*if (navigator.userAgent.match(/Android/i)) {
         video.userInfo.hasAds = false;
     }*/

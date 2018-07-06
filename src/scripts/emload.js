@@ -213,6 +213,7 @@
         iframe.setAttribute("webkitallowfullscreen", "true");
         iframe.setAttribute("mozallowfullscreen", "true");
         iframe.setAttribute("allowfullscreen", "true");
+        iframe.setAttribute("allow", "autoplay");
         iframe.classList.add("em-iframe", "em-single-iframe");
         iframe.name = "em-iframe-" + id;
         iframe.src = config.src;

@@ -4,9 +4,21 @@
     "description": "video website",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "gulp serve",
-        "build": "gulp"
+        "build": "gulp",
+        "concate": "gulp concate",
+        "html": "gulp html",
+        "copy": "gulp copy",
+        "clean": "gulp clean",
+        "styles": "gulp styles",
+        "scripts": "gulp scripts",
+        "emall": "gulp concate:emall",
+        "weball": "gulp concate:weball",
+        "stylesemall": "gulp styles:emall",
+        "scriptsemall": "gulp scripts:emall",
+        "stylesweball": "gulp styles:weball",
+        "scriptsweball": "gulp scripts:weball",
+        "serve": "gulp serve:only"
     },
     "repository": {
         "type": "git",
