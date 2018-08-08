@@ -7,15 +7,8 @@
     },
     "service-worker": false,
     "browsers": [
-        "ie >= 10",
-        "ie_mob >= 10",
-        "ff >= 30",
-        "chrome >= 34",
-        "safari >= 7",
-        "opera >= 23",
-        "ios >= 7",
-        "android >= 4.4",
-        "bb >= 10"
+        "last 2 version",
+        "> 1%"
     ],
     "assemble": {
         "data": "src/templates/data/*.{json,yml}",
@@ -55,7 +48,8 @@
         "bootstrap",
         "videojs-contextmenu",
         "videojs-contextmenu-ui",
-        "videojs-replay"
+        "videojs-replay",
+        "videojs-quality-picker"
     ],
     "concate": {
         "styles": {
@@ -75,7 +69,8 @@
             "local": [
                 "dist/vendors/videojs-contextmenu/videojs-contextmenu.min.js",
                 "dist/vendors/videojs-contextmenu-ui/videojs-contextmenu-ui.min.js",
-                "dist/vendors/videojs-replay/videojs-replay.min.js"
+                "dist/vendors/videojs-replay/videojs-replay.min.js",
+                "dist/vendors/videojs-quality-picker/vjs-quality-picker.js"
             ],
 
             "cdn": {
@@ -83,7 +78,7 @@
                 "bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js",
                 "videojs": "https://cdnjs.cloudflare.com/ajax/libs/video.js/5.20.5/video.min.js",
                 "dash": "https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.3.0/dash.all.min.js",
-                "hls": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.min.js",
+                "hls": "https://cdn.streamroot.io/videojs-hlsjs-plugin/1/stable/videojs-hlsjs-plugin.js",
                 "ima": "https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/0.8.0/videojs.ima.min.js",
                 "ads": "https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/5.2.0-1/videojs.ads.min.js"
             }

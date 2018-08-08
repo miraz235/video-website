@@ -111,12 +111,13 @@
                     prerollTimeout: 5000,
                     debug: mediaOptions.debug
                 },
-                replayButton: {}
+                replayButton: {},
+                qualityPickerPlugin: {}
             };
 
             var selectedPlugins = {},
                 plg = {
-                    video: ["ima", "replayButton"],
+                    video: ["ima", "replayButton", "qualityPickerPlugin"],
                     audio: ["replayButton"]
                 };
 

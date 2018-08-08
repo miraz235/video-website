@@ -136,8 +136,8 @@ function getVideoPlayerPlugin(video) {
     var adTagUrl = isTrue(video.userInfo.hasAds) ? resetAdUrlBasedOnDuration(video) : null;
     return {
         ima: {
-            prerollTimeout: 15000,
-            timeout: 15000,
+            prerollTimeout: 100,
+            timeout: 5000,
             adTagUrl: adTagUrl
         }
     }
