@@ -216,7 +216,7 @@
         iframe.setAttribute("allow", "autoplay");
         iframe.classList.add("em-iframe", "em-single-iframe");
         iframe.name = "em-iframe-" + id;
-        iframe.src = config.src;
+        iframe.src = config.src.replace(/(^\w+:|^)/, '');
         if (config.type == 'audio') {
             iframe.classList.add("em-iframe-audio");
             if (config.list !== null) iframe.classList.add("em-iframe-audio-list");
